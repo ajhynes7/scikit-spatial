@@ -46,3 +46,11 @@ class Plane:
         vector_normal = Vector(vector_ab.cross(vector_ac))
 
         return cls(point_a, vector_normal)
+
+    @require("The input must be a plane.", lambda args: isinstance(args.other, Plane))
+    def is_close(self, other, **kwargs):
+
+        close_point = self.point.is_close(other.point, **kwargs)
+        close_vector = self.normal.is_close(other.normal, **kwargs)
+
+        return close_point and close_vector

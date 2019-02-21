@@ -20,6 +20,10 @@ class _BaseArray3D:
 
         return type(self) == type(other) and np.all(self.array == other.array)
 
+    def is_close(self, other, **kwargs):
+        """Check if array is close to another array."""
+        return np.allclose(self.array, other.array, **kwargs)
+
 
 class Point(_BaseArray3D):
     def __init__(self, arr):
@@ -29,6 +33,12 @@ class Point(_BaseArray3D):
     def __repr__(self):
 
         return f"Point({self.array})"
+
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def add(self, other):
+
+        return Point(self.array + other.array)
 
 
 class Vector(_BaseArray3D):
