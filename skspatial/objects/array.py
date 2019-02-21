@@ -7,7 +7,7 @@ class _BaseArray3D:
     """Private parent class for Point and Vector classes."""
 
     @require(
-        "The dimension must be two or three.", lambda args: len(args.arr) in [2, 3]
+        "The input length must one to three.", lambda args: len(args.arr) in [1, 2, 3]
     )
     def __init__(self, arr):
         """Convert the array to 3D by appending zeros."""
@@ -15,6 +15,10 @@ class _BaseArray3D:
         array_padding = np.zeros(3 - n_dimensions)
 
         self.array = np.concatenate((np.array(arr), array_padding))
+
+    def __eq__(self, other):
+
+        return type(self) == type(other) and np.all(self.array == other.array)
 
 
 class Point(_BaseArray3D):
@@ -25,10 +29,6 @@ class Point(_BaseArray3D):
     def __repr__(self):
 
         return f"Point({self.array})"
-
-    def __eq__(self, other):
-
-        return type(self) == type(other) and np.all(self.array == other.array)
 
 
 class Vector(_BaseArray3D):
