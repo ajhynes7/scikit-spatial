@@ -27,10 +27,6 @@ def dist_point_line(point, line):
     number
         The shortest distance from the point to the line.
 
-    References
-    ----------
-    http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
-
     Examples
     --------
     >>> from skspatial import Vector
@@ -42,6 +38,10 @@ def dist_point_line(point, line):
 
     >>> dist_point_line(Point([10, -6]), line)
     6.0
+
+    References
+    ----------
+    http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 
     """
     point_a = line.point
