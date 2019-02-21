@@ -20,6 +20,26 @@ def area_triangle(point_a, point_b, point_c):
 
     The points are the three vertices of the triangle.
 
+    Parameters
+    ----------
+    point_a, point_b, point_c : Point
+        Input points.
+
+    Returns
+    -------
+    number
+        The area of the triangle.
+
+    Examples
+    --------
+    >>> from skspatial import Point
+
+    >>> area_triangle(Point([0, 0]), Point([0, 1]), Point([1, 0]))
+    0.5
+
+    >>> area_triangle(Point([0, 0]), Point([0, 2]), Point([1, 1]))
+    1.0
+
     References
     ----------
     http://mathworld.wolfram.com/TriangleArea.html
