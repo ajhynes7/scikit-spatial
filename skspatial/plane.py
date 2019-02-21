@@ -1,4 +1,3 @@
-import numpy as np
 from dpcontracts import require, ensure
 
 from .array import Point, Vector
@@ -40,6 +39,6 @@ class Plane:
         vector_ab = Vector.from_points(point_a, point_b)
         vector_ac = Vector.from_points(point_a, point_c)
 
-        vector_normal = Vector(np.cross(vector_ab.array, vector_ac.array))
+        vector_normal = Vector(vector_ab.cross(vector_ac))
 
         return cls(point_a, vector_normal)

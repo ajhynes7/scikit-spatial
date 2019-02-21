@@ -109,7 +109,7 @@ def are_parallel(vector_u, vector_v, **kwargs):
     True
 
     """
-    vector_cross = Vector(np.cross(vector_u.array, vector_v.array))
+    vector_cross = Vector(vector_u.cross(vector_v))
 
     return is_zero_vector(vector_cross, **kwargs)
 
