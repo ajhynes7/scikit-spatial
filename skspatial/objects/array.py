@@ -102,3 +102,11 @@ class Vector(_BaseArray3D):
     def cross(self, other):
 
         return Vector(np.cross(self.array, other.array))
+
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure(
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
+    )
+    def add(self, other):
+
+        return Vector(self.array + other.array)
