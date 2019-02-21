@@ -1,6 +1,6 @@
 import numpy as np
 
-from .array import Vector
+from skspatial import Vector
 
 
 def is_zero_vector(vector, **kwargs):

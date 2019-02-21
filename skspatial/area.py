@@ -4,7 +4,7 @@ import numpy as np
 from dpcontracts import require, ensure
 from numpy.linalg import norm
 
-from .array import Point, Vector
+from skspatial import Point, Vector
 
 
 @require(

@@ -1,7 +1,7 @@
 from dpcontracts import require, ensure
 
 from .array import Point, Vector
-from .properties import are_collinear
+from ..properties import are_collinear
 
 
 class Plane:

@@ -2,8 +2,7 @@
 
 from dpcontracts import require, ensure
 
-from .array import Point, Vector
-from .line import Line
+from skspatial import Point, Vector, Line
 
 
 @require(
