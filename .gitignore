@@ -1,0 +1,6 @@
+
+*.ipynb
+
+__pycache__
+
+.tox
