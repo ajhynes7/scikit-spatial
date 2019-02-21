@@ -1,4 +1,3 @@
-
 import numpy as np
 import pytest
 
@@ -12,7 +11,7 @@ from skspatial import Point, Vector
         (Point([1]), Point([1, 0])),
         (Point([1]), Point([1, 0, 0])),
         (Point([1, 0]), Point((1, 0))),
-        (Point([1, 0]), Point(np.array([1, 0])))
+        (Point([1, 0]), Point(np.array([1, 0]))),
     ],
 )
 def test_equality(point_a, point_b):
@@ -47,7 +46,7 @@ def test_length():
 
     with pytest.raises(Exception):
         Vector([])
-        
+
     with pytest.raises(Exception):
         Point([1, 1, 1, 1])
 
@@ -66,7 +65,7 @@ def test_length():
         ([1, 1, 1], [np.sqrt(3) / 3, np.sqrt(3) / 3, np.sqrt(3) / 3]),
     ],
 )
-def test_unit(array, array_unit_expected):
+def test_unit_vector(array, array_unit_expected):
     """Test computing the unit vector from a vector."""
     vector = Vector(array)
     vector_unit_expected = Vector(array_unit_expected)

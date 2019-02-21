@@ -3,4 +3,5 @@
 
 __pycache__
 
+.hypothesis
 .tox
