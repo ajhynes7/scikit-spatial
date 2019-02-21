@@ -48,4 +48,6 @@ def area_triangle(point_a, point_b, point_c):
     vector_ab = Vector.from_points(point_a, point_b)
     vector_ac = Vector.from_points(point_a, point_c)
 
-    return 0.5 * norm(vector_ab.cross(vector_ac))
+    vector_cross = vector_ab.cross(vector_ac)
+
+    return 0.5 * norm(vector_cross.array)

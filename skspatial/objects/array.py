@@ -93,6 +93,12 @@ class Vector(_BaseArray3D):
 
         return np.dot(self.array, other.array)
 
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure(
+        "The output must be a vector with the same dimension as the input.",
+        lambda args, result: isinstance(result, Vector)
+        and result.array.size == args.other.array.size,
+    )
     def cross(self, other):
 
-        return np.cross(self.array, other.array)
+        return Vector(np.cross(self.array, other.array))
