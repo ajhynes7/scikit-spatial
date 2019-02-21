@@ -72,7 +72,7 @@ class Vector(_BaseArray3D):
         and isinstance(args.point_b, Point),
     )
     @ensure(
-        "The output must be a vector." "", lambda _, result: isinstance(result, Vector)
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
     def from_points(cls, point_a, point_b):
         """
@@ -82,10 +82,7 @@ class Vector(_BaseArray3D):
         """
         return cls(point_b.array - point_a.array)
 
-    @require(
-        "The inputs must be two vectors.",
-        lambda args: all(isinstance(x, Vector) for x in args),
-    )
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
         "The output must be a number.", lambda _, result: isinstance(result, np.number)
     )
