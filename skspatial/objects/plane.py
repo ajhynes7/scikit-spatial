@@ -18,6 +18,10 @@ class Plane:
 
         return f"Plane(point={self.point}, normal={self.normal})"
 
+    def __eq__(self, other):
+
+        return vars(self) == vars(other)
+
     @classmethod
     @require(
         "The inputs must be three points.",

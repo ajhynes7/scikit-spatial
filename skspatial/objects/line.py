@@ -17,6 +17,10 @@ class Line:
 
         return f"Line(point={self.point}, direction={self.direction})"
 
+    def __eq__(self, other):
+
+        return vars(self) == vars(other)
+
     @classmethod
     @require(
         "The inputs must be two points.",
