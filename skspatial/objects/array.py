@@ -104,6 +104,38 @@ class Vector(_BaseArray3D):
         """Return the unit vector of this vector."""
         return self.scale(1 / self.magnitude)
 
+    def is_zero(self, **kwargs):
+        """
+        Check if the vector is the zero vector.
+
+        The zero vector in n dimensions is the vector containing n zeros.
+
+        Parameters
+        ----------
+        self : Vector
+        kwargs : dict, optional
+            Additional keywords passed to `np.allclose`.
+
+        Returns
+        -------
+        bool
+            True if vector is the zero vector; false otherwise.
+
+        Examples
+        --------
+        >>> Vector([0, 0]).is_zero()
+        True
+        >>> Vector([1, 0]).is_zero()
+        False
+
+        >>> Vector([0, 0, 1e-4]).is_zero()
+        False
+        >>> Vector([0, 0, 1e-4]).is_zero(atol=1e-3)
+        True
+
+        """
+        return np.allclose(self.array, 0, **kwargs)
+
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)

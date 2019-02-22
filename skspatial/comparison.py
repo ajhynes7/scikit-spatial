@@ -3,40 +3,6 @@ import numpy as np
 from .objects import Vector
 
 
-def is_zero_vector(vector, **kwargs):
-    """
-    Check if a vector is the zero vector.
-
-    The zero vector in n dimensions is the vector containing n zeros.
-
-    Parameters
-    ----------
-    vector : array_like
-        Input vector.
-    kwargs : dict, optional
-        Additional keywords passed to `np.allclose`.
-
-    Returns
-    -------
-    bool
-        True if vector is the zero vector; false otherwise.
-
-    Examples
-    --------
-    >>> is_zero_vector(Vector([0, 0]))
-    True
-    >>> is_zero_vector(Vector([1, 0]))
-    False
-
-    >>> is_zero_vector(Vector([0, 0, 1e-4]))
-    False
-    >>> is_zero_vector(Vector([0, 0, 1e-4]), atol=1e-3)
-    True
-
-    """
-    return np.allclose(vector.array, 0, **kwargs)
-
-
 def are_perpendicular(vector_u, vector_v, **kwargs):
     """
     Check if two vectors are perpendicular.
@@ -84,7 +50,7 @@ def are_parallel(vector_u, vector_v, **kwargs):
     vector_u, vector_v : array_like
         Input vectors
     kwargs : dict, optional
-        Additional keywords passed to `is_zero_vector`.
+        Additional keywords passed to `np.allclose`.
 
     Returns
     -------
@@ -111,7 +77,7 @@ def are_parallel(vector_u, vector_v, **kwargs):
     """
     vector_cross = vector_u.cross(vector_v)
 
-    return is_zero_vector(vector_cross, **kwargs)
+    return vector_cross.is_zero(**kwargs)
 
 
 def are_collinear(point_a, point_b, point_c, **kwargs):
