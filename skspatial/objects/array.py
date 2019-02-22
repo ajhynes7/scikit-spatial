@@ -7,7 +7,8 @@ class _BaseArray3D:
     """Private parent class for Point and Vector classes."""
 
     @require(
-        "The input length must one to three.", lambda args: len(args.arr) in [1, 2, 3]
+        "The input length must be one to three.",
+        lambda args: len(args.arr) in [1, 2, 3],
     )
     def __init__(self, arr):
         """Convert the array to 3D by appending zeros."""

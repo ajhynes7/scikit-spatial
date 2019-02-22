@@ -36,7 +36,7 @@ Point([1. 1. 1.])
 >>> Point([1, 1, 1, 1])
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The input length must one to three.
+dpcontracts.PreconditionError: The input length must be one to three.
 
 
 The `Point` stores a numpy array which can be accessed.
