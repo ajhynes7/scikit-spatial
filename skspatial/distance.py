@@ -1,8 +1,6 @@
 """Distances between spatial objects."""
 
-import numpy as np
 from dpcontracts import require, ensure
-from numpy.linalg import norm
 
 from .area import area_triangle
 from .objects import Point, Line
@@ -12,7 +10,7 @@ from .objects import Point, Line
     "The inputs must be a point and a line.",
     lambda args: isinstance(args.point, Point) and isinstance(args.line, Line),
 )
-@ensure("The output must be a number.", lambda _, result: isinstance(result, np.number))
+@ensure("The output must be a float.", lambda _, result: isinstance(result, float))
 def dist_point_line(point, line):
     """
     Compute the shortest distance from a point to a line.
@@ -24,7 +22,7 @@ def dist_point_line(point, line):
 
     Returns
     -------
-    number
+    float
         The shortest distance from the point to the line.
 
     Examples

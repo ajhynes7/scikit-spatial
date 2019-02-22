@@ -1,8 +1,6 @@
 """Area of spatial objects."""
 
-import numpy as np
 from dpcontracts import require, ensure
-from numpy.linalg import norm
 
 from .objects import Point, Vector
 
@@ -13,7 +11,7 @@ from .objects import Point, Vector
         isinstance(x, Point) for x in [args.point_a, args.point_b, args.point_c]
     ),
 )
-@ensure("The output must be a number.", lambda _, result: isinstance(result, np.number))
+@ensure("The output must be a float.", lambda _, result: isinstance(result, float))
 def area_triangle(point_a, point_b, point_c):
     """
     Return the area of a triangle defined by three points.

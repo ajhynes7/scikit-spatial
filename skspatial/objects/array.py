@@ -100,7 +100,7 @@ class Vector(_BaseArray3D):
 
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
-        "The output must be a number.", lambda _, result: isinstance(result, np.number)
+        "The output must be a float.", lambda _, result: isinstance(result, float)
     )
     def dot(self, other):
         """Compute the dot product with another vector."""
