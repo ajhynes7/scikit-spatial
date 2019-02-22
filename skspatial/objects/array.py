@@ -49,6 +49,14 @@ class Point(_BaseArray3D):
         """Return a new point by adding a vector."""
         return Point(self.array + vector.array)
 
+    @require(
+        "The input must be a vector.", lambda args: isinstance(args.vector, Vector)
+    )
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def subtract(self, vector):
+        """Return a new point by subtracting a vector."""
+        return self.add(vector.reverse())
+
 
 class Vector(_BaseArray3D):
     def __init__(self, arr):
@@ -106,8 +114,14 @@ class Vector(_BaseArray3D):
 
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
-        "The output must be a float.", lambda _, result: isinstance(result, float)
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
+    def subtract(self, other):
+        """Subtract an other vector from this vector."""
+        return self.add(other.reverse())
+
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
     def dot(self, other):
         """Compute the dot product with another vector."""
         return np.dot(self.array, other.array)

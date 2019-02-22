@@ -49,15 +49,9 @@ def test_add(array):
     point = Point(array)
     vector = Vector(array)
 
-    # Add a vector to a point.
-    point_2 = point.add(vector)
-    point_3 = point_2.add(vector.reverse())
-    assert point_3.is_close(point)
-
-    # Add a vector to a vector.
-    vector_2 = vector.add(vector)
-    vector_double = Vector(2 * vector.array)
-    assert vector_2.is_close(vector_double)
+    # Add and subtract the vector.
+    assert point.add(vector).subtract(vector).is_close(point)
+    assert vector.add(vector).subtract(vector).is_close(vector)
 
     with pytest.raises(Exception):
         point.add(point)
