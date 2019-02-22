@@ -12,6 +12,10 @@ class _BaseArray3D:
         "The input length must be one to three.",
         lambda args: len(args.arr) in [1, 2, 3],
     )
+    @require(
+        "The input array must only contain finite numbers.",
+        lambda args: np.all(np.isfinite(args.arr)),
+    )
     def __init__(self, arr):
         """Convert the array to 3D by appending zeros."""
         n_dimensions = len(arr)
