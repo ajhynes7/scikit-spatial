@@ -2,7 +2,7 @@
 
 from dpcontracts import require, ensure
 
-from .objects import Point, Vector, Line
+from .objects import Point, Vector, Line, Plane
 
 
 @require(
@@ -38,7 +38,7 @@ def project_vector(vector_u, vector_v):
     # Scalar projection of u onto v.
     scalar_projection = vector_u.dot(vector_v)
 
-    return Vector(scalar_projection * unit_v.array)
+    return unit_v.scale(scalar_projection)
 
 
 @require(
@@ -76,4 +76,41 @@ def project_point_line(point, line):
     vector_projected = project_vector(vector_to_point, line.direction)
 
     # Add the projected vector to the point on the line.
-    return Point(line.point.array + vector_projected.array)
+    return line.point.add(vector_projected)
+
+
+@require(
+    "The inputs must be a point and a plane.",
+    lambda args: isinstance(args.point, Point) and isinstance(args.plane, Plane),
+)
+@ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+def project_point_plane(point, plane):
+    """
+    Project a point onto a plane.
+
+    Parameters
+    ----------
+    point : Point
+    plane : Plane
+
+    Returns
+    -------
+    Point
+        Projection of the point onto the plane.
+
+    Examples
+    --------
+    >>> point = Point([10, 2, 5])
+    >>> plane = Plane(Point([0, 0, 0]), Vector([0, 0, 1]))
+
+    >>> project_point_plane(point, plane)
+    Point([10.  2.  0.])
+
+    """
+    # Vector from the point in space to the point on the plane.
+    vector_to_plane = Vector.from_points(point, plane.point)
+
+    # Perpendicular vector from the point in space to the plane.
+    vector_projected = project_vector(vector_to_plane, plane.normal)
+
+    return point.add(vector_projected)

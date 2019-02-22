@@ -47,7 +47,6 @@ def dist_point_line(point, line):
     point_a = line.point
     point_b = line.to_point(t=1)
 
-    num = 2 * area_triangle(point_a, point_b, point)
-    denom = norm(line.direction.array)
+    area = area_triangle(point_a, point_b, point)
 
-    return num / denom
+    return 2 * area / line.direction.magnitude

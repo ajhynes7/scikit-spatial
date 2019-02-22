@@ -42,7 +42,8 @@ class Line:
         Computed as line.point + t * line.direction.
 
         """
-        return Point(self.point.array + t * self.direction.array)
+        vector_along_line = self.direction.scale(t)
+        return self.point.add(vector_along_line)
 
     @require("The input must be a line.", lambda args: isinstance(args.other, Line))
     def is_close(self, other, **kwargs):

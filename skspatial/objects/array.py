@@ -89,7 +89,7 @@ class Vector(_BaseArray3D):
     )
     def unit(self):
         """Return the unit vector of this vector."""
-        return Vector(self.array / self.magnitude)
+        return self.scale(1 / self.magnitude)
 
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
