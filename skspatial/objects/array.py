@@ -64,19 +64,28 @@ class Vector(_BaseArray3D):
     @classmethod
     @require(
         "The inputs must be two points.",
-        lambda args: isinstance(args.point_a, Point)
-        and isinstance(args.point_b, Point),
+        lambda args: all(isinstance(x, Point) for x in [args.point_a, args.point_b]),
     )
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
     def from_points(cls, point_a, point_b):
-        """
-        Define a vector from two points.
-
-        The vector is from point A to point B.
-        """
+        """Instantiate the vector from point A to point B."""
         return cls(point_b.array - point_a.array)
+
+    @ensure(
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
+    )
+    def reverse(self):
+        """Return the vector with the same magnitude in the opposite direction."""
+        return Vector(-self.array)
+
+    @ensure(
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
+    )
+    def scale(self, scalar):
+        """Return the result of scaling the vector."""
+        return Vector(scalar * self.array)
 
     @ensure(
         "The output must be a vector with a magnitude of one.",
@@ -87,12 +96,13 @@ class Vector(_BaseArray3D):
         """Return the unit vector of this vector."""
         return self.scale(1 / self.magnitude)
 
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
-    def reverse(self):
-        """Return the vector with the same magnitude in the opposite direction."""
-        return Vector(-self.array)
+    def add(self, other):
+        """Add an other vector to this vector."""
+        return Vector(self.array + other.array)
 
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
@@ -111,11 +121,3 @@ class Vector(_BaseArray3D):
     def cross(self, other):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self.array, other.array))
-
-    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
-    @ensure(
-        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
-    )
-    def add(self, other):
-        """Add an other vector to this vector."""
-        return Vector(self.array + other.array)
