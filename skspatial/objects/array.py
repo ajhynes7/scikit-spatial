@@ -61,10 +61,6 @@ class Vector(_BaseArray3D):
 
         return f"Vector({self.array})"
 
-    def __eq__(self, other):
-
-        return type(self) == type(other) and np.all(self.array == other.array)
-
     @classmethod
     @require(
         "The inputs must be two points.",
