@@ -21,7 +21,7 @@ class _BaseArray3D:
 
     def __eq__(self, other):
 
-        return type(self) == type(other) and np.all(self.array == other.array)
+        return isinstance(self, type(other)) and np.all(self.array == other.array)
 
     @require(
         "The input must have the same type as the object.",
