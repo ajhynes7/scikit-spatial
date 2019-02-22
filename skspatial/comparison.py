@@ -1,6 +1,51 @@
 import numpy as np
+from dpcontracts import require, ensure
 
 from .objects import Vector
+
+
+@require(
+    "The inputs must be two vectors.",
+    lambda args: all(isinstance(x, Vector) for x in args),
+)
+@ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+def angle_between(vector_u, vector_v):
+    """
+    Return the angle in radians between two vectors u and v.
+
+    Parameters
+    ----------
+    vector_u, vector_v : Vector
+        Input vectors
+
+    Returns
+    -------
+    float
+        Angle between vectors.
+
+    Examples
+    --------
+    >>> angle_between(Vector([1, 0]), Vector([1, 0]))
+    0.0
+
+    >>> angle = angle_between(Vector([1, 0]), Vector([1, 1]))
+    >>> round(np.degrees(angle))
+    45.0
+
+    >>> angle = angle_between(Vector([1, 0]), Vector([-2, 0]))
+    >>> round(np.degrees(angle))
+    180.0
+
+    >>> angle_between(Vector([1, 1, 1]), Vector([1, 1, 1]))
+    0.0
+
+    """
+    cos_theta = vector_u.dot(vector_v) / (vector_u.magnitude * vector_v.magnitude)
+
+    # Ensure that input to arccos is in range [-1, 1] so that output is real.
+    cos_theta = np.clip(cos_theta, -1, 1)
+
+    return np.arccos(cos_theta)
 
 
 def are_perpendicular(vector_u, vector_v, **kwargs):
