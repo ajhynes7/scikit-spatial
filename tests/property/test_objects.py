@@ -26,21 +26,44 @@ st_arrays_allowed = st.lists(st_floats_nonzero, min_size=1, max_size=3)
 @given(st_arrays)
 def test_length(array):
 
-    if len(array) > 3:
-        with pytest.raises(Exception):
-            Point(array)
-        with pytest.raises(Exception):
-            Vector(array)
-    else:
+    if len(array) <= 3:
 
         point = Point(array)
         vector = Vector(array)
 
         assert point != vector
-
         assert point.array.size == vector.array.size == 3
-
         assert_array_equal(point.array, vector.array)
+
+    else:
+
+        with pytest.raises(Exception):
+            Point(array)
+        with pytest.raises(Exception):
+            Vector(array)
+
+
+@given(st_arrays_allowed)
+def test_add(array):
+    """Test adding points and vectors."""
+    point = Point(array)
+    vector = Vector(array)
+
+    # Add a vector to a point.
+    point_2 = point.add(vector)
+    point_3 = point_2.add(vector.reverse())
+    assert point_3.is_close(point)
+
+    # Add a vector to a vector.
+    vector_2 = vector.add(vector)
+    vector_double = Vector(2 * vector.array)
+    assert vector_2.is_close(vector_double)
+
+    with pytest.raises(Exception):
+        point.add(point)
+
+    with pytest.raises(Exception):
+        vector.add(point)
 
 
 @given(st_arrays_allowed)
@@ -51,6 +74,22 @@ def test_unit_vector(array):
 
     assert np.isclose(unit_vector.magnitude, 1)
     assert_allclose(vector.magnitude * unit_vector.array, vector.array)
+
+
+@given(st_arrays_allowed)
+def test_is_close(array):
+
+    point = Point(array)
+    vector = Vector(array)
+
+    assert point.is_close(point)
+    assert vector.is_close(vector)
+
+    with pytest.raises(Exception):
+        assert point.is_close(vector)
+
+    with pytest.raises(Exception):
+        assert vector.is_close(point)
 
 
 @given(st_arrays_allowed, st_arrays_allowed)

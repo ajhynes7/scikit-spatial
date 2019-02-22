@@ -48,7 +48,27 @@ array([5.2, 7.1, 0. ])
 >>> point.array.size
 3
 
-The `Vector` is similar to a `Point`, but it has additional functionality.
+A `Point` can be viewed as a position in space, and a `Vector` as an arrow through space.
+
+Thus, a `Point` plus a `Vector` returns a `Point`
+
+>>> from skspatial.objects import Vector
+
+>>> Point([-5, 8]).add(Vector([1, 1]))
+Point([-4.  9.  0.])
+
+while a `Point` plus a `Point` is undefined.
+
+>>> Point([-5, 8]).add(Point([1, 1]))
+Traceback (most recent call last):
+...
+dpcontracts.PreconditionError: The input must be a vector.
+
+
+A `Vector` plus a `Vector` returns another `Vector`.
+
+>>> Vector([1, 1]).add(Vector([2, -5]))
+Vector([ 3. -4.  0.])
 
 A `Vector` has a magnitude attribute.
 

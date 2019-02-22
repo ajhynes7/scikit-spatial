@@ -1,3 +1,5 @@
+"""Objects based on a single NumPy array (Point and Vector)."""
+
 import numpy as np
 from dpcontracts import require, ensure
 from numpy.linalg import norm
@@ -21,6 +23,10 @@ class _BaseArray3D:
 
         return type(self) == type(other) and np.all(self.array == other.array)
 
+    @require(
+        "The input must have the same type as the object.",
+        lambda args: isinstance(args.self, type(args.other)),
+    )
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
         return np.allclose(self.array, other.array, **kwargs)
@@ -35,11 +41,13 @@ class Point(_BaseArray3D):
 
         return f"Point({self.array})"
 
-    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @require(
+        "The input must be a vector.", lambda args: isinstance(args.vector, Vector)
+    )
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def add(self, other):
-
-        return Point(self.array + other.array)
+    def add(self, vector):
+        """Return a new point by adding a vector."""
+        return Point(self.array + vector.array)
 
 
 class Vector(_BaseArray3D):
@@ -56,15 +64,6 @@ class Vector(_BaseArray3D):
     def __eq__(self, other):
 
         return type(self) == type(other) and np.all(self.array == other.array)
-
-    @ensure(
-        "The output must be a vector with a magnitude of one.",
-        lambda _, result: isinstance(result, Vector)
-        and np.isclose(result.magnitude, 1),
-    )
-    def unit(self):
-
-        return Vector(self.array / self.magnitude)
 
     @classmethod
     @require(
@@ -83,12 +82,28 @@ class Vector(_BaseArray3D):
         """
         return cls(point_b.array - point_a.array)
 
+    @ensure(
+        "The output must be a vector with a magnitude of one.",
+        lambda _, result: isinstance(result, Vector)
+        and np.isclose(result.magnitude, 1),
+    )
+    def unit(self):
+        """Return the unit vector of this vector."""
+        return Vector(self.array / self.magnitude)
+
+    @ensure(
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
+    )
+    def reverse(self):
+        """Return the vector with the same magnitude in the opposite direction."""
+        return Vector(-self.array)
+
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
     @ensure(
         "The output must be a number.", lambda _, result: isinstance(result, np.number)
     )
     def dot(self, other):
-
+        """Compute the dot product with another vector."""
         return np.dot(self.array, other.array)
 
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
@@ -98,7 +113,7 @@ class Vector(_BaseArray3D):
         and result.array.size == args.other.array.size,
     )
     def cross(self, other):
-
+        """Compute the cross product with another vector."""
         return Vector(np.cross(self.array, other.array))
 
     @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
@@ -106,5 +121,5 @@ class Vector(_BaseArray3D):
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
     def add(self, other):
-
+        """Add an other vector to this vector."""
         return Vector(self.array + other.array)
