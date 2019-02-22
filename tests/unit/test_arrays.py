@@ -27,31 +27,24 @@ def test_equality(point_a, point_b):
     assert not point_b == vector_b
 
 
-def test_length():
-    """The length of an input array should be one to three."""
-    point_1 = Point([1])
-    point_2 = Point([1, 2])
-    point_3 = Point([1, 1, 2])
+@pytest.mark.parametrize("class_", [Point, Vector])
+def test_length(class_):
+    """The output point/vector is always 3D."""
+    object_1 = class_([1])
+    object_2 = class_([1, 1])
+    object_3 = class_([1, 1, 1])
 
-    vector_1 = Vector(point_1.array)
-    vector_2 = Vector(point_2.array)
-    vector_3 = Vector(point_3.array)
+    assert all(x.array.size == 3 for x in [object_1, object_2, object_3])
 
-    # The output point/vector is 3D.
-    assert all(x.array.size == 3 for x in [point_1, point_2, point_3])
-    assert all(x.array.size == 3 for x in [vector_1, vector_2, vector_3])
 
-    with pytest.raises(Exception):
-        Point([])
-
-    with pytest.raises(Exception):
-        Vector([])
+@pytest.mark.parametrize(
+    "array", [[], [1, 1, 1, 1], [np.nan], [1, 1, np.nan], [1, 1, np.inf]]
+)
+@pytest.mark.parametrize("class_", [Point, Vector])
+def test_failure(class_, array):
 
     with pytest.raises(Exception):
-        Point([1, 1, 1, 1])
-
-    with pytest.raises(Exception):
-        Vector([1, 1, 1, 1])
+        class_(array)
 
 
 @pytest.mark.parametrize(
