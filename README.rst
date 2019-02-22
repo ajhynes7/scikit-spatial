@@ -10,7 +10,7 @@ The two basic spatial objects are the `Point` and `Vector`.
 They are instantiated with an `array_like` object, which can be passed to `np.array()`.
 
 >>> import numpy as np
->>> from skspatial import Point
+>>> from skspatial.objects import Point
 
 >>> point_1 = Point([1, 2])
 >>> point_2 = Point((1, 2))
@@ -52,9 +52,7 @@ The `Vector` is similar to a `Point`, but it has additional functionality.
 
 A `Vector` has a magnitude attribute.
 
->>> from skspatial import Vector
 >>> vector = Vector([1, 1])
-
 >>> round(vector.magnitude, 3)
 1.414
 
@@ -86,7 +84,7 @@ Line
 
 A `Line` is defined by a `Point` and a `Vector`. The direction of the line is the unit vector of the input `Vector`.
 
->>> from skspatial import Line
+>>> from skspatial.objects import Line
 
 >>> line_1 = Line(Point([0, 0]), Vector([5, 0]))
 
@@ -129,7 +127,7 @@ Plane
 
 A `Plane` is defined by a `Point` and a `Vector`. The normal vector of the plane is the unit vector of the input `Vector`.
 
->>> from skspatial import Plane
+>>> from skspatial.objects import Plane
 
 >>> plane_1 = Plane(Point([0, 0]), Vector([0, 0, 23]))
 

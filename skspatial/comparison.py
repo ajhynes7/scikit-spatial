@@ -1,6 +1,6 @@
 import numpy as np
 
-from skspatial import Vector
+from .objects import Vector
 
 
 def is_zero_vector(vector, **kwargs):
@@ -134,7 +134,7 @@ def are_collinear(point_a, point_b, point_c, **kwargs):
 
     Examples
     --------
-    >>> from skspatial import Point
+    >>> from skspatial.objects import Point
 
     >>> are_collinear(Point([0, 1]), Point([1, 0]), Point([1, 2]))
     False

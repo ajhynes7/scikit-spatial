@@ -4,7 +4,7 @@ import numpy as np
 from dpcontracts import require, ensure
 from numpy.linalg import norm
 
-from skspatial import Point, Vector
+from .objects import Point, Vector
 
 
 @require(
@@ -32,7 +32,7 @@ def area_triangle(point_a, point_b, point_c):
 
     Examples
     --------
-    >>> from skspatial import Point
+    >>> from skspatial.objects import Point
 
     >>> area_triangle(Point([0, 0]), Point([0, 1]), Point([1, 0]))
     0.5

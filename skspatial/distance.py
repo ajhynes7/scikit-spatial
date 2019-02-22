@@ -4,8 +4,8 @@ import numpy as np
 from dpcontracts import require, ensure
 from numpy.linalg import norm
 
-from skspatial import Point, Line
 from .area import area_triangle
+from .objects import Point, Line
 
 
 @require(
@@ -29,7 +29,7 @@ def dist_point_line(point, line):
 
     Examples
     --------
-    >>> from skspatial import Vector
+    >>> from skspatial.objects import Vector
 
     >>> line = Line(Point([0, 0]), Vector([1, 0]))
 

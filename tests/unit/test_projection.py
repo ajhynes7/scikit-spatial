@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial import Vector
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(

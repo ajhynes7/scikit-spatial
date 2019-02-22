@@ -6,7 +6,7 @@ import pytest
 from hypothesis import given
 from numpy.testing import assert_array_equal, assert_allclose
 
-from skspatial import Point, Vector, Line
+from skspatial.objects import Point, Vector, Line
 
 
 # Absolute tolerance for np.isclose and np.allclose functions.
