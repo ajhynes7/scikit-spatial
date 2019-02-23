@@ -28,13 +28,13 @@ def st_vector_nonzero(draw):
 @st.composite
 def st_line(draw):
     """Strategy to generate a Line object."""
-    return Line(draw(st_point), draw(st_vector_nonzero))
+    return Line(draw(st_point()), draw(st_vector_nonzero()))
 
 
 @st.composite
 def st_plane(draw):
     """Strategy to generate a Line object."""
-    return Plane(draw(st_point), draw(st_vector_nonzero))
+    return Plane(draw(st_point()), draw(st_vector_nonzero()))
 
 
 # Absolute tolerance for np.isclose and np.allclose functions.
@@ -46,4 +46,3 @@ st_floats = st.floats(min_value=-1e6, max_value=1e6).filter(
 
 st_arrays = st.lists(st_floats, min_size=1, max_size=10)
 st_arrays_allowed = st.lists(st_floats, min_size=1, max_size=3)
-
