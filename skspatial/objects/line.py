@@ -53,3 +53,10 @@ class Line:
         close_vector = self.direction.is_close(other.direction, **kwargs)
 
         return close_point and close_vector
+
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    def contains(self, point, **kwargs):
+
+        vector_to_point = Vector.from_points(self.point, point)
+
+        return are_parallel(vector_to_point, self.direction)
