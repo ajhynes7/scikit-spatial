@@ -1,23 +1,103 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Vector
+from skspatial.distance import dist_point_line, dist_point_plane
+from skspatial.objects import Point, Vector, Line, Plane
+from skspatial.projection import project_vector, project_point_line, project_point_plane
 
 
 @pytest.mark.parametrize(
-    "array, array_unit_expected",
+    "array_u, array_v, array_expected",
     [
-        ([1, 0], [1, 0]),
-        ([2, 0], [1, 0]),
-        ([-1, 0], [-1, 0]),
-        ([0, 0, 5], [0, 0, 1]),
-        ([1, 1], [np.sqrt(2) / 2, np.sqrt(2) / 2]),
-        ([1, 1, 1], [np.sqrt(3) / 3, np.sqrt(3) / 3, np.sqrt(3) / 3]),
+        ([1, 1], [1, 0], [1, 0]),
+        ([1, 5], [1, 0], [1, 0]),
+        ([5, 5], [1, 0], [5, 0]),
+        # Scaling v by a non-zero scalar doesn't change the projection.
+        ([0, 1], [0, 1], [0, 1]),
+        ([0, 1], [0, -5], [0, 1]),
+        ([0, 1], [0, 15], [0, 1]),
+        # The projection is the zero vector if u and v are perpendicular.
+        ([1, 0], [0, 1], [0, 0]),
+        ([5, 0], [0, 9], [0, 0]),
+        # The projection of the zero vector onto v is the zero vector.
+        ([0, 0], [0, 1], [0, 0]),
     ],
 )
-def test_unit(array, array_unit_expected):
-    """Test converting a vector to its unit vector."""
-    vector = Vector(array)
-    vector_unit_expected = Vector(array_unit_expected)
+def test_project_vector(array_u, array_v, array_expected):
+    """Test projecting vector u onto vector v."""
+    vector_u = Vector(array_u)
+    vector_v = Vector(array_v)
+    vector_expected = Vector(array_expected)
 
-    assert np.allclose(vector.unit().array, vector_unit_expected.array)
+    vector_u_projected = project_vector(vector_u, vector_v)
+
+    assert vector_u_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
+    "array_point, array_point_line, array_vector_line, \
+     array_point_expected, dist_expected",
+    [
+        ([0, 5], [0, 0], [0, 1], [0, 5], 0),
+        ([0, 5], [0, 0], [0, 100], [0, 5], 0),
+        ([1, 5], [0, 0], [0, 100], [0, 5], 1),
+        ([0, 1], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
+        ([1, 0], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
+        ([0, 2], [0, 0], [1, 1], [1, 1], np.sqrt(2)),
+        ([-15, 5], [0, 0], [0, 100], [0, 5], 15),
+        ([50, 10], [1, -5], [0, 3], [1, 10], 49),
+    ],
+)
+def test_point_line(
+    array_point,
+    array_point_line,
+    array_vector_line,
+    array_point_expected,
+    dist_expected,
+):
+    """Test functions related to a point and a line."""
+    point = Point(array_point)
+    point_expected = Point(array_point_expected)
+
+    line = Line(Point(array_point_line), Vector(array_vector_line))
+
+    point_projected = project_point_line(point, line)
+    distance = dist_point_line(point, line)
+
+    assert point_projected.is_close(point_expected)
+    assert np.isclose(distance, dist_expected)
+
+
+@pytest.mark.parametrize(
+    "array_point, array_point_plane, array_normal_plane, \
+     array_point_expected, dist_expected",
+    [
+        ([0, 0, 0], [0, 0, 0], [0, 0, 1], [0, 0, 0], 0),
+        ([0, 0, 0], [0, 0, 0], [0, 0, -1], [0, 0, 0], 0),
+        ([0, 0, 1], [0, 0, 0], [0, 0, 1], [0, 0, 0], 1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, -1], [0, 0, 0], -1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, 50], [0, 0, 0], 1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, -50], [0, 0, 0], -1),
+        ([0, 0, 5], [0, 0, 0], [0, 0, 50], [0, 0, 0], 5),
+        ([0, 0, 5], [0, 0, 0], [0, 0, -50], [0, 0, 0], -5),
+        ([5, -4, 1], [0, 0, 0], [0, 0, 1], [5, -4, 0], 1),
+    ],
+)
+def test_point_plane(
+    array_point,
+    array_point_plane,
+    array_normal_plane,
+    array_point_expected,
+    dist_expected,
+):
+    """Test functions related to a point and a plane."""
+    point = Point(array_point)
+    point_expected = Point(array_point_expected)
+
+    plane = Plane(Point(array_point_plane), Vector(array_normal_plane))
+
+    point_projected = project_point_plane(point, plane)
+    distance_signed = dist_point_plane(point, plane)
+
+    assert point_projected.is_close(point_expected)
+    assert np.isclose(distance_signed, dist_expected)
