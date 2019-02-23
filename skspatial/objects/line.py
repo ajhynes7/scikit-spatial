@@ -1,6 +1,7 @@
 from dpcontracts import require, ensure
 
-from .array import Point, Vector
+from skspatial.comparison import are_parallel
+from skspatial.objects import Point, Vector
 
 
 class Line:

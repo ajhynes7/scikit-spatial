@@ -2,8 +2,8 @@
 
 from dpcontracts import require, ensure
 
-from .area import area_triangle
-from .objects import Point, Vector, Line, Plane
+from skspatial.area import area_triangle
+from skspatial.objects import Point, Vector, Line, Plane
 
 
 @require(

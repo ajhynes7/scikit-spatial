@@ -2,7 +2,7 @@
 
 from dpcontracts import require, ensure
 
-from .objects import Point, Vector
+from skspatial.objects import Point, Vector
 
 
 @require(

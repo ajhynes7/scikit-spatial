@@ -1,7 +1,7 @@
 import numpy as np
 from dpcontracts import require, ensure
 
-from .objects import Vector
+from skspatial.objects import Vector
 
 
 @require(

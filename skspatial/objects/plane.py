@@ -1,7 +1,7 @@
 from dpcontracts import require, ensure
 
-from .array import Point, Vector
-from ..comparison import are_collinear
+from skspatial.comparison import are_collinear
+from skspatial.objects import Point, Vector
 
 
 class Plane:

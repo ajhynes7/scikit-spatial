@@ -6,7 +6,7 @@ from hypothesis import assume, given
 from numpy.testing import assert_array_equal, assert_allclose
 
 from skspatial.objects import Point, Vector, Line
-from ..strategies import st_arrays, st_point, st_vector, st_vector_nonzero
+from tests.strategies import st_arrays, st_point, st_vector, st_vector_nonzero
 
 
 @given(st_arrays)
