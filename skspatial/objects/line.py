@@ -36,7 +36,7 @@ class Line:
         return cls(point_a, vector_ab)
 
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def to_point(self, t=0):
+    def to_point(self, t=1):
         """
         Return a point along the line using a parameter t.
 

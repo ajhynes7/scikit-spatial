@@ -44,7 +44,7 @@ def dist_point_line(point, line):
 
     """
     point_a = line.point
-    point_b = line.to_point(t=1)
+    point_b = line.to_point()
 
     area = area_triangle(point_a, point_b, point)
 
