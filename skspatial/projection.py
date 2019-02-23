@@ -26,17 +26,23 @@ def project_vector(vector_u, vector_v):
 
     Examples
     --------
-    >>> project_vector(Vector([1, 1]), Vector([0, 1]))
+    >>> project_vector(Vector([2, 1]), Vector([0, 1]))
     Vector([0. 1. 0.])
 
-    >>> project_vector(Vector([5, 5]), Vector([0, 1]))
+    >>> project_vector(Vector([2, 1]), Vector([0, 100]))
+    Vector([0. 1. 0.])
+
+    >>> project_vector(Vector([9, 5]), Vector([0, 1]))
+    Vector([0. 5. 0.])
+
+    >>> project_vector(Vector([9, 5]), Vector([0, 100]))
     Vector([0. 5. 0.])
 
     """
     unit_v = vector_v.unit()
 
     # Scalar projection of u onto v.
-    scalar_projection = vector_u.dot(vector_v)
+    scalar_projection = vector_u.dot(unit_v)
 
     return unit_v.scale(scalar_projection)
 
