@@ -1,26 +1,12 @@
 """Test properties of spatial objects."""
 
-import hypothesis.strategies as st
 import numpy as np
 import pytest
-from hypothesis import given
+from hypothesis import assume, given
 from numpy.testing import assert_array_equal, assert_allclose
 
 from skspatial.objects import Point, Vector, Line
-
-
-# Absolute tolerance for np.isclose and np.allclose functions.
-TOLERANCE = 0.01
-
-
-# Define custom strategies.
-
-st_floats_nonzero = st.floats(min_value=-1e6, max_value=1e6).filter(
-    lambda x: abs(x) > TOLERANCE
-)
-
-st_arrays = st.lists(st_floats_nonzero, min_size=1, max_size=10)
-st_arrays_allowed = st.lists(st_floats_nonzero, min_size=1, max_size=3)
+from ..strategies import st_arrays, st_point, st_vector, st_vector_nonzero
 
 
 @given(st_arrays)
@@ -43,11 +29,9 @@ def test_length(array):
             Vector(array)
 
 
-@given(st_arrays_allowed)
-def test_add(array):
+@given(st_point(), st_vector())
+def test_add(point, vector):
     """Test adding points and vectors."""
-    point = Point(array)
-    vector = Vector(array)
 
     # Add and subtract the vector.
     assert point.add(vector).subtract(vector).is_close(point)
@@ -60,21 +44,19 @@ def test_add(array):
         vector.add(point)
 
 
-@given(st_arrays_allowed)
-def test_unit_vector(array):
+@given(st_vector_nonzero())
+def test_unit_vector(vector):
 
-    vector = Vector(array)
     unit_vector = vector.unit()
 
     assert np.isclose(unit_vector.magnitude, 1)
     assert_allclose(vector.magnitude * unit_vector.array, vector.array)
 
 
-@given(st_arrays_allowed)
-def test_is_close(array):
+@given(st_point())
+def test_is_close(point):
 
-    point = Point(array)
-    vector = Vector(array)
+    vector = Vector(point.array)
 
     assert point.is_close(point)
     assert vector.is_close(vector)
@@ -86,19 +68,18 @@ def test_is_close(array):
         assert vector.is_close(point)
 
 
-@given(st_arrays_allowed, st_arrays_allowed)
-def test_line(array_1, array_2):
+@given(st_point(), st_vector())
+def test_line(point, vector):
 
-    point_1 = Point(array_1)
-    vector = Vector(array_2)
+    assume(not vector.is_zero())
 
-    point_2 = point_1.add(vector)
+    point_2 = point.add(vector)
 
-    line_1 = Line(point_1, vector)
-    line_2 = Line.from_points(point_1, point_2)
+    line_1 = Line(point, vector)
+    line_2 = Line.from_points(point, point_2)
 
     assert line_1.is_close(line_2)
 
     # A point and vector are not interchangeable.
     with pytest.raises(Exception):
-        Line(vector, point_1)
+        Line(vector, point)
