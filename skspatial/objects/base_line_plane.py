@@ -31,9 +31,10 @@ class _BaseLinePlane:
 
         return close_point and close_vector
 
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point)) 
+    @ensure("The output must zero or greater.", lambda _, result: result >= 0)
     def distance(self, point):
         """Compute the distance from a point to this object."""
         point_projected = self.project(point)
 
         return point.distance(point_projected)
-

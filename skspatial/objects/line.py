@@ -1,4 +1,3 @@
-
 from dpcontracts import require, ensure
 
 from .array import Point, Vector
@@ -47,7 +46,7 @@ class Line(_BaseLinePlane):
 
         return vector_to_point.is_parallel(self.direction, **kwargs)
 
-    @require("The input must be a point.", lambda args: isinstance(args.other, Point))
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project(self, point):
         """

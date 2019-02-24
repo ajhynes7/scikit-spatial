@@ -185,48 +185,157 @@ class Vector(_BaseArray3D):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self.array, other.array))
 
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure(
+        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
+    )
     def project(self, other):
-        """Project a vector onto this vector."""
-        return project_vector(other, self)
+        """
+        Project an other vector onto this vector.
 
+        Parameters
+        ----------
+        other: Vector
 
-@require(
-    "The inputs must be two vectors.",
-    lambda args: all(isinstance(x, Vector) for x in [args.vector_u, args.vector_v]),
-)
-@ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-def project_vector(vector_u, vector_v):
-    """
-    Project vector u onto vector v.
+        Returns
+        -------
+        Vector
+            Projection of other vector onto this vector.
 
-    Parameters
-    ----------
-    vector_u, vector_v : Vector
-        Input vectors.
+        Examples
+        --------
+        >>> Vector([0, 1]).project(Vector([2, 1]))
+        Vector([0. 1. 0.])
 
-    Returns
-    -------
-    Vector
-        Projection of vector u onto vector v.
+        >>> Vector([0, 100]).project(Vector([2, 1]))
+        Vector([0. 1. 0.])
 
-    Examples
-    --------
-    >>> project_vector(Vector([2, 1]), Vector([0, 1]))
-    Vector([0. 1. 0.])
+        >>> Vector([0, 1]).project(Vector([9, 5]))
+        Vector([0. 5. 0.])
 
-    >>> project_vector(Vector([2, 1]), Vector([0, 100]))
-    Vector([0. 1. 0.])
+        >>> Vector([0, 100]).project(Vector([9, 5]))
+        Vector([0. 5. 0.])
 
-    >>> project_vector(Vector([9, 5]), Vector([0, 1]))
-    Vector([0. 5. 0.])
+        """
+        unit_self = self.unit()
 
-    >>> project_vector(Vector([9, 5]), Vector([0, 100]))
-    Vector([0. 5. 0.])
+        # Scalar projection of other vector onto self.
+        scalar_projection = other.dot(unit_self)
 
-    """
-    unit_v = vector_v.unit()
+        return unit_self.scale(scalar_projection)
 
-    # Scalar projection of u onto v.
-    scalar_projection = vector_u.dot(unit_v)
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    def is_perpendicular(self, other, **kwargs):
+        """
+        Check if an other vector is perpendicular to self.
 
-    return unit_v.scale(scalar_projection)
+        Vectors u and v are perpendicular <==> Dot product of u and v is zero.
+
+        Parameters
+        ----------
+        other: Vector
+        kwargs : dict, optional
+            Additional keywords passed to `np.isclose`.
+
+        Returns
+        -------
+        bool
+            True if the vector is perpendicular; false otherwise.
+
+        Examples
+        --------
+        >>> Vector([0, 1]).is_perpendicular(Vector([1, 0]))
+        True
+
+        >>> Vector([-1, 5]).is_perpendicular(Vector([3, 4]))
+        False
+
+        >>> Vector([2, 0, 0]).is_perpendicular(Vector([0, 0, 2]))
+        True
+
+        The zero vector is perpendicular to all vectors.
+
+        >>> Vector([0, 0, 0]).is_perpendicular(Vector([1, 2, 3]))
+        True
+
+        """
+        return np.isclose(self.dot(other), 0, **kwargs)
+
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    def is_parallel(self, other, **kwargs):
+        """
+        Check if an other vector is parallel to self.
+
+        Two vectors are parallel iff their cross product is the zero vector.
+
+        Parameters
+        ----------
+        other: Vector
+        kwargs : dict, optional
+            Additional keywords passed to `np.allclose`.
+
+        Returns
+        -------
+        bool
+            True if the vector is parallel; false otherwise.
+
+        Examples
+        --------
+        >>> Vector([0, 1]).is_parallel(Vector([1, 0]))
+        False
+
+        >>> Vector([-1, 5]).is_parallel(Vector([2, -10]))
+        True
+
+        >>> Vector([1, 2, 3]).is_parallel(Vector([3, 6, 9]))
+        True
+
+        >>> Vector([0, 0, 0]).is_parallel(Vector([3, 4, -1]))
+        True
+
+        >>> Vector([1, 2, 3]).is_parallel(Vector([2, 4, 6]))
+        True
+
+        """
+        vector_cross = self.cross(other)
+
+        return vector_cross.is_zero(**kwargs)
+
+    @require("The input must be a vector.", lambda args: isinstance(args.other, Vector))
+    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+    def angle_between(self, other):
+        """
+        Return the angle in radians between this vector and another.
+
+        Parameters
+        ----------
+        other : Vector
+
+        Returns
+        -------
+        float
+            Angle between vectors.
+
+        Examples
+        --------
+        >>> Vector([1, 0]).angle_between(Vector([1, 0]))
+        0.0
+
+        >>> Vector([1, 1, 1]).angle_between(Vector([1, 1, 1]))
+        0.0
+
+        >>> angle = Vector([1, 0]).angle_between(Vector([1, 1]))
+        >>> round(np.degrees(angle))
+        45.0
+
+        >>> angle = Vector([1, 0]).angle_between(Vector([-2, 0]))
+        >>> round(np.degrees(angle))
+        180.0
+
+        """
+        cos_theta = self.dot(other) / (self.magnitude * other.magnitude)
+
+        # Ensure that input to arccos is in range [-1, 1] so that output is real.
+        cos_theta = np.clip(cos_theta, -1, 1)
+
+        return np.arccos(cos_theta)

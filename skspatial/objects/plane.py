@@ -1,9 +1,8 @@
-
 from dpcontracts import require, ensure
 
+from skspatial.comparison import are_collinear
 from .array import Point, Vector
 from .base_line_plane import _BaseLinePlane
-from skspatial.comparison import are_collinear
 
 
 class Plane(_BaseLinePlane):
@@ -36,14 +35,14 @@ class Plane(_BaseLinePlane):
 
         return cls(point_a, vector_normal)
 
-    @require("The input must be a point.", lambda args: isinstance(args.other, Point))
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
     def contains(self, point, **kwargs):
         """Check if this plane contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
         return vector_to_point.is_perpendicular(self.normal, **kwargs)
 
-    @require("The input must be a point.", lambda args: isinstance(args.other, Point))
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project(self, point):
         """
