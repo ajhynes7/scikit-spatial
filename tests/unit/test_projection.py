@@ -1,9 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.distance import dist_point_line, dist_point_plane
 from skspatial.objects import Point, Vector, Line, Plane
-from skspatial.projection import project_vector, project_point_line, project_point_plane
 
 
 @pytest.mark.parametrize(
@@ -29,7 +27,7 @@ def test_project_vector(array_u, array_v, array_expected):
     vector_v = Vector(array_v)
     vector_expected = Vector(array_expected)
 
-    vector_u_projected = project_vector(vector_u, vector_v)
+    vector_u_projected = vector_v.project(vector_u)
 
     assert vector_u_projected.is_close(vector_expected)
 
@@ -61,8 +59,8 @@ def test_point_line(
 
     line = Line(Point(array_point_line), Vector(array_vector_line))
 
-    point_projected = project_point_line(point, line)
-    distance = dist_point_line(point, line)
+    point_projected = line.project(point)
+    distance = line.distance(point)
 
     assert point_projected.is_close(point_expected)
     assert np.isclose(distance, dist_expected)
@@ -96,8 +94,8 @@ def test_point_plane(
 
     plane = Plane(Point(array_point_plane), Vector(array_normal_plane))
 
-    point_projected = project_point_plane(point, plane)
-    distance_signed = dist_point_plane(point, plane)
+    point_projected = plane.project(point)
+    distance_signed = plane.distance_signed(point)
 
     assert point_projected.is_close(point_expected)
     assert np.isclose(distance_signed, dist_expected)

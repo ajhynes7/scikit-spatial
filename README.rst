@@ -85,12 +85,11 @@ array([0.707, 0.707, 0.   ])
 
 One vector can be projected onto another.
 
->>> from skspatial.projection import project_vector
+>>> vector_u = Vector([1, 0])
+>>> vector_v = Vector([5, 9])
 
->>> vector_u = Vector([5, 9])
->>> vector_v = Vector([1, 0])
-
->>> project_vector(vector_u, vector_v)
+# Project vector v onto vector u.
+>>> vector_u.project(vector_v)
 Vector([5. 0. 0.])
 
 Points and vectors are not equal.
@@ -129,16 +128,12 @@ True
 
 The distance from a `Point` to a `Line` can be found.
 
->>> from skspatial.distance import dist_point_line
-
->>> dist_point_line(Point([20, 75]), line_1)
+>>> line_1.distance(Point([20, 75]))
 75.0
 
 A `Point` can be projected onto a `Line`, returning a new `Point`.
 
->>> from skspatial.projection import project_point_line
-
->>> project_point_line(Point([50, 20]), line_1)
+>>> line_1.project(Point([50, 20]))
 Point([50.  0.  0.])
 
 
@@ -178,3 +173,4 @@ Again, a `Point` and a `Vector` are not interchangeable.
 Traceback (most recent call last):
 ...
 dpcontracts.PreconditionError: The inputs must be three points.
+

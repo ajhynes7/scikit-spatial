@@ -1,12 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.comparison import (
-    angle_between,
-    are_perpendicular,
-    are_parallel,
-    are_collinear,
-)
+from skspatial.comparison import are_collinear
 from skspatial.objects import Point, Vector
 
 
@@ -27,7 +22,7 @@ def test_angle_between(array_u, array_v, angle_expected):
     vector_u = Vector(array_u)
     vector_v = Vector(array_v)
 
-    angle = angle_between(vector_u, vector_v)
+    angle = vector_u.angle_between(vector_v)
     assert np.isclose(angle, angle_expected)
 
 
@@ -50,7 +45,7 @@ def test_are_perpendicular(array_u, array_v, bool_expected):
     vector_u = Vector(array_u)
     vector_v = Vector(array_v)
 
-    assert are_perpendicular(vector_u, vector_v) == bool_expected
+    assert vector_u.is_perpendicular(vector_v) == bool_expected
 
 
 @pytest.mark.parametrize(
@@ -73,7 +68,7 @@ def test_is_parallel(array_u, array_v, bool_expected):
     vector_u = Vector(array_u)
     vector_v = Vector(array_v)
 
-    assert are_parallel(vector_u, vector_v) == bool_expected
+    assert vector_u.is_parallel(vector_v) == bool_expected
 
 
 @pytest.mark.parametrize(

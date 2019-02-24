@@ -1,26 +1,19 @@
 from dpcontracts import require, ensure
 
-from skspatial.comparison import are_parallel
-from skspatial.objects import Point, Vector
+from .array import Point, Vector
+from .base_line_plane import _BaseLinePlane
 
 
-class Line:
-    @require(
-        "The inputs must be a point and a vector.",
-        lambda args: isinstance(args.point, Point) and isinstance(args.vector, Vector),
-    )
+class Line(_BaseLinePlane):
     def __init__(self, point, vector):
 
-        self.point = point
-        self.direction = vector.unit()
+        super().__init__(point, vector)
+
+        self.direction = self.vector
 
     def __repr__(self):
 
         return f"Line(point={self.point}, direction={self.direction})"
-
-    def __eq__(self, other):
-
-        return vars(self) == vars(other)
 
     @classmethod
     @require(
@@ -46,17 +39,42 @@ class Line:
         vector_along_line = self.direction.scale(t)
         return self.point.add(vector_along_line)
 
-    @require("The input must be a line.", lambda args: isinstance(args.other, Line))
-    def is_close(self, other, **kwargs):
-
-        close_point = self.point.is_close(other.point, **kwargs)
-        close_vector = self.direction.is_close(other.direction, **kwargs)
-
-        return close_point and close_vector
-
     @require("The input must be a point.", lambda args: isinstance(args.point, Point))
     def contains(self, point, **kwargs):
-
+        """Check if this line contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
-        return are_parallel(vector_to_point, self.direction)
+        return vector_to_point.is_parallel(self.direction, **kwargs)
+
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def project(self, point):
+        """
+        Project a point onto this line.
+
+        Parameters
+        ----------
+        point : Point
+
+        Returns
+        -------
+        Point
+            Projection of the point onto the line.
+
+        Examples
+        --------
+        >>> point = Point([5, 5])
+        >>> line = Line(Point([0, 0]), Vector([1, 0]))
+
+        >>> line.project(point)
+        Point([5. 0. 0.])
+
+        """
+        # Vector from the point on the line to the point in space.
+        vector_to_point = Vector.from_points(self.point, point)
+
+        # Project the vector onto the line.
+        vector_projected = self.direction.project(vector_to_point)
+
+        # Add the projected vector to the point on the line.
+        return self.point.add(vector_projected)
