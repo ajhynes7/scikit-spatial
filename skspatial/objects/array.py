@@ -2,7 +2,6 @@
 
 import numpy as np
 from dpcontracts import require, ensure
-from numpy.linalg import norm
 
 
 class _BaseArray3D:
@@ -15,6 +14,9 @@ class _BaseArray3D:
     @require(
         "The input array must only contain finite numbers.",
         lambda args: np.all(np.isfinite(args.arr)),
+    )
+    @ensure(
+        "The output array must be 3D.", lambda args, result: args.self.array.size == 3
     )
     def __init__(self, arr):
         """Convert the array to 3D by appending zeros."""
@@ -61,13 +63,24 @@ class Point(_BaseArray3D):
         """Return a new point by subtracting a vector."""
         return self.add(vector.reverse())
 
+    @require("The input must be a point.", lambda args: isinstance(args.other, Point))
+    def distance(self, other):
+        """Compute the distance from this point to another point."""
+        vector = Vector.from_points(self, other)
+
+        return vector.magnitude
+
 
 class Vector(_BaseArray3D):
+    @ensure(
+        "The magnitude must be zero or positive.",
+        lambda args, result: args.self.magnitude >= 0,
+    )
     def __init__(self, arr):
 
         super().__init__(arr)
 
-        self.magnitude = norm(self.array)
+        self.magnitude = np.linalg.norm(self.array)
 
     def __repr__(self):
 
@@ -171,3 +184,49 @@ class Vector(_BaseArray3D):
     def cross(self, other):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self.array, other.array))
+
+    def project(self, other):
+        """Project a vector onto this vector."""
+        return project_vector(other, self)
+
+
+@require(
+    "The inputs must be two vectors.",
+    lambda args: all(isinstance(x, Vector) for x in [args.vector_u, args.vector_v]),
+)
+@ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+def project_vector(vector_u, vector_v):
+    """
+    Project vector u onto vector v.
+
+    Parameters
+    ----------
+    vector_u, vector_v : Vector
+        Input vectors.
+
+    Returns
+    -------
+    Vector
+        Projection of vector u onto vector v.
+
+    Examples
+    --------
+    >>> project_vector(Vector([2, 1]), Vector([0, 1]))
+    Vector([0. 1. 0.])
+
+    >>> project_vector(Vector([2, 1]), Vector([0, 100]))
+    Vector([0. 1. 0.])
+
+    >>> project_vector(Vector([9, 5]), Vector([0, 1]))
+    Vector([0. 5. 0.])
+
+    >>> project_vector(Vector([9, 5]), Vector([0, 100]))
+    Vector([0. 5. 0.])
+
+    """
+    unit_v = vector_v.unit()
+
+    # Scalar projection of u onto v.
+    scalar_projection = vector_u.dot(unit_v)
+
+    return unit_v.scale(scalar_projection)
