@@ -1,4 +1,5 @@
 from .array import Point, Vector
-from .composite import Line, Plane
+from .line import Line
+from .plane import Plane
 
 __all__ = ['Point', 'Vector', 'Line', 'Plane']
