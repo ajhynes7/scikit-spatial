@@ -62,7 +62,7 @@ while a `Point` plus a `Point` is undefined.
 >>> Point([-5, 8]).add(Point([1, 1]))
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The input must be a vector.
+dpcontracts.PreconditionError: the types of arguments must be valid
 
 
 A `Vector` plus a `Vector` returns another `Vector`.
@@ -115,7 +115,7 @@ The `Point` and `Vector` inputs are not interchangeable.
 >>> Line(Vector([0, 0]), Point([5, 0]))
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The inputs must be a point and a vector.
+dpcontracts.PreconditionError: the types of arguments must be valid
 
 
 Alternatively, a `Line` can be defined by two points.
@@ -171,5 +171,5 @@ Again, a `Point` and a `Vector` are not interchangeable.
 >>> Plane.from_points(point_a, point_b, Vector([50, 500]))
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The inputs must be three points.
+dpcontracts.PreconditionError: the types of arguments must be valid
 

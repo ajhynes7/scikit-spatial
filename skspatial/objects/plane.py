@@ -1,7 +1,7 @@
-from dpcontracts import require, ensure
+from dpcontracts import require, ensure, types
 
 from .array import Point, Vector
-from .base_line_plane import _BaseLinePlane
+from .base_classes import _BaseLinePlane
 
 
 class Plane(_BaseLinePlane):
@@ -16,10 +16,7 @@ class Plane(_BaseLinePlane):
         return f"Plane(point={self.point}, normal={self.normal})"
 
     @classmethod
-    @require(
-        "The inputs must be three points.",
-        lambda args: all(isinstance(x, Point) for x in args[1:]),
-    )
+    @types(point_a=Point, point_b=Point, point_c=Point)
     @require(
         "The points must not be collinear.",
         lambda args: not args.point_a.is_collinear(args.point_b, args.point_c),
@@ -57,14 +54,14 @@ class Plane(_BaseLinePlane):
 
         return cls(point_a, vector_normal)
 
-    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    @types(point=Point)
     def contains(self, point, **kwargs):
         """Check if this plane contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
         return vector_to_point.is_perpendicular(self.normal, **kwargs)
 
-    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project(self, point):
         """

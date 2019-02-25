@@ -1,16 +1,11 @@
 """Measurements using spatial objects."""
 
-from dpcontracts import require, ensure
+from dpcontracts import ensure, types
 
 from skspatial.objects import Point, Vector
 
 
-@require(
-    "The inputs must be three points.",
-    lambda args: all(
-        isinstance(x, Point) for x in [args.point_a, args.point_b, args.point_c]
-    ),
-)
+@types(point_a=Point, point_b=Point, point_c=Point)
 @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
 def area_triangle(point_a, point_b, point_c):
     """

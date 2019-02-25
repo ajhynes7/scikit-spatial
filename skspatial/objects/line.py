@@ -1,7 +1,7 @@
-from dpcontracts import require, ensure
+from dpcontracts import require, ensure, types
 
 from .array import Point, Vector
-from .base_line_plane import _BaseLinePlane
+from .base_classes import _BaseLinePlane
 
 
 class Line(_BaseLinePlane):
@@ -16,10 +16,7 @@ class Line(_BaseLinePlane):
         return f"Line(point={self.point}, direction={self.direction})"
 
     @classmethod
-    @require(
-        "The inputs must be two points.",
-        lambda args: all(isinstance(x, Point) for x in args[1:]),
-    )
+    @types(point_a=Point, point_b=Point)
     @require("The points must be different.", lambda args: args.point_a != args.point_b)
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
@@ -62,14 +59,14 @@ class Line(_BaseLinePlane):
         vector_along_line = self.direction.scale(t)
         return self.point.add(vector_along_line)
 
-    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    @types(point=Point)
     def contains(self, point, **kwargs):
         """Check if this line contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
         return vector_to_point.is_parallel(self.direction, **kwargs)
 
-    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
+    @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project(self, point):
         """
