@@ -1,4 +1,4 @@
-"""Area of spatial objects."""
+"""Measurements using spatial objects."""
 
 from dpcontracts import require, ensure
 
