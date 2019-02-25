@@ -1,4 +1,3 @@
-
 from dpcontracts import require, ensure
 
 from .array import Point, Vector
@@ -31,7 +30,7 @@ class _BaseLinePlane:
 
         return close_point and close_vector
 
-    @require("The input must be a point.", lambda args: isinstance(args.point, Point)) 
+    @require("The input must be a point.", lambda args: isinstance(args.point, Point))
     @ensure("The output must zero or greater.", lambda _, result: result >= 0)
     def distance(self, point):
         """Compute the distance from a point to this object."""

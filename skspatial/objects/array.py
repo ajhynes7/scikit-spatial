@@ -131,7 +131,31 @@ class Vector(_BaseArray3D):
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
     def from_points(cls, point_a, point_b):
-        """Instantiate the vector from point A to point B."""
+        """
+        Instantiate a vector from point A to point B.
+
+        Parameters
+        ----------
+        point_a, point_b : Point
+            Input points.
+
+        Returns
+        -------
+        Vector
+            Vector from point A to point B.
+
+        Examples
+        --------
+        >>> Vector.from_points(Point((0, 0)), Point((1, 0)))
+        Vector([1. 0. 0.])
+
+        >>> Vector.from_points(Point((5, 2)), Point((-2, 8)))
+        Vector([-7.  6.  0.])
+
+        >>> Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
+        Vector([ 4.  6. -1.])
+
+        """
         return cls(point_b.array - point_a.array)
 
     @ensure(

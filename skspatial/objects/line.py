@@ -23,7 +23,30 @@ class Line(_BaseLinePlane):
     @require("The points must be different.", lambda args: args.point_a != args.point_b)
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
-        """Define a line from two points."""
+        """
+        Instantiate a plane from three points.
+
+        Parameters
+        ----------
+        point_a, point_b : Point
+            Input points.
+
+        Returns
+        -------
+        Line
+            Line containing the two input points.
+
+        Examples
+        --------
+        >>> Line.from_points(Point([0, 0]), Point([1, 0]))
+        Line(point=Point([0. 0. 0.]), direction=Vector([1. 0. 0.]))
+
+        The order of the points affects the line point and direction vector.
+
+        >>> Line.from_points(Point([1, 0]), Point([0, 0]))
+        Line(point=Point([1. 0. 0.]), direction=Vector([-1.  0.  0.]))
+
+        """
         vector_ab = Vector.from_points(point_a, point_b)
 
         return cls(point_a, vector_ab)

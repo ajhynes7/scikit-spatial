@@ -26,7 +26,30 @@ class Plane(_BaseLinePlane):
     )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):
-        """Define a plane from three 3D points."""
+        """
+        Instantiate a plane from three points.
+
+        Parameters
+        ----------
+        point_a, point_b, point_c : Point
+            Input points.
+
+        Returns
+        -------
+        Plane
+            Plane containing the three input points.
+
+        Examples
+        --------
+        >>> Plane.from_points(Point([0, 0]), Point([1, 0]), Point([3, 3]))
+        Plane(point=Point([0. 0. 0.]), normal=Vector([0. 0. 1.]))
+
+        The order of the points affects the direction of the normal vector.
+
+        >>> Plane.from_points(Point([0, 0]), Point([3, 3]), Point([1, 0]))
+        Plane(point=Point([0. 0. 0.]), normal=Vector([ 0.  0. -1.]))
+
+        """
         vector_ab = Vector.from_points(point_a, point_b)
         vector_ac = Vector.from_points(point_a, point_c)
 
