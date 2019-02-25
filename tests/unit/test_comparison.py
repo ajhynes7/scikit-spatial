@@ -1,7 +1,6 @@
 import numpy as np
 import pytest
 
-from skspatial.comparison import are_collinear
 from skspatial.objects import Point, Vector
 
 
@@ -40,7 +39,7 @@ def test_angle_between(array_u, array_v, angle_expected):
         ([0, 0, 0], [1, 1, 1], True),
     ],
 )
-def test_are_perpendicular(array_u, array_v, bool_expected):
+def test_is_perpendicular(array_u, array_v, bool_expected):
     """Test checking if vector u is perpendicular to vector v."""
     vector_u = Vector(array_u)
     vector_v = Vector(array_v)
@@ -82,10 +81,10 @@ def test_is_parallel(array_u, array_v, bool_expected):
         ([0, 0, 0], [1, 1, 1], [2, 2, 2.5], False),
     ],
 )
-def test_are_collinear(array_a, array_b, array_c, bool_expected):
+def test_is_collinear(array_a, array_b, array_c, bool_expected):
     """Test checking if three points are collinear."""
     point_a = Point(array_a)
     point_b = Point(array_b)
     point_c = Point(array_c)
 
-    assert are_collinear(point_a, point_b, point_c) == bool_expected
+    assert point_a.is_collinear(point_b, point_c) == bool_expected
