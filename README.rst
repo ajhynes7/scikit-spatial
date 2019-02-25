@@ -2,6 +2,9 @@
 scikit-spatial: Spatial objects and computations in 3D
 ======================================================
 
+This package provides spatial objects in 3D (Point, Vector, Line, and Plane) based on NumPy arrays.
+It also includes computations using these objects, such as projecting a point onto a line, or finding the angle between two vectors.
+
 Point and Vector
 ----------------
 
