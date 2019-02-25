@@ -4,7 +4,7 @@ import pytest
 from hypothesis import given
 
 from skspatial.objects import Vector
-from tests.strategies import st_point, st_line, st_plane, TOLERANCE
+from .strategies import st_point, st_line, st_plane, TOLERANCE
 
 
 @pytest.mark.parametrize('name_object', ['line', 'plane'])
