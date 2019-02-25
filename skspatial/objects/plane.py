@@ -1,6 +1,5 @@
 from dpcontracts import require, ensure
 
-from skspatial.comparison import are_collinear
 from .array import Point, Vector
 from .base_line_plane import _BaseLinePlane
 
@@ -23,7 +22,7 @@ class Plane(_BaseLinePlane):
     )
     @require(
         "The points must not be collinear.",
-        lambda args: not are_collinear(args.point_a, args.point_b, args.point_c),
+        lambda args: not args.point_a.is_collinear(args.point_b, args.point_c),
     )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):

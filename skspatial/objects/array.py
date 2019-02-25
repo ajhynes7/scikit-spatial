@@ -70,6 +70,42 @@ class Point(_BaseArray3D):
 
         return vector.magnitude
 
+    @require(
+        "The two inputs must be points.",
+        lambda args: all(isinstance(x, Point) for x in [args.point_a, args.point_b]),
+    )
+    def is_collinear(self, point_a, point_b, **kwargs):
+        """
+        Check if this point is collinear to two other points A and B.
+
+        Points A, B, C are collinear if vector AB is parallel to vector AC.
+
+        Parameters
+        ----------
+        point_a, point_b : Point
+            Input points.
+        kwargs : dict, optional
+            Additional keywords passed to `np.allclose`.
+
+        Returns
+        -------
+        bool
+            True if points are collinear; false otherwise.
+
+        Examples
+        --------
+        >>> Point([0, 1]).is_collinear(Point([1, 0]), Point([1, 2]))
+        False
+
+        >>> Point([1, 1]).is_collinear(Point([2, 2]), Point([5, 5]), atol=1e-7)
+        True
+
+        """
+        vector_to_a = Vector.from_points(self, point_a)
+        vector_to_b = Vector.from_points(self, point_b)
+
+        return vector_to_a.is_parallel(vector_to_b, **kwargs)
+
 
 class Vector(_BaseArray3D):
     @ensure(
