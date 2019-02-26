@@ -28,7 +28,7 @@ setup(
     description="Spatial objects and computations in 3D.",
     install_requires=requirements,
     license="BSD license",
-    long_description=readme
+    long_description=readme,
     include_package_data=True,
     keywords='scikit_spatial',
     name='scikit_spatial',
