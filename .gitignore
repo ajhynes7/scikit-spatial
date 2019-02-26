@@ -3,5 +3,9 @@
 
 __pycache__
 
+.eggs
 .hypothesis
 .tox
+
+doc/build
+scikit_spatial.egg-info
