@@ -1,9 +1,32 @@
 
-scikit-spatial: Spatial objects and computations in 3D
-======================================================
+==============
+scikit-spatial 
+==============
+
+Spatial objects and computations in 3D
+======================================
+
+
+.. image:: https://img.shields.io/pypi/v/scikit_spatial.svg
+        :target: https://pypi.python.org/pypi/scikit_spatial
+
+.. image:: https://img.shields.io/travis/ajhynes7/scikit_spatial.svg
+        :target: https://travis-ci.org/ajhynes7/scikit_spatial
+
+.. image:: https://readthedocs.org/projects/scikit-spatial/badge/?version=latest
+        :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
+        :alt: Documentation Status
+
+.. image:: https://pyup.io/repos/github/ajhynes7/scikit_spatial/shield.svg
+     :target: https://pyup.io/repos/github/ajhynes7/scikit_spatial/
+     :alt: Updates
+
+* Free software: BSD license
+
 
 This package provides spatial objects in 3D (Point, Vector, Line, and Plane) based on NumPy arrays.
 It also includes computations using these objects, such as projecting a point onto a line, or finding the angle between two vectors.
+
 
 Point and Vector
 ----------------
@@ -176,3 +199,11 @@ Traceback (most recent call last):
 ...
 dpcontracts.PreconditionError: the types of arguments must be valid
 
+
+Credits
+-------
+
+This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
