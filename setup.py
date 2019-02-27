@@ -5,14 +5,12 @@
 
 from setuptools import setup, find_packages
 
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
+with open('README.rst') as file_readme:
+    readme = file_readme.read()
 
-requirements = []
-
-setup_requirements = ['pytest-runner', ]
-
-test_requirements = ['pytest', ]
+requirements_install = ['numpy', 'dpcontracts']
+requirements_setup = ['pytest-runner', 'wheel']
+requirements_test = ['pytest']
 
 setup(
     author="Andrew Hynes",
@@ -26,16 +24,16 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     description="Spatial objects and computations in 3D.",
-    install_requires=requirements,
+    install_requires=requirements_install,
     license="BSD license",
     long_description=readme,
     include_package_data=True,
     keywords='scikit_spatial',
     name='scikit_spatial',
-    packages=find_packages(include=['scikit_spatial']),
-    setup_requires=setup_requirements,
+    packages=find_packages(exclude=['doc', 'tests']),
+    setup_requires=requirements_setup,
     test_suite='tests',
-    tests_require=test_requirements,
+    tests_require=requirements_test,
     url='https://github.com/ajhynes7/scikit_spatial',
     version='0.1.0',
     zip_safe=False,
