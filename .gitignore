@@ -7,5 +7,7 @@ __pycache__
 .hypothesis
 .tox
 
+build
+dist
 doc/build
 scikit_spatial.egg-info
