@@ -138,7 +138,6 @@ class Vector(_Vector):
 
         Parameters
         ----------
-        self : Vector
         kwargs : dict, optional
             Additional keywords passed to `np.allclose`.
 
@@ -237,6 +236,7 @@ class Vector(_Vector):
         Parameters
         ----------
         other: Vector
+            Input vector.
         kwargs : dict, optional
             Additional keywords passed to `np.isclose`.
 
@@ -274,6 +274,7 @@ class Vector(_Vector):
         Parameters
         ----------
         other: Vector
+            Input vector.
         kwargs : dict, optional
             Additional keywords passed to `np.allclose`.
 
