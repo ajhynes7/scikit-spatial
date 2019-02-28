@@ -1,15 +1,59 @@
-"""Objects based on a single NumPy array (Point and Vector)."""
+"""Classes for spatial objects based on a single NumPy array (Point and Vector)."""
 
 import numpy as np
-from dpcontracts import ensure, types
+from dpcontracts import require, ensure, types
 
-from .base_classes import _Point, _Vector
+
+class _BaseArray:
+    """Private base class for Point and Vector classes."""
+
+    @require(
+        "The input length must be one to three.",
+        lambda args: len(args.array_like) in [1, 2, 3],
+    )
+    @require(
+        "The input array must only contain finite numbers.",
+        lambda args: np.all(np.isfinite(args.array_like)),
+    )
+    @ensure(
+        "The output array must be 3D.", lambda args, result: args.self.array.size == 3
+    )
+    def __init__(self, array_like):
+        """Convert the array to 3D by appending zeros."""
+        n_dimensions = len(array_like)
+        array_padding = np.zeros(3 - n_dimensions)
+
+        self.array = np.concatenate((np.array(array_like), array_padding))
+
+    def __eq__(self, other):
+
+        return isinstance(self, type(other)) and np.all(self.array == other.array)
+
+    @require(
+        "The input must have the same type as the object.",
+        lambda args: isinstance(args.self, type(args.other)),
+    )
+    def is_close(self, other, **kwargs):
+        """Check if array is close to another array."""
+        return np.allclose(self.array, other.array, **kwargs)
+
+
+class _Point(_BaseArray):
+    """Private parent class for Point."""
+    def __init__(self, array_like):
+        super().__init__(array_like)
+
+
+class _Vector(_BaseArray):
+    """Private parent class for Vector."""
+    def __init__(self, array_like):
+        super().__init__(array_like)
 
 
 class Point(_Point):
-    def __init__(self, arr):
+    def __init__(self, array_like):
 
-        super().__init__(arr)
+        super().__init__(array_like)
 
     def __repr__(self):
 
@@ -72,9 +116,9 @@ class Vector(_Vector):
         "The magnitude must be zero or positive.",
         lambda args, result: args.self.magnitude >= 0,
     )
-    def __init__(self, arr):
+    def __init__(self, array):
 
-        super().__init__(arr)
+        super().__init__(array)
 
         self.magnitude = np.linalg.norm(self.array)
 
