@@ -1,7 +1,13 @@
 from dpcontracts import require, ensure, types
 
 from .array import Point, Vector
-from .base_line_plane import _Line, _Plane
+from .base_line_plane import _BaseLinePlane
+
+
+class _Line(_BaseLinePlane):
+    """Private parent class for Line."""
+    def __init__(self, point, vector):
+        super().__init__(point, vector)
 
 
 class Line(_Line):
@@ -132,7 +138,7 @@ class Line(_Line):
         >>> point = Point([5, 5])
         >>> line = Line(Point([0, 0]), Vector([1, 0]))
 
-        >>> line.project(point)
+        >>> line.project_point(point)
         Point([5. 0. 0.])
 
         """
@@ -186,15 +192,15 @@ class Line(_Line):
         >>> line_d = Line(Point([0, 5]), Vector([0, 0, 1]))
 
         The lines are parallel.
-        >>> distance_lines(line_a, line_b)
+        >>> line_a.distance_line(line_b)
         1.0
 
         The lines are coplanar and not parallel.
-        >>> distance_lines(line_a, line_c)
+        >>> line_a.distance_line(line_c)
         0.0
 
         The lines are skew.
-        >>> distance_lines(line_a, line_d)
+        >>> line_a.distance_line(line_d)
         5.0
 
         References
@@ -202,10 +208,10 @@ class Line(_Line):
         http://mathworld.wolfram.com/Line-LineDistance.html
 
         """
-        if self.is_parallel(other):
+        if self.direction.is_parallel(other.direction):
             # The lines are parallel.
             # The distance between the lines is the distance from line point B to line A.
-            distance = self.distance(other.point)
+            distance = self.distance_point(other.point)
 
         elif self.is_coplanar(other):
             # The lines must intersect, since they are coplanar and not parallel.
@@ -222,7 +228,7 @@ class Line(_Line):
 
     @types(other=_Line)
     @require("The lines must be coplanar.", lambda args: args.self.is_coplanar(args.other))
-    @require("The lines must not be parallel.", lambda args: not args.self.is_parallel(args.other))
+    @require("The lines must not be parallel.", lambda args: not args.self.direction.is_parallel(args.other.direction))
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     @ensure(
         "The point must be on both lines.",
@@ -256,6 +262,7 @@ class Line(_Line):
         >>> line_a.intersect_line(line_b)
         Point([5. 0. 0.])
 
+        >>> line_b = Line(Point([0, 1]), Vector([2, 0]))
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
@@ -293,62 +300,3 @@ class Line(_Line):
         vector_a_scaled = self.direction.scale(num / denom)
 
         return self.point.add(vector_a_scaled)
-
-    @types(other=_Plane)
-    @require(
-        "The line and plane must not be parallel.",
-        lambda args: not args.self.direction.is_perpendicular(args.plane.normal),
-    )
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    @ensure("The point must be on the line.", lambda args, result: args.self.contains_point(result))
-    @ensure("The point must be on the plane.", lambda args, result: args.plane.contains_point(result))
-    def intersect_plane(self, plane):
-        """
-        Return the intersection of a plane with self.
-
-        The line and plane must not be parallel.
-
-        Parameters
-        ----------
-        plane : Plane
-            Input plane.
-
-        Returns
-        -------
-        Point
-            The point at the intersection.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point, Vector, Line, Plane
-
-        >>> line = Line(Point([0, 0]), Vector([0, 0, 1]))
-        >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
-
-        >>> intersect_line_plane(line, plane)
-        Point([0. 0. 0.])
-
-        >>> plane = Plane(Point([2, -53, -7]), Vector([0, 0, 1]))
-        >>> intersect_line_plane(line, plane)
-        Point([ 0.  0. -7.])
-
-        >>> line = Line(Point([0, 1]), Vector([1, 0, 0]))
-        >>> intersect_line_plane(line, plane)
-        Traceback (most recent call last):
-        ...
-        dpcontracts.PreconditionError: The line and plane must not be parallel.
-
-        References
-        ----------
-        http://geomalgorithms.com/a05-_intersect-1.html
-
-        """
-        vector_plane_line = Vector.from_points(plane.point, self.point)
-
-        num = - plane.normal.dot(vector_plane_line)
-        denom = plane.normal.dot(self.direction)
-
-        # Vector along the line to the intersection point.
-        vector_line_scaled = self.direction.scale(num / denom)
-
-        return self.point.add(vector_line_scaled)

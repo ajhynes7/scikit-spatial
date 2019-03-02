@@ -69,13 +69,13 @@ class _Vector(_BaseArray):
 
         Examples
         --------
-        >>> _Vector.from_points(Point((0, 0)), Point((1, 0)))
+        >>> Vector.from_points(Point((0, 0)), Point((1, 0)))
         Vector([1. 0. 0.])
 
-        >>> _Vector.from_points(Point((5, 2)), Point((-2, 8)))
+        >>> Vector.from_points(Point((5, 2)), Point((-2, 8)))
         Vector([-7.  6.  0.])
 
-        >>> _Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
+        >>> Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
         Vector([ 4.  6. -1.])
 
         """
@@ -103,7 +103,7 @@ class Point(_Point):
 
     @types(other=_Point)
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
-    def distance_point(self, other):
+    def distance(self, other):
         """Compute the distance from self to another point."""
         vector = Vector.from_points(self, other)
 
