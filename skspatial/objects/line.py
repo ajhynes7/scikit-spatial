@@ -1,6 +1,6 @@
 from dpcontracts import require, ensure, types
 
-from .base_line_plane import _BaseLinePlane, _Line, _Plane
+from .base_line_plane import _Line, _Plane
 from .point import Point
 from .vector import Vector
 

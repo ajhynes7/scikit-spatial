@@ -1,7 +1,7 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
-from .base_line_plane import _BaseLinePlane, _Line, _Plane
+from .base_line_plane import _Line, _Plane
 from .point import Point
 from .vector import Vector
 
@@ -140,7 +140,7 @@ class Plane(_Plane):
 
     @types(other=_Plane)
     @require("The planes must not be parallel.", lambda args: not args.self.normal.is_parallel(args.other.normal))
-    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
+    @ensure("The output must be a line.", lambda _, result: isinstance(result, _Line))
     @ensure(
         "The point on the line must be on both planes.",
         lambda args, result: args.self.contains_point(result.point) and args.other.contains_point(result.point),
