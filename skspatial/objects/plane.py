@@ -66,7 +66,7 @@ class Plane(_Plane):
         return cls(point_a, vector_normal)
 
     @types(point=Point)
-    def contains(self, point, **kwargs):
+    def contains_point(self, point, **kwargs):
         """Check if this plane contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
@@ -74,13 +74,14 @@ class Plane(_Plane):
 
     @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def project(self, point):
+    def project_point(self, point):
         """
-        Project a point onto this plane.
+        Project a point onto self.
 
         Parameters
         ----------
         point : Point
+            Input point.
 
         Returns
         -------
@@ -105,13 +106,15 @@ class Plane(_Plane):
         return point.add(vector_projected)
 
     @types(point=Point)
-    def distance_signed(self, point):
+    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+    def distance_point(self, point):
         """
-        Compute the signed distance from a point to this plane.
+        Return the signed distance from a point to self.
 
         Parameters
         ----------
         point : Point
+            Input point.
 
         Returns
         -------

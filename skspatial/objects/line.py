@@ -157,13 +157,15 @@ class Line(_Line):
 
     @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def project(self, point):
+    @ensure("The output must be on the line.", lambda args, result: args.self.contains_point(result))
+    def project_point(self, point):
         """
         Project a point onto this line.
 
         Parameters
         ----------
         point : Point
+            Input point.
 
         Returns
         -------
@@ -187,3 +189,78 @@ class Line(_Line):
 
         # Add the projected vector to the point on the line.
         return self.point.add(vector_projected)
+
+    @types(vector=Vector)
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Point))
+    @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
+    def project_vector(self, vector):
+
+        return self.direction.project(vector)
+
+    @types(point=Point)
+    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
+    def distance_point(self, point):
+
+        point_projected = self.project_point(point)
+
+        return point.distance(point_projected)
+
+    @types(other=_Line)
+    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
+    def distance_line(self, other):
+        """
+        Return the shortest distance from an other line to self.
+
+        Parameters
+        ----------
+        other : Line
+            Input line.
+
+        Returns
+        -------
+        number
+            The distance between the lines.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector, Line
+
+        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
+        >>> line_b = Line(Point([0, 1]), Vector([1, 0]))
+        >>> line_c = Line(Point([0, 1]), Vector([1, 1]))
+        >>> line_d = Line(Point([0, 5]), Vector([0, 0, 1]))
+
+        The lines are parallel.
+        >>> distance_lines(line_a, line_b)
+        1.0
+
+        The lines are coplanar and not parallel.
+        >>> distance_lines(line_a, line_c)
+        0.0
+
+        The lines are skew.
+        >>> distance_lines(line_a, line_d)
+        5.0
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineDistance.html
+
+        """
+        if self.is_parallel(other):
+            # The lines are parallel.
+            # The distance between the lines is the distance from line point B to line A.
+            distance = self.distance(other.point)
+
+        elif self.is_coplanar(other):
+            # The lines must intersect, since they are coplanar and not parallel.
+            distance = 0.0
+
+        else:
+            # The lines are skew.
+            vector_ab = Vector.from_points(self.point, other.point)
+            vector_cross = self.direction.cross(other.direction)
+
+            distance = abs(vector_ab.dot(vector_cross)) / vector_cross.magnitude
+
+        return distance
