@@ -57,61 +57,6 @@ class Line(_Line):
 
         return cls(point_a, vector_ab)
 
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def to_point(self, t=1):
-        """
-        Return a point along the line using a parameter t.
-
-        Computed as line.point + t * line.direction.
-
-        """
-        vector_along_line = self.direction.scale(t)
-        return self.point.add(vector_along_line)
-
-    @types(point=Point)
-    def contains(self, point, **kwargs):
-        """Check if this line contains a point."""
-        vector_to_point = Vector.from_points(self.point, point)
-
-        return vector_to_point.is_parallel(self.direction, **kwargs)
-
-    @types(other=_Line)
-    def is_parallel(self, other, **kwargs):
-        """
-        Check if the line is parallel to another.
-
-        Two lines are parallel iff their direction vectors are parallel.
-
-        Parameters
-        ----------
-        other : Line
-            Input line.
-        kwargs : dict, optional
-            Additional keywords passed to `np.isclose`.
-
-        Returns
-        -------
-        bool
-            True if the line is coplanar; false otherwise.
-
-        Examples
-        --------
-        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
-        >>> line_b = Line(Point([5, 10]), Vector([3, 0]))
-        >>> line_c = Line(Point([0, 0]), Vector([0, 0, 1]))
-
-        >>> line_a.is_parallel(line_b)
-        True
-
-        >>> line_b.is_parallel(line_c)
-        False
-
-        >>> line_a.is_parallel(line_c)
-        False
-
-        """
-        return self.direction.is_parallel(other.direction)
-
     @types(other=_Line)
     def is_coplanar(self, other, **kwargs):
         """
@@ -154,6 +99,23 @@ class Line(_Line):
 
         return vector_cross.is_perpendicular(vector_ab, **kwargs)
 
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def to_point(self, t=1):
+        """
+        Return a point along the line using a parameter t.
+
+        Computed as line.point + t * line.direction.
+
+        """
+        vector_along_line = self.direction.scale(t)
+        return self.point.add(vector_along_line)
+
+    @types(point=Point)
+    def contains_point(self, point, **kwargs):
+        """Check if this line contains a point."""
+        vector_to_point = Vector.from_points(self.point, point)
+
+        return vector_to_point.is_parallel(self.direction, **kwargs)
 
     @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
