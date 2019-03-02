@@ -143,7 +143,7 @@ class Plane(_Plane):
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     @ensure(
         "The point on the line must be on both planes.",
-        lambda args, result: args.self.contains(result.point) and args.other.contains(result.point),
+        lambda args, result: args.self.contains_point(result.point) and args.other.contains_point(result.point),
     )
     def intersect_plane(self, other):
         """
