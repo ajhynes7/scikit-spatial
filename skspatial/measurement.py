@@ -16,8 +16,12 @@ def area_triangle(point_a, point_b, point_c):
 
     Parameters
     ----------
-    point_a, point_b, point_c : Point
-        Input points.
+    point_a: Point
+        Input point A.
+    point_b: Point
+        Input point B.
+    point_c : Point
+        Input point C.
 
     Returns
     -------

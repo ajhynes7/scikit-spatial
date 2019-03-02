@@ -39,8 +39,11 @@ class Point(_Point):
 
         Parameters
         ----------
-        point_a, point_b : Point
-            Input points.
+        point_a : Point
+            Input point A.
+        point_b : Point
+            Input point B.
+
         kwargs : dict, optional
             Additional keywords passed to `np.allclose`.
 
