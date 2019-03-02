@@ -37,3 +37,15 @@ class _BaseLinePlane:
         point_projected = self.project(point)
 
         return point.distance(point_projected)
+
+
+class _Line(_BaseLinePlane):
+    """Private parent class for Line."""
+    def __init__(self, point, vector):
+        super().__init__(point, vector)
+
+
+class _Plane(_BaseLinePlane):
+    """Private parent class for Plane."""
+    def __init__(self, point, vector):
+        super().__init__(point, vector)

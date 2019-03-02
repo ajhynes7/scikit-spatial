@@ -1,14 +1,8 @@
 from dpcontracts import require, ensure, types
 
-from .base_line_plane import _BaseLinePlane
+from .base_line_plane import _BaseLinePlane, _Line, _Plane
 from .point import Point
 from .vector import Vector
-
-
-class _Line(_BaseLinePlane):
-    """Private parent class for Line."""
-    def __init__(self, point, vector):
-        super().__init__(point, vector)
 
 
 class Line(_Line):
