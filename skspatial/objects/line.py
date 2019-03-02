@@ -220,3 +220,136 @@ class Line(_Line):
             distance = abs(vector_ab.dot(vector_cross)) / vector_cross.magnitude
 
         return distance
+
+    @types(other=_Line)
+    @require("The lines must be coplanar.", lambda args: args.self.is_coplanar(args.other))
+    @require("The lines must not be parallel.", lambda args: not args.self.is_parallel(args.other))
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    @ensure(
+        "The point must be on both lines.",
+        lambda args, result: args.self.contains_point(result) and args.other.contains_point(result),
+    )
+    def intersect_line(self, other):
+        """
+        Return the intersection of a line with self.
+
+        The lines must be coplanar and not parallel.
+
+        Parameters
+        ----------
+        self : Line
+            Input line A.
+        other : Line
+            Input line B.
+
+        Returns
+        -------
+        Point
+            The point at the intersection.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector, Line
+
+        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
+        >>> line_b = Line(Point([5, 5]), Vector([0, 1]))
+
+        >>> line_a.intersect_line(line_b)
+        Point([5. 0. 0.])
+
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        dpcontracts.PreconditionError: The lines must not be parallel.
+
+        >>> line_a = Line(Point([1, 2, 3]), Vector([-4, 1, 1]))
+        >>> line_b = Line(Point([4, 5, 6]), Vector([3, 1, 5]))
+
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        dpcontracts.PreconditionError: The lines must be coplanar.
+
+        >>> line_a = Line(Point([0, 0, 0]), Vector([1, 1, 1]))
+        >>> line_b = Line(Point([5, 5, 0]), Vector([0, 0, -8]))
+
+        >>> line_a.intersect_line(line_b)
+        Point([5. 5. 5.])
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineIntersection.html
+
+        """
+        # Vector from line A to line B.
+        vector_ab = Vector.from_points(self.point, other.point)
+
+        # Vector perpendicular to both lines.
+        vector_perpendicular = self.direction.cross(other.direction)
+
+        num = vector_ab.cross(other.direction).dot(vector_perpendicular)
+        denom = vector_perpendicular.magnitude ** 2
+
+        # Vector along line A to the intersection point.
+        vector_a_scaled = self.direction.scale(num / denom)
+
+        return self.point.add(vector_a_scaled)
+
+    @types(other=_Plane)
+    @require(
+        "The line and plane must not be parallel.",
+        lambda args: not args.self.direction.is_perpendicular(args.plane.normal),
+    )
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    @ensure("The point must be on the line.", lambda args, result: args.self.contains_point(result))
+    @ensure("The point must be on the plane.", lambda args, result: args.plane.contains_point(result))
+    def intersect_plane(self, plane):
+        """
+        Return the intersection of a plane with self.
+
+        The line and plane must not be parallel.
+
+        Parameters
+        ----------
+        plane : Plane
+            Input plane.
+
+        Returns
+        -------
+        Point
+            The point at the intersection.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector, Line, Plane
+
+        >>> line = Line(Point([0, 0]), Vector([0, 0, 1]))
+        >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
+
+        >>> intersect_line_plane(line, plane)
+        Point([0. 0. 0.])
+
+        >>> plane = Plane(Point([2, -53, -7]), Vector([0, 0, 1]))
+        >>> intersect_line_plane(line, plane)
+        Point([ 0.  0. -7.])
+
+        >>> line = Line(Point([0, 1]), Vector([1, 0, 0]))
+        >>> intersect_line_plane(line, plane)
+        Traceback (most recent call last):
+        ...
+        dpcontracts.PreconditionError: The line and plane must not be parallel.
+
+        References
+        ----------
+        http://geomalgorithms.com/a05-_intersect-1.html
+
+        """
+        vector_plane_line = Vector.from_points(plane.point, self.point)
+
+        num = - plane.normal.dot(vector_plane_line)
+        denom = plane.normal.dot(self.direction)
+
+        # Vector along the line to the intersection point.
+        vector_line_scaled = self.direction.scale(num / denom)
+
+        return self.point.add(vector_line_scaled)

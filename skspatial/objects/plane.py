@@ -137,3 +137,78 @@ class Plane(_Plane):
         vector_to_point = Vector.from_points(self.point, point)
 
         return self.normal.dot(vector_to_point)
+
+    @types(other=_Plane)
+    @require("The planes must not be parallel.", lambda args: not args.self.normal.is_parallel(args.other.normal))
+    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
+    @ensure(
+        "The point on the line must be on both planes.",
+        lambda args, result: args.self.contains(result.point) and args.other.contains(result.point),
+    )
+    def intersect_plane(self, other):
+        """
+        Return the intersection of two planes.
+
+        The planes must not be parallel.
+
+        Parameters
+        ----------
+        self : Plane
+            Input plane A.
+        other : Plane
+            Input plane B.
+
+        Returns
+        -------
+        Line
+            The line of intersection.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector, Plane
+
+        >>> plane_a = Plane(Point([0]), Vector([0, 0, 1]))
+        >>> plane_b = Plane(Point([0]), Vector([1, 0, 0]))
+
+        >>> intersect_planes(plane_a, plane_b)
+        Line(point=Point([0. 0. 0.]), direction=Vector([0. 1. 0.]))
+
+        >>> plane_b = Plane(Point([5, 16, -94]), Vector([1, 0, 0]))
+        >>> intersect_planes(plane_a, plane_b)
+        Line(point=Point([5. 0. 0.]), direction=Vector([0. 1. 0.]))
+
+        >>> plane_b = Plane(Point([0, 0, 1]), Vector([1, 0, 1]))
+        >>> intersect_planes(plane_a, plane_b)
+        Line(point=Point([1. 0. 0.]), direction=Vector([0. 1. 0.]))
+
+        >>> plane_b = Plane(Point([0, 0, 5]), Vector([0, 0, -8]))
+        >>> intersect_planes(plane_a, plane_b)
+        Traceback (most recent call last):
+        ...
+        dpcontracts.PreconditionError: The planes must not be parallel.
+
+        References
+        ----------
+        http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
+
+        """
+        array_normals_stacked = np.vstack((self.normal.array, other.normal.array))
+
+        # Construct a matrix for a linear system.
+        array_00 = 2 * np.eye(3)
+        array_01 = array_normals_stacked.T
+        array_10 = array_normals_stacked
+        array_11 = np.zeros((2, 2))
+        matrix = np.block([[array_00, array_01], [array_10, array_11]])
+
+        dot_a = np.dot(self.point.array, self.normal.array)
+        dot_b = np.dot(other.point.array, other.normal.array)
+        array_y = np.array([0, 0, 0, dot_a, dot_b])
+
+        # Solve the linear system.
+        solution = np.linalg.solve(matrix, array_y)
+
+        point_line = Point(solution[:3])
+        direction_line = self.normal.cross(other.normal)
+
+        return _Line(point_line, direction_line)
