@@ -2,70 +2,7 @@
 
 from dpcontracts import ensure, types
 
-from skspatial.objects import Point, Vector, Line
-
-
-@types(line_a=Line, line_b=Line)
-@ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-def distance_lines(line_a, line_b):
-    """
-    Return the shortest distance between two lines.
-
-    Parameters
-    ----------
-    line_a : Line
-        Input line A.
-    line_b : Line
-        Input line B.
-
-    Returns
-    -------
-    number
-        The distance between the lines.
-
-    Examples
-    --------
-    >>> from skspatial.objects import Point, Vector, Line
-
-    >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
-    >>> line_b = Line(Point([0, 1]), Vector([1, 0]))
-    >>> line_c = Line(Point([0, 1]), Vector([1, 1]))
-    >>> line_d = Line(Point([0, 5]), Vector([0, 0, 1]))
-
-    The lines are parallel.
-    >>> distance_lines(line_a, line_b)
-    1.0
-
-    The lines are coplanar and not parallel.
-    >>> distance_lines(line_a, line_c)
-    0.0
-
-    The lines are skew.
-    >>> distance_lines(line_a, line_d)
-    5.0
-
-    References
-    ----------
-    http://mathworld.wolfram.com/Line-LineDistance.html
-
-    """
-    if line_a.is_parallel(line_b):
-        # The lines are parallel.
-        # The distance between the lines is the distance from line point B to line A.
-        distance = line_a.distance(line_b.point)
-
-    elif line_a.is_coplanar(line_b):
-        # The lines must intersect, since they are coplanar and not parallel.
-        distance = 0.0
-
-    else:
-        # The lines are skew.
-        vector_ab = Vector.from_points(line_a.point, line_b.point)
-        vector_cross = line_a.direction.cross(line_b.direction)
-
-        distance = abs(vector_ab.dot(vector_cross)) / vector_cross.magnitude
-
-    return distance
+from skspatial.objects import Point, Vector
 
 
 @types(point_a=Point, point_b=Point, point_c=Point)
