@@ -49,38 +49,6 @@ class _Vector(_BaseArray):
     def __init__(self, array_like):
         super().__init__(array_like)
 
-    @classmethod
-    @types(point_a=_Point, point_b=_Point)
-    def from_points(cls, point_a, point_b):
-        """
-        Instantiate a vector from point A to point B.
-
-        Parameters
-        ----------
-        point_a : Point
-            Input point A.
-        point_b : Point
-            Input point B.
-
-        Returns
-        -------
-        Vector
-            Vector from point A to point B.
-
-        Examples
-        --------
-        >>> Vector.from_points(Point((0, 0)), Point((1, 0)))
-        Vector([1. 0. 0.])
-
-        >>> Vector.from_points(Point((5, 2)), Point((-2, 8)))
-        Vector([-7.  6.  0.])
-
-        >>> Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
-        Vector([ 4.  6. -1.])
-
-        """
-        return cls(point_b.array - point_a.array)
-
 
 class Point(_Point):
     def __init__(self, array_like):
@@ -160,14 +128,37 @@ class Vector(_Vector):
 
         return f"Vector({self.array})"
 
-    def reverse(self):
-        """Return the vector with the same magnitude in the opposite direction."""
-        return Vector(-self.array)
+    @classmethod
+    @types(point_a=_Point, point_b=_Point)
+    def from_points(cls, point_a, point_b):
+        """
+        Instantiate a vector from point A to point B.
 
-    @types(scalar=(int, float))
-    def scale(self, scalar):
-        """Return the result of scaling the vector."""
-        return Vector(scalar * self.array)
+        Parameters
+        ----------
+        point_a : Point
+            Input point A.
+        point_b : Point
+            Input point B.
+
+        Returns
+        -------
+        Vector
+            Vector from point A to point B.
+
+        Examples
+        --------
+        >>> Vector.from_points(Point((0, 0)), Point((1, 0)))
+        Vector([1. 0. 0.])
+
+        >>> Vector.from_points(Point((5, 2)), Point((-2, 8)))
+        Vector([-7.  6.  0.])
+
+        >>> Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
+        Vector([ 4.  6. -1.])
+
+        """
+        return cls(point_b.array - point_a.array)
 
     @ensure(
         "The output must be a vector with a magnitude of one.",
@@ -177,6 +168,10 @@ class Vector(_Vector):
     def unit(self):
         """Return the unit vector of this vector."""
         return self.scale(1 / self.magnitude)
+
+    def reverse(self):
+        """Return the vector with the same magnitude in the opposite direction."""
+        return Vector(-self.array)
 
     def is_zero(self, **kwargs):
         """
@@ -209,6 +204,11 @@ class Vector(_Vector):
         """
         return np.allclose(self.array, 0, **kwargs)
 
+    @types(scalar=(int, float))
+    def scale(self, scalar):
+        """Return the result of scaling the vector."""
+        return Vector(scalar * self.array)
+
     @types(other=_Vector)
     def add(self, other):
         """Add an other vector to this vector."""
@@ -234,47 +234,6 @@ class Vector(_Vector):
     def cross(self, other):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self.array, other.array))
-
-    @types(other=_Vector)
-    @ensure(
-        "The output must be a vector.", lambda _, result: isinstance(result, Vector)
-    )
-    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parallel(result))
-    def project(self, other):
-        """
-        Project an other vector onto self.
-
-        Parameters
-        ----------
-        other : Vector
-            Input vector.
-
-        Returns
-        -------
-        Vector
-            Projection of other vector.
-
-        Examples
-        --------
-        >>> Vector([0, 1]).project(Vector([2, 1]))
-        Vector([0. 1. 0.])
-
-        >>> Vector([0, 100]).project(Vector([2, 1]))
-        Vector([0. 1. 0.])
-
-        >>> Vector([0, 1]).project(Vector([9, 5]))
-        Vector([0. 5. 0.])
-
-        >>> Vector([0, 100]).project(Vector([9, 5]))
-        Vector([0. 5. 0.])
-
-        """
-        unit_self = self.unit()
-
-        # Scalar projection of other vector onto self.
-        scalar_projection = other.dot(unit_self)
-
-        return unit_self.scale(scalar_projection)
 
     @types(other=_Vector)
     def is_perpendicular(self, other, **kwargs):
@@ -393,3 +352,40 @@ class Vector(_Vector):
         cos_theta = np.clip(cos_theta, -1, 1)
 
         return np.arccos(cos_theta)
+
+    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parallel(result))
+    def project(self, other):
+        """
+        Project an other vector onto self.
+
+        Parameters
+        ----------
+        other : Vector
+            Input vector.
+
+        Returns
+        -------
+        Vector
+            Projection of other vector.
+
+        Examples
+        --------
+        >>> Vector([0, 1]).project(Vector([2, 1]))
+        Vector([0. 1. 0.])
+
+        >>> Vector([0, 100]).project(Vector([2, 1]))
+        Vector([0. 1. 0.])
+
+        >>> Vector([0, 1]).project(Vector([9, 5]))
+        Vector([0. 5. 0.])
+
+        >>> Vector([0, 100]).project(Vector([9, 5]))
+        Vector([0. 5. 0.])
+
+        """
+        unit_self = self.unit()
+
+        # Scalar projection of other vector onto self.
+        scalar_projection = other.dot(unit_self)
+
+        return unit_self.scale(scalar_projection)
