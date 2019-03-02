@@ -2,8 +2,7 @@
 
 from dpcontracts import require, ensure, types
 
-from .point import Point
-from .vector import Vector
+from .array import Point, Vector
 
 
 class _BaseLinePlane:

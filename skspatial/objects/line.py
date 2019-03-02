@@ -1,8 +1,7 @@
 from dpcontracts import require, ensure, types
 
+from .array import Point, Vector
 from .base_line_plane import _Line, _Plane
-from .point import Point
-from .vector import Vector
 
 
 class Line(_Line):

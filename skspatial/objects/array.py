@@ -1,8 +1,149 @@
+"""Spatial objects based on a single NumPy array (Point and Vector)."""
+
 import numpy as np
-from dpcontracts import ensure, types
+from dpcontracts import require, ensure, types
 
-from .base_array import _Vector
 
+class _BaseArray:
+    """Private base class for Point and Vector classes."""
+
+    @require(
+        "The input length must be one to three.",
+        lambda args: len(args.array_like) in [1, 2, 3],
+    )
+    @require(
+        "The input array must only contain finite numbers.",
+        lambda args: np.all(np.isfinite(args.array_like)),
+    )
+    @ensure(
+        "The output array must be 3D.", lambda args, result: args.self.array.size == 3
+    )
+    def __init__(self, array_like):
+        """Convert the array to 3D by appending zeros."""
+        n_dimensions = len(array_like)
+        array_padding = np.zeros(3 - n_dimensions)
+
+        self.array = np.concatenate((np.array(array_like), array_padding))
+
+    def __eq__(self, other):
+
+        return isinstance(self, type(other)) and np.all(self.array == other.array)
+
+    @require(
+        "The input must have the same type as the object.",
+        lambda args: isinstance(args.self, type(args.other)),
+    )
+    def is_close(self, other, **kwargs):
+        """Check if array is close to another array."""
+        return np.allclose(self.array, other.array, **kwargs)
+
+
+class _Point(_BaseArray):
+    """Private parent class for Point."""
+    def __init__(self, array_like):
+        super().__init__(array_like)
+
+
+class _Vector(_BaseArray):
+    """Private parent class for Vector."""
+    def __init__(self, array_like):
+        super().__init__(array_like)
+
+    @classmethod
+    @types(point_a=_Point, point_b=_Point)
+    def from_points(cls, point_a, point_b):
+        """
+        Instantiate a vector from point A to point B.
+
+        Parameters
+        ----------
+        point_a : Point
+            Input point A.
+        point_b : Point
+            Input point B.
+
+        Returns
+        -------
+        Vector
+            Vector from point A to point B.
+
+        Examples
+        --------
+        >>> _Vector.from_points(Point((0, 0)), Point((1, 0)))
+        Vector([1. 0. 0.])
+
+        >>> _Vector.from_points(Point((5, 2)), Point((-2, 8)))
+        Vector([-7.  6.  0.])
+
+        >>> _Vector.from_points(Point((3, 1, 1)), Point((7, 7)))
+        Vector([ 4.  6. -1.])
+
+        """
+        return cls(point_b.array - point_a.array)
+
+
+class Point(_Point):
+    def __init__(self, array_like):
+
+        super().__init__(array_like)
+
+    def __repr__(self):
+
+        return f"Point({self.array})"
+
+    @types(vector=_Vector)
+    def add(self, vector):
+        """Return a new point by adding a vector."""
+        return Point(self.array + vector.array)
+
+    @types(vector=_Vector)
+    def subtract(self, vector):
+        """Return a new point by subtracting a vector."""
+        return self.add(vector.reverse())
+
+    @types(other=_Point)
+    @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
+    def distance_point(self, other):
+        """Compute the distance from self to another point."""
+        vector = Vector.from_points(self, other)
+
+        return vector.magnitude
+
+    @types(point_a=_Point, point_b=_Point)
+    def is_collinear(self, point_a, point_b, **kwargs):
+        """
+        Check if this point is collinear to two other points A and B.
+
+        Points A, B, C are collinear if vector AB is parallel to vector AC.
+
+        Parameters
+        ----------
+        point_a : Point
+            Input point A.
+        point_b : Point
+            Input point B.
+
+        kwargs : dict, optional
+            Additional keywords passed to `np.allclose`.
+
+        Returns
+        -------
+        bool
+            True if points are collinear; false otherwise.
+
+        Examples
+        --------
+        >>> Point([0, 1]).is_collinear(Point([1, 0]), Point([1, 2]))
+        False
+
+        >>> Point([1, 1]).is_collinear(Point([2, 2]), Point([5, 5]), atol=1e-7)
+        True
+
+        """
+        vector_to_a = Vector.from_points(self, point_a)
+        vector_to_b = Vector.from_points(self, point_b)
+
+        return vector_to_a.is_parallel(vector_to_b, **kwargs)
 
 class Vector(_Vector):
     @ensure(
@@ -98,7 +239,7 @@ class Vector(_Vector):
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
-    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parellel(result))
+    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parallel(result))
     def project(self, other):
         """
         Project an other vector onto self.
