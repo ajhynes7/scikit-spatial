@@ -28,7 +28,7 @@ class Line(_Line):
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
         """
-        Instantiate a plane from three points.
+        Instantiate a line from two points.
 
         Parameters
         ----------
