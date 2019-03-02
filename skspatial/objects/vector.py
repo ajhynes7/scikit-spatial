@@ -98,18 +98,20 @@ class Vector(_Vector):
     @ensure(
         "The output must be a vector.", lambda _, result: isinstance(result, Vector)
     )
+    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parellel(result))
     def project(self, other):
         """
-        Project an other vector onto this vector.
+        Project an other vector onto self.
 
         Parameters
         ----------
-        other: Vector
+        other : Vector
+            Input vector.
 
         Returns
         -------
         Vector
-            Projection of other vector onto this vector.
+            Projection of other vector.
 
         Examples
         --------
