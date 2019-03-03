@@ -6,6 +6,8 @@ from skspatial.objects import Point
 @pytest.mark.parametrize(
     "array_a, array_b, array_c, bool_expected",
     [
+        ([0], [0], [0], True),
+        ([1], [1], [1], True),
         ([0, 0], [0, 1], [0, 2], True),
         ([0, 1], [0, 0], [0, 2], True),
         ([0, 0], [-1, 0], [10, 0], True),
