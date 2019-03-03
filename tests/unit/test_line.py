@@ -1,38 +1,45 @@
-import numpy as np
 import pytest
 
 from skspatial.objects import Point, Vector, Line
 
 
 @pytest.mark.parametrize(
-    "array_point, array_point_line, array_vector_line, \
-     array_point_expected, dist_expected",
+    "point, vector, line_expected",
     [
-        ([0, 5], [0, 0], [0, 1], [0, 5], 0),
-        ([0, 5], [0, 0], [0, 100], [0, 5], 0),
-        ([1, 5], [0, 0], [0, 100], [0, 5], 1),
-        ([0, 1], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
-        ([1, 0], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
-        ([0, 2], [0, 0], [1, 1], [1, 1], np.sqrt(2)),
-        ([-15, 5], [0, 0], [0, 100], [0, 5], 15),
-        ([50, 10], [1, -5], [0, 3], [1, 10], 49),
+        (Point([0, 0]), Vector([1, 0]), Line(Point([0, 0]), Vector([1, 0]))),
+        (Point([0, 0]), Vector([1, 1]), Line(Point([0, 0]), Vector([1, 1]))),
+        (Point([0, 0]), Vector([5, 5]), Line(Point([0, 0]), Vector([1, 1]))),
     ],
 )
-def test_point_line(
-    array_point,
-    array_point_line,
-    array_vector_line,
-    array_point_expected,
-    dist_expected,
-):
-    """Test functions related to a point and a line."""
-    point = Point(array_point)
-    point_expected = Point(array_point_expected)
+def test_creation(point, vector, line_expected):
 
-    line = Line(Point(array_point_line), Vector(array_vector_line))
+    assert Line(point, vector) == line_expected
 
-    point_projected = line.project_point(point)
-    distance = line.distance_point(point)
 
-    assert point_projected.is_close(point_expected)
-    assert np.isclose(distance, dist_expected)
+@pytest.mark.parametrize(
+    "point_a, point_b, line_expected",
+    [
+        (Point([0, 0]), Point([1, 0]), Line(Point([0, 0]), Vector([1, 0]))),
+        (Point([0, 0]), Point([1, 1]), Line(Point([0, 0]), Vector([1, 1]))),
+        (Point([5, 2]), Point([9, 2]), Line(Point([5, 2]), Vector([1, 0]))),
+        (Point([1, 1]), Point([0, 0]), Line(Point([1, 1]), Vector([-1, -1]))),
+        (Point([0, 0]), Point([5, 0]), Line(Point([0, 0]), Vector([1, 0]))),
+    ],
+)
+def test_from_points(point_a, point_b, line_expected):
+
+    assert Line.from_points(point_a, point_b) == line_expected
+
+
+@pytest.mark.parametrize(
+    "point_a, point_b",
+    [
+        (Point([0]), Point([0])),
+        (Point([1, 5]), Point([1, 5])),
+        (Point([0, 0]), Vector([1, 1])),
+    ],
+)
+def test_from_points_failure(point_a, point_b):
+
+    with pytest.raises(Exception):
+        Line.from_points(point_a, point_b)
