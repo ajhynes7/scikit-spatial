@@ -40,7 +40,7 @@ def st_plane(draw):
 # Absolute tolerance for np.isclose and np.allclose functions.
 TOLERANCE = 0.01
 
-st_floats = st.floats(min_value=-1e6, max_value=1e6).filter(
+st_floats = st.floats(min_value=-1e4, max_value=1e4).filter(
     lambda x: x == 0 or abs(x) > TOLERANCE
 )
 
