@@ -1,4 +1,4 @@
-"""Test properties of spatial objects."""
+"""Test behaviour of points with vectors."""
 
 import numpy as np
 import pytest
@@ -33,24 +33,14 @@ def test_length(array):
 def test_add(point, vector):
     """Test adding points and vectors."""
 
-    # Add and subtract the vector.
+    # Add and subtract the vector to obtain the same point.
     assert point.add(vector).subtract(vector).is_close(point)
-    assert vector.add(vector).subtract(vector).is_close(vector)
 
     with pytest.raises(Exception):
         point.add(point)
 
     with pytest.raises(Exception):
         vector.add(point)
-
-
-@given(st_vector_nonzero())
-def test_unit_vector(vector):
-
-    unit_vector = vector.unit()
-
-    assert np.isclose(unit_vector.magnitude, 1)
-    assert_allclose(vector.magnitude * unit_vector.array, vector.array)
 
 
 @given(st_point())
@@ -66,20 +56,3 @@ def test_is_close(point):
 
     with pytest.raises(Exception):
         assert vector.is_close(point)
-
-
-@given(st_point(), st_vector())
-def test_line(point, vector):
-
-    assume(not vector.is_zero())
-
-    point_2 = point.add(vector)
-
-    line_1 = Line(point, vector)
-    line_2 = Line.from_points(point, point_2)
-
-    assert line_1.is_close(line_2)
-
-    # A point and vector are not interchangeable.
-    with pytest.raises(Exception):
-        Line(vector, point)
