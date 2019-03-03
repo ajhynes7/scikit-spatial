@@ -114,7 +114,7 @@ One vector can be projected onto another.
 >>> vector_u = Vector([1, 0])
 >>> vector_v = Vector([5, 9])
 
->>> vector_u.project(vector_v)  # Project vector v onto vector u.
+>>> vector_u.project_vector(vector_v)  # Project vector v onto vector u.
 Vector([5. 0. 0.])
 
 Points and vectors are not equal.

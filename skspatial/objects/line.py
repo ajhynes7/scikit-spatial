@@ -146,7 +146,7 @@ class Line(_Line):
         vector_to_point = Vector.from_points(self.point, point)
 
         # Project the vector onto the line.
-        vector_projected = self.direction.project(vector_to_point)
+        vector_projected = self.direction.project_vector(vector_to_point)
 
         # Add the projected vector to the point on the line.
         return self.point.add(vector_projected)
@@ -156,7 +156,7 @@ class Line(_Line):
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
 
-        return self.direction.project(vector)
+        return self.direction.project_vector(vector)
 
     @types(point=Point)
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)

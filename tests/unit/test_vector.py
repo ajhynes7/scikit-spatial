@@ -176,6 +176,6 @@ def test_project_vector(array_u, array_v, array_expected):
     vector_v = Vector(array_v)
     vector_expected = Vector(array_expected)
 
-    vector_u_projected = vector_v.project(vector_u)
+    vector_u_projected = vector_v.project_vector(vector_u)
 
     assert vector_u_projected.is_close(vector_expected)

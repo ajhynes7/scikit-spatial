@@ -354,7 +354,7 @@ class Vector(_Vector):
         return np.arccos(cos_theta)
 
     @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parallel(result))
-    def project(self, other):
+    def project_vector(self, other):
         """
         Project an other vector onto self.
 
@@ -370,16 +370,16 @@ class Vector(_Vector):
 
         Examples
         --------
-        >>> Vector([0, 1]).project(Vector([2, 1]))
+        >>> Vector([0, 1]).project_vector(Vector([2, 1]))
         Vector([0. 1. 0.])
 
-        >>> Vector([0, 100]).project(Vector([2, 1]))
+        >>> Vector([0, 100]).project_vector(Vector([2, 1]))
         Vector([0. 1. 0.])
 
-        >>> Vector([0, 1]).project(Vector([9, 5]))
+        >>> Vector([0, 1]).project_vector(Vector([9, 5]))
         Vector([0. 5. 0.])
 
-        >>> Vector([0, 100]).project(Vector([9, 5]))
+        >>> Vector([0, 100]).project_vector(Vector([9, 5]))
         Vector([0. 5. 0.])
 
         """
