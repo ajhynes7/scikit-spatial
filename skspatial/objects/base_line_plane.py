@@ -9,7 +9,7 @@ class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
     @types(point=Point, vector=Vector)
-    @require("The vector cannot be the zero vector.""", lambda args: not args.vector.is_zero())
+    @require("The vector cannot be the zero vector.", lambda args: not args.vector.is_zero())
     def __init__(self, point, vector):
 
         self.point = point
@@ -19,10 +19,7 @@ class _BaseLinePlane:
 
         return vars(self) == vars(other)
 
-    @require(
-        "The input must have the same type as the object.",
-        lambda args: isinstance(args.other, type(args.self)),
-    )
+    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_close(self, other, **kwargs):
 
         close_point = self.point.is_close(other.point, **kwargs)

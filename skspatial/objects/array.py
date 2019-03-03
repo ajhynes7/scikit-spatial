@@ -9,17 +9,9 @@ from skspatial.constants import ATOL
 class _BaseArray:
     """Private base class for Point and Vector classes."""
 
-    @require(
-        "The input length must be one to three.",
-        lambda args: len(args.array_like) in [1, 2, 3],
-    )
-    @require(
-        "The input array must only contain finite numbers.",
-        lambda args: np.all(np.isfinite(args.array_like)),
-    )
-    @ensure(
-        "The output array must be 3D.", lambda args, result: args.self.array.size == 3
-    )
+    @require("The input length must be one to three.", lambda args: len(args.array_like) in [1, 2, 3])
+    @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
+    @ensure("The output array must be 3D.", lambda args, result: args.self.array.size == 3)
     def __init__(self, array_like):
         """Convert the array to 3D by appending zeros."""
         n_dimensions = len(array_like)
@@ -31,10 +23,7 @@ class _BaseArray:
 
         return isinstance(self, type(other)) and np.all(self.array == other.array)
 
-    @require(
-        "The input must have the same type as the object.",
-        lambda args: isinstance(args.self, type(args.other)),
-    )
+    @require("The input must have the same type as the object.", lambda args: isinstance(args.self, type(args.other)))
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
         return np.allclose(self.array, other.array, **kwargs)
@@ -42,12 +31,14 @@ class _BaseArray:
 
 class _Point(_BaseArray):
     """Private parent class for Point."""
+
     def __init__(self, array_like):
         super().__init__(array_like)
 
 
 class _Vector(_BaseArray):
     """Private parent class for Vector."""
+
     def __init__(self, array_like):
         super().__init__(array_like)
 
@@ -117,10 +108,7 @@ class Point(_Point):
 
 
 class Vector(_Vector):
-    @ensure(
-        "The magnitude must be zero or positive.",
-        lambda args, result: args.self.magnitude >= 0,
-    )
+    @ensure("The magnitude must be zero or positive.", lambda args, result: args.self.magnitude >= 0)
     def __init__(self, array):
 
         super().__init__(array)
@@ -165,8 +153,7 @@ class Vector(_Vector):
 
     @ensure(
         "The output must be a vector with a magnitude of one.",
-        lambda _, result: isinstance(result, Vector)
-        and np.isclose(result.magnitude, 1),
+        lambda _, result: isinstance(result, Vector) and np.isclose(result.magnitude, 1),
     )
     def unit(self):
         """Return the unit vector of this vector."""
@@ -231,8 +218,7 @@ class Vector(_Vector):
     @types(other=_Vector)
     @ensure(
         "The output must be a vector with the same dimension as the input.",
-        lambda args, result: isinstance(result, Vector)
-        and result.array.size == args.other.array.size,
+        lambda args, result: isinstance(result, Vector) and result.array.size == args.other.array.size,
     )
     def cross(self, other):
         """Compute the cross product with another vector."""
@@ -358,7 +344,7 @@ class Vector(_Vector):
         return np.arccos(cos_theta)
 
     @types(other=_Vector)
-    @ensure("The output must be parallel to self.""", lambda args, result: args.self.is_parallel(result, atol=ATOL))
+    @ensure("The output must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project_vector(self, other):
         """
         Project an other vector onto self.

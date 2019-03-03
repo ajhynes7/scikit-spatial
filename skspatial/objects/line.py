@@ -6,6 +6,7 @@ from .base_line_plane import _BaseLinePlane
 
 class _Line(_BaseLinePlane):
     """Private parent class for Line."""
+
     def __init__(self, point, vector):
         super().__init__(point, vector)
 

@@ -8,6 +8,7 @@ from .line import Line
 
 class _Plane(_BaseLinePlane):
     """Private parent class for Plane."""
+
     def __init__(self, point, vector):
         super().__init__(point, vector)
 
@@ -26,8 +27,7 @@ class Plane(_Plane):
     @classmethod
     @types(point_a=Point, point_b=Point, point_c=Point)
     @require(
-        "The points must not be collinear.",
-        lambda args: not args.point_a.is_collinear(args.point_b, args.point_c),
+        "The points must not be collinear.", lambda args: not args.point_a.is_collinear(args.point_b, args.point_c)
     )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):
@@ -222,7 +222,7 @@ class Plane(_Plane):
     @types(line=Line)
     @require(
         "The line and plane must not be parallel.",
-        lambda args: not args.self.normal.is_perpendicular(args.line.direction)
+        lambda args: not args.self.normal.is_perpendicular(args.line.direction),
     )
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     @ensure("The point must be on the plane.", lambda args, result: args.self.contains_point(result))
