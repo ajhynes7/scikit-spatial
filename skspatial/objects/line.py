@@ -164,7 +164,7 @@ class Line(_Line):
 
         point_projected = self.project_point(point)
 
-        return point.distance(point_projected)
+        return point.distance_point(point_projected)
 
     @types(other=_Line)
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)

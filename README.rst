@@ -153,12 +153,12 @@ True
 
 The distance from a `Point` to a `Line` can be found.
 
->>> line_1.distance(Point([20, 75]))
+>>> line_1.distance_point(Point([20, 75]))
 75.0
 
 A `Point` can be projected onto a `Line`, returning a new `Point`.
 
->>> line_1.project(Point([50, 20]))
+>>> line_1.project_point(Point([50, 20]))
 Point([50.  0.  0.])
 
 

@@ -71,7 +71,7 @@ class Point(_Point):
 
     @types(other=_Point)
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
-    def distance(self, other):
+    def distance_point(self, other):
         """Compute the distance from self to another point."""
         vector = Vector.from_points(self, other)
 
@@ -112,6 +112,7 @@ class Point(_Point):
         vector_to_b = Vector.from_points(self, point_b)
 
         return vector_to_a.is_parallel(vector_to_b, **kwargs)
+
 
 class Vector(_Vector):
     @ensure(

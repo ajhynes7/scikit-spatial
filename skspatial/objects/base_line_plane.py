@@ -31,8 +31,8 @@ class _BaseLinePlane:
 
     @types(point=Point)
     @ensure("The output must zero or greater.", lambda _, result: result >= 0)
-    def distance(self, point):
+    def distance_point(self, point):
         """Compute the distance from a point to this object."""
-        point_projected = self.project(point)
+        point_projected = self.project_point(point)
 
-        return point.distance(point_projected)
+        return point.distance_point(point_projected)
