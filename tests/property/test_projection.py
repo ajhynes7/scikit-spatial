@@ -10,16 +10,16 @@ from .strategies import st_point, st_line, st_plane
 
 @pytest.mark.parametrize('name_object', ['line', 'plane'])
 @given(data=st.data())
-def test_point_line_plane(data, name_object):
-
+def test_project_point(data, name_object):
+    """Test projecting a point onto a line or plane."""
     point = data.draw(st_point())
 
     if name_object == 'line':
-        object_ = data.draw(st_line())
+        line_or_plane = data.draw(st_line())
     elif name_object == 'plane':
-        object_ = data.draw(st_plane())
+        line_or_plane = data.draw(st_plane())
 
-    point_projected = object_.project(point)
+    point_projected = line_or_plane.project_point(point)
 
     # The projected point should lie on the line/plane.
     assert line_or_plane.contains_point(point_projected, atol=ATOL)
@@ -31,12 +31,13 @@ def test_point_line_plane(data, name_object):
     # The distance from the point to its projection
     # should equal the distance to the line/plane.
     distance_projection = vector_projection.magnitude
-
-    distance_to_object = object_.distance(point)
+    distance_to_object = abs(line_or_plane.distance_point(point))
     assert np.isclose(distance_to_object, distance_projection)
 
     # The distance to the line/plane is zero <==> The point is on the line/plane.
     is_distance_zero = np.isclose(distance_to_object, 0)
-    assert is_distance_zero == object_.contains_point(point)
+    assert is_distance_zero == line_or_plane.contains_point(point)
 
     # The distance of the projection should be the
+    # shortest distance from the point to the object.
+    assert distance_projection <= point.distance_point(line_or_plane.point)
