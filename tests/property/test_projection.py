@@ -3,8 +3,9 @@ import numpy as np
 import pytest
 from hypothesis import given
 
+from skspatial.constants import ATOL
 from skspatial.objects import Vector
-from .strategies import st_point, st_line, st_plane, TOLERANCE
+from .strategies import st_point, st_line, st_plane
 
 
 @pytest.mark.parametrize('name_object', ['line', 'plane'])
@@ -21,7 +22,7 @@ def test_point_line_plane(data, name_object):
     point_projected = object_.project(point)
 
     # The projected point should lie on the line/plane.
-    assert object_.contains_point(point_projected, atol=TOLERANCE)
+    assert line_or_plane.contains_point(point_projected, atol=ATOL)
 
     # The vector from the point to its projection
     # should be perpendicular to the line/plane.

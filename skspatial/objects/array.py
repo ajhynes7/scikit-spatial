@@ -3,6 +3,8 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
+from skspatial.constants import ATOL
+
 
 class _BaseArray:
     """Private base class for Point and Vector classes."""
@@ -354,7 +356,8 @@ class Vector(_Vector):
 
         return np.arccos(cos_theta)
 
-    @ensure("The output must be parallel to the vector.""", lambda args, result: args.self.is_parallel(result))
+    @types(other=_Vector)
+    @ensure("The output must be parallel to self.""", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project_vector(self, other):
         """
         Project an other vector onto self.
