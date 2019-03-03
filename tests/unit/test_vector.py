@@ -40,6 +40,7 @@ def test_unit(array, array_unit_expected):
 
     assert np.allclose(vector.unit().array, vector_unit_expected.array)
 
+
 @pytest.mark.parametrize(
     "array, vector_expected",
     [
