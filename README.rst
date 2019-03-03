@@ -114,7 +114,7 @@ One vector can be projected onto another.
 >>> vector_u = Vector([1, 0])
 >>> vector_v = Vector([5, 9])
 
->>> vector_u.project(vector_v)  # Project vector v onto vector u.
+>>> vector_u.project_vector(vector_v)  # Project vector v onto vector u.
 Vector([5. 0. 0.])
 
 Points and vectors are not equal.
@@ -153,12 +153,12 @@ True
 
 The distance from a `Point` to a `Line` can be found.
 
->>> line_1.distance(Point([20, 75]))
+>>> line_1.distance_point(Point([20, 75]))
 75.0
 
 A `Point` can be projected onto a `Line`, returning a new `Point`.
 
->>> line_1.project(Point([50, 20]))
+>>> line_1.project_point(Point([50, 20]))
 Point([50.  0.  0.])
 
 

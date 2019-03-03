@@ -1,3 +1,5 @@
+"""Test functionality common to Point and Vector objects."""
+
 import numpy as np
 import pytest
 
@@ -45,39 +47,3 @@ def test_failure(class_, array):
 
     with pytest.raises(Exception):
         class_(array)
-
-
-@pytest.mark.parametrize(
-    "array, array_unit_expected",
-    [
-        ([1, 0], [1, 0]),
-        ([2, 0], [1, 0]),
-        ([-1, 0], [-1, 0]),
-        ([0, 0, 5], [0, 0, 1]),
-        ([1, 1], [np.sqrt(2) / 2, np.sqrt(2) / 2]),
-        ([1, 1, 1], [np.sqrt(3) / 3, np.sqrt(3) / 3, np.sqrt(3) / 3]),
-    ],
-)
-def test_unit_vector(array, array_unit_expected):
-    """Test computing the unit vector from a vector."""
-    vector = Vector(array)
-    vector_unit_expected = Vector(array_unit_expected)
-
-    assert np.allclose(vector.unit().array, vector_unit_expected.array)
-
-
-@pytest.mark.parametrize(
-    "array, kwargs, bool_expected",
-    [
-        ([0], {}, True),
-        ([0, 0], {}, True),
-        ([0, 0, 0], {}, True),
-        ([0, 1], {}, False),
-        # The tolerance affects the output.
-        ([0, 0, 1e-4], {}, False),
-        ([0, 0, 1e-4], {'atol': 1e-3}, True),
-    ],
-)
-def test_is_zero_vector(array, kwargs, bool_expected):
-    """Test checking if vector is the zero vector."""
-    assert Vector(array).is_zero(**kwargs) == bool_expected

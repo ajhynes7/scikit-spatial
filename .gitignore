@@ -3,6 +3,7 @@
 
 __pycache__
 
+.coverage
 .eggs
 .hypothesis
 .tox
@@ -10,4 +11,5 @@ __pycache__
 build
 dist
 doc/build
+htmlcov
 scikit_spatial.egg-info
