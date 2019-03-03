@@ -318,7 +318,8 @@ class Vector(_Vector):
         return vector_cross.is_zero(**kwargs)
 
     @types(other=_Vector)
-    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+    @require("Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or args.other.is_zero()))
+    @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
     def angle_between(self, other):
         """
         Return the angle in radians between this vector and another.
