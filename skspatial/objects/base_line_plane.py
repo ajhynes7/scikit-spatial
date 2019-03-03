@@ -9,6 +9,7 @@ class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
     @types(point=Point, vector=Vector)
+    @require("The vector cannot be the zero vector.""", lambda args: not args.vector.is_zero())
     def __init__(self, point, vector):
 
         self.point = point
