@@ -1,6 +1,6 @@
 Sphinx==1.8.4
 bumpversion==0.5.3
-hypothesis==4.6.1
+hypothesis==4.7.19
 pip==18.1
 pytest-runner==4.2
 pytest==3.8.2
