@@ -1,6 +1,6 @@
 from dpcontracts import require, ensure, types
 
-from .array import Point, Vector
+from .array_objects import Point, Vector
 from .base_line_plane import _BaseLinePlane
 
 
@@ -24,7 +24,7 @@ class Line(_Line):
 
     @classmethod
     @types(point_a=Point, point_b=Point)
-    @require("The points must be different.", lambda args: args.point_a != args.point_b)
+    @require("The points must be different.", lambda args: not args.point_a.is_close(args.point_b))
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
         """
@@ -153,19 +153,11 @@ class Line(_Line):
         return self.point.add(vector_projected)
 
     @types(vector=Vector)
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Point))
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
-
+        """Project a vector onto the line."""
         return self.direction.project_vector(vector)
-
-    @types(point=Point)
-    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-    def distance_point(self, point):
-
-        point_projected = self.project_point(point)
-
-        return point.distance_point(point_projected)
 
     @types(other=_Line)
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)

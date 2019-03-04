@@ -1,4 +1,4 @@
-from .array import Point, Vector
+from .array_objects import Point, Vector
 from .line import Line
 from .plane import Plane
 

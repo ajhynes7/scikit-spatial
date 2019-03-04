@@ -1,4 +1,4 @@
-"""Test functionality common to Point and Vector objects."""
+"""Test functionality of objects based on a single NumPy array (Point and Vector)."""
 
 import numpy as np
 import pytest
@@ -29,12 +29,12 @@ def test_equality(point_a, point_b):
     assert not point_b == vector_b
 
 
-@pytest.mark.parametrize("class_", [Point, Vector])
-def test_length(class_):
+@pytest.mark.parametrize("PointOrVector", [Point, Vector])
+def test_length(PointOrVector):
     """The output point/vector is always 3D."""
-    object_1 = class_([1])
-    object_2 = class_([1, 1])
-    object_3 = class_([1, 1, 1])
+    object_1 = PointOrVector([1])
+    object_2 = PointOrVector([1, 1])
+    object_3 = PointOrVector([1, 1, 1])
 
     assert all(x.array.size == 3 for x in [object_1, object_2, object_3])
 
