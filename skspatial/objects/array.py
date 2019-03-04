@@ -344,6 +344,7 @@ class Vector(_Vector):
         return np.arccos(cos_theta)
 
     @types(other=_Vector)
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, _Vector))
     @ensure("The output must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project_vector(self, other):
         """
