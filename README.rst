@@ -7,8 +7,8 @@ Spatial objects and computations in 3D
 ======================================
 
 
-.. image:: https://img.shields.io/pypi/v/scikit_spatial.svg
-         :target: https://pypi.python.org/pypi/scikit_spatial
+.. image:: https://img.shields.io/pypi/v/scikit-spatial.svg
+         :target: https://pypi.python.org/pypi/scikit-spatial
 
 .. image:: https://img.shields.io/travis/ajhynes7/scikit-spatial.svg
          :target: https://travis-ci.org/ajhynes7/scikit-spatial
@@ -20,7 +20,8 @@ Spatial objects and computations in 3D
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
-.. image:: https://pyup.io/repos/github/ajhynes7/scikit_spatial/shield.svg
+.. image:: https://pyup.io/repos/github/ajhynes7/scikit-spatial/shield.svg
+         :target: https://pyup.io/account/repos/github/ajhynes7/scikit-spatial/
 
 
 This package provides spatial objects in 3D (Point, Vector, Line, and Plane) based on NumPy arrays.
