@@ -102,26 +102,10 @@ def test_project_vector(array_u, array_v, array_expected):
 @pytest.mark.parametrize(
     "vector, line, vector_expected",
     [
-        (
-            Vector([1, 1]),
-            Line(Point([0, 0]), Vector([1, 0])),
-            Vector([1, 0]),
-        ),
-        (
-            Vector([1, 1]),
-            Line(Point([-56, 72]), Vector([1, 0])),
-            Vector([1, 0]),
-        ),
-        (
-            Vector([5, 9]),
-            Line(Point([-56, 72]), Vector([200, 0])),
-            Vector([5, 0]),
-        ),
-        (
-            Vector([-5, 9]),
-            Line(Point([-56, 72]), Vector([200, 0])),
-            Vector([-5, 0]),
-        ),
+        (Vector([1, 1]), Line(Point([0, 0]), Vector([1, 0])), Vector([1, 0])),
+        (Vector([1, 1]), Line(Point([-56, 72]), Vector([1, 0])), Vector([1, 0])),
+        (Vector([5, 9]), Line(Point([-56, 72]), Vector([200, 0])), Vector([5, 0])),
+        (Vector([-5, 9]), Line(Point([-56, 72]), Vector([200, 0])), Vector([-5, 0])),
     ],
 )
 def test_project_vector_line(vector, line, vector_expected):
@@ -129,24 +113,13 @@ def test_project_vector_line(vector, line, vector_expected):
     vector_projected = line.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
 
+
 @pytest.mark.parametrize(
     "vector, plane, vector_expected",
     [
-        (
-            Vector([1, 1]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            Vector([1, 1]),
-        ),
-        (
-            Vector([1, 1, 1]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            Vector([1, 1]),
-        ),
-        (
-            Vector([7, -5, 20]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            Vector([7, -5]),
-        ),
+        (Vector([1, 1]), Plane(Point([0, 0]), Vector([0, 0, 1])), Vector([1, 1])),
+        (Vector([1, 1, 1]), Plane(Point([0, 0]), Vector([0, 0, 1])), Vector([1, 1])),
+        (Vector([7, -5, 20]), Plane(Point([0, 0]), Vector([0, 0, 1])), Vector([7, -5])),
         (
             Vector([7, -5, 20]),
             Plane(Point([0, 0]), Vector([0, 0, -10])),

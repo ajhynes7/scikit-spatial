@@ -46,26 +46,10 @@ def test_distance_points(point_a, point_b, dist_expected):
 @pytest.mark.parametrize(
     "point, line, dist_expected",
     [
-        (
-            Point([0, 0]),
-            Line(Point([0, 0]), Vector([1, 0])),
-            0,
-        ),
-        (
-            Point([8, 7]),
-            Line(Point([0, 0]), Vector([1, 0])),
-            7,
-        ),
-        (
-            Point([20, -3]),
-            Line(Point([0, 0]), Vector([1, 0])),
-            3,
-        ),
-        (
-            Point([20, -3, 1]),
-            Line(Point([0, 0]), Vector([1, 0])),
-            np.sqrt(10),
-        ),
+        (Point([0, 0]), Line(Point([0, 0]), Vector([1, 0])), 0),
+        (Point([8, 7]), Line(Point([0, 0]), Vector([1, 0])), 7),
+        (Point([20, -3]), Line(Point([0, 0]), Vector([1, 0])), 3),
+        (Point([20, -3, 1]), Line(Point([0, 0]), Vector([1, 0])), np.sqrt(10)),
     ],
 )
 def test_distance_point_line(point, line, dist_expected):
@@ -76,36 +60,12 @@ def test_distance_point_line(point, line, dist_expected):
 @pytest.mark.parametrize(
     "point, plane, dist_signed_expected",
     [
-        (
-            Point([0, 0]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            0,
-        ),
-        (
-            Point([50, -67]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            0,
-        ),
-        (
-            Point([50, -67]),
-            Plane(Point([0, 0, 1]), Vector([0, 0, 1])),
-            -1,
-        ),
-        (
-            Point([5, 3, 8]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            8,
-        ),
-        (
-            Point([5, 3, 7]),
-            Plane(Point([0, 0]), Vector([0, 0, -50])),
-            -7,
-        ),
-        (
-            Point([5, 3, -8]),
-            Plane(Point([0, 0]), Vector([0, 0, 1])),
-            -8,
-        ),
+        (Point([0, 0]), Plane(Point([0, 0]), Vector([0, 0, 1])), 0),
+        (Point([50, -67]), Plane(Point([0, 0]), Vector([0, 0, 1])), 0),
+        (Point([50, -67]), Plane(Point([0, 0, 1]), Vector([0, 0, 1])), -1),
+        (Point([5, 3, 8]), Plane(Point([0, 0]), Vector([0, 0, 1])), 8),
+        (Point([5, 3, 7]), Plane(Point([0, 0]), Vector([0, 0, -50])), -7),
+        (Point([5, 3, -8]), Plane(Point([0, 0]), Vector([0, 0, 1])), -8),
     ],
 )
 def test_distance_point_plane(point, plane, dist_signed_expected):
@@ -123,22 +83,10 @@ def test_distance_point_plane(point, plane, dist_signed_expected):
             Line(Point([5, -3]), Vector([-1, 0])),
             0,
         ),
-        (
-            Line(Point([0, 0]), Vector([1, 1])),
-            Line(Point([1, 0]), Vector([1, 2])),
-            0,
-        ),
+        (Line(Point([0, 0]), Vector([1, 1])), Line(Point([1, 0]), Vector([1, 2])), 0),
         # The lines are parallel.
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([0, 0]), Vector([-1, 0])),
-            0,
-        ),
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([0, 0]), Vector([1, 0])),
-            0,
-        ),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([0, 0]), Vector([-1, 0])), 0),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([0, 0]), Vector([1, 0])), 0),
         (
             Line(Point([24, 0]), Vector([0, 1])),
             Line(Point([3, 0]), Vector([0, -5])),

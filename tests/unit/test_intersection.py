@@ -41,26 +41,11 @@ def test_intersect_lines(line_a, line_b, point_expected):
 @pytest.mark.parametrize(
     "line_a, line_b",
     [
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([0, 0]), Vector([1, 0])),
-        ),
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([5, 5]), Vector([1, 0])),
-        ),
-        (
-            Line(Point([0, 0]), Vector([0, 1])),
-            Line(Point([0, 0]), Vector([0, 5])),
-        ),
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([0, 0]), Vector([-1, 0])),
-        ),
-        (
-            Line(Point([0, 0]), Vector([1, 0])),
-            Line(Point([5, 5]), Vector([-1, 0])),
-        ),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([0, 0]), Vector([1, 0]))),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([5, 5]), Vector([1, 0]))),
+        (Line(Point([0, 0]), Vector([0, 1])), Line(Point([0, 0]), Vector([0, 5]))),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([0, 0]), Vector([-1, 0]))),
+        (Line(Point([0, 0]), Vector([1, 0])), Line(Point([5, 5]), Vector([-1, 0]))),
         (
             Line(Point([0, 0]), Vector([1, 1, 1])),
             Line(Point([0, 1]), Vector([-1, 0, 0])),
