@@ -135,13 +135,15 @@ class Plane(_Plane):
         --------
         >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
 
-        >>> plane.distance_point(Point([5, 2]))
+        >>> plane.distance_point_signed(Point([5, 2]))
         0.0
 
-        >>> plane.distance_point(Point([5, 2, 1]))
+        >>> plane.distance_point_signed(Point([5, 2, 1]))
         1.0
 
         >>> plane.distance_point(Point([5, 2, -4]))
+        4.0
+        >>> plane.distance_point_signed(Point([5, 2, -4]))
         -4.0
 
         References
