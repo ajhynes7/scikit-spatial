@@ -1,39 +1,57 @@
-import numpy as np
 import pytest
 
 from skspatial.objects import Point, Vector, Plane
 
 
 @pytest.mark.parametrize(
-    "array_point, array_point_plane, array_normal_plane, \
-     array_point_expected, dist_expected",
+    "point_a, point_b, point_c, plane_expected",
     [
-        ([0, 0, 0], [0, 0, 0], [0, 0, 1], [0, 0, 0], 0),
-        ([0, 0, 0], [0, 0, 0], [0, 0, -1], [0, 0, 0], 0),
-        ([0, 0, 1], [0, 0, 0], [0, 0, 1], [0, 0, 0], 1),
-        ([0, 0, 1], [0, 0, 0], [0, 0, -1], [0, 0, 0], -1),
-        ([0, 0, 1], [0, 0, 0], [0, 0, 50], [0, 0, 0], 1),
-        ([0, 0, 1], [0, 0, 0], [0, 0, -50], [0, 0, 0], -1),
-        ([0, 0, 5], [0, 0, 0], [0, 0, 50], [0, 0, 0], 5),
-        ([0, 0, 5], [0, 0, 0], [0, 0, -50], [0, 0, 0], -5),
-        ([5, -4, 1], [0, 0, 0], [0, 0, 1], [5, -4, 0], 1),
+        (
+            Point([0, 0]),
+            Point([1, 0]),
+            Point([0, 1]),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
+        ),
+        # The spacing between the points is irrelevant.
+        (
+            Point([0, 0]),
+            Point([9, 0]),
+            Point([0, 9]),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
+        ),
+        # The first point is used as the plane point.
+        (
+            Point([0, 0.1]),
+            Point([1, 0]),
+            Point([0, 1]),
+            Plane(Point([0, 0.1]), Vector([0, 0, 1])),
+        ),
+        # The order of points is relevant.
+        (
+            Point([0, 0]),
+            Point([0, 1]),
+            Point([1, 0]),
+            Plane(Point([0, 0]), Vector([0, 0, -1])),
+        ),
     ],
 )
-def test_point_plane(
-    array_point,
-    array_point_plane,
-    array_normal_plane,
-    array_point_expected,
-    dist_expected,
-):
-    """Test functions related to a point and a plane."""
-    point = Point(array_point)
-    point_expected = Point(array_point_expected)
+def test_from_points(point_a, point_b, point_c, plane_expected):
 
-    plane = Plane(Point(array_point_plane), Vector(array_normal_plane))
+    assert Plane.from_points(point_a, point_b, point_c) == plane_expected
 
-    point_projected = plane.project_point(point)
-    distance_signed = plane.distance_point(point)
 
-    assert point_projected.is_close(point_expected)
-    assert np.isclose(distance_signed, dist_expected)
+@pytest.mark.parametrize(
+    "point_a, point_b, point_c",
+    [
+        # The points cannot be collinear.
+        (Point([0]), Point([0]), Point([0])),
+        (Point([0]), Point([1]), Point([2])),
+        (Point([-2, 1]), Point([0, 2]), Point([2, 3])),
+        # The points cannot be vectors.
+        (Vector([-2, 1]), Point([0, 2]), Point([2, 3])),
+    ],
+)
+def test_from_points_failure(point_a, point_b, point_c):
+
+    with pytest.raises(Exception):
+        Plane.from_points(point_a, point_b, point_c)
