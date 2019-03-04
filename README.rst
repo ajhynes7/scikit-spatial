@@ -17,11 +17,10 @@ Spatial objects and computations in 3D
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
 
-.. image:: https://codecov.io/gh/codecov/example-python/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
 .. image:: https://pyup.io/repos/github/ajhynes7/scikit_spatial/shield.svg
-         :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
 
 This package provides spatial objects in 3D (Point, Vector, Line, and Plane) based on NumPy arrays.
