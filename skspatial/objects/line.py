@@ -156,7 +156,7 @@ class Line(_Line):
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
-
+        """Project a vector onto the line."""
         return self.direction.project_vector(vector)
 
     @types(other=_Line)

@@ -106,6 +106,15 @@ class Plane(_Plane):
 
         return point.add(vector_projected)
 
+    @types(vector=Vector)
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    def project_vector(self, vector):
+        """Project a vector onto the plane."""
+        point_in_space = self.point.add(vector)
+        point_on_plane = self.project_point(point_in_space)
+
+        return Vector.from_points(self.point, point_on_plane)
+
     @types(point=Point)
     @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
     def distance_point_signed(self, point):
