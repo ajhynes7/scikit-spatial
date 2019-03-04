@@ -65,7 +65,7 @@ def test_project_point_plane(
     plane = Plane(Point(array_point_plane), Vector(array_normal_plane))
 
     point_projected = plane.project_point(point)
-    distance_signed = plane.distance_point(point)
+    distance_signed = plane.distance_point_signed(point)
 
     assert point_projected.is_close(point_expected)
     assert np.isclose(distance_signed, dist_expected)

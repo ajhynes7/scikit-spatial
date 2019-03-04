@@ -108,7 +108,7 @@ class Plane(_Plane):
 
     @types(point=Point)
     @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
-    def distance_point(self, point):
+    def distance_point_signed(self, point):
         """
         Return the signed distance from a point to self.
 

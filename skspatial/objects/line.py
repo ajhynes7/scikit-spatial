@@ -159,14 +159,6 @@ class Line(_Line):
 
         return self.direction.project_vector(vector)
 
-    @types(point=Point)
-    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-    def distance_point(self, point):
-
-        point_projected = self.project_point(point)
-
-        return point.distance_point(point_projected)
-
     @types(other=_Line)
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
     def distance_line(self, other):
