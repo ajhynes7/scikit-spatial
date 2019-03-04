@@ -153,7 +153,7 @@ class Line(_Line):
         return self.point.add(vector_projected)
 
     @types(vector=Vector)
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Point))
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
 
