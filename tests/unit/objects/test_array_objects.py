@@ -1,4 +1,4 @@
-"""Test functionality common to Point and Vector objects."""
+"""Test functionality of objects based on a single NumPy array (Point and Vector)."""
 
 import numpy as np
 import pytest
