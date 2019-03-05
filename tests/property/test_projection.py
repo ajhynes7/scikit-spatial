@@ -40,4 +40,7 @@ def test_project_point(data, name_object):
 
     # The distance of the projection should be the
     # shortest distance from the point to the object.
-    assert distance_projection <= point.distance_point(line_or_plane.point)
+    distance_points = point.distance_point(line_or_plane.point)
+    assert distance_projection < distance_points or np.isclose(
+        distance_projection, distance_points
+    )
