@@ -12,3 +12,5 @@
 
    skspatial.objects
    skspatial.measurement
+
+   intersection
