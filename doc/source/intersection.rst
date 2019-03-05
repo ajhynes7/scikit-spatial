@@ -57,7 +57,7 @@ dpcontracts.PreconditionError: The line and plane must not be parallel.
 
 
 Plane-Plane intersection
------------------------
+------------------------
 
 The intersection of a `Plane` with a `Plane` is a `Line`.
 
