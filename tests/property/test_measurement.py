@@ -2,7 +2,7 @@ import numpy as np
 from hypothesis import given
 
 from skspatial.measurement import area_triangle, volume_tetrahedron
-from .strategies import st_point, st_line
+from tests.property.strategies import st_point, st_line
 
 
 @given(st_point(), st_point(), st_point())

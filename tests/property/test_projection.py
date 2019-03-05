@@ -5,7 +5,7 @@ from hypothesis import given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Vector
-from .strategies import st_point, st_line, st_plane
+from tests.property.strategies import st_point, st_line, st_plane
 
 
 @pytest.mark.parametrize('name_object', ['line', 'plane'])

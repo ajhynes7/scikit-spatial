@@ -1,9 +1,8 @@
 import pytest
 from hypothesis import given
 
-from .strategies import st_point, st_vector, st_vector_nonzero, st_line
-
 from skspatial.objects import Line
+from tests.property.strategies import st_point, st_vector_nonzero, st_line
 
 
 @given(st_point(), st_vector_nonzero())

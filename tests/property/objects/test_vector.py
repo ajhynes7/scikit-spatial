@@ -4,7 +4,7 @@ from hypothesis import assume, given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Vector
-from .strategies import st_floats, st_point, st_vector, st_vector_nonzero
+from tests.property.strategies import st_floats, st_point, st_vector, st_vector_nonzero
 
 
 @given(st_point(), st_point())

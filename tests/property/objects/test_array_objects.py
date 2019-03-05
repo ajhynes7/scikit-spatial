@@ -2,11 +2,10 @@
 
 import numpy as np
 import pytest
-from hypothesis import assume, given
-from numpy.testing import assert_array_equal, assert_allclose
+from hypothesis import given
 
-from skspatial.objects import Point, Vector, Line
-from .strategies import st_arrays, st_point, st_vector, st_vector_nonzero
+from skspatial.objects import Point, Vector
+from tests.property.strategies import st_arrays, st_point, st_vector
 
 
 @given(st_arrays)
@@ -19,7 +18,7 @@ def test_length(array):
 
         assert point != vector
         assert point.array.size == vector.array.size == 3
-        assert_array_equal(point.array, vector.array)
+        assert np.allclose(point.array, vector.array)
 
     else:
 
