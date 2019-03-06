@@ -68,8 +68,8 @@ def test_scale(vector, scalar):
 @given(st_vector_nonzero(), st_vector_nonzero())
 def test_two_vectors(vector_a, vector_b):
 
-    is_perpendicular = vector_a.is_perpendicular(vector_b)
-    is_parallel = vector_a.is_parallel(vector_b)
+    is_perpendicular = vector_a.is_perpendicular(vector_b, atol=ATOL)
+    is_parallel = vector_a.is_parallel(vector_b, atol=ATOL)
 
     # Two non-zero vectors cannot be both perpendicular and parallel.
     assert not (is_perpendicular and is_parallel)
