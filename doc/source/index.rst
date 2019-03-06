@@ -12,9 +12,9 @@
    :caption: Contents:
    :hidden:
 
-   objects
+   objects/objects_toc
 
-   projection
-   intersection
+   computations/projection
+   computations/intersection
 
-   code
+   source_code/source_code_toc
