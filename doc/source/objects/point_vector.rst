@@ -70,7 +70,7 @@ Vector([ 3. -4.  0.])
 A `Vector` has a magnitude attribute.
 
 >>> vector = Vector([1, 1])
->>> round(vector.magnitude, 3)
+>>> vector.magnitude.round(3)
 1.414
 
 The unit vector can also be obtained.
