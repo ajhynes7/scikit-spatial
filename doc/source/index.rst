@@ -17,5 +17,4 @@
    projection
    intersection
 
-   skspatial.objects
-   skspatial.measurement
+   code

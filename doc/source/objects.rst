@@ -1,8 +1,10 @@
 
-.. toctree::
-  :maxdepth: 1
-  :caption: Objects:
+Spatial Objects
+---------------
 
-  point_vector
-  line
-  plane
+.. toctree::
+   :maxdepth: 1
+
+   point_vector
+   line
+   plane
