@@ -14,6 +14,8 @@ class _Plane(_BaseLinePlane):
 
 
 class Plane(_Plane):
+    """Plane in 3D space."""
+
     def __init__(self, point, vector):
 
         super().__init__(point, vector)

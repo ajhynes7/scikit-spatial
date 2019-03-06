@@ -12,6 +12,8 @@ class _Line(_BaseLinePlane):
 
 
 class Line(_Line):
+    """Line in 3D space."""
+
     def __init__(self, point, vector):
 
         super().__init__(point, vector)

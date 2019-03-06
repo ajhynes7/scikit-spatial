@@ -44,6 +44,8 @@ class _Vector(_BaseArray):
 
 
 class Point(_Point):
+    """Point in 3D space."""
+
     def __init__(self, array_like):
 
         super().__init__(array_like)
@@ -108,7 +110,7 @@ class Point(_Point):
 
 
 class Vector(_Vector):
-    @ensure("The magnitude must be zero or positive.", lambda args, result: args.self.magnitude >= 0)
+    """Vector in 3D space."""
     def __init__(self, array):
 
         super().__init__(array)
