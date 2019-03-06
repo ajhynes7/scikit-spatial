@@ -52,6 +52,8 @@ class Plane(_Plane):
 
         Examples
         --------
+        >>> from skspatial.objects import Point, Plane
+
         >>> Plane.from_points(Point([0, 0]), Point([1, 0]), Point([3, 3]))
         Plane(point=Point([0. 0. 0.]), normal=Vector([0. 0. 1.]))
 
@@ -93,6 +95,8 @@ class Plane(_Plane):
 
         Examples
         --------
+        >>> from skspatial.objects import Point, Vector, Plane
+
         >>> point = Point([10, 2, 5])
         >>> plane = Plane(Point([0, 0, 0]), Vector([0, 0, 1]))
 
@@ -135,6 +139,8 @@ class Plane(_Plane):
 
         Examples
         --------
+        >>> from skspatial.objects import Point, Vector, Plane
+
         >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
 
         >>> plane.distance_point_signed(Point([5, 2]))

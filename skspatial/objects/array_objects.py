@@ -97,6 +97,8 @@ class Point(_Point):
 
         Examples
         --------
+        >>> from skspatial.objects import Point
+
         >>> Point([0, 1]).is_collinear(Point([1, 0]), Point([1, 2]))
         False
 
@@ -145,6 +147,8 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> from skspatial.objects import Point, Vector
+
         >>> Vector.from_points(Point((0, 0)), Point((1, 0)))
         Vector([1. 0. 0.])
 
@@ -187,6 +191,8 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> Vector([0, 0]).is_zero()
         True
         >>> Vector([1, 0]).is_zero()
@@ -251,6 +257,8 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> Vector([0, 1]).is_perpendicular(Vector([1, 0]))
         True
 
@@ -289,6 +297,8 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> Vector([0, 1]).is_parallel(Vector([1, 0]))
         False
 
@@ -328,6 +338,9 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> import numpy as np
+        >>> from skspatial.objects import Vector
+
         >>> Vector([1, 0]).angle_between(Vector([1, 0]))
         0.0
 
@@ -369,6 +382,8 @@ class Vector(_Vector):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> Vector([0, 1]).project_vector(Vector([2, 1]))
         Vector([0. 1. 0.])
 

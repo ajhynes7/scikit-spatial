@@ -31,6 +31,7 @@ def area_triangle(point_a, point_b, point_c):
 
     Examples
     --------
+    >>> from skspatial.measurement import area_triangle
     >>> from skspatial.objects import Point
 
     >>> area_triangle(Point([0, 0]), Point([0, 1]), Point([1, 0]))
@@ -79,6 +80,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Examples
     --------
+    >>> from skspatial.measurement import volume_tetrahedron
     >>> from skspatial.objects import Point
 
     >>> volume_tetrahedron(Point([0, 0]), Point([3, 2]), Point([-3, 5]), Point([1, 8]))
