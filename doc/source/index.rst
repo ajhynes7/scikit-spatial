@@ -14,6 +14,8 @@
 
    objects/objects_toc
 
+   computations/measurement
+   computations/comparison
    computations/projection
    computations/intersection
 
