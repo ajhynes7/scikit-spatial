@@ -27,7 +27,6 @@ class Line(_Line):
 
     @classmethod
     @types(point_a=Point, point_b=Point)
-    @require("The points must be different.", lambda args: not args.point_a.is_close(args.point_b))
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
         """
