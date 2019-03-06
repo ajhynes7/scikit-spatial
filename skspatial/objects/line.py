@@ -1,3 +1,4 @@
+import numpy as np
 from dpcontracts import require, ensure, types
 
 from .array_objects import Point, Vector
@@ -163,6 +164,7 @@ class Line(_Line):
 
     @types(other=_Line)
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_line(self, other):
         """
         Return the shortest distance from an other line to self.
@@ -210,7 +212,7 @@ class Line(_Line):
 
         elif self.is_coplanar(other):
             # The lines must intersect, since they are coplanar and not parallel.
-            distance = 0.0
+            distance = np.float64(0)
 
         else:
             # The lines are skew.

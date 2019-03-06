@@ -118,7 +118,7 @@ class Plane(_Plane):
         return Vector.from_points(self.point, point_on_plane)
 
     @types(point=Point)
-    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point_signed(self, point):
         """
         Return the signed distance from a point to self.

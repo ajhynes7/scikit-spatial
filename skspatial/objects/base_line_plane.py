@@ -1,5 +1,6 @@
 """Classes for the Line and Plane spatial objects."""
 
+import numpy as np
 from dpcontracts import require, ensure, types
 
 from .array_objects import Point, Vector
@@ -29,6 +30,7 @@ class _BaseLinePlane:
 
     @types(point=Point)
     @ensure("The output must zero or greater.", lambda _, result: result >= 0)
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, point):
         """Compute the distance from a point to this object."""
         point_projected = self.project_point(point)

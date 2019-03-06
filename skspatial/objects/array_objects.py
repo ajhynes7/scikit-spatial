@@ -66,6 +66,7 @@ class Point(_Point):
 
     @types(other=_Point)
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, other):
         """Compute the distance from self to another point."""
         vector = Vector.from_points(self, other)
@@ -111,6 +112,9 @@ class Point(_Point):
 
 class Vector(_Vector):
     """Vector in 3D space."""
+
+    @ensure("The magnitude must be zero or positive.", lambda args, _: args.self.magnitude >= 0)
+    @ensure("The magnitude must be a numpy scalar.", lambda args, _: isinstance(args.self.magnitude, np.number))
     def __init__(self, array):
 
         super().__init__(array)
@@ -212,7 +216,7 @@ class Vector(_Vector):
         return self.add(other.reverse())
 
     @types(other=_Vector)
-    @ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def dot(self, other):
         """Compute the dot product with another vector."""
         return np.dot(self.array, other.array)
@@ -308,6 +312,7 @@ class Vector(_Vector):
     @types(other=_Vector)
     @require("Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or args.other.is_zero()))
     @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def angle_between(self, other):
         """
         Return the angle in radians between this vector and another.
@@ -318,8 +323,8 @@ class Vector(_Vector):
 
         Returns
         -------
-        float
-            Angle between vectors.
+        scalar
+            Angle between vectors in radians.
 
         Examples
         --------
@@ -330,11 +335,11 @@ class Vector(_Vector):
         0.0
 
         >>> angle = Vector([1, 0]).angle_between(Vector([1, 1]))
-        >>> round(np.degrees(angle))
+        >>> np.degrees(angle).round()
         45.0
 
         >>> angle = Vector([1, 0]).angle_between(Vector([-2, 0]))
-        >>> round(np.degrees(angle))
+        >>> np.degrees(angle).round()
         180.0
 
         """

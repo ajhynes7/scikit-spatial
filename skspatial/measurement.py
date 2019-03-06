@@ -1,5 +1,6 @@
 """Measurements using spatial objects."""
 
+import numpy as np
 from dpcontracts import ensure, types
 
 from skspatial.objects import Point, Vector
@@ -7,7 +8,7 @@ from skspatial.objects import Point, Vector
 
 @types(point_a=Point, point_b=Point, point_c=Point)
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-@ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+@ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
 def area_triangle(point_a, point_b, point_c):
     """
     Return the area of a triangle defined by three points.
@@ -25,7 +26,7 @@ def area_triangle(point_a, point_b, point_c):
 
     Returns
     -------
-    float
+    scalar
         The area of the triangle.
 
     Examples
@@ -53,7 +54,7 @@ def area_triangle(point_a, point_b, point_c):
 
 @types(point_a=Point, point_b=Point, point_c=Point, point_d=Point)
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-@ensure("The output must be a float.", lambda _, result: isinstance(result, float))
+@ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
 def volume_tetrahedron(point_a, point_b, point_c, point_d):
     """
     Return the volume of a tetrahedron defined by four points.
@@ -73,7 +74,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Returns
     -------
-    float
+    scalar
         The volume of the tetrahedron.
 
     Examples
@@ -84,7 +85,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     0.0
 
     >>> volume = volume_tetrahedron(Point([0, 0]), Point([2, 0]), Point([1, 1]), Point([0, 0, 1]))
-    >>> round(volume, 3)
+    >>> volume.round(3)
     0.333
 
     References
