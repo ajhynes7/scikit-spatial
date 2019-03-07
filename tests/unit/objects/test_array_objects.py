@@ -29,12 +29,12 @@ def test_equality(point_a, point_b):
     assert not point_b == vector_b
 
 
-@pytest.mark.parametrize("PointOrVector", [Point, Vector])
-def test_length(PointOrVector):
+@pytest.mark.parametrize("class_spatial", [Point, Vector])
+def test_length(class_spatial):
     """The output point/vector is always 3D."""
-    object_1 = PointOrVector([1])
-    object_2 = PointOrVector([1, 1])
-    object_3 = PointOrVector([1, 1, 1])
+    object_1 = class_spatial([1])
+    object_2 = class_spatial([1, 1])
+    object_3 = class_spatial([1, 1, 1])
 
     assert all(x.array.size == 3 for x in [object_1, object_2, object_3])
 
@@ -42,8 +42,8 @@ def test_length(PointOrVector):
 @pytest.mark.parametrize(
     "array", [[], [1, 1, 1, 1], [np.nan], [1, 1, np.nan], [1, 1, np.inf]]
 )
-@pytest.mark.parametrize("class_", [Point, Vector])
-def test_failure(class_, array):
+@pytest.mark.parametrize("class_spatial", [Point, Vector])
+def test_failure(class_spatial, array):
 
     with pytest.raises(Exception):
-        class_(array)
+        class_spatial(array)

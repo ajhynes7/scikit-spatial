@@ -44,8 +44,8 @@ def test_from_points_failure(point_a, point_b):
         (Point([1]), Vector([0])),
     ],
 )
-@pytest.mark.parametrize("LineOrPlane", [Line, Plane])
-def test_init_failure(point, vector, LineOrPlane):
+@pytest.mark.parametrize("class_spatial", [Line, Plane])
+def test_init_failure(point, vector, class_spatial):
 
     with pytest.raises(Exception):
-        LineOrPlane(point, vector)
+        class_spatial(point, vector)
