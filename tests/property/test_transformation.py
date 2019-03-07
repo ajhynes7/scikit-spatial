@@ -20,5 +20,3 @@ def test_objects_to_array(list_objects):
     list_objects_new = list(array_to_objects(array, class_spatial))
 
     assert list_objects_new == list_objects
-
-

@@ -8,14 +8,8 @@ from skspatial.transformation import array_to_objects, objects_to_array
 @pytest.mark.parametrize(
     "list_arrays, array_expected",
     [
-        (
-            [[0]],
-            np.array([[0, 0, 0]]),
-        ),
-        (
-            [[0, 1], [5.3, 2, -1]],
-            np.array([[0, 1, 0], [5.3, 2, -1]]),
-        ),
+        ([[0]], np.array([[0, 0, 0]])),
+        ([[0, 1], [5.3, 2, -1]], np.array([[0, 1, 0], [5.3, 2, -1]])),
         (
             [[-1.1], [10.5, 2, 3], [5, 2, 1]],
             np.array([[-1.1, 0, 0], [10.5, 2, 3], [5, 2, 1]]),
