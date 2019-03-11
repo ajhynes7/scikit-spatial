@@ -5,7 +5,7 @@ import pytest
 from hypothesis import given
 
 from skspatial.objects import Point, Vector
-from tests.property.strategies import st_arrays, st_point, st_vector
+from tests.property.strategies import st_arrays
 
 
 @given(st_arrays)
@@ -27,17 +27,21 @@ def test_length(array):
             Vector(array)
 
 
-@given(st_point(), st_vector())
-def test_add(point, vector):
-    """Test adding points and vectors."""
-    # Add and subtract the vector to obtain the same point.
-    assert point.add(vector).subtract(vector).is_close(point)
+@given(st_arrays, st_arrays)
+def test_add(array_a, array_b):
+
+    # Add and subtract the array to obtain the same point.
+    assert Point(array_a).add(array_b).subtract(array_b).is_close(array_a)
 
 
-@given(st_point())
-def test_is_close(point):
+@given(st_arrays)
+def test_is_close(array):
 
-    vector = Vector(point)
+    vector = Vector(array)
+    point = Point(array)
 
-    assert point.is_close(point)
-    assert vector.is_close(vector)
+    assert point.is_close(vector)
+    assert vector.is_close(point)
+
+    assert point.is_close(array)
+    assert vector.is_close(array)

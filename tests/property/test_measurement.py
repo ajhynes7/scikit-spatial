@@ -2,15 +2,16 @@ import numpy as np
 from hypothesis import given
 
 from skspatial.measurement import area_triangle, volume_tetrahedron
-from tests.property.strategies import st_point, st_line
+from skspatial.objects import Point
+from tests.property.strategies import st_arrays, st_line
 
 
-@given(st_point(), st_point(), st_point())
-def test_area_triangle(point_a, point_b, point_c):
+@given(st_arrays, st_arrays, st_arrays)
+def test_area_triangle(array_a, array_b, array_c):
 
-    area = area_triangle(point_a, point_b, point_c)
+    area = area_triangle(array_a, array_b, array_c)
 
-    assert np.isclose(area, 0) == point_a.is_collinear(point_b, point_c)
+    assert np.isclose(area, 0) == Point(array_a).is_collinear(array_b, array_c)
 
 
 @given(st_line(), st_line())
