@@ -58,10 +58,7 @@ class Vector(_BaseArray1D):
 
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure(
-        "The output must have a magnitude of one.",
-        lambda _, result: np.isclose(result.magnitude, 1),
-    )
+    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.magnitude, 1))
     def unit(self):
         """Return the unit vector of this vector."""
         return Vector(self / self.magnitude)
@@ -195,7 +192,9 @@ class Vector(_BaseArray1D):
 
         return vector_cross.is_zero(**kwargs)
 
-    @require("Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero()))
+    @require(
+        "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
+    )
     @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def angle_between(self, other):

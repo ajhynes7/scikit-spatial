@@ -66,7 +66,8 @@ class Plane(_BaseLinePlane):
 
     @classmethod
     @require(
-        "The points must not be collinear.", lambda args: not Point(args.point_a).is_collinear(args.point_b, args.point_c)
+        "The points must not be collinear.",
+        lambda args: not Point(args.point_a).is_collinear(args.point_b, args.point_c),
     )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):
@@ -98,10 +99,10 @@ class Plane(_BaseLinePlane):
 
         The order of the points affects the direction of the normal vector.
 
-        >>> Plane.from_points(Point([0, 0]), Point([3, 3]), Point([1, 0]))
+        >>> Plane.from_points([0, 0], [3, 3], [1, 0])
         Plane(point=Point([0., 0., 0.]), normal=Vector([ 0.,  0., -1.]))
 
-        >>> Plane.from_points(Point([0, 0]), Point([0, 1]), Point([0, 3]))
+        >>> Plane.from_points([0, 0], [0, 1], [0, 3])
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The points must not be collinear.
@@ -135,12 +136,11 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Plane
+        >>> from skspatial.objects import Plane
 
-        >>> point = [10, 2, 5]
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
-        >>> plane.project_point(point)
+        >>> plane.project_point([10, 2, 5])
         Point([10.,  2.,  0.])
 
         """
@@ -202,6 +202,44 @@ class Plane(_BaseLinePlane):
         return self.normal.dot(vector_to_point)
 
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    def side_point(self, point):
+        """
+        Find the side of the plane where a point lies.
+        The planes must not be parallel.
+
+        Parameters
+        ----------
+        point : array_like
+            Input point.
+
+        Returns
+        -------
+        scalar
+            -1 if the point is behind the plane.
+            0 if the point is on the plane.
+            1 if the point is in front of the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+        >>> plane = Plane([0], [0, 0, 1])
+
+        >>> plane.side_point([2, 5])
+        0.0
+
+        >>> plane.side_point([1, -5, 6])
+        1.0
+
+        >>> plane.side_point([5, 8, -4])
+        -1.0
+
+        >>> plane = Plane([0], [0, 0, -1])
+        >>> plane.side_point([0, 0, 5])
+        -1.0
+
+        """
+        return np.sign(self.distance_point_signed(point))
+
     @require(
         "The line and plane must not be parallel.",
         lambda args: not args.self.normal.is_perpendicular(args.line.direction),

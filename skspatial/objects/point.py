@@ -30,8 +30,8 @@ class Point(_BaseArray1D):
         Examples
         --------
         >>> from skspatial.objects import Point
-        >>> point = Point([1, 2])
 
+        >>> point = Point([1, 2])
         >>> point.add([2, 9, 1])
         Point([ 3., 11.,  1.])
 
@@ -65,8 +65,8 @@ class Point(_BaseArray1D):
         Examples
         --------
         >>> from skspatial.objects import Point
-        >>> point = Point([1, 2])
 
+        >>> point = Point([1, 2])
         >>> point.distance_point([1, 2])
         0.0
 

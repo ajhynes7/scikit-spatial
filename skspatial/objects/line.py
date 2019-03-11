@@ -1,7 +1,6 @@
 import numpy as np
-from dpcontracts import require, ensure, types
+from dpcontracts import require, ensure
 
-from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
 from .point import Point
 from .vector import Vector
@@ -43,6 +42,8 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
+        >>> from skspatial.objects import Line
+
         >>> Line.from_points([0, 0], [1, 0])
         Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
 
@@ -75,6 +76,8 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
+        >>> from skspatial.objects import Line
+
         >>> line_a = Line(point=[0, 0], vector=[1, 0])
         >>> line_b = Line([-5, 3], [7, 1])
         >>> line_c = Line([0, 0, 0], [0, 0, 1])
@@ -134,8 +137,9 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
-        >>> line = Line(point=[0, 0], vector=[1, 0])
+        >>> from skspatial.objects import Line
 
+        >>> line = Line(point=[0, 0], vector=[1, 0])
         >>> line.project_point([5, 5])
         Point([5., 0., 0.])
 
@@ -251,22 +255,22 @@ class Line(_BaseLinePlane):
         >>> line_a.intersect_line(line_b)
         Point([5., 0., 0.])
 
-        >>> line_b = Line(Point([0, 1]), Vector([2, 0]))
+        >>> line_b = Line([0, 1], [2, 0])
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The lines must not be parallel.
 
-        >>> line_a = Line(Point([1, 2, 3]), Vector([-4, 1, 1]))
-        >>> line_b = Line(Point([4, 5, 6]), Vector([3, 1, 5]))
+        >>> line_a = Line([1, 2, 3], [-4, 1, 1])
+        >>> line_b = Line([4, 5, 6], [3, 1, 5])
 
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The lines must be coplanar.
 
-        >>> line_a = Line(Point([0, 0, 0]), Vector([1, 1, 1]))
-        >>> line_b = Line(Point([5, 5, 0]), Vector([0, 0, -8]))
+        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_b = Line([5, 5, 0], [0, 0, -8])
 
         >>> line_a.intersect_line(line_b)
         Point([5., 5., 5.])
