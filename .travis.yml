@@ -14,5 +14,5 @@ deploy:
     secure: Jvb3soXddIFJ8mWEH0j3rAJnJfj0eZRFTTEHku07S+A+WtILRWQSuUm/PB68krRSIumemcM0gtjTKSsawyKV1FfPSIIlLaKg/KlHZmRjmtHxaOYaFU36m4WfKEbL63ZYjuZbB7og7Qh83holj0JHAP/az6c5gezjiTjTnfO+1xD0Pk0SENMYTNRk+SfwiQM81N4fYXOwm6MSvipCtwbR+S/ulzR6U3oT1VDlkYtlXih2H+JtW5oHhxSF/Eh8SRo6ClakM+UMB7VU7FQzk3W/DGFB+ruVbT61zFsTDwiW5p3/ZimOIoSMKYMWLwoEw+FK9VODKzkOcP21dJn/fZy5GffyVYbFNL6IjGOFHxOSYOfY56TjkaJfiYFuZrmUGwL8hG1AOiWVlCofset/VmMHjcvIYJ2K0XWGpCkx/GOOR9KqrnPtedL4Z28n3FbBebMg90Swm4ic5JtY8PDHqXFvt10YJ0flP+yHLd13aZznCoGSMJjDB4NUjnxQL+4yR7O6fGaMzUcDetPuFC4N9n9qjdDRXfxH3ihcyGvN5HF87WgT8PnL1ssDdbeheI+4Prb82ZXafIFk24MRXZlnAyUxh9P/FvBnhQlPqx61frUeCikadPNh5NENxgawWLp5YiHA4KXaiFXWa9D6k3FHYBY2i3wqVAappI87yMnvdAoBaOA=
   on:
     tags: true
-    repo: ajhynes7/scikit_spatial
+    repo: ajhynes7/scikit-spatial
     python: 3.6
