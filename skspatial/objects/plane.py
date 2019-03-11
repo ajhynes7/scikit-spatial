@@ -150,12 +150,12 @@ class Plane(_BaseLinePlane):
         # Perpendicular vector from the point in space to the plane.
         vector_projected = self.normal.project(vector_to_plane)
 
-        return point + vector_projected
+        return Point(point + vector_projected)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def project_vector(self, vector):
         """Project a vector onto the plane."""
-        point_in_space = self.point + vector
+        point_in_space = self.point + Vector(vector)
         point_on_plane = self.project_point(point_in_space)
 
         return Vector.from_points(self.point, point_on_plane)

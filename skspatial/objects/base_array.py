@@ -1,12 +1,14 @@
 import numpy as np
-from dpcontracts import require
+from dpcontracts import require, ensure
 
 
 class _BaseArray1D(np.ndarray):
     """Private base class for spatial objects based on a single 1D numpy array."""
 
     @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
+    @require("The input length must be one to three.", lambda args: len(args.array_like) in [1, 2, 3])
     @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
+    @ensure("The output must be a 1D array with length three.", lambda _, result: result.shape == (3,))
     def __new__(cls, array_like):
 
         n_dimensions = len(array_like)
@@ -26,4 +28,4 @@ class _BaseArray1D(np.ndarray):
 
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
-        return np.allclose(self, other, **kwargs)
+        return np.allclose(self, _BaseArray1D(other), **kwargs)

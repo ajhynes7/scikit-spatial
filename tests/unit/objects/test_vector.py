@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
+from numpy.testing import assert_array_equal
 
-from skspatial.objects import Point, Vector
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(
@@ -16,10 +17,7 @@ from skspatial.objects import Point, Vector
 )
 def test_from_points(array_a, array_b, vector_expected):
 
-    point_a = Point(array_a)
-    point_b = Point(array_b)
-
-    assert Vector.from_points(point_a, point_b)
+    assert_array_equal(Vector.from_points(array_a, array_b), vector_expected)
 
 
 @pytest.mark.parametrize(
@@ -38,22 +36,22 @@ def test_unit(array, array_unit_expected):
     vector = Vector(array)
     vector_unit_expected = Vector(array_unit_expected)
 
-    assert np.allclose(vector.unit().array, vector_unit_expected.array)
+    assert vector.unit().is_close(vector_unit_expected)
 
 
 @pytest.mark.parametrize(
-    "array, vector_expected",
+    "array, scalar, vector_expected",
     [
-        ([0], Vector([0])),
-        ([1], Vector([-1])),
-        ([1, 2, 3], Vector([-1, -2, -3])),
-        ([5, -4, 10], Vector([-5, 4, -10])),
+        ([0], 5, Vector([0])),
+        ([1], 10, Vector([10])),
+        ([1, 2, 3], 3, Vector([3, 6, 9])),
+        ([5, -4, 10], -2, Vector([-10, 8, -20])),
     ],
 )
-def test_reverse(array, vector_expected):
+def test_scale(array, scalar, vector_expected):
 
-    vector_reversed = Vector(array).reverse()
-    assert vector_reversed.is_close(vector_expected)
+    vector_scaled = scalar * Vector(array)
+    assert vector_scaled.is_close(vector_expected)
 
 
 @pytest.mark.parametrize(
@@ -71,18 +69,3 @@ def test_reverse(array, vector_expected):
 def test_is_zero(array, kwargs, bool_expected):
 
     assert Vector(array).is_zero(**kwargs) == bool_expected
-
-
-@pytest.mark.parametrize(
-    "array, scalar, vector_expected",
-    [
-        ([0], 5, Vector([0])),
-        ([1], 10, Vector([10])),
-        ([1, 2, 3], 3, Vector([3, 6, 9])),
-        ([5, -4, 10], -2, Vector([-10, 8, -20])),
-    ],
-)
-def test_scale(array, scalar, vector_expected):
-
-    vector_scaled = Vector(array).scale(scalar)
-    assert vector_scaled.is_close(vector_expected)

@@ -78,4 +78,4 @@ class _BaseLinePlane:
         """Compute the distance from a point to this object."""
         point_projected = self.project_point(point)
 
-        return point.distance_point(point_projected)
+        return point_projected.distance_point(point)

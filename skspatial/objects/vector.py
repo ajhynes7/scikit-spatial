@@ -263,6 +263,6 @@ class Vector(_BaseArray1D):
         unit_self = self.unit()
 
         # Scalar projection of other vector onto self.
-        scalar_projection = other.dot(unit_self)
+        scalar_projection = Vector(other).dot(unit_self)
 
         return scalar_projection * unit_self

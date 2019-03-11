@@ -147,7 +147,7 @@ class Line(_BaseLinePlane):
         vector_projected = self.direction.project(vector_to_point)
 
         # Add the projected vector to the point on the line.
-        return self.point + vector_projected
+        return Point(self.point + vector_projected)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
