@@ -1,7 +1,6 @@
 import numpy as np
-from dpcontracts import require, ensure, types
+from dpcontracts import require, ensure
 
-from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
 from .line import Line
 from .point import Point

@@ -41,7 +41,8 @@ def test_length(class_spatial):
 
 
 @pytest.mark.parametrize(
-    "array", [
+    "array",
+    [
         [],
         [1, 1, 1, 1],
         [np.nan],
@@ -49,7 +50,7 @@ def test_length(class_spatial):
         [1, 1, np.inf],
         [[1], [1]],
         [[1, 2], [1, 2]],
-    ]
+    ],
 )
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
 def test_failure(class_spatial, array):

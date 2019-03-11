@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Point, Vector, Line, Plane
+from skspatial.objects import Vector, Line, Plane
 
 
 @pytest.mark.parametrize(
@@ -17,7 +17,9 @@ from skspatial.objects import Point, Vector, Line, Plane
         ([50, 10], [1, -5], [0, 3], [1, 10], 49),
     ],
 )
-def test_project_point_line(point, point_line, vector_line, point_expected, dist_expected):
+def test_project_point_line(
+    point, point_line, vector_line, point_expected, dist_expected
+):
     line = Line(point_line, vector_line)
 
     point_projected = line.project_point(point)
@@ -41,7 +43,9 @@ def test_project_point_line(point, point_line, vector_line, point_expected, dist
         ([5, -4, 1], [0, 0, 0], [0, 0, 1], [5, -4, 0], 1),
     ],
 )
-def test_project_point_plane(point, point_plane, normal_plane, point_expected, dist_expected):
+def test_project_point_plane(
+    point, point_plane, normal_plane, point_expected, dist_expected
+):
     plane = Plane(point_plane, normal_plane)
 
     point_projected = plane.project_point(point)

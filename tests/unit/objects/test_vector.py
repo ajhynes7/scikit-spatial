@@ -69,4 +69,3 @@ def test_scale(array, scalar, vector_expected):
 
     vector_scaled = scalar * Vector(array)
     assert vector_scaled.is_close(vector_expected)
-

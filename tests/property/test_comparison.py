@@ -14,7 +14,9 @@ def test_is_collinear(array_a, array_b, array_c):
     assert point_a.is_collinear(array_a, array_a)
     assert point_a.is_collinear(array_a, array_b)
 
-    all_different = not (point_a.is_close(array_b, atol=ATOL) or point_b.is_close(array_c, atol=ATOL))
+    all_different = not (
+        point_a.is_close(array_b, atol=ATOL) or point_b.is_close(array_c, atol=ATOL)
+    )
 
     if point_a.is_collinear(array_b, array_c) and all_different:
 
