@@ -1,22 +1,18 @@
 import numpy as np
-import pytest
 from hypothesis import given
 
-from tests.property.strategies import st_point, st_vector
+from skspatial.objects import Point, Vector
+from tests.property.strategies import st_arrays
 
 
-@given(st_point(), st_vector())
-def test_add_subtract(point, vector):
+@given(st_arrays, st_arrays)
+def test_add_subtract(array_point, array_vector):
 
-    # Cannot add or subtract a point.
-    with pytest.raises(Exception):
-        point.add(point)
+    point = Point(array_point)
+    vector = Vector(array_vector)
 
-    with pytest.raises(Exception):
-        point.subtract(point)
-
-    point_2 = point.add(vector)
+    point_2 = point.add(array_vector)
     assert np.isclose(point.distance_point(point_2), vector.magnitude)
 
-    point_3 = point_2.subtract(vector)
+    point_3 = point_2.subtract(array_vector)
     assert point.is_close(point_3)

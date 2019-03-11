@@ -1,23 +1,20 @@
-import pytest
 from hypothesis import given
 
-from skspatial.objects import Line
-from tests.property.strategies import st_point, st_vector_nonzero, st_line
+from skspatial.objects import Point, Line
+from tests.property.strategies import st_arrays, st_arrays_nonzero, st_line
 
 
-@given(st_point(), st_vector_nonzero())
-def test_line_creation(point, vector):
+@given(st_arrays, st_arrays_nonzero)
+def test_line_creation(array_point, array_vector):
 
-    line_1 = Line(point, vector)
+    line_1 = Line(array_point, array_vector)
 
-    point_2 = point.add(vector)
-    line_2 = Line.from_points(point, point_2)
+    point_1 = Point(array_point)
+    point_2 = point_1.add(array_vector)
+
+    line_2 = Line.from_points(point_1, point_2)
 
     assert line_1.is_close(line_2)
-
-    # A point and vector are not interchangeable.
-    with pytest.raises(Exception):
-        Line(vector, point)
 
 
 @given(st_line(), st_line())

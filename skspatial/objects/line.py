@@ -1,21 +1,15 @@
 import numpy as np
-from dpcontracts import require, ensure, types
+from dpcontracts import require, ensure
 
-from .array_objects import Point, Vector
 from .base_line_plane import _BaseLinePlane
+from .point import Point
+from .vector import Vector
 
 
-class _Line(_BaseLinePlane):
-    """Private parent class for Line."""
+class Line(_BaseLinePlane):
+    """Line in space."""
 
-    def __init__(self, point, vector):
-        super().__init__(point, vector)
-
-
-class Line(_Line):
-    """Line in 3D space."""
-
-    def __init__(self, point, vector):
+    def __init__(self, point=[0, 0], vector=[1, 0]):
 
         super().__init__(point, vector)
 
@@ -23,10 +17,12 @@ class Line(_Line):
 
     def __repr__(self):
 
-        return f"Line(point={self.point}, direction={self.direction})"
+        repr_point = np.array_repr(self.point)
+        repr_vector = np.array_repr(self.vector)
+
+        return f"Line(point={repr_point}, direction={repr_vector})"
 
     @classmethod
-    @types(point_a=Point, point_b=Point)
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
         """
@@ -34,9 +30,9 @@ class Line(_Line):
 
         Parameters
         ----------
-        point_a : Point
+        point_a : array_like
             Input point A.
-        point_b : Point
+        point_b : array_like
             Input point B.
 
         Returns
@@ -46,20 +42,22 @@ class Line(_Line):
 
         Examples
         --------
-        >>> Line.from_points(Point([0, 0]), Point([1, 0]))
-        Line(point=Point([0. 0. 0.]), direction=Vector([1. 0. 0.]))
+        >>> from skspatial.objects import Line
+
+        >>> Line.from_points([0, 0], [1, 0])
+        Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
 
         The order of the points affects the line point and direction vector.
 
-        >>> Line.from_points(Point([1, 0]), Point([0, 0]))
-        Line(point=Point([1. 0. 0.]), direction=Vector([-1.  0.  0.]))
+        >>> Line.from_points([1, 0], [0, 0])
+        Line(point=Point([1., 0., 0.]), direction=Vector([-1.,  0.,  0.]))
 
         """
         vector_ab = Vector.from_points(point_a, point_b)
 
         return cls(point_a, vector_ab)
 
-    @types(other=_Line)
+    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_coplanar(self, other, **kwargs):
         """
         Check if the line is coplanar with another.
@@ -78,9 +76,11 @@ class Line(_Line):
 
         Examples
         --------
-        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
-        >>> line_b = Line(Point([-5, 3]), Vector([7, 1]))
-        >>> line_c = Line(Point([0, 0]), Vector([0, 0, 1]))
+        >>> from skspatial.objects import Line
+
+        >>> line_a = Line(point=[0, 0], vector=[1, 0])
+        >>> line_b = Line([-5, 3], [7, 1])
+        >>> line_c = Line([0, 0, 0], [0, 0, 1])
 
         >>> line_a.is_coplanar(line_b)
         True
@@ -109,17 +109,16 @@ class Line(_Line):
         Computed as line.point + t * line.direction.
 
         """
-        vector_along_line = self.direction.scale(t)
+        vector_along_line = t * self.direction
+
         return self.point.add(vector_along_line)
 
-    @types(point=Point)
     def contains_point(self, point, **kwargs):
         """Check if this line contains a point."""
         vector_to_point = Vector.from_points(self.point, point)
 
         return vector_to_point.is_parallel(self.direction, **kwargs)
 
-    @types(point=Point)
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     @ensure("The output must be on the line.", lambda args, result: args.self.contains_point(result))
     def project_point(self, point):
@@ -128,7 +127,7 @@ class Line(_Line):
 
         Parameters
         ----------
-        point : Point
+        point : array_like
             Input point.
 
         Returns
@@ -138,30 +137,29 @@ class Line(_Line):
 
         Examples
         --------
-        >>> point = Point([5, 5])
-        >>> line = Line(Point([0, 0]), Vector([1, 0]))
+        >>> from skspatial.objects import Line
 
-        >>> line.project_point(point)
-        Point([5. 0. 0.])
+        >>> line = Line(point=[0, 0], vector=[1, 0])
+        >>> line.project_point([5, 5])
+        Point([5., 0., 0.])
 
         """
         # Vector from the point on the line to the point in space.
         vector_to_point = Vector.from_points(self.point, point)
 
         # Project the vector onto the line.
-        vector_projected = self.direction.project_vector(vector_to_point)
+        vector_projected = self.direction.project(vector_to_point)
 
         # Add the projected vector to the point on the line.
         return self.point.add(vector_projected)
 
-    @types(vector=Vector)
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
         """Project a vector onto the line."""
-        return self.direction.project_vector(vector)
+        return self.direction.project(vector)
 
-    @types(other=_Line)
+    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_line(self, other):
@@ -180,12 +178,11 @@ class Line(_Line):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Line
+        >>> from skspatial.objects import Line
 
-        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
-        >>> line_b = Line(Point([0, 1]), Vector([1, 0]))
-        >>> line_c = Line(Point([0, 1]), Vector([1, 1]))
-        >>> line_d = Line(Point([0, 5]), Vector([0, 0, 1]))
+        >>> line_a = Line([0, 0], [1, 0])
+        >>> line_b = Line([0, 1], [1, 0])
+        >>> line_c = Line([0, 1], [1, 1])
 
         The lines are parallel.
         >>> line_a.distance_line(line_b)
@@ -196,7 +193,9 @@ class Line(_Line):
         0.0
 
         The lines are skew.
-        >>> line_a.distance_line(line_d)
+        >>> line_a = Line([0, 0, 0], [1, 0, 0])
+        >>> line_b = Line([0, 5, 0], [0, 0, 1])
+        >>> line_a.distance_line(line_b)
         5.0
 
         References
@@ -222,7 +221,7 @@ class Line(_Line):
 
         return distance
 
-    @types(other=_Line)
+    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     @require("The lines must be coplanar.", lambda args: args.self.is_coplanar(args.other))
     @require("The lines must not be parallel.", lambda args: not args.self.direction.is_parallel(args.other.direction))
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
@@ -238,10 +237,8 @@ class Line(_Line):
 
         Parameters
         ----------
-        self : Line
-            Input line A.
         other : Line
-            Input line B.
+            Input line.
 
         Returns
         -------
@@ -250,33 +247,33 @@ class Line(_Line):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Line
+        >>> from skspatial.objects import Line
 
-        >>> line_a = Line(Point([0, 0]), Vector([1, 0]))
-        >>> line_b = Line(Point([5, 5]), Vector([0, 1]))
+        >>> line_a = Line([0, 0], [1, 0])
+        >>> line_b = Line([5, 5], [0, 1])
 
         >>> line_a.intersect_line(line_b)
-        Point([5. 0. 0.])
+        Point([5., 0., 0.])
 
-        >>> line_b = Line(Point([0, 1]), Vector([2, 0]))
+        >>> line_b = Line([0, 1], [2, 0])
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The lines must not be parallel.
 
-        >>> line_a = Line(Point([1, 2, 3]), Vector([-4, 1, 1]))
-        >>> line_b = Line(Point([4, 5, 6]), Vector([3, 1, 5]))
+        >>> line_a = Line([1, 2, 3], [-4, 1, 1])
+        >>> line_b = Line([4, 5, 6], [3, 1, 5])
 
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The lines must be coplanar.
 
-        >>> line_a = Line(Point([0, 0, 0]), Vector([1, 1, 1]))
-        >>> line_b = Line(Point([5, 5, 0]), Vector([0, 0, -8]))
+        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_b = Line([5, 5, 0], [0, 0, -8])
 
         >>> line_a.intersect_line(line_b)
-        Point([5. 5. 5.])
+        Point([5., 5., 5.])
 
         References
         ----------
@@ -293,6 +290,6 @@ class Line(_Line):
         denom = vector_perpendicular.magnitude ** 2
 
         # Vector along line A to the intersection point.
-        vector_a_scaled = self.direction.scale(num / denom)
+        vector_a_scaled = num / denom * self.direction
 
         return self.point.add(vector_a_scaled)
