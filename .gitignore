@@ -1,6 +1,7 @@
 
 *.ipynb
 *.pyc
+*.egg-info
 
 __pycache__
 
@@ -13,4 +14,3 @@ build
 dist
 doc/build
 htmlcov
-scikit_spatial.egg-info
