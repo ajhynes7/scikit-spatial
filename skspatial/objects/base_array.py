@@ -26,6 +26,10 @@ class _BaseArray1D(np.ndarray):
         if obj is None:
             return
 
+    def dot(self, other):
+        """Return the dot product with another array."""
+        return np.dot(self, _BaseArray1D(other))
+
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
         return np.allclose(self, _BaseArray1D(other), **kwargs)
