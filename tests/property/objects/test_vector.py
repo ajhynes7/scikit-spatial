@@ -21,7 +21,7 @@ def test_unit(vector):
     vector_unit = vector.unit()
 
     assert np.isclose(vector_unit.magnitude, 1)
-    assert vector_unit.scale(vector.magnitude).is_close(vector)
+    assert (vector.magnitude * vector_unit).is_close(vector)
 
     assert vector_unit.is_parallel(vector)
 
@@ -38,7 +38,8 @@ def test_add_subtract(vector):
 @given(st_point(), st_vector_nonzero())
 def test_reverse(point, vector):
 
-    vector_reversed = vector.reverse()
+    vector_reversed = - vector
+
     assert vector.add(vector_reversed).is_close(Vector([0]))
     assert vector.is_parallel(vector_reversed)
 
@@ -53,7 +54,7 @@ def test_scale(vector, scalar):
 
     assume(abs(scalar) > ATOL)
 
-    vector_scaled = vector.scale(scalar)
+    vector_scaled = scalar * vector
 
     assert vector.is_parallel(vector_scaled, atol=ATOL)
 
@@ -89,7 +90,7 @@ def test_two_vectors(vector_a, vector_b):
         vector_a.angle_between(vector_zero)
 
     # The projection of vector B onto A is parallel to A.
-    vector_b_projected = vector_a.project_vector(vector_b)
+    vector_b_projected = vector_a.project(vector_b)
     assert vector_a.is_parallel(vector_b_projected, atol=ATOL)
 
     # The projection is zero iff vectors A and B are perpendicular.

@@ -20,9 +20,8 @@ from skspatial.objects import Point, Vector, Line
 def test_is_perpendicular(array_u, array_v, bool_expected):
     """Test checking if vector u is perpendicular to vector v."""
     vector_u = Vector(array_u)
-    vector_v = Vector(array_v)
 
-    assert vector_u.is_perpendicular(vector_v) == bool_expected
+    assert vector_u.is_perpendicular(array_v) == bool_expected
 
 
 @pytest.mark.parametrize(
@@ -43,9 +42,8 @@ def test_is_perpendicular(array_u, array_v, bool_expected):
 def test_is_parallel(array_u, array_v, bool_expected):
     """Test checking if vector u is parallel to vector v."""
     vector_u = Vector(array_u)
-    vector_v = Vector(array_v)
 
-    assert vector_u.is_parallel(vector_v) == bool_expected
+    assert vector_u.is_parallel(array_v) == bool_expected
 
 
 @pytest.mark.parametrize(
@@ -64,10 +62,8 @@ def test_is_parallel(array_u, array_v, bool_expected):
 def test_is_collinear(array_a, array_b, array_c, bool_expected):
     """Test checking if three points are collinear."""
     point_a = Point(array_a)
-    point_b = Point(array_b)
-    point_c = Point(array_c)
 
-    assert point_a.is_collinear(point_b, point_c) == bool_expected
+    assert point_a.is_collinear(array_b, array_c) == bool_expected
 
 
 @pytest.mark.parametrize(
@@ -83,8 +79,7 @@ def test_is_collinear(array_a, array_b, array_c, bool_expected):
 def test_is_coplanar(
     arr_point_a, arr_vector_a, arr_point_b, arr_vector_b, bool_expected
 ):
-
-    line_a = Line(Point(arr_point_a), Vector(arr_vector_a))
-    line_b = Line(Point(arr_point_b), Vector(arr_vector_b))
+    line_a = Line(arr_point_a, arr_vector_a)
+    line_b = Line(arr_point_b, arr_vector_b)
 
     assert line_a.is_coplanar(line_b) == bool_expected

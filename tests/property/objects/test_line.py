@@ -1,4 +1,3 @@
-import pytest
 from hypothesis import given
 
 from skspatial.objects import Line
@@ -14,10 +13,6 @@ def test_line_creation(point, vector):
     line_2 = Line.from_points(point, point_2)
 
     assert line_1.is_close(line_2)
-
-    # A point and vector are not interchangeable.
-    with pytest.raises(Exception):
-        Line(vector, point)
 
 
 @given(st_line(), st_line())

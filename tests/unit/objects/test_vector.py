@@ -40,21 +40,6 @@ def test_unit(array, array_unit_expected):
 
 
 @pytest.mark.parametrize(
-    "array, scalar, vector_expected",
-    [
-        ([0], 5, Vector([0])),
-        ([1], 10, Vector([10])),
-        ([1, 2, 3], 3, Vector([3, 6, 9])),
-        ([5, -4, 10], -2, Vector([-10, 8, -20])),
-    ],
-)
-def test_scale(array, scalar, vector_expected):
-
-    vector_scaled = scalar * Vector(array)
-    assert vector_scaled.is_close(vector_expected)
-
-
-@pytest.mark.parametrize(
     "array, kwargs, bool_expected",
     [
         ([0], {}, True),
@@ -69,3 +54,19 @@ def test_scale(array, scalar, vector_expected):
 def test_is_zero(array, kwargs, bool_expected):
 
     assert Vector(array).is_zero(**kwargs) == bool_expected
+
+
+@pytest.mark.parametrize(
+    "array, scalar, vector_expected",
+    [
+        ([0], 5, Vector([0])),
+        ([1], 10, Vector([10])),
+        ([1, 2, 3], 3, Vector([3, 6, 9])),
+        ([5, -4, 10], -2, Vector([-10, 8, -20])),
+    ],
+)
+def test_scale(array, scalar, vector_expected):
+
+    vector_scaled = scalar * Vector(array)
+    assert vector_scaled.is_close(vector_expected)
+

@@ -1,6 +1,6 @@
 import pytest
 
-from skspatial.objects import Point, Vector, Plane
+from skspatial.objects import Plane
 
 
 @pytest.mark.parametrize(

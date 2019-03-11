@@ -16,9 +16,8 @@ def test_length(array):
         point = Point(array)
         vector = Vector(array)
 
-        assert point != vector
-        assert point.array.size == vector.array.size == 3
-        assert np.allclose(point.array, vector.array)
+        assert point.size == vector.size == 3
+        assert np.allclose(point, vector)
 
     else:
 
@@ -31,27 +30,14 @@ def test_length(array):
 @given(st_point(), st_vector())
 def test_add(point, vector):
     """Test adding points and vectors."""
-
     # Add and subtract the vector to obtain the same point.
     assert point.add(vector).subtract(vector).is_close(point)
-
-    with pytest.raises(Exception):
-        point.add(point)
-
-    with pytest.raises(Exception):
-        vector.add(point)
 
 
 @given(st_point())
 def test_is_close(point):
 
-    vector = Vector(point.array)
+    vector = Vector(point)
 
     assert point.is_close(point)
     assert vector.is_close(vector)
-
-    with pytest.raises(Exception):
-        assert point.is_close(vector)
-
-    with pytest.raises(Exception):
-        assert vector.is_close(point)
