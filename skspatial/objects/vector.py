@@ -2,28 +2,62 @@ import numpy as np
 from dpcontracts import require, ensure
 
 from skspatial.constants import ATOL
+from .base_array import _BaseArray1D
 
 
-class Vector(np.ndarray):
+class Vector(_BaseArray1D):
     """Vector implemented as an ndarray subclass."""
 
-    def __new__(cls, input_array):
-        # Input array is an already formed ndarray instance
-        # We first cast to be our class type
-        obj = np.asarray(input_array).view(cls)
+    @ensure("The magnitude must be zero or greater", lambda _, result: result.magnitude >= 0)
+    def __new__(cls, array_like):
 
+        obj = super().__new__(cls, array_like)
+
+        # Add the new attribute to the created instance.
         obj.magnitude = np.linalg.norm(obj)
 
         return obj
 
     def __array_finalize__(self, obj):
 
-        if obj is None:
-            return
-
         self.magnitude = getattr(obj, 'magnitude', None)
 
+    @classmethod
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    def from_points(cls, point_a, point_b):
+        """
+        Instantiate a vector from point A to point B.
+
+        Parameters
+        ----------
+        point_a : array_like
+            Input point A.
+        point_b : array_like
+            Input point B.
+
+        Returns
+        -------
+        Vector
+            Vector from point A to point B.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector.from_points([0, 0], [1, 0])
+        Vector([1., 0., 0.])
+
+        >>> Vector.from_points([5, 2], [-2, 8])
+        Vector([-7.,  6.,  0.])
+
+        >>> Vector.from_points([3, 1, 1], [7, 7, 0])
+        Vector([ 4.,  6., -1.])
+
+        """
+        return cls(Vector(point_b) - Vector(point_a))
+
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure(
         "The output must have a magnitude of one.",
         lambda _, result: np.isclose(result.magnitude, 1),
@@ -65,10 +99,7 @@ class Vector(np.ndarray):
         """
         return np.allclose(self, 0, **kwargs)
 
-    @ensure(
-        "The output must be a vector with the same dimension as the input.",
-        lambda args, result: isinstance(result, Vector) and result.size == args.other.size,
-    )
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def cross(self, other):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self, other))
@@ -217,16 +248,16 @@ class Vector(np.ndarray):
         >>> from skspatial.objects import Vector
 
         >>> Vector([0, 1]).project(Vector([2, 1]))
-        Vector([0. 1. 0.])
+        Vector([0., 1., 0.])
 
         >>> Vector([0, 100]).project(Vector([2, 1]))
-        Vector([0. 1. 0.])
+        Vector([0., 1., 0.])
 
         >>> Vector([0, 1]).project(Vector([9, 5]))
-        Vector([0. 5. 0.])
+        Vector([0., 5., 0.])
 
         >>> Vector([0, 100]).project(Vector([9, 5]))
-        Vector([0. 5. 0.])
+        Vector([0., 5., 0.])
 
         """
         unit_self = self.unit()
