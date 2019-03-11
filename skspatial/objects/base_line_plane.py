@@ -29,11 +29,48 @@ class _BaseLinePlane:
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_close(self, other, **kwargs):
+        """
+        Check if line/plane is almost equivalent to another line/plane.
 
-        close_point = self.point.is_close(other.point, **kwargs)
-        close_vector = self.vector.is_close(other.vector, **kwargs)
+        The points must be close and the vectors must be parallel.
 
-        return close_point and close_vector
+        Parameters
+        ----------
+        other : object
+             Line or Plane.
+
+        Returns
+        -------
+        bool
+            True if the objects are almost equivalent; false otherwise.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line, Plane
+
+        >>> line_a = Line(point=[0, 0], vector=[1, 0])
+        >>> line_b = Line(point=[0, 0], vector=[-2, 0])
+        >>> line_a.is_close(line_b)
+        True
+
+        >>> line_b = Line(point=[50, 0], vector=[-4, 0])
+        >>> line_a.is_close(line_b)
+        True
+
+        >>> line_b = Line(point=[50, 29], vector=[-4, 0])
+        >>> line_a.is_close(line_b)
+        False
+
+        >>> plane_a = Plane(point=[0, 0], vector=[0, 0, 5])
+        >>> plane_b = Plane(point=[23, 45], vector=[0, 0, -20])
+        >>> plane_a.is_close(plane_b)
+        True
+
+        """
+        contains_point = self.contains_point(other.point, **kwargs)
+        is_parallel = self.vector.is_parallel(other.vector, **kwargs)
+
+        return contains_point and is_parallel
 
     @ensure("The output must zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
