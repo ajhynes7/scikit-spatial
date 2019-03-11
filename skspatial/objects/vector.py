@@ -100,6 +100,16 @@ class Vector(_BaseArray1D):
         return np.allclose(self, 0, **kwargs)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    def add(self, other):
+        """Add a vector."""
+        return self + Vector(other)
+
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    def subtract(self, other):
+        """Subtract a vector."""
+        return self - Vector(other)
+
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def cross(self, other):
         """Compute the cross product with another vector."""
         return Vector(np.cross(self, Vector(other)))

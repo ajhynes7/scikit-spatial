@@ -150,12 +150,12 @@ class Plane(_BaseLinePlane):
         # Perpendicular vector from the point in space to the plane.
         vector_projected = self.normal.project(vector_to_plane)
 
-        return Point(point) + vector_projected
+        return Point(point).add(vector_projected)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def project_vector(self, vector):
         """Project a vector onto the plane."""
-        point_in_space = self.point + Vector(vector)
+        point_in_space = self.point.add(vector)
         point_on_plane = self.project_point(point_in_space)
 
         return Vector.from_points(self.point, point_on_plane)
@@ -258,7 +258,7 @@ class Plane(_BaseLinePlane):
         # Vector along the line to the intersection point.
         vector_line_scaled = num / denom * line.direction
 
-        return line.point + vector_line_scaled
+        return line.point.add(vector_line_scaled)
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     @require("The planes must not be parallel.", lambda args: not args.self.normal.is_parallel(args.other.normal))

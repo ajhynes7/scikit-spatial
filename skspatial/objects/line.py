@@ -108,7 +108,7 @@ class Line(_BaseLinePlane):
         """
         vector_along_line = t * self.direction
 
-        return self.point + vector_along_line
+        return self.point.add(vector_along_line)
 
     def contains_point(self, point, **kwargs):
         """Check if this line contains a point."""
@@ -147,7 +147,7 @@ class Line(_BaseLinePlane):
         vector_projected = self.direction.project(vector_to_point)
 
         # Add the projected vector to the point on the line.
-        return Point(self.point + vector_projected)
+        return self.point.add(vector_projected)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
@@ -288,4 +288,4 @@ class Line(_BaseLinePlane):
         # Vector along line A to the intersection point.
         vector_a_scaled = num / denom * self.direction
 
-        return self.point + vector_a_scaled
+        return self.point.add(vector_a_scaled)

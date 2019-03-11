@@ -12,6 +12,40 @@ class Point(_BaseArray1D):
 
         return super().__new__(cls, array_like)
 
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def add(self, vector):
+        """
+        Add a vector to the point.
+
+        Parameters
+        ----------
+        vector : array_like
+            Input vector.
+
+        Returns
+        -------
+        Point
+            Point after adding vector.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point
+        >>> point = Point([1, 2])
+
+        >>> point.add([2, 9, 1])
+        Point([ 3., 11.,  1.])
+
+        >>> point.add([-1, 5])
+        Point([0., 7., 0.])
+
+        """
+        return self + Vector(vector)
+
+    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
+    def subtract(self, vector):
+        """Subtract a vector from the point."""
+        return self - Vector(vector)
+
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, other):
