@@ -1,12 +1,11 @@
 """Measurements using spatial objects."""
 
 import numpy as np
-from dpcontracts import ensure, types
+from dpcontracts import ensure
 
-from skspatial.objects import Point, Vector
+from skspatial.objects import Vector
 
 
-@types(point_a=Point, point_b=Point, point_c=Point)
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
 @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
 def area_triangle(point_a, point_b, point_c):
@@ -17,11 +16,11 @@ def area_triangle(point_a, point_b, point_c):
 
     Parameters
     ----------
-    point_a: Point
+    point_a : array_like
         Input point A.
-    point_b: Point
+    point_b : array_like
         Input point B.
-    point_c : Point
+    point_c : array_like
         Input point C.
 
     Returns
@@ -34,10 +33,10 @@ def area_triangle(point_a, point_b, point_c):
     >>> from skspatial.measurement import area_triangle
     >>> from skspatial.objects import Point
 
-    >>> area_triangle(Point([0, 0]), Point([0, 1]), Point([1, 0]))
+    >>> area_triangle([0, 0], [0, 1], [1, 0])
     0.5
 
-    >>> area_triangle(Point([0, 0]), Point([0, 2]), Point([1, 1]))
+    >>> area_triangle([0, 0], [0, 2], [1, 1])
     1.0
 
     References
@@ -53,7 +52,6 @@ def area_triangle(point_a, point_b, point_c):
     return 0.5 * vector_cross.magnitude
 
 
-@types(point_a=Point, point_b=Point, point_c=Point, point_d=Point)
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
 @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
 def volume_tetrahedron(point_a, point_b, point_c, point_d):
@@ -64,13 +62,13 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Parameters
     ----------
-    point_a: Point
+    point_a : array_like
         Input point A.
-    point_b: Point
+    point_b : array_like
         Input point B.
-    point_c: Point
+    point_c : array_like
         Input point C.
-    point_d: Point
+    point_d : array_like
         Input point D.
 
     Returns
@@ -83,10 +81,10 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     >>> from skspatial.measurement import volume_tetrahedron
     >>> from skspatial.objects import Point
 
-    >>> volume_tetrahedron(Point([0, 0]), Point([3, 2]), Point([-3, 5]), Point([1, 8]))
+    >>> volume_tetrahedron([0, 0], [3, 2], [-3, 5], [1, 8])
     0.0
 
-    >>> volume = volume_tetrahedron(Point([0, 0]), Point([2, 0]), Point([1, 1]), Point([0, 0, 1]))
+    >>> volume = volume_tetrahedron([0, 0], [2, 0], [1, 1], [0, 0, 1])
     >>> volume.round(3)
     0.333
 

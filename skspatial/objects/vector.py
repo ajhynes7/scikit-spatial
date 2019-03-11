@@ -102,7 +102,7 @@ class Vector(_BaseArray1D):
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def cross(self, other):
         """Compute the cross product with another vector."""
-        return Vector(np.cross(self, other))
+        return Vector(np.cross(self, Vector(other)))
 
     def is_perpendicular(self, other, **kwargs):
         """
@@ -112,7 +112,7 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        other: Vector
+        other : array_like
             Input vector.
         kwargs : dict, optional
             Additional keywords passed to `np.isclose`.
@@ -126,18 +126,18 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> Vector([0, 1]).is_perpendicular(Vector([1, 0]))
+        >>> Vector([0, 1]).is_perpendicular([1, 0])
         True
 
-        >>> Vector([-1, 5]).is_perpendicular(Vector([3, 4]))
+        >>> Vector([-1, 5]).is_perpendicular([3, 4])
         False
 
-        >>> Vector([2, 0, 0]).is_perpendicular(Vector([0, 0, 2]))
+        >>> Vector([2, 0, 0]).is_perpendicular([0, 0, 2])
         True
 
         The zero vector is perpendicular to all vectors.
 
-        >>> Vector([0, 0, 0]).is_perpendicular(Vector([1, 2, 3]))
+        >>> Vector([0, 0, 0]).is_perpendicular([1, 2, 3])
         True
 
         """
@@ -151,7 +151,7 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        other: Vector
+        other : array_like
             Input vector.
         kwargs : dict, optional
             Additional keywords passed to `np.allclose`.
@@ -165,19 +165,19 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> Vector([0, 1]).is_parallel(Vector([1, 0]))
+        >>> Vector([0, 1]).is_parallel([1, 0])
         False
 
-        >>> Vector([-1, 5]).is_parallel(Vector([2, -10]))
+        >>> Vector([-1, 5]).is_parallel([2, -10])
         True
 
-        >>> Vector([1, 2, 3]).is_parallel(Vector([3, 6, 9]))
+        >>> Vector([1, 2, 3]).is_parallel([3, 6, 9])
         True
 
-        >>> Vector([0, 0, 0]).is_parallel(Vector([3, 4, -1]))
+        >>> Vector([0, 0, 0]).is_parallel([3, 4, -1])
         True
 
-        >>> Vector([1, 2, 3]).is_parallel(Vector([2, 4, 6]))
+        >>> Vector([1, 2, 3]).is_parallel([2, 4, 6])
         True
 
         """
@@ -185,7 +185,7 @@ class Vector(_BaseArray1D):
 
         return vector_cross.is_zero(**kwargs)
 
-    @require("Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or args.other.is_zero()))
+    @require("Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero()))
     @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def angle_between(self, other):
@@ -194,7 +194,7 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        other : Vector
+        other : array_like
 
         Returns
         -------
@@ -206,22 +206,22 @@ class Vector(_BaseArray1D):
         >>> import numpy as np
         >>> from skspatial.objects import Vector
 
-        >>> Vector([1, 0]).angle_between(Vector([1, 0]))
+        >>> Vector([1, 0]).angle_between([1, 0])
         0.0
 
-        >>> Vector([1, 1, 1]).angle_between(Vector([1, 1, 1]))
+        >>> Vector([1, 1, 1]).angle_between([1, 1, 1])
         0.0
 
-        >>> angle = Vector([1, 0]).angle_between(Vector([1, 1]))
+        >>> angle = Vector([1, 0]).angle_between([1, 1])
         >>> np.degrees(angle).round()
         45.0
 
-        >>> angle = Vector([1, 0]).angle_between(Vector([-2, 0]))
+        >>> angle = Vector([1, 0]).angle_between([-2, 0])
         >>> np.degrees(angle).round()
         180.0
 
         """
-        cos_theta = self.dot(other) / (self.magnitude * other.magnitude)
+        cos_theta = self.dot(other) / (self.magnitude * Vector(other).magnitude)
 
         # Ensure that input to arccos is in range [-1, 1] so that output is real.
         cos_theta = np.clip(cos_theta, -1, 1)
@@ -235,7 +235,7 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        other : Vector
+        other : array_like
             Input vector.
 
         Returns
@@ -247,22 +247,22 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> Vector([0, 1]).project(Vector([2, 1]))
+        >>> Vector([0, 1]).project([2, 1])
         Vector([0., 1., 0.])
 
-        >>> Vector([0, 100]).project(Vector([2, 1]))
+        >>> Vector([0, 100]).project([2, 1])
         Vector([0., 1., 0.])
 
-        >>> Vector([0, 1]).project(Vector([9, 5]))
+        >>> Vector([0, 1]).project([9, 5])
         Vector([0., 5., 0.])
 
-        >>> Vector([0, 100]).project(Vector([9, 5]))
+        >>> Vector([0, 100]).project([9, 5])
         Vector([0., 5., 0.])
 
         """
         unit_self = self.unit()
 
         # Scalar projection of other vector onto self.
-        scalar_projection = Vector(other).dot(unit_self)
+        scalar_projection = unit_self.dot(other)
 
         return scalar_projection * unit_self

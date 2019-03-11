@@ -25,7 +25,7 @@ class Plane(_BaseLinePlane):
         return f"Plane(point={repr_point}, normal={repr_vector})"
 
     @classmethod
-    @require("The vectors must not be parallel.", lambda args: not args.vector_a.is_parallel(args.vector_b))
+    @require("The vectors must not be parallel.", lambda args: not Vector(args.vector_a).is_parallel(args.vector_b))
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_vectors(cls, point, vector_a, vector_b):
         """
@@ -35,11 +35,11 @@ class Plane(_BaseLinePlane):
 
         Parameters
         ----------
-        point: Point
+        point : array_like
             Point on the plane.
-        vector_a : Vector
+        vector_a : array_like
             Input vector A.
-        vector_b : Vector
+        vector_b : array_like
             Input vector B.
 
         Returns
@@ -49,18 +49,18 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Plane
+        >>> from skspatial.objects import Plane
 
-        >>> Plane.from_vectors(Point([0, 0]), Vector([1, 0]), Vector([0, 1]))
+        >>> Plane.from_vectors([0, 0], [1, 0], [0, 1])
         Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
 
-        >>> Plane.from_vectors(Point([0, 0]), Vector([1, 0]), Vector([2, 0]))
+        >>> Plane.from_vectors([0, 0], [1, 0], [2, 0])
         Traceback (most recent call last):
         ...
         dpcontracts.PreconditionError: The vectors must not be parallel.
 
         """
-        vector_normal = vector_a.cross(vector_b)
+        vector_normal = Vector(vector_a).cross(vector_b)
 
         return cls(point, vector_normal)
 
@@ -77,11 +77,11 @@ class Plane(_BaseLinePlane):
 
         Parameters
         ----------
-        point_a : Point
+        point_a : array_like
             Input point A.
-        point_b : Point
+        point_b : array_like
             Input point B.
-        point_c : Point
+        point_c : array_like
             Input point C.
 
         Returns
@@ -91,7 +91,7 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Plane
+        >>> from skspatial.objects import Plane
 
         >>> Plane.from_points([0, 0], [1, 0], [3, 3])
         Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
@@ -125,7 +125,7 @@ class Plane(_BaseLinePlane):
 
         Parameters
         ----------
-        point : Point
+        point : array_like
             Input point.
 
         Returns
@@ -137,8 +137,8 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Point, Vector, Plane
 
-        >>> point = Point([10, 2, 5])
-        >>> plane = Plane(Point([0, 0, 0]), Vector([0, 0, 1]))
+        >>> point = [10, 2, 5]
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.project_point(point)
         Point([10.,  2.,  0.])
@@ -150,7 +150,7 @@ class Plane(_BaseLinePlane):
         # Perpendicular vector from the point in space to the plane.
         vector_projected = self.normal.project(vector_to_plane)
 
-        return Point(point + vector_projected)
+        return Point(point) + vector_projected
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def project_vector(self, vector):
@@ -167,7 +167,7 @@ class Plane(_BaseLinePlane):
 
         Parameters
         ----------
-        point : Point
+        point : array_like
             Input point.
 
         Returns
@@ -177,19 +177,19 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Plane
+        >>> from skspatial.objects import Plane
 
-        >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
+        >>> plane = Plane([0, 0], [0, 0, 1])
 
-        >>> plane.distance_point_signed(Point([5, 2]))
+        >>> plane.distance_point_signed([5, 2])
         0.0
 
-        >>> plane.distance_point_signed(Point([5, 2, 1]))
+        >>> plane.distance_point_signed([5, 2, 1])
         1.0
 
-        >>> plane.distance_point(Point([5, 2, -4]))
+        >>> plane.distance_point([5, 2, -4])
         4.0
-        >>> plane.distance_point_signed(Point([5, 2, -4]))
+        >>> plane.distance_point_signed([5, 2, -4])
         -4.0
 
         References
@@ -227,19 +227,19 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Line, Plane
+        >>> from skspatial.objects import Line, Plane
 
-        >>> line = Line(Point([0, 0]), Vector([0, 0, 1]))
-        >>> plane = Plane(Point([0, 0]), Vector([0, 0, 1]))
+        >>> line = Line([0, 0], [0, 0, 1])
+        >>> plane = Plane([0, 0], [0, 0, 1])
 
         >>> plane.intersect_line(line)
         Point([0., 0., 0.])
 
-        >>> plane = Plane(Point([2, -53, -7]), Vector([0, 0, 1]))
+        >>> plane = Plane([2, -53, -7], [0, 0, 1])
         >>> plane.intersect_line(line)
         Point([ 0.,  0., -7.])
 
-        >>> line = Line(Point([0, 1]), Vector([1, 0, 0]))
+        >>> line = Line([0, 1], [1, 0, 0])
         >>> plane.intersect_line(line)
         Traceback (most recent call last):
         ...
@@ -285,23 +285,23 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import Point, Vector, Plane
+        >>> from skspatial.objects import Plane
 
-        >>> plane_a = Plane(Point([0]), Vector([0, 0, 1]))
-        >>> plane_b = Plane(Point([0]), Vector([1, 0, 0]))
+        >>> plane_a = Plane([0], [0, 0, 1])
+        >>> plane_b = Plane([0], [1, 0, 0])
 
         >>> plane_a.intersect_plane(plane_b)
         Line(point=Point([0., 0., 0.]), direction=Vector([0., 1., 0.]))
 
-        >>> plane_b = Plane(Point([5, 16, -94]), Vector([1, 0, 0]))
+        >>> plane_b = Plane([5, 16, -94], [1, 0, 0])
         >>> plane_a.intersect_plane(plane_b)
         Line(point=Point([5., 0., 0.]), direction=Vector([0., 1., 0.]))
 
-        >>> plane_b = Plane(Point([0, 0, 1]), Vector([1, 0, 1]))
+        >>> plane_b = Plane([0, 0, 1], [1, 0, 1])
         >>> plane_a.intersect_plane(plane_b)
         Line(point=Point([1., 0., 0.]), direction=Vector([0., 1., 0.]))
 
-        >>> plane_b = Plane(Point([0, 0, 5]), Vector([0, 0, -8]))
+        >>> plane_b = Plane([0, 0, 5], [0, 0, -8])
         >>> plane_a.intersect_plane(plane_b)
         Traceback (most recent call last):
         ...

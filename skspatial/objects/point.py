@@ -15,7 +15,34 @@ class Point(_BaseArray1D):
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, other):
-        """Compute the distance from self to another point."""
+        """
+        Compute the distance from self to another point.
+
+        Parameters
+        ----------
+        other : array_like
+            Input point.
+
+        Returns
+        -------
+        scalar
+            Distance between points.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point
+        >>> point = Point([1, 2])
+
+        >>> point.distance_point([1, 2])
+        0.0
+
+        >>> point.distance_point([-1, 2])
+        2.0
+
+        >>> point.distance_point([1, 2, 3])
+        3.0
+
+        """
         vector = Vector.from_points(self, other)
 
         return vector.magnitude
@@ -46,7 +73,7 @@ class Point(_BaseArray1D):
         >>> Point([0, 1]).is_collinear([1, 0], [1, 2])
         False
 
-        >>> Point([1, 1]).is_collinear(Point([2, 2]), Point([5, 5]), atol=1e-7)
+        >>> Point([1, 1]).is_collinear([2, 2], [5, 5], atol=1e-7)
         True
 
         """
