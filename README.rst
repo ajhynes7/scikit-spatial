@@ -65,29 +65,27 @@ Measure the angle between two vectors.
 >>> import numpy as np
 >>> from skspatial.objects import Vector
 
->>> vector_a = Vector([1, 0])
->>> vector_b = Vector([1, 1])
+>>> vector = Vector([1, 0])
+>>> angle = vector.angle_between([1, 1])
 
->>> angle = vector_a.angle_between(vector_b)
 >>> np.degrees(angle).round()
 45.0
 
 
 Project a point onto a line.
 
->>> from skspatial.objects import Point, Line
+>>> from skspatial.objects import Line
 
->>> line = Line(Point([0, 0]), Vector([1, 1]))
->>> point = Point([5, 6, 7])
+>>> line = Line(point=[0, 0], vector=[1, 1])
 
->>> line.project_point(point)
-Point([5.5 5.5 0. ])
+>>> line.project_point([5, 6, 7])
+Point([5.5, 5.5, 0. ])
 
 
 An error is returned if the computation is undefined.
 
->>> line_a = Line(Point([0, 0]), Vector([1, 0]))
->>> line_b = Line(Point([1, 0]), Vector([1, 0]))
+>>> line_a = Line([0, 0], [1, 0])
+>>> line_b = Line([1, 0], [1, 0])
 
 >>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
@@ -95,8 +93,8 @@ Traceback (most recent call last):
 dpcontracts.PreconditionError: The lines must not be parallel.
 
 
-Credits
--------
+Acknowledgment
+--------------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
