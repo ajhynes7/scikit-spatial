@@ -1,7 +1,7 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
-from skspatial.transformation import mean_center
+from skspatial.transformation import mean_center, normalize_dimension
 from .base_line_plane import _BaseLinePlane
 from .point import Point
 from .vector import Vector
@@ -297,6 +297,7 @@ class Line(_BaseLinePlane):
 
     @classmethod
     @types(points=np.ndarray)
+    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
     @require("There must be at least two points.", lambda args: args.points.shape[0] >= 2)
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def best_fit(cls, points):
@@ -334,3 +335,43 @@ class Line(_BaseLinePlane):
         direction = Vector(vh[0, :])
 
         return cls(centroid, direction)
+
+    @types(points=np.ndarray)
+    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
+    @ensure("There is one coordinate for each input point.", lambda args, result: result.size == args.points.shape[0])
+    @ensure("The output is a 1D array.", lambda _, result: result.ndim == 1)
+    @ensure("The coordinates are all finite.", lambda _, result: np.isfinite(result).all())
+    def transform_points(self, points):
+        """
+        Transform points to a one-dimensional coordinate system defined by a line.
+
+        The point on the line acts as the origin of the coordinate system.
+
+        The line is analagous to an x-axis. The output coordinates represent the
+        x-values of points on this line.
+
+        Parameters
+        ----------
+        points : ndarray
+            (n, d) array of n points with dimension d.
+
+        Returns
+        -------
+        coordinates : ndarray
+            One-dimensional coordinates.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+
+        >>> line = Line(point=[0, 0], vector=[1, 0])
+        >>> points = np.array([[10, 2], [3, 4], [-5, 5]])
+
+        >>> line.transform_points(points)
+        array([10.,  3., -5.])
+
+        """
+        vectors_to_points = normalize_dimension(points) - self.point
+        coordinates = np.apply_along_axis(np.dot, 1, vectors_to_points, self.direction)
+
+        return coordinates

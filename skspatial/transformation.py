@@ -3,6 +3,8 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
+from skspatial.objects import Point
+
 
 @types(points=np.ndarray)
 @require("The input must be a 2D array of points", lambda args: args.points.ndim == 2)
@@ -77,7 +79,41 @@ def mean_center(points):
 
     """
     centroid = get_centroid(points)
-
     points_centered = points - centroid
 
     return points_centered, centroid
+
+
+@ensure("The output is an ndarray.", lambda _, result: isinstance(result, np.ndarray))
+def normalize_dimension(seq_points):
+    """
+    Normalize the dimension of a set of points.
+
+    Each point is converted to a `Point` object.
+    The Point objects are then stacked into one ndarray.
+
+    Parameters
+    ----------
+    seq_points : sequence
+         Sequence of array_like objects.
+
+    Returns
+    -------
+    ndarray
+        Each row corresponds to a point in the input sequence.
+
+    Examples
+    --------
+    >>> from skspatial.transformation import normalize_dimension
+
+    >>> seq_points = ([1], [1, 2], [1, 2, 3])
+
+    >>> normalize_dimension(seq_points)
+    array([[1., 0., 0.],
+           [1., 2., 0.],
+           [1., 2., 3.]])
+
+    """
+    list_points = [Point(x) for x in seq_points]
+
+    return np.vstack(list_points)
