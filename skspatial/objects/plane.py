@@ -11,7 +11,7 @@ from .vector import Vector
 class Plane(_BaseLinePlane):
     """Plane in space."""
 
-    def __init__(self, point, vector):
+    def __init__(self, point=[0, 0, 0], vector=[0, 0, 1]):
 
         super().__init__(point, vector)
 
