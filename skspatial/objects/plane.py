@@ -391,6 +391,7 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
+        >>> import numpy as np
         >>> from skspatial.objects import Plane
 
         >>> points = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
