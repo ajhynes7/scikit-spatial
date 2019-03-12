@@ -1,6 +1,7 @@
 import numpy as np
-from dpcontracts import require, ensure
+from dpcontracts import require, ensure, types
 
+from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
 from .point import Point
 from .vector import Vector
@@ -293,3 +294,43 @@ class Line(_BaseLinePlane):
         vector_a_scaled = num / denom * self.direction
 
         return self.point.add(vector_a_scaled)
+
+    @classmethod
+    @types(points=np.ndarray)
+    @require("There must be at least two points.", lambda args: args.points.shape[0] >= 2)
+    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
+    def best_fit(cls, points):
+        """
+        Return the line of best fit for a set of points.
+
+        Parameters
+        ----------
+        points : ndarray
+             Input points.
+
+        Returns
+        -------
+        Line
+            The line of best fit.
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> from skspatial.objects import Line
+
+        >>> points = np.array([[1, 0], [2, 0], [3, 0]])
+        >>> line = Line.best_fit(points)
+
+        >>> line.point
+        Point([2., 0., 0.])
+
+        >>> line.direction
+        Vector([1., 0., 0.])
+
+        """
+        points_centered, centroid = mean_center(points)
+
+        _, _, vh = np.linalg.svd(points_centered)
+        direction = Vector(vh[0, :])
+
+        return cls(centroid, direction)
