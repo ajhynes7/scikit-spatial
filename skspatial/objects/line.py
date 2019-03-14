@@ -1,7 +1,7 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
-from skspatial.transformation import mean_center, normalize_dimension
+from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
 from .point import Point
 from .vector import Vector
@@ -365,13 +365,13 @@ class Line(_BaseLinePlane):
         >>> from skspatial.objects import Line
 
         >>> line = Line(point=[0, 0], vector=[1, 0])
-        >>> points = np.array([[10, 2], [3, 4], [-5, 5]])
+        >>> points = np.array([[10, 2, 0], [3, 4, 0], [-5, 5, 0]])
 
         >>> line.transform_points(points)
         array([10.,  3., -5.])
 
         """
-        vectors_to_points = normalize_dimension(points) - self.point
+        vectors_to_points = points - self.point
         coordinates = np.apply_along_axis(np.dot, 1, vectors_to_points, self.direction)
 
         return coordinates
