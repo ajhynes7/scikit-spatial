@@ -42,7 +42,7 @@ Measure the distance from a point to a line.
 
 >>> from skspatial.objects import Line
 
->>> line = Line(point=[1, 2, 0], vector=[2, 4, 1])
+>>> line = Line(point=[1, 2, 0], direction=[2, 4, 1])
 
 >>> line.distance_point([9, -3, -2]).round(3)
 9.554
@@ -56,7 +56,7 @@ Measure the distance from a point to a plane.
 >>> from skspatial.objects import Plane
 
 >>> point = [5, 7, -2]
->>> plane = Plane(point=[0, 0], vector=[0, 0, 1])
+>>> plane = Plane(point=[0, 0], normal=[0, 0, 1])
 
 >>> plane.distance_point(point)
 2.0

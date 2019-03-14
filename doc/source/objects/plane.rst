@@ -6,7 +6,7 @@ A plane is defined by a point and a normal vector. The normal vector of the plan
 
 >>> from skspatial.objects import Plane
 
->>> plane_1 = Plane(point=[0, 0], vector=[0, 0, 23])
+>>> plane_1 = Plane(point=[0, 0], normal=[0, 0, 23])
 
 >>> plane_1
 Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))

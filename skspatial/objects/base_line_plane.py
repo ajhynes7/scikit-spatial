@@ -1,5 +1,7 @@
 """Classes for the Line and Plane spatial objects."""
 
+import inspect
+
 import numpy as np
 from dpcontracts import require, ensure
 
@@ -13,7 +15,7 @@ class _BaseLinePlane:
     @require("The vector cannot be the zero vector.", lambda args: not Vector(args.vector).is_zero())
     @ensure("The point is a Point.", lambda args, _: isinstance(args.self.point, Point))
     @ensure("The vector is a Vector", lambda args, _: isinstance(args.self.vector, Vector))
-    def __init__(self, point=[0, 0, 0], vector=[1, 0, 0]):
+    def __init__(self, point, vector):
 
         self.point = Point(point)
         self.vector = Vector(vector).unit()
@@ -21,11 +23,12 @@ class _BaseLinePlane:
     def __repr__(self):
 
         name_class = type(self).__name__
+        name_vector = inspect.getfullargspec(type(self)).args[-1]
 
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return f"{name_class}(point={repr_point}, normal={repr_vector})"
+        return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_close(self, other, **kwargs):
@@ -48,21 +51,21 @@ class _BaseLinePlane:
         --------
         >>> from skspatial.objects import Line, Plane
 
-        >>> line_a = Line(point=[0, 0], vector=[1, 0])
-        >>> line_b = Line(point=[0, 0], vector=[-2, 0])
+        >>> line_a = Line(point=[0, 0], direction=[1, 0])
+        >>> line_b = Line(point=[0, 0], direction=[-2, 0])
         >>> line_a.is_close(line_b)
         True
 
-        >>> line_b = Line(point=[50, 0], vector=[-4, 0])
+        >>> line_b = Line(point=[50, 0], direction=[-4, 0])
         >>> line_a.is_close(line_b)
         True
 
-        >>> line_b = Line(point=[50, 29], vector=[-4, 0])
+        >>> line_b = Line(point=[50, 29], direction=[-4, 0])
         >>> line_a.is_close(line_b)
         False
 
-        >>> plane_a = Plane(point=[0, 0], vector=[0, 0, 5])
-        >>> plane_b = Plane(point=[23, 45], vector=[0, 0, -20])
+        >>> plane_a = Plane(point=[0, 0], normal=[0, 0, 5])
+        >>> plane_b = Plane(point=[23, 45], normal=[0, 0, -20])
         >>> plane_a.is_close(plane_b)
         True
 

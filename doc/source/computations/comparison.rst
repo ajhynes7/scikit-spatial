@@ -42,8 +42,8 @@ Check if two lines are coplanar.
 
 >>> from skspatial.objects import Point, Line
 
->>> line_a = Line(point=[0, 0], vector=[1, 2])
->>> line_b = Line(point=[6, 8], vector=[3, -4])
+>>> line_a = Line(point=[0, 0], direction=[1, 2])
+>>> line_b = Line(point=[6, 8], direction=[3, -4])
 
 >>> line_a.is_coplanar(line_b)
 True

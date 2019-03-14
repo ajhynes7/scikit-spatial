@@ -9,20 +9,50 @@ from .vector import Vector
 
 
 class Plane(_BaseLinePlane):
-    """Plane in space."""
+    """
+    Plane in space.
 
-    def __init__(self, point=[0, 0, 0], vector=[0, 0, 1]):
+    The plane is defined by a point and a normal vector.
 
-        super().__init__(point, vector)
+    Parameters
+    ----------
+    point : array_like, optional
+        Point on the plane.
+    direction : array_like, optional
+        Normal vector of the plane.
 
+    Attributes
+    ----------
+    point : Point
+        Point on the plane.
+    normal : Vector
+        Unit normal vector.
+    vector : Vector
+        Same as the normal.
+
+    Examples
+    --------
+    >>> from skspatial.objects import Plane
+
+    >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 5])
+
+    >>> plane
+    Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
+
+    The normal attribute is the unit vector of the input.
+    >>> plane.normal
+    Vector([0., 0., 1.])
+
+    The normal can also be accessed with the 'vector' attribute.
+    >>> plane.vector
+    Vector([0., 0., 1.])
+
+    """
+
+    def __init__(self, point=[0, 0, 0], normal=[0, 0, 1]):
+
+        super().__init__(point, normal)
         self.normal = self.vector
-
-    def __repr__(self):
-
-        repr_point = np.array_repr(self.point)
-        repr_vector = np.array_repr(self.vector)
-
-        return f"Plane(point={repr_point}, normal={repr_vector})"
 
     @classmethod
     @require("The vectors must not be parallel.", lambda args: not Vector(args.vector_a).is_parallel(args.vector_b))

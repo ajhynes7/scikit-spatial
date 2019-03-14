@@ -9,7 +9,7 @@ The intersection of a `Line` with a `Line` is a `Point`.
 
 >>> from skspatial.objects import Line
 
->>> line_a = Line(point=[0, 0], vector=[1, 1])
+>>> line_a = Line(point=[0, 0], direction=[1, 1])
 >>> line_b = Line([10, 0], [0, 1])
 
 >>> line_a.intersect_line(line_b)

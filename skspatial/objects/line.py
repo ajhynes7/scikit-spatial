@@ -8,20 +8,51 @@ from .vector import Vector
 
 
 class Line(_BaseLinePlane):
-    """Line in space."""
+    """
+    Line in space.
 
-    def __init__(self, point=[0, 0], vector=[1, 0]):
+    The line is defined by a point and a direction vector.
 
-        super().__init__(point, vector)
+    Parameters
+    ----------
+    point : array_like, optional
+        Point on the line.
+    direction : array_like, optional
+        Direction vector of the line.
+
+    Attributes
+    ----------
+    point : Point
+        Point on the line.
+    direction : Vector
+        Unit direction vector.
+    vector : Vector
+        Same as the direction.
+
+    Examples
+    --------
+    >>> from skspatial.objects import Line
+
+    >>> line = Line(point=[0, 0], direction=[3, 0])
+
+    >>> line
+    Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
+
+    The direction attribute is the unit vector of the input.
+    >>> line.direction
+    Vector([1., 0., 0.])
+
+    The direction can also be accessed with the 'vector' attribute.
+    >>> line.vector
+    Vector([1., 0., 0.])
+
+    """
+
+    def __init__(self, point=[0, 0], direction=[1, 0]):
+
+        super().__init__(point, direction)
 
         self.direction = self.vector
-
-    def __repr__(self):
-
-        repr_point = np.array_repr(self.point)
-        repr_vector = np.array_repr(self.vector)
-
-        return f"Line(point={repr_point}, direction={repr_vector})"
 
     @classmethod
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
@@ -79,7 +110,7 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line_a = Line(point=[0, 0], vector=[1, 0])
+        >>> line_a = Line(point=[0, 0], direction=[1, 0])
         >>> line_b = Line([-5, 3], [7, 1])
         >>> line_c = Line([0, 0, 0], [0, 0, 1])
 
@@ -140,7 +171,7 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], vector=[1, 0])
+        >>> line = Line(point=[0, 0], direction=[1, 0])
         >>> line.project_point([5, 5])
         Point([5., 0., 0.])
 
@@ -364,7 +395,7 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], vector=[1, 0])
+        >>> line = Line(point=[0, 0], direction=[1, 0])
         >>> points = np.array([[10, 2, 0], [3, 4, 0], [-5, 5, 0]])
 
         >>> line.transform_points(points)

@@ -78,7 +78,7 @@ Project a point onto a line.
 
 >>> from skspatial.objects import Line
 
->>> line = Line(point=[0, 0], vector=[1, 1])
+>>> line = Line(point=[0, 0], direction=[1, 1])
 
 >>> line.project_point([5, 6, 7])
 Point([5.5, 5.5, 0. ])
