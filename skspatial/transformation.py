@@ -84,12 +84,10 @@ def mean_center(points):
 
 @types(points=np.ndarray)
 @require(
-    "The points dimension cannot be greater than the desired dimension.",
-    lambda args: args.points.shape[1] <= args.dim
+    "The points dimension cannot be greater than the desired dimension.", lambda args: args.points.shape[1] <= args.dim
 )
 @ensure(
-    "The output must have the desired dimensions.",
-    lambda args, result: result.shape == (len(args.points), args.dim)
+    "The output must have the desired dimensions.", lambda args, result: result.shape == (len(args.points), args.dim)
 )
 @ensure("The output must be an ndarray.", lambda _, result: isinstance(result, np.ndarray))
 def set_dimension(points, dim):

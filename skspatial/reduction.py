@@ -1,6 +1,5 @@
 """Functions related to dimension reduction."""
 
-from dpcontracts import ensure
 from numpy.linalg import matrix_rank
 
 from skspatial.transformation import mean_center
