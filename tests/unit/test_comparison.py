@@ -53,6 +53,28 @@ def test_is_parallel(array_u, array_v, bool_expected):
 
 
 @pytest.mark.parametrize(
+    "array_a, array_b, value_expected",
+    [
+        ([0, 1], [0, 1], 0),
+        ([0, 1], [0, 9], 0),
+        ([0, 1], [0, -20], 0),
+        ([0, 1], [1, 1], 1),
+        ([0, 1], [38, 29], 1),
+        ([0, 1], [1, 0], 1),
+        ([0, 1], [1, -100], 1),
+        ([0, 1], [1, -100], 1),
+        ([0, 1], [-1, 1], -1),
+        ([0, 1], [-1, 20], -1),
+        ([0, 1], [-1, -20], -1),
+        ([0, 1], [-5, 50], 1),
+    ],
+)
+def test_vector_side(array_a, array_b, value_expected):
+
+    Vector(array_a).side(array_b) == value_expected
+
+
+@pytest.mark.parametrize(
     "array_a, array_b, array_c, bool_expected",
     [
         ([0], [0], [0], True),

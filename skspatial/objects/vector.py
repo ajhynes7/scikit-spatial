@@ -244,6 +244,48 @@ class Vector(_BaseArray1D):
 
         return np.arccos(cos_theta)
 
+    @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
+    @ensure("The output is in set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
+    def side(self, other):
+        """
+        Find which side a vector is compared to this vector.
+
+        The two vectors must be 2D.
+
+        Parameters
+        ----------
+        other : array_like
+            Input 2D vector.
+
+        Returns
+        -------
+        int
+            1 if the other vector is right of self.
+            0 if other is parallel to self.
+            -1 if other is left of self.
+
+        Examples
+        --------
+        >>> vector = Vector([0, 1])
+
+        >>> vector.side([1, 1])
+        1
+
+        >>> vector.side([1, -10])
+        1
+
+        >>> vector.side([0, 2])
+        0
+
+        >>> vector.side([0, -5])
+        0
+
+        >>> vector.side([-3, 4])
+        -1
+
+        """
+        return np.sign(Vector(other).cross(self)).astype(int)
+
     @ensure("The output must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project(self, other):
         """
