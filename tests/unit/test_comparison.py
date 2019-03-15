@@ -28,11 +28,12 @@ def test_is_perpendicular(array_u, array_v, bool_expected):
     "array_u, array_v, bool_expected",
     [
         ([0, 1], [0, 1], True),
+        ([1, 0], [0, 1], False),
+        ([0, 1], [4, 0], False),
         ([0, 1], [0, 5], True),
         ([1, 1], [-1, -1], True),
         ([1, 1], [-5, -5], True),
         ([0, 1], [0, -1], True),
-        ([0, 1], [4, 0], False),
         ([0.1, 5, 4], [3, 2, 0], False),
         ([1, 1, 1, 1], [-2, -2, -2, 4], False),
         ([1, 1, 1, 1], [-2, -2, -2, -2], True),
