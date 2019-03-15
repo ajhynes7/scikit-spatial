@@ -5,17 +5,13 @@ from dpcontracts import require, ensure
 class _BaseArray1D(np.ndarray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
+    @require("The input array must not be empty.", lambda args: len(args.array_like) > 0)
     @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
-    @require("The input length must be one to three.", lambda args: len(args.array_like) in [1, 2, 3])
     @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
-    @ensure("The output must be a 1D array with length three.", lambda _, result: result.shape == (3,))
+    @ensure("The output must be a 1D array with the input length.", lambda args, result: result.shape == (len(args.array_like),))
     def __new__(cls, array_like):
 
-        array = np.array(array_like)
-
-        # Ensure the array has length three.
-        padding = np.zeros(3 - array.size)
-        array = np.concatenate((array, padding))
+        array = np.array(array_like, dtype=float)
 
         # We cast the input array to be our class type.
         obj = np.asarray(array).view(cls)
