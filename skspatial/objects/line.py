@@ -328,8 +328,8 @@ class Line(_BaseLinePlane):
 
     @classmethod
     @types(points=np.ndarray)
-    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
     @require("There must be at least two points.", lambda args: args.points.shape[0] >= 2)
+    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def best_fit(cls, points):
         """
