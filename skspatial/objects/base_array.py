@@ -3,7 +3,7 @@ from dpcontracts import require, ensure
 
 
 class _BaseArray1D(np.ndarray):
-    """Private base class for spatial objects based on a single 1D numpy array."""
+    """Private base class for spatial objects based on a single 1D NumPy array."""
 
     @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
     @require("The input length must be one to three.", lambda args: len(args.array_like) in [1, 2, 3])
