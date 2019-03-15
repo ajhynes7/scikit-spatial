@@ -11,10 +11,11 @@ class _BaseArray1D(np.ndarray):
     @ensure("The output must be a 1D array with length three.", lambda _, result: result.shape == (3,))
     def __new__(cls, array_like):
 
-        n_dimensions = len(array_like)
-        array_padding = np.zeros(3 - n_dimensions)
+        array = np.array(array_like)
 
-        array = np.concatenate((np.array(array_like), array_padding))
+        # Ensure the array has length three.
+        padding = np.zeros(3 - array.size)
+        array = np.concatenate((array, padding))
 
         # We cast the input array to be our class type.
         obj = np.asarray(array).view(cls)
