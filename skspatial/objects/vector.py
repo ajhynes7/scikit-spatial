@@ -161,7 +161,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Input vector.
         kwargs : dict, optional
-            Additional keywords passed to `np.allclose`.
+            Additional keywords passed to `np.isclose`.
 
         Returns
         -------
@@ -181,16 +181,16 @@ class Vector(_BaseArray1D):
         >>> Vector([1, 2, 3]).is_parallel([3, 6, 9])
         True
 
-        >>> Vector([0, 0, 0]).is_parallel([3, 4, -1])
-        True
-
-        >>> Vector([1, 2, 3]).is_parallel([2, 4, 6])
+        >>> Vector([1, 2, 3, 4]).is_parallel([-2, -4, -6, -8])
         True
 
         """
-        vector_cross = self.cross(other)
+        angle = self.angle_between(other)
 
-        return vector_cross.is_zero(**kwargs)
+        is_direction_same = np.isclose(angle, 0, **kwargs)
+        is_direction_opposite = np.isclose(angle, np.pi, **kwargs)
+
+        return is_direction_same or is_direction_opposite
 
     @require(
         "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
