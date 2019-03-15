@@ -106,10 +106,9 @@ class Vector(_BaseArray1D):
         """Subtract a vector."""
         return self - Vector(other)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def cross(self, other):
         """Compute the cross product with another vector."""
-        return Vector(np.cross(self, Vector(other)))
+        return np.cross(self, other)
 
     def is_perpendicular(self, other, **kwargs):
         """
