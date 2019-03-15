@@ -5,35 +5,35 @@ from skspatial.objects import Point, Vector, Line, Plane
 
 
 @pytest.mark.parametrize(
-    "point_a, point_b, line_expected",
+    "array_a, array_b, line_expected",
     [
         ([0, 0], [1, 0], Line([0, 0], [1, 0])),
         ([0, 0], [1, 1], Line([0, 0], [1, 1])),
         ([5, 2], [9, 2], Line([5, 2], [1, 0])),
         ([1, 1], [0, 0], Line([1, 1], [-1, -1])),
         ([0, 0], [5, 0], Line([0, 0], [1, 0])),
+        ([0, 5, 9, 2], [4], Line([0, 5, 9, 2], [4, -1, -5, 2])),
     ],
 )
-def test_from_points(point_a, point_b, line_expected):
+def test_from_points(array_a, array_b, line_expected):
 
-    assert Line.from_points(point_a, point_b).is_close(line_expected)
+    assert Line.from_points(array_a, array_b).is_close(line_expected)
 
 
 @pytest.mark.parametrize(
-    "point_a, point_b",
+    "array_a, array_b",
     [
         # The zero vector cannot be used.
-        (Point([0]), Point([0])),
-        (Point([1, 5]), Point([1, 5])),
-        (Point([-1, 5]), Vector([-1, 5])),
+        ([0], [0]),
+        ([1, 2], [1, 2]),
+        ([-1, 5], [-1, 5]),
+        ([5, 2, 9, 3], [5, 2, 9, 3]),
     ],
 )
-def test_from_points_failure(point_a, point_b):
+def test_from_points_failure(array_a, array_b):
 
     with pytest.raises(Exception):
-        Line.from_points(point_a, point_b)
-
-
+        Line.from_points(array_a, array_b)
 
 
 @pytest.mark.parametrize(
@@ -46,10 +46,11 @@ def test_from_points_failure(point_a, point_b):
         (Line([5, 2, 1], [0, 2, 0]), 0, [5, 2, 1]),
         (Line([5, 2, 1], [0, 9, 0]), 1, [5, 3, 1]),
         (Line([5, 2, 1], [0, -9, 0]), 1, [5, 1, 1]),
+        (Line([6, -3, 7, 8], [0, 8, 0, 0]), 1, [6, -2, 7, 8]),
     ],
 )
 def test_to_point(line, param, array_expected):
 
     point = line.to_point(t=param)
 
-    assert_array_equal(point, Point(array_expected))
+    assert_array_equal(point, array_expected)
