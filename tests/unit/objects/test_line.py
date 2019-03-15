@@ -34,19 +34,6 @@ def test_from_points_failure(point_a, point_b):
         Line.from_points(point_a, point_b)
 
 
-@pytest.mark.parametrize(
-    "point, vector",
-    [
-        # The zero vector cannot be used.
-        (Point([0]), Vector([0])),
-        (Point([1]), Vector([0])),
-    ],
-)
-@pytest.mark.parametrize("class_spatial", [Line, Plane])
-def test_init_failure(point, vector, class_spatial):
-
-    with pytest.raises(Exception):
-        class_spatial(point, vector)
 
 
 @pytest.mark.parametrize(
