@@ -80,3 +80,24 @@ def mean_center(points):
     points_centered = points - centroid
 
     return points_centered, centroid
+
+
+@types(points=np.ndarray)
+@require(
+    "The points dimension cannot be greater than the desired dimension.",
+    lambda args: args.points.shape[1] <= args.dim
+)
+@ensure(
+    "The output must have the desired dimensions.",
+    lambda args, result: result.shape == (len(args.points), args.dim)
+)
+@ensure("The output must be an ndarray.", lambda _, result: isinstance(result, np.ndarray))
+def set_dimension(points, dim):
+    """
+    Change the dimension of a set of points.
+
+    """
+    n_rows, n_cols = points.shape
+    padding = np.zeros((n_rows, dim - n_cols))
+
+    return np.hstack([points, padding])

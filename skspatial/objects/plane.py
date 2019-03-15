@@ -1,7 +1,8 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
-from skspatial.transformation import mean_center
+from skspatial.reduction import affine_rank
+from skspatial.transformation import mean_center, set_dimension
 from .base_line_plane import _BaseLinePlane
 from .line import Line
 from .point import Point
@@ -403,7 +404,8 @@ class Plane(_BaseLinePlane):
 
     @classmethod
     @types(points=np.ndarray)
-    @require("There must be at least three points.", lambda args: args.points.shape[0] >= 3)
+    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
+    @require("The points cannot be collinear.", lambda args: not affine_rank(args.points) == 1)
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def best_fit(cls, points):
         """
@@ -434,6 +436,7 @@ class Plane(_BaseLinePlane):
         Vector([0., 0., 1.])
 
         """
+        points = set_dimension(points, 3)
         points_centered, centroid = mean_center(points)
 
         u, s, vh = np.linalg.svd(points_centered.T)
