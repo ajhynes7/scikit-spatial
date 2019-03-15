@@ -38,6 +38,10 @@ def test_is_perpendicular(array_u, array_v, bool_expected):
         ([1, 1, 1, 1], [-2, -2, -2, -2], True),
         ([5, 0, -6, 7], [0, 1, 6, 3], False),
         ([6, 0, 1, 0], [-12, 0, -2, 0], True),
+        # The zero vector is parallel to all vectors.
+        ([0, 0], [1, 1], True),
+        ([5, 2], [0, 0], True),
+        ([5, -3, 2, 6], [0, 0, 0, 0], True),
     ],
 )
 def test_is_parallel(array_u, array_v, bool_expected):

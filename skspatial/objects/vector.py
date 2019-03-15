@@ -184,7 +184,14 @@ class Vector(_BaseArray1D):
         >>> Vector([1, 2, 3, 4]).is_parallel([-2, -4, -6, -8])
         True
 
+        The zero vector is parallel to all vectors.
+        >>> Vector([1, 2, 3]).is_parallel([0, 0, 0])
+        True
+
         """
+        if Vector(self).is_zero(**kwargs) or Vector(other).is_zero(**kwargs):
+            return True
+
         angle = self.angle_between(other)
 
         is_direction_same = np.isclose(angle, 0, **kwargs)
