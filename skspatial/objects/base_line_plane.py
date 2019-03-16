@@ -12,11 +12,12 @@ from skspatial.objects.vector import Vector
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
-    @require("The point and vector must have the same length.", lambda args: len(args.point) == len(args.vector))
     @require("The vector cannot be the zero vector.", lambda args: not Vector(args.vector).is_zero())
     @ensure("The point is a Point.", lambda args, _: isinstance(args.self.point, Point))
     @ensure("The vector is a Vector", lambda args, _: isinstance(args.self.vector, Vector))
     def __init__(self, point, vector):
+
+        point, vector = Point.normalize_dimensions(point, vector)
 
         self.point = Point(point)
         self.vector = Vector(vector).unit()
