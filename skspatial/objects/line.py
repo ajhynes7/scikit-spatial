@@ -3,7 +3,7 @@ from dpcontracts import require, ensure, types
 
 from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
-from .point import Point
+from .point import Point, Points
 from .vector import Vector
 
 

@@ -5,7 +5,7 @@ from skspatial.reduction import affine_rank
 from skspatial.transformation import mean_center, set_dimension
 from .base_line_plane import _BaseLinePlane
 from .line import Line
-from .point import Point
+from .point import Point, Points
 from .vector import Vector
 
 
