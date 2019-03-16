@@ -2,6 +2,18 @@ import numpy as np
 from dpcontracts import require, ensure
 
 
+def norm_dim(func):
+
+    def inner(*args):
+
+        # Ensure all arrays have the same length.
+        arrays = _BaseArray1D.normalize_dimensions(*args)
+
+        return func(*arrays)
+
+    return inner
+
+
 class _BaseArray1D(np.ndarray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
@@ -23,13 +35,16 @@ class _BaseArray1D(np.ndarray):
         if obj is None:
             return
 
+    @norm_dim
     def dot(self, other):
         """Return the dot product with another array."""
-        return np.dot(self, _BaseArray1D(other))
+        return np.dot(self, other)
 
+    @norm_dim
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
-        return np.allclose(self, _BaseArray1D(other), **kwargs)
+        return np.allclose(self, other, **kwargs)
+
     @require(
         "The desired dimension cannot be less than the array dimension.", lambda args: args.dim >= args.self.size,
     )
@@ -79,6 +94,7 @@ class _BaseArray1D(np.ndarray):
         dim_max = np.max([len(x) for x in arrays])
 
         return [cls(x).set_dimension(dim_max) for x in arrays]
+
 
 class _BaseArray2D(np.ndarray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
