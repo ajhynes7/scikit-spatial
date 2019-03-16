@@ -128,10 +128,14 @@ class Line(_BaseLinePlane):
         http://mathworld.wolfram.com/Coplanar.html
 
         """
-        vector_ab = Vector.from_points(self.point, other.point)
-        vector_cross = self.direction.cross(other.direction)
+        point_1 = self.point
+        point_2 = self.to_point()
+        point_3 = other.point
+        point_4 = other.to_point()
 
-        return vector_cross.is_perpendicular(vector_ab, **kwargs)
+        affine_rank = Points([point_1, point_2, point_3, point_4]).affine_rank()
+
+        return affine_rank == 2
 
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
