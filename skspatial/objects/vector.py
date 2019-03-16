@@ -106,6 +106,44 @@ class Vector(_BaseArray1D):
         """Subtract a vector."""
         return self - Vector(other)
 
+    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    @ensure("The output must have length three.", lambda _, result: result.size == 3)
+    def cross(self, other):
+        """
+        Compute the cross product with another vector.
+
+        Parameters
+        ----------
+        other : array_like
+             Input vector.
+
+        Returns
+        -------
+        Vector
+            3D vector perpendicular to both inputs.
+
+        Examples
+        --------
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([2, 5]).cross([1, 1])
+        Vector([ 0.,  0., -3.])
+
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([1, 1, 1]).cross([0, 1, 0])
+        Vector([-1.,  0.,  1.])
+
+        """
+        product = np.cross(self, other)
+
+        if product.size == 1:
+            # Convert to a 1D array with length three.
+            product = np.concatenate((np.zeros(2), np.array([product])))
+
+        return Vector(product)
     def cross(self, other):
         """Compute the cross product with another vector."""
         return np.cross(self, other)
