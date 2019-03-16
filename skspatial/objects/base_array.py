@@ -30,6 +30,56 @@ class _BaseArray1D(np.ndarray):
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
         return np.allclose(self, _BaseArray1D(other), **kwargs)
+    @require(
+        "The desired dimension cannot be less than the array dimension.", lambda args: args.dim >= args.self.size,
+    )
+    @ensure(
+        "The output must have the desired dimensions.", lambda args, result: result.shape == (args.dim,),
+    )
+    @ensure("The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
+    def set_dimension(self, dim):
+        """
+        Set the desired dimension (length) of the 1D array.
+
+        Parameters
+        ----------
+        dim : int
+            Desired dimension of the array.
+            Must be greater or equal to the current array dimension.
+
+        Returns
+        -------
+        array
+            Array with the same type as the input.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector
+
+        >>> Point([1, 1]).set_dimension(3)
+        Point([1., 1., 0.])
+
+        >>> Vector([1, 1]).set_dimension(4)
+        Vector([1., 1., 0., 0.])
+
+        >>> Vector([1, 1]).set_dimension(1)
+        Traceback (most recent call last):
+        ...
+        dpcontracts.PreconditionError: The desired dimension cannot be less than the array dimension.
+
+        """
+        n_zeros = dim - self.size
+        array_padded = np.pad(self, (0, n_zeros), 'constant')
+
+        return self.__class__(array_padded)
+
+    @classmethod
+    def normalize_dimensions(cls, *arrays):
+
+        dim_max = np.max([len(x) for x in arrays])
+
+        return [cls(x).set_dimension(dim_max) for x in arrays]
+
 class _BaseArray2D(np.ndarray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
