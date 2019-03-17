@@ -203,8 +203,8 @@ class Points(_BaseArray2D):
 
     def are_collinear(self):
         """Check if the points are all contained on one line."""
-        return self.affine_rank() == 1
+        return self.affine_rank() <= 1
 
     def are_coplanar(self):
         """Check if the points are all contained on one plane."""
-        return self.affine_rank() == 2
+        return self.affine_rank() <= 2
