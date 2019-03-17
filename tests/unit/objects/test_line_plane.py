@@ -8,10 +8,6 @@ from skspatial.objects import Line, Plane
 @pytest.mark.parametrize(
     "point, vector",
     [
-        # The point and vector must have the same length.
-        ([0], [0, 1]),
-        ([5, 4], [6]),
-        ([5, 7, 3], [1, 2]),
         # The zero vector cannot be used.
         ([0], [0]),
         ([1, 1], [0, 0]),
