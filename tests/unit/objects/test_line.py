@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_array_equal
 
-from skspatial.objects import Point, Vector, Line, Plane
+from skspatial.objects import Line
 
 
 @pytest.mark.parametrize(
@@ -12,7 +12,7 @@ from skspatial.objects import Point, Vector, Line, Plane
         ([5, 2], [9, 2], Line([5, 2], [1, 0])),
         ([1, 1], [0, 0], Line([1, 1], [-1, -1])),
         ([0, 0], [5, 0], Line([0, 0], [1, 0])),
-        ([0, 5, 9, 2], [4], Line([0, 5, 9, 2], [4, -1, -5, 2])),
+        ([0, 5, 9, 2], [4], Line([0, 5, 9, 2], [4, -5, -9, -2])),
     ],
 )
 def test_from_points(array_a, array_b, line_expected):
