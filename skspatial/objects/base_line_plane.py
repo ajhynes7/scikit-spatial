@@ -1,10 +1,12 @@
 """Classes for the Line and Plane spatial objects."""
 
 import inspect
+from copy import deepcopy
 
 import numpy as np
 from dpcontracts import require, ensure
 
+from skspatial.objects.base_array import _normalize_dimension
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
@@ -17,8 +19,7 @@ class _BaseLinePlane:
     @ensure("The vector is a Vector", lambda args, _: isinstance(args.self.vector, Vector))
     def __init__(self, point, vector):
 
-        # Ensure that the point and vector have the same length.
-        point, vector = Point.normalize_dimensions(point, vector)
+        point, vector = _normalize_dimension(point, vector)
 
         self.point = Point(point)
         self.vector = Vector(vector).unit()
@@ -32,6 +33,27 @@ class _BaseLinePlane:
         repr_vector = np.array_repr(self.vector)
 
         return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
+
+    def __getitem__(self, name_item):
+
+        return getattr(self, name_item)
+
+    def __setitem__(self, name_item, value):
+
+        return setattr(self, name_item, value)
+
+    def get_dimension(self):
+
+        return self.point.size
+
+    def set_dimension(self, dim):
+
+        obj_new = deepcopy(self)
+
+        for name_item in vars(self):
+            obj_new[name_item] = self[name_item].set_dimension(dim)
+
+        return obj_new
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_close(self, other, **kwargs):

@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import ensure
 from numpy.linalg import matrix_rank
 
-from .base_array import _BaseArray1D, _BaseArray2D
+from .base_array import _BaseArray1D, _BaseArray2D, _normalize_dimension
 from .vector import Vector
 
 
@@ -12,40 +12,6 @@ class Point(_BaseArray1D):
     def __new__(cls, array_like):
 
         return super().__new__(cls, array_like)
-
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def add(self, vector):
-        """
-        Add a vector to the point.
-
-        Parameters
-        ----------
-        vector : array_like
-            Input vector.
-
-        Returns
-        -------
-        Point
-            Point after adding vector.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point
-
-        >>> point = Point([1, 2, 0])
-        >>> point.add([2, 9, 1])
-        Point([ 3., 11.,  1.])
-
-        >>> point.add([-1, 5, 0])
-        Point([0., 7., 0.])
-
-        """
-        return self + Vector(vector)
-
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    def subtract(self, vector):
-        """Subtract a vector from the point."""
-        return self - Vector(vector)
 
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
@@ -119,11 +85,38 @@ class Point(_BaseArray1D):
 
 
 class Points(_BaseArray2D):
+    """
+    Multiple points in space represented as a 2D NumPy array.
 
+    Each row in the array represents a point in space.
+
+    Parameters
+    ----------
+    points : {array_like, sequence}
+        Multiple points in space.
+        Either an array_like or a sequence of array_likes with different lengths.
+        The lengths are normalized before converting to a 2D ndarray.
+
+    Examples
+    --------
+    >>> points = ([1, 2], [5, 4, 3], [4])
+
+    >>> Points(points)
+    Points([[1., 2., 0.],
+            [5., 4., 3.],
+            [4., 0., 0.]])
+
+    >>> array = np.array([[1, 2], [5, 4]])
+
+    >>> Points(array)
+    Points([[1., 2.],
+            [5., 4.]])
+
+    """
     def __new__(cls, points):
 
-        points = Point.normalize_dimensions(*points)
-        array_2d = np.stack(points)
+        points_normalized = list(_normalize_dimension(*points))
+        array_2d = np.stack(points_normalized)
 
         return super().__new__(cls, array_2d)
 

@@ -97,15 +97,9 @@ class Vector(_BaseArray1D):
         return np.allclose(self, 0, **kwargs)
 
     @norm_dim
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def add(self, other):
-        """Add a vector."""
-        return Vector(self + np.array(other))
-
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def subtract(self, other):
-        """Subtract a vector."""
-        return self.add(-np.array(other))
+    def dot(self, other):
+        """Return the dot product with another array."""
+        return np.dot(self, other)
 
     @norm_dim
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
