@@ -90,7 +90,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    def is_coplanar(self, other, **kwargs):
+    def is_coplanar(self, other):
         """
         Check if the line is coplanar with another.
 
@@ -98,8 +98,6 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Input line.
-        kwargs : dict, optional
-            Additional keywords passed to `np.isclose`.
 
         Returns
         -------
