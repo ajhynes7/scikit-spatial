@@ -17,6 +17,7 @@ class _BaseLinePlane:
     @ensure("The vector is a Vector", lambda args, _: isinstance(args.self.vector, Vector))
     def __init__(self, point, vector):
 
+        # Ensure that the point and vector have the same length.
         point, vector = Point.normalize_dimensions(point, vector)
 
         self.point = Point(point)

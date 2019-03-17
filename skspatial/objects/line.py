@@ -229,7 +229,7 @@ class Line(_BaseLinePlane):
         0.0
 
         The lines are skew.
-        >>> line_a = Line([0, 0, 0], [1, 0, 0])
+        >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([0, 5, 0], [0, 0, 1])
         >>> line_a.distance_line(line_b)
         5.0
@@ -305,7 +305,7 @@ class Line(_BaseLinePlane):
         ...
         dpcontracts.PreconditionError: The lines must be coplanar.
 
-        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_a = Line([0], [1, 1, 1])
         >>> line_b = Line([5, 5, 0], [0, 0, -8])
 
         >>> line_a.intersect_line(line_b)
