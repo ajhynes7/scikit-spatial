@@ -17,7 +17,10 @@ from skspatial.objects import Plane
 )
 def test_from_points(point_a, point_b, point_c, plane_expected):
 
-    assert Plane.from_points(point_a, point_b, point_c).is_close(plane_expected)
+    plane = Plane.from_points(point_a, point_b, point_c)
+
+    assert plane.point.is_close(plane_expected.point)
+    assert plane.is_close(plane_expected)
 
 
 @pytest.mark.parametrize(
