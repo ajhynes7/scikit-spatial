@@ -7,7 +7,7 @@ from dpcontracts import require, ensure, types
 @types(array=np.ndarray, dim=int)
 @require("The array must be 1D.", lambda args: args.array.ndim == 1)
 @require(
-    "The desired dimension cannot be less than the array dimension.", lambda args: args.dim >= args.array.size,
+    "The desired dimension cannot be less than the array dimension.", lambda args: args.array.size <= args.dim
 )
 @ensure(
     "The output must have the desired dimensions.", lambda args, result: result.shape == (args.dim,),
@@ -54,7 +54,7 @@ def _set_dimension_1d(array, dim):
 @types(array=np.ndarray, dim=int)
 @require("The array must be 2D.", lambda args: args.array.ndim == 2)
 @require(
-    "The points dimension cannot be greater than the desired dimension.", lambda args: args.dim > args.array.shape[1],
+    "The points dimension cannot be greater than the desired dimension.", lambda args: args.array.shape[1] <= args.dim
 )
 @ensure(
     "The output must have the desired dimensions.", lambda args, result: result.shape == (len(args.array), args.dim),

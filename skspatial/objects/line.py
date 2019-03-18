@@ -328,9 +328,7 @@ class Line(_BaseLinePlane):
         return self.point.add(vector_a_scaled)
 
     @classmethod
-    @types(points=np.ndarray)
-    @require("There must be at least two points.", lambda args: args.points.shape[0] >= 2)
-    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
+    @require("The points must not be concurrent.", lambda args: not Points(args.points).are_concurrent())
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def best_fit(cls, points):
         """
@@ -338,7 +336,7 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        points : ndarray
+        points : {array_like, sequence}
              Input points.
 
         Returns
@@ -348,10 +346,9 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
-        >>> import numpy as np
         >>> from skspatial.objects import Line
 
-        >>> points = np.array([[1, 0], [2, 0], [3, 0]])
+        >>> points = ([1, 0], [2, 0], [3, 0])
         >>> line = Line.best_fit(points)
 
         >>> line.point
