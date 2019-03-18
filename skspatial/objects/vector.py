@@ -49,9 +49,37 @@ class Vector(_BaseArray1D):
         return cls(Vector(point_b).subtract(point_a))
 
     @ensure("The magnitude must be zero or greater", lambda _, result: result >= 0)
-    def norm(self):
-        """Return the norm of the vector."""
-        return np.linalg.norm(self)
+    def norm(self, **kwargs):
+        """
+        Return the norm of the vector.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.norm`.
+
+        Returns
+        -------
+        scalar
+            Norm of the vector.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> vector = Vector([1, 2, 3])
+
+        >>> vector.norm().round(3)
+        3.742
+
+        >>> vector.norm(ord=1)
+        6.0
+
+        >>> vector.norm(ord=0)
+        3.0
+
+        """
+        return np.linalg.norm(self, **kwargs)
 
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
