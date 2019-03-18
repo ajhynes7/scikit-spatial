@@ -101,7 +101,6 @@ class Vector(_BaseArray1D):
         """Return the dot product with another array."""
         return np.dot(self, other)
 
-    @norm_dim
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     @ensure("The output must have length three.", lambda _, result: result.size == 3)
     def cross(self, other):
@@ -133,13 +132,11 @@ class Vector(_BaseArray1D):
         Vector([-1.,  0.,  1.])
 
         """
-        product = np.cross(self, other)
+        # Convert to 3D vectors so that cross product is also 3D.
+        vector_a = self.set_dimension(3)
+        vector_b = Vector(other).set_dimension(3)
 
-        if product.size == 1:
-            # Convert to a 1D array with length three.
-            product = np.concatenate((np.zeros(2), np.array([product])))
-
-        return Vector(product)
+        return Vector(np.cross(vector_a, vector_b))
 
     def is_perpendicular(self, other, **kwargs):
         """
