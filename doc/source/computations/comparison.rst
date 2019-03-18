@@ -35,6 +35,23 @@ True
 False
 
 
+Collinearity
+------------
+
+Check if multiple points are collinear.
+
+>>> from skspatial.objects import Points
+
+>>> Points(([0, 0], [1, 2, 3], [2, 4, 6])).are_collinear()
+True
+
+>>> Points(([0, 0], [1, 2, 3], [5, 2])).are_collinear()
+False
+
+>>> Points(([0, 0], [1, 2], [5, 2], [6, 3])).are_collinear()
+False
+
+
 Coplanarity
 -----------
 
@@ -53,13 +70,3 @@ True
 False
 
 
-Collinearity
-------------
-
-Check if three points are collinear.
-
->>> Point([0, 0]).is_collinear([1, 1], [8, 8])
-True
-
->>> Point([-1, 0]).is_collinear([1, 1], [8, 8])
-False
