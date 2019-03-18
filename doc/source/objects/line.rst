@@ -6,10 +6,10 @@ A line is defined by a point and a direction vector. The direction of the line i
 
 >>> from skspatial.objects import Line
 
->>> line_1 = Line(point=[0, 0], direction=[5, 0])
+>>> line_1 = Line(point=[0], direction=[5, 0])
 
 >>> line_1
-Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
+Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
 
 
 Alternatively, a `Line` can be defined by two points.
@@ -38,5 +38,5 @@ The distance from a `Point` to a `Line` can be found.
 A `Point` can be projected onto a `Line`, returning a new `Point`.
 
 >>> line_1.project_point([50, 20])
-Point([50.,  0.,  0.])
+Point([50.,  0.])
 

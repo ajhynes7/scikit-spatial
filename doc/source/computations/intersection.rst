@@ -13,7 +13,7 @@ The intersection of a `Line` with a `Line` is a `Point`.
 >>> line_b = Line([10, 0], [0, 1])
 
 >>> line_a.intersect_line(line_b)
-Point([10., 10.,  0.])
+Point([10., 10.])
 
 
 In order to intersect, the lines must be coplanar and not parallel. An error is returned otherwise.
