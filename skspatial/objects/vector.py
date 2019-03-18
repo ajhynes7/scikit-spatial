@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import require, ensure
 
 from skspatial.constants import ATOL
-from .base_array import _BaseArray1D
+from .base_array import _BaseArray1D, norm_dim
 
 
 class Vector(_BaseArray1D):
@@ -45,16 +45,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector.from_points([0, 0], [1, 0])
-        Vector([1., 0., 0.])
+        Vector([1., 0.])
 
         >>> Vector.from_points([5, 2], [-2, 8])
-        Vector([-7.,  6.,  0.])
+        Vector([-7.,  6.])
 
         >>> Vector.from_points([3, 1, 1], [7, 7, 0])
         Vector([ 4.,  6., -1.])
 
         """
-        return cls(Vector(point_b) - Vector(point_a))
+        return cls(Vector(point_b).subtract(point_a))
 
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
@@ -96,19 +96,50 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def add(self, other):
-        """Add a vector."""
-        return self + Vector(other)
+    @norm_dim
+    def dot(self, other):
+        """Return the dot product with another array."""
+        return np.dot(self, other)
 
+    @norm_dim
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def subtract(self, other):
-        """Subtract a vector."""
-        return self - Vector(other)
-
+    @ensure("The output must have length three.", lambda _, result: result.size == 3)
     def cross(self, other):
-        """Compute the cross product with another vector."""
-        return np.cross(self, other)
+        """
+        Compute the cross product with another vector.
+
+        Parameters
+        ----------
+        other : array_like
+             Input vector.
+
+        Returns
+        -------
+        Vector
+            3D vector perpendicular to both inputs.
+
+        Examples
+        --------
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([2, 5]).cross([1, 1])
+        Vector([ 0.,  0., -3.])
+
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([1, 1, 1]).cross([0, 1, 0])
+        Vector([-1.,  0.,  1.])
+
+        """
+        product = np.cross(self, other)
+
+        if product.size == 1:
+            # Convert to a 1D array with length three.
+            product = np.concatenate((np.zeros(2), np.array([product])))
+
+        return Vector(product)
 
     def is_perpendicular(self, other, **kwargs):
         """
@@ -283,7 +314,7 @@ class Vector(_BaseArray1D):
         -1
 
         """
-        return np.sign(Vector(other).cross(self)).astype(int)
+        return np.sign(np.cross(other, self)).astype(int)
 
     @ensure("The output must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project(self, other):
@@ -305,16 +336,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([0, 1]).project([2, 1])
-        Vector([0., 1., 0.])
+        Vector([0., 1.])
 
         >>> Vector([0, 100]).project([2, 1])
-        Vector([0., 1., 0.])
+        Vector([0., 1.])
 
         >>> Vector([0, 1]).project([9, 5])
-        Vector([0., 5., 0.])
+        Vector([0., 5.])
 
         >>> Vector([0, 100]).project([9, 5])
-        Vector([0., 5., 0.])
+        Vector([0., 5.])
 
         """
         unit_self = self.unit()

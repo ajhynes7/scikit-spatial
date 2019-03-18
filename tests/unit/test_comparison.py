@@ -1,6 +1,6 @@
 import pytest
 
-from skspatial.objects import Point, Vector, Line
+from skspatial.objects import Point, Points, Vector, Line
 
 
 @pytest.mark.parametrize(
@@ -75,23 +75,24 @@ def test_vector_side(array_a, array_b, value_expected):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, array_c, bool_expected",
+    "points, bool_expected",
     [
-        ([0], [0], [0], True),
-        ([1], [1], [1], True),
-        ([0, 0], [0, 1], [0, 2], True),
-        ([0, 1], [0, 0], [0, 2], True),
-        ([0, 0], [-1, 0], [10, 0], True),
-        ([0, 0], [0, 1], [1, 2], False),
-        ([0, 0, 0], [1, 1, 1], [2, 2, 2], True),
-        ([0, 0, 0], [1, 1, 1], [2, 2, 2.5], False),
+        ([[0], [0], [0]], True),
+        ([[1], [1], [1]], True),
+        ([[0], [0, 1], [0, 2]], True),
+        ([[0], [0, 1], [1, 2]], False),
+        ([[0], [-1, 0], [10, 0]], True),
+        ([[0, 1], [0, 0], [0, 2]], True),
+        ([[0, 0], [1, 1, 1], [2, 2, 2]], True),
+        ([[0, 0], [1, 1, 1], [2, 2, 2.5]], False),
+        ([[0], [1, 1], [2, 2], [-4, -4], [5, 5]], True),
+        ([[0], [1, 1], [2, 2], [-4, -4, 10], [5, 5]], False),
     ],
 )
-def test_is_collinear(array_a, array_b, array_c, bool_expected):
-    """Test checking if three points are collinear."""
-    point_a = Point(array_a)
+def test_are_collinear(points, bool_expected):
+    """Test checking if multiple points are collinear."""
 
-    assert point_a.is_collinear(array_b, array_c) == bool_expected
+    assert Points(points).are_collinear() == bool_expected
 
 
 @pytest.mark.parametrize(
@@ -107,6 +108,7 @@ def test_is_collinear(array_a, array_b, array_c, bool_expected):
 def test_is_coplanar(
     arr_point_a, arr_vector_a, arr_point_b, arr_vector_b, bool_expected
 ):
+    """Test checking if two lines are coplanar."""
     line_a = Line(arr_point_a, arr_vector_a)
     line_b = Line(arr_point_b, arr_vector_b)
 

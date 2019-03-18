@@ -3,7 +3,7 @@ from dpcontracts import require, ensure, types
 
 from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
-from .point import Point
+from .point import Point, Points
 from .vector import Vector
 
 
@@ -36,15 +36,15 @@ class Line(_BaseLinePlane):
     >>> line = Line(point=[0, 0], direction=[3, 0])
 
     >>> line
-    Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
+    Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
 
     The direction attribute is the unit vector of the input.
     >>> line.direction
-    Vector([1., 0., 0.])
+    Vector([1., 0.])
 
     The direction can also be accessed with the 'vector' attribute.
     >>> line.vector
-    Vector([1., 0., 0.])
+    Vector([1., 0.])
 
     """
 
@@ -77,12 +77,12 @@ class Line(_BaseLinePlane):
         >>> from skspatial.objects import Line
 
         >>> Line.from_points([0, 0], [1, 0])
-        Line(point=Point([0., 0., 0.]), direction=Vector([1., 0., 0.]))
+        Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
 
         The order of the points affects the line point and direction vector.
 
         >>> Line.from_points([1, 0], [0, 0])
-        Line(point=Point([1., 0., 0.]), direction=Vector([-1.,  0.,  0.]))
+        Line(point=Point([1., 0.]), direction=Vector([-1.,  0.]))
 
         """
         vector_ab = Vector.from_points(point_a, point_b)
@@ -90,7 +90,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    def is_coplanar(self, other, **kwargs):
+    def is_coplanar(self, other):
         """
         Check if the line is coplanar with another.
 
@@ -98,8 +98,6 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Input line.
-        kwargs : dict, optional
-            Additional keywords passed to `np.isclose`.
 
         Returns
         -------
@@ -112,7 +110,7 @@ class Line(_BaseLinePlane):
 
         >>> line_a = Line(point=[0, 0], direction=[1, 0])
         >>> line_b = Line([-5, 3], [7, 1])
-        >>> line_c = Line([0, 0, 0], [0, 0, 1])
+        >>> line_c = Line([0, 0], [0, 0, 1])
 
         >>> line_a.is_coplanar(line_b)
         True
@@ -128,10 +126,14 @@ class Line(_BaseLinePlane):
         http://mathworld.wolfram.com/Coplanar.html
 
         """
-        vector_ab = Vector.from_points(self.point, other.point)
-        vector_cross = self.direction.cross(other.direction)
+        point_1 = self.point
+        point_2 = self.to_point()
+        point_3 = other.point
+        point_4 = other.to_point()
 
-        return vector_cross.is_perpendicular(vector_ab, **kwargs)
+        points = Points([point_1, point_2, point_3, point_4])
+
+        return points.are_coplanar()
 
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
@@ -173,7 +175,7 @@ class Line(_BaseLinePlane):
 
         >>> line = Line(point=[0, 0], direction=[1, 0])
         >>> line.project_point([5, 5])
-        Point([5., 0., 0.])
+        Point([5., 0.])
 
         """
         # Vector from the point on the line to the point in space.
@@ -225,7 +227,7 @@ class Line(_BaseLinePlane):
         0.0
 
         The lines are skew.
-        >>> line_a = Line([0, 0, 0], [1, 0, 0])
+        >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([0, 5, 0], [0, 0, 1])
         >>> line_a.distance_line(line_b)
         5.0
@@ -285,7 +287,7 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([5, 5], [0, 1])
 
         >>> line_a.intersect_line(line_b)
-        Point([5., 0., 0.])
+        Point([5., 0.])
 
         >>> line_b = Line([0, 1], [2, 0])
         >>> line_a.intersect_line(line_b)
@@ -301,7 +303,7 @@ class Line(_BaseLinePlane):
         ...
         dpcontracts.PreconditionError: The lines must be coplanar.
 
-        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_a = Line([0], [1, 1, 1])
         >>> line_b = Line([5, 5, 0], [0, 0, -8])
 
         >>> line_a.intersect_line(line_b)
@@ -354,10 +356,10 @@ class Line(_BaseLinePlane):
         >>> line = Line.best_fit(points)
 
         >>> line.point
-        Point([2., 0., 0.])
+        Point([2., 0.])
 
         >>> line.direction
-        Vector([1., 0., 0.])
+        Vector([1., 0.])
 
         """
         points_centered, centroid = mean_center(points)
@@ -388,7 +390,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        coordinates : ndarray
+        ndarray
             One-dimensional coordinates.
 
         Examples
@@ -402,7 +404,8 @@ class Line(_BaseLinePlane):
         array([10.,  3., -5.])
 
         """
-        vectors_to_points = points - self.point
-        coordinates = np.apply_along_axis(np.dot, 1, vectors_to_points, self.direction)
+        point_line = self.point.set_dimension(points.shape[0])
 
-        return coordinates
+        vectors_to_points = points - point_line
+
+        return np.apply_along_axis(self.direction.dot, 1, vectors_to_points)
