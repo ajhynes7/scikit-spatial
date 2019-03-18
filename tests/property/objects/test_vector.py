@@ -21,8 +21,8 @@ def test_unit(array):
     vector = Vector(array)
     vector_unit = vector.unit()
 
-    assert np.isclose(vector_unit.magnitude, 1)
-    assert (vector.magnitude * vector_unit).is_close(array)
+    assert np.isclose(vector_unit.norm(), 1)
+    assert (vector.norm() * vector_unit).is_close(array)
 
     assert vector_unit.is_parallel(vector)
 

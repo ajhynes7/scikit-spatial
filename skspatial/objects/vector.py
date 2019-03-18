@@ -8,19 +8,11 @@ from .base_array import _BaseArray1D, norm_dim
 class Vector(_BaseArray1D):
     """Vector implemented as an ndarray subclass."""
 
-    @ensure("The magnitude must be zero or greater", lambda _, result: result.magnitude >= 0)
     def __new__(cls, array_like):
 
         obj = super().__new__(cls, array_like)
 
-        # Add the new attribute to the created instance.
-        obj.magnitude = np.linalg.norm(obj)
-
         return obj
-
-    def __array_finalize__(self, obj):
-
-        self.magnitude = getattr(obj, 'magnitude', None)
 
     @classmethod
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
@@ -56,12 +48,17 @@ class Vector(_BaseArray1D):
         """
         return cls(Vector(point_b).subtract(point_a))
 
+    @ensure("The magnitude must be zero or greater", lambda _, result: result >= 0)
+    def norm(self):
+        """Return the norm of the vector."""
+        return np.linalg.norm(self)
+
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.magnitude, 1))
+    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.norm(), 1))
     def unit(self):
         """Return the unit vector of this vector."""
-        return Vector(self / self.magnitude)
+        return Vector(self / self.norm())
 
     def is_zero(self, **kwargs):
         """
@@ -264,7 +261,7 @@ class Vector(_BaseArray1D):
         180.0
 
         """
-        cos_theta = self.dot(other) / (self.magnitude * Vector(other).magnitude)
+        cos_theta = self.dot(other) / (self.norm() * Vector(other).norm())
 
         # Ensure that input to arccos is in range [-1, 1] so that output is real.
         cos_theta = np.clip(cos_theta, -1, 1)

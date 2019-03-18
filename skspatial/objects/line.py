@@ -250,7 +250,7 @@ class Line(_BaseLinePlane):
             vector_ab = Vector.from_points(self.point, other.point)
             vector_cross = self.direction.cross(other.direction)
 
-            distance = abs(vector_ab.dot(vector_cross)) / vector_cross.magnitude
+            distance = abs(vector_ab.dot(vector_cross)) / vector_cross.norm()
 
         return distance
 
@@ -320,7 +320,7 @@ class Line(_BaseLinePlane):
         vector_perpendicular = self.direction.cross(other.direction)
 
         num = vector_ab.cross(other.direction).dot(vector_perpendicular)
-        denom = vector_perpendicular.magnitude ** 2
+        denom = vector_perpendicular.norm() ** 2
 
         # Vector along line A to the intersection point.
         vector_a_scaled = num / denom * self.direction

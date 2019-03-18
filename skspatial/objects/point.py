@@ -46,7 +46,7 @@ class Point(_BaseArray1D):
         """
         vector = Vector.from_points(self, other)
 
-        return vector.magnitude
+        return vector.norm()
 
 
 class Points(_BaseArray2D):

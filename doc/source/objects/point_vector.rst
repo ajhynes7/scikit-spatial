@@ -51,10 +51,10 @@ A `Vector` plus a `Vector` returns another `Vector`.
 Vector([ 3., -4.])
 
 
-A `Vector` has a magnitude attribute.
+The magnitude of the vector is found with the `norm` method.
 
 >>> vector = Vector([1, 1])
->>> vector.magnitude.round(3)
+>>> vector.norm().round(3)
 1.414
 
 The unit vector can also be obtained.

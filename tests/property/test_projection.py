@@ -30,7 +30,7 @@ def test_project_point(data, name_object):
 
     # The distance from the point to its projection
     # should equal the distance to the line/plane.
-    distance_projection = vector_projection.magnitude
+    distance_projection = vector_projection.norm()
     distance_to_object = abs(line_or_plane.distance_point(array))
     assert np.isclose(distance_to_object, distance_projection)
 
