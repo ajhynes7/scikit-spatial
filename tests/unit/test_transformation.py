@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_almost_equal
 
-from skspatial.transformation import mean_center
+from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(
@@ -25,8 +25,8 @@ from skspatial.transformation import mean_center
 )
 def test_mean_center(array_points, array_centered_expected, centroid_expected):
 
-    points = np.array(array_points)
-    points_centered, centroid = mean_center(points)
+    points = Points(array_points)
+    points_centered, centroid = points.mean_center()
 
     assert_array_almost_equal(points_centered, array_centered_expected)
     assert_array_almost_equal(centroid, centroid_expected)

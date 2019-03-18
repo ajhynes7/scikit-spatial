@@ -104,7 +104,10 @@ class Points(_BaseArray2D):
         """
         return Point(self.mean(axis=0))
 
-    @ensure("The centered points must have the input shape", lambda args, result: result.shape == args.self.shape)
+    @ensure("The first output must have type Points", lambda _, result: isinstance(result[0], Points))
+    @ensure("The second output must have type Point", lambda _, result: isinstance(result[1], Point))
+    @ensure("The centered points must have the input shape", lambda args, result: result[0].shape == args.self.shape)
+    @ensure("The centroid must have shape (dim,).", lambda args, result: result[1].shape == (args.self.shape[1],))
     def mean_center(self):
         """
         Mean-center the points.
@@ -113,17 +116,28 @@ class Points(_BaseArray2D):
 
         Returns
         -------
-        Points
-            (n, d) array of mean-centered points.
+        points_centered : Points
+            (n, dim) array of mean-centered points.
+        centroid : Point
+            (dim,) array for the centroid of the points.
 
         Examples
         --------
-        >>> Points([[4, 4, 4], [2, 2, 2]]).mean_center()
+        >>> from skspatial.objects import Points
+
+        >>> points, centroid = Points([[4, 4, 4], [2, 2, 2]]).mean_center()
+        >>> points
         Points([[ 1.,  1.,  1.],
                 [-1., -1., -1.]])
 
+        >>> centroid
+        Point([3., 3., 3.])
+
         """
-        return self - self.centroid()
+        centroid = self.centroid()
+        points_centered = self - centroid
+
+        return points_centered, centroid
 
     def affine_rank(self):
         """
@@ -139,11 +153,17 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> Points([[5, 5], [5, 5]]).affine_rank()
+        0
+
         >>> Points([[5, 3], [-6, 20]]).affine_rank()
         1
 
         >>> Points([[0, 0], [1, 1], [2, 2]]).affine_rank()
         1
+
+        >>> Points([[0, 0], [1, 0], [2, 2]]).affine_rank()
+        2
 
         >>> Points([[0, 1, 0], [1, 1, 0], [2, 2, 2]]).affine_rank()
         2
@@ -155,14 +175,18 @@ class Points(_BaseArray2D):
         3
 
         """
-        points_centered = self.mean_center()
+        points_centered, _ = self.mean_center()
 
         return matrix_rank(points_centered)
 
+    def are_concurrent(self):
+        """Check if the points are all contained in one point."""
+        return self.affine_rank() == 0
+
     def are_collinear(self):
-        """Check if the points are all contained on one line."""
+        """Check if the points are all contained in one line."""
         return self.affine_rank() <= 1
 
     def are_coplanar(self):
-        """Check if the points are all contained on one plane."""
+        """Check if the points are all contained in one plane."""
         return self.affine_rank() <= 2

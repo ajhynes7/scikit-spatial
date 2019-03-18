@@ -1,7 +1,6 @@
 import numpy as np
 from dpcontracts import require, ensure, types
 
-from skspatial.transformation import mean_center
 from .base_line_plane import _BaseLinePlane
 from .point import Point, Points
 from .vector import Vector
@@ -362,7 +361,7 @@ class Line(_BaseLinePlane):
         Vector([1., 0.])
 
         """
-        points_centered, centroid = mean_center(points)
+        points_centered, centroid = Points(points).mean_center()
 
         _, _, vh = np.linalg.svd(points_centered)
         direction = Vector(vh[0, :])
