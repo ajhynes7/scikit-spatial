@@ -1,5 +1,5 @@
 import numpy as np
-from dpcontracts import require, ensure, types
+from dpcontracts import require, ensure
 
 from .base_line_plane import _BaseLinePlane
 from .point import Point, Points
@@ -358,9 +358,11 @@ class Line(_BaseLinePlane):
 
         return cls(centroid, direction)
 
-    @types(points=np.ndarray)
     @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
-    @ensure("There is one coordinate for each input point.", lambda args, result: result.size == args.points.shape[0])
+    @ensure(
+        "There is one coordinate for each input point.",
+        lambda args, result: result.size == Points(args.points).shape[0],
+    )
     @ensure("The output is a 1D array.", lambda _, result: result.ndim == 1)
     @ensure("The coordinates are all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
@@ -387,14 +389,17 @@ class Line(_BaseLinePlane):
         >>> from skspatial.objects import Line
 
         >>> line = Line(point=[0, 0], direction=[1, 0])
-        >>> points = np.array([[10, 2, 0], [3, 4, 0], [-5, 5, 0]])
+        >>> points = [[10, 2, 0], [3, 4, 0], [-5, 5, 0]]
 
         >>> line.transform_points(points)
         array([10.,  3., -5.])
 
         """
+        points = Points(points)
+
         point_line = self.point.set_dimension(points.shape[0])
+        direction_line = self.direction.set_dimension(points.shape[0])
 
         vectors_to_points = points - point_line
 
-        return np.apply_along_axis(self.direction.dot, 1, vectors_to_points)
+        return np.apply_along_axis(np.dot, 1, vectors_to_points, direction_line)
