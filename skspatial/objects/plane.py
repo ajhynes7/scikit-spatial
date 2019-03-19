@@ -221,7 +221,7 @@ class Plane(_BaseLinePlane):
         """
         vector_to_point = Vector.from_points(self.point, point)
 
-        return self.normal.dot(vector_to_point)
+        return self.normal.project(vector_to_point, scalar=True)
 
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def side_point(self, point):
