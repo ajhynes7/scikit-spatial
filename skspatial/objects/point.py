@@ -85,6 +85,23 @@ class Points(_BaseArray2D):
 
         return super().__new__(cls, array_2d)
 
+    @ensure("The output must be Points.", lambda _, result: isinstance(result, Points))
+    @ensure("The output points must have the same dimension.", lambda args, result: result.shape[1] == args.self.shape[1])
+    @ensure("There must be fewer or an equal number of rows.", lambda args, result: result.shape[0] <= args.self.shape[0])
+    def unique(self):
+        """
+        Return unique points.
+
+        The output contains the unique rows of the original array.
+
+        Returns
+        -------
+        Points
+            (n, d) array of n unique points with dimension d.
+
+        """
+        return self.__class__(np.unique(self, axis=0))
+
     @ensure("The output length must be the input width.", lambda args, result: result.size == args.self.shape[1])
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def centroid(self):
@@ -180,7 +197,8 @@ class Points(_BaseArray2D):
         3
 
         """
-        points_centered, _ = self.mean_center()
+        # Remove duplicate points so they do not affect the centroid.
+        points_centered, _ = self.unique().mean_center()
 
         return matrix_rank(points_centered, **kwargs)
 
