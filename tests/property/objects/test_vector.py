@@ -59,16 +59,16 @@ def test_two_vectors(array_a, array_b):
 
     vector_a = Vector(array_a)
 
-    is_perpendicular = vector_a.is_perpendicular(array_b, atol=ATOL)
-    is_parallel = vector_a.is_parallel(array_b, atol=ATOL)
+    is_perpendicular = vector_a.is_perpendicular(array_b)
+    is_parallel = vector_a.is_parallel(array_b)
 
     # Two non-zero vectors cannot be both perpendicular and parallel.
     assert not (is_perpendicular and is_parallel)
 
     angle = np.degrees(vector_a.angle_between(array_b))
 
-    assert is_parallel == (np.isclose(angle, 0) or np.isclose(angle, 180))
     assert is_perpendicular == np.isclose(angle, 90)
+    assert is_parallel == (np.isclose(angle, 0) or np.isclose(angle, 180))
 
     # The zero vector is perpendicular and parallel to any other vector.
     vector_zero = Vector([0])
