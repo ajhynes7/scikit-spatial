@@ -164,7 +164,7 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], direction=[1, 0])
+        >>> line = Line(point=[0, 0], direction=[8, 0])
         >>> line.project_point([5, 5])
         Point([5., 0.])
 

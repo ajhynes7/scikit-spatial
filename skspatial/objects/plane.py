@@ -160,7 +160,7 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Plane
 
-        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+        >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 2])
 
         >>> plane.project_point([10, 2, 5])
         Point([10.,  2.,  0.])
