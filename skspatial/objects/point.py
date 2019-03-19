@@ -2,8 +2,8 @@ import numpy as np
 from dpcontracts import ensure
 from numpy.linalg import matrix_rank
 
-from .base_array import _BaseArray1D, _BaseArray2D, _normalize_dimension
-from .vector import Vector
+from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D, _normalize_dimension
+from skspatial.objects.vector import Vector
 
 
 class Point(_BaseArray1D):

@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import require, ensure
 
 from skspatial.constants import ATOL
-from .base_array import _BaseArray1D, norm_dim
+from skspatial.objects.base_array import _BaseArray1D, norm_dim
 
 
 class Vector(_BaseArray1D):

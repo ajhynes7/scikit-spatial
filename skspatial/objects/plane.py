@@ -1,10 +1,10 @@
 import numpy as np
 from dpcontracts import require, ensure
 
-from .base_line_plane import _BaseLinePlane
-from .line import Line
-from .point import Point, Points
-from .vector import Vector
+from skspatial.objects.base_line_plane import _BaseLinePlane
+from skspatial.objects.line import Line
+from skspatial.objects.point import Point, Points
+from skspatial.objects.vector import Vector
 
 
 class Plane(_BaseLinePlane):
