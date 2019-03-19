@@ -75,8 +75,6 @@ def test_best_fit_plane(points, plane_expected):
 @pytest.mark.parametrize(
     "points",
     [
-        # The dimension is greater than three.
-        [[0, 0, 0, 0], [1, 0, 0, 0], [0, 3, 2, 1]],
         # There are fewer than two points.
         [[]],
         [[0]],

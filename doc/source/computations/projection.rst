@@ -12,7 +12,7 @@ Project a vector onto a vector.
 >>> vector_a = Vector([1, 0])
 
 >>> vector_a.project([22, 9])  # Project vector B onto vector A.
-Vector([22.,  0.,  0.])
+Vector([22.,  0.])
 
 
 Point-Line Projection
@@ -25,7 +25,7 @@ Project a point onto a line.
 >>> line = Line(point=[0, 0], direction=[1, 1])
 
 >>> line.project_point([5, 5, 3])
-Point([5., 5., 0.])
+Point([5., 5.])
 
 
 Point-Plane Projection
@@ -35,7 +35,7 @@ Project a point onto a plane.
 
 >>> from skspatial.objects import Plane
 
->>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 2])
+>>> plane = Plane(point=[0, 0], normal=[0, 0, 2])
 
 >>> plane.project_point([5, 9, -3])
 Point([5., 9., 0.])

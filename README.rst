@@ -81,7 +81,7 @@ Project a point onto a line.
 >>> line = Line(point=[0, 0], direction=[1, 1])
 
 >>> line.project_point([5, 6, 7])
-Point([5.5, 5.5, 0. ])
+Point([5.5, 5.5])
 
 
 An error is returned if the computation is undefined.

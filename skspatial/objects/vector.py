@@ -2,25 +2,17 @@ import numpy as np
 from dpcontracts import require, ensure
 
 from skspatial.constants import ATOL
-from .base_array import _BaseArray1D
+from .base_array import _BaseArray1D, norm_dim
 
 
 class Vector(_BaseArray1D):
     """Vector implemented as an ndarray subclass."""
 
-    @ensure("The magnitude must be zero or greater", lambda _, result: result.magnitude >= 0)
     def __new__(cls, array_like):
 
         obj = super().__new__(cls, array_like)
 
-        # Add the new attribute to the created instance.
-        obj.magnitude = np.linalg.norm(obj)
-
         return obj
-
-    def __array_finalize__(self, obj):
-
-        self.magnitude = getattr(obj, 'magnitude', None)
 
     @classmethod
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
@@ -45,23 +37,56 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector.from_points([0, 0], [1, 0])
-        Vector([1., 0., 0.])
+        Vector([1., 0.])
 
         >>> Vector.from_points([5, 2], [-2, 8])
-        Vector([-7.,  6.,  0.])
+        Vector([-7.,  6.])
 
         >>> Vector.from_points([3, 1, 1], [7, 7, 0])
         Vector([ 4.,  6., -1.])
 
         """
-        return cls(Vector(point_b) - Vector(point_a))
+        return cls(Vector(point_b).subtract(point_a))
+
+    @ensure("The magnitude must be zero or greater", lambda _, result: result >= 0)
+    def norm(self, **kwargs):
+        """
+        Return the norm of the vector.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.norm`.
+
+        Returns
+        -------
+        scalar
+            Norm of the vector.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> vector = Vector([1, 2, 3])
+
+        >>> vector.norm().round(3)
+        3.742
+
+        >>> vector.norm(ord=1)
+        6.0
+
+        >>> vector.norm(ord=0)
+        3.0
+
+        """
+        return np.linalg.norm(self, **kwargs)
 
     @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.magnitude, 1))
+    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.norm(), 1))
     def unit(self):
         """Return the unit vector of this vector."""
-        return Vector(self / self.magnitude)
+        return Vector(self / self.norm())
 
     def is_zero(self, **kwargs):
         """
@@ -96,20 +121,47 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def add(self, other):
-        """Add a vector."""
-        return self + Vector(other)
+    @norm_dim
+    def dot(self, other):
+        """Return the dot product with another array."""
+        return np.dot(self, other)
 
     @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    def subtract(self, other):
-        """Subtract a vector."""
-        return self - Vector(other)
-
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
+    @ensure("The output must have length three.", lambda _, result: result.size == 3)
     def cross(self, other):
-        """Compute the cross product with another vector."""
-        return Vector(np.cross(self, Vector(other)))
+        """
+        Compute the cross product with another vector.
+
+        Parameters
+        ----------
+        other : array_like
+             Input vector.
+
+        Returns
+        -------
+        Vector
+            3D vector perpendicular to both inputs.
+
+        Examples
+        --------
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([2, 5]).cross([1, 1])
+        Vector([ 0.,  0., -3.])
+
+        >>> Vector([1, 0]).cross([0, 1])
+        Vector([0., 0., 1.])
+
+        >>> Vector([1, 1, 1]).cross([0, 1, 0])
+        Vector([-1.,  0.,  1.])
+
+        """
+        # Convert to 3D vectors so that cross product is also 3D.
+        vector_a = self.set_dimension(3)
+        vector_b = Vector(other).set_dimension(3)
+
+        return Vector(np.cross(vector_a, vector_b))
 
     def is_perpendicular(self, other, **kwargs):
         """
@@ -161,7 +213,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Input vector.
         kwargs : dict, optional
-            Additional keywords passed to `np.allclose`.
+            Additional keywords passed to `np.isclose`.
 
         Returns
         -------
@@ -181,16 +233,23 @@ class Vector(_BaseArray1D):
         >>> Vector([1, 2, 3]).is_parallel([3, 6, 9])
         True
 
-        >>> Vector([0, 0, 0]).is_parallel([3, 4, -1])
+        >>> Vector([1, 2, 3, 4]).is_parallel([-2, -4, -6, -8])
         True
 
-        >>> Vector([1, 2, 3]).is_parallel([2, 4, 6])
+        The zero vector is parallel to all vectors.
+        >>> Vector([1, 2, 3]).is_parallel([0, 0, 0])
         True
 
         """
-        vector_cross = self.cross(other)
+        if Vector(self).is_zero(**kwargs) or Vector(other).is_zero(**kwargs):
+            return True
 
-        return vector_cross.is_zero(**kwargs)
+        angle = self.angle_between(other)
+
+        is_direction_same = np.isclose(angle, 0, **kwargs)
+        is_direction_opposite = np.isclose(angle, np.pi, **kwargs)
+
+        return is_direction_same or is_direction_opposite
 
     @require(
         "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
@@ -230,12 +289,54 @@ class Vector(_BaseArray1D):
         180.0
 
         """
-        cos_theta = self.dot(other) / (self.magnitude * Vector(other).magnitude)
+        cos_theta = self.dot(other) / (self.norm() * Vector(other).norm())
 
         # Ensure that input to arccos is in range [-1, 1] so that output is real.
         cos_theta = np.clip(cos_theta, -1, 1)
 
         return np.arccos(cos_theta)
+
+    @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
+    @ensure("The output is in set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
+    def side(self, other):
+        """
+        Find which side a vector is compared to this vector.
+
+        The two vectors must be 2D.
+
+        Parameters
+        ----------
+        other : array_like
+            Input 2D vector.
+
+        Returns
+        -------
+        int
+            1 if the other vector is right of self.
+            0 if other is parallel to self.
+            -1 if other is left of self.
+
+        Examples
+        --------
+        >>> vector = Vector([0, 1])
+
+        >>> vector.side([1, 1])
+        1
+
+        >>> vector.side([1, -10])
+        1
+
+        >>> vector.side([0, 2])
+        0
+
+        >>> vector.side([0, -5])
+        0
+
+        >>> vector.side([-3, 4])
+        -1
+
+        """
+        return np.sign(np.cross(other, self)).astype(int)
 
     @ensure("The output must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL))
     def project(self, other):
@@ -257,16 +358,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([0, 1]).project([2, 1])
-        Vector([0., 1., 0.])
+        Vector([0., 1.])
 
         >>> Vector([0, 100]).project([2, 1])
-        Vector([0., 1., 0.])
+        Vector([0., 1.])
 
         >>> Vector([0, 1]).project([9, 5])
-        Vector([0., 5., 0.])
+        Vector([0., 5.])
 
         >>> Vector([0, 100]).project([9, 5])
-        Vector([0., 5., 0.])
+        Vector([0., 5.])
 
         """
         unit_self = self.unit()

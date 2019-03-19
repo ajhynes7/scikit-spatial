@@ -12,7 +12,7 @@ def test_add_subtract(array_point, array_vector):
     vector = Vector(array_vector)
 
     point_2 = point.add(array_vector)
-    assert np.isclose(point.distance_point(point_2), vector.magnitude)
+    assert np.isclose(point.distance_point(point_2), vector.norm())
 
     point_3 = point_2.subtract(array_vector)
     assert point.is_close(point_3)

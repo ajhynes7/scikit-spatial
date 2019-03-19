@@ -48,7 +48,7 @@ def area_triangle(point_a, point_b, point_c):
 
     vector_cross = vector_ab.cross(vector_ac)
 
-    return 0.5 * vector_cross.magnitude
+    return 0.5 * vector_cross.norm()
 
 
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)

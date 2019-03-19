@@ -1,5 +1,6 @@
 from hypothesis import given
 
+from skspatial.constants import ATOL
 from skspatial.objects import Point, Line
 from tests.property.strategies import st_arrays, st_arrays_nonzero, st_line
 
@@ -14,7 +15,7 @@ def test_line_creation(array_point, array_vector):
 
     line_2 = Line.from_points(point_1, point_2)
 
-    assert line_1.is_close(line_2)
+    assert line_1.is_close(line_2, atol=ATOL)
 
 
 @given(st_line(), st_line())
