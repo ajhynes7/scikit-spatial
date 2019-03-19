@@ -15,6 +15,12 @@ st_arrays_nonzero = st_arrays.filter(lambda array: any(array))
 
 
 @st.composite
+def st_arrays_multiple(draw, n_arrays):
+    """Strategy to generate multiple arrays."""
+    return [draw(st_arrays) for _ in range(n_arrays)]
+
+
+@st.composite
 def st_line(draw):
     """Strategy to generate a Line object."""
     return Line(draw(st_arrays), draw(st_arrays_nonzero))
