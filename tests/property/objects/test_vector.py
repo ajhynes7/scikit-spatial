@@ -24,7 +24,7 @@ def test_unit(array):
     assert np.isclose(vector_unit.norm(), 1)
     assert (vector.norm() * vector_unit).is_close(array)
 
-    assert vector_unit.is_parallel(vector)
+    assert vector_unit.is_parallel(vector, atol=ATOL)
 
     angle = vector.angle_between(vector_unit)
     assert np.isclose(angle, 0, atol=ATOL)
