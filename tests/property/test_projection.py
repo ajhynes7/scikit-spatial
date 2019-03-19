@@ -34,10 +34,6 @@ def test_project_point(data, name_object):
     distance_to_object = abs(line_or_plane.distance_point(array))
     assert np.isclose(distance_to_object, distance_projection)
 
-    # The distance to the line/plane is zero <==> The point is on the line/plane.
-    is_distance_zero = np.isclose(distance_to_object, 0)
-    assert is_distance_zero == line_or_plane.contains_point(array)
-
     # The distance of the projection should be the
     # shortest distance from the point to the object.
     distance_points = line_or_plane.point.distance_point(array)

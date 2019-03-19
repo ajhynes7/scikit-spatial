@@ -146,14 +146,7 @@ class Line(_BaseLinePlane):
 
         return self.point.add(vector_along_line)
 
-    def contains_point(self, point, **kwargs):
-        """Check if this line contains a point."""
-        vector_to_point = Vector.from_points(self.point, point)
-
-        return vector_to_point.is_parallel(self.direction, **kwargs)
-
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    @ensure("The output must be on the line.", lambda args, result: args.self.contains_point(result))
     def project_point(self, point):
         """
         Project a point onto this line.

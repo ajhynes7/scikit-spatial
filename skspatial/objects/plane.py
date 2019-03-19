@@ -141,12 +141,6 @@ class Plane(_BaseLinePlane):
 
         return Plane.from_vectors(point_a, vector_ab, vector_ac)
 
-    def contains_point(self, point, **kwargs):
-        """Check if this plane contains a point."""
-        vector_to_point = Vector.from_points(self.point, point)
-
-        return vector_to_point.is_perpendicular(self.normal, **kwargs)
-
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project_point(self, point):
         """
