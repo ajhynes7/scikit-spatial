@@ -47,6 +47,7 @@ class Plane(_BaseLinePlane):
     Vector([0., 0., 1.])
 
     """
+
     def __init__(self, point=[0, 0, 0], normal=[0, 0, 1]):
 
         super().__init__(point, normal)
@@ -95,7 +96,7 @@ class Plane(_BaseLinePlane):
     @classmethod
     @require(
         "The points must not be collinear.",
-        lambda args: not Points([args.point_a, args.point_b, args.point_c]).are_collinear()
+        lambda args: not Points([args.point_a, args.point_b, args.point_c]).are_collinear(),
     )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):

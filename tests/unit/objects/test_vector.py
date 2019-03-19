@@ -15,7 +15,7 @@ from skspatial.objects import Vector
         ([5, 7, 8, 9], [2, 5, 3, -4], Vector([-3, -2, -5, -13])),
         # The lengths of the arrays are set to the largest array.
         ([2], [4, 5], Vector([2, 5])),
-        ([1, 2], [5, 0, 3], Vector([4, -2., 3])),
+        ([1, 2], [5, 0, 3], Vector([4, -2, 3])),
         ([5, 6], [1, 7, -3, 2], Vector([-4, 1, -3, 2])),
     ],
 )

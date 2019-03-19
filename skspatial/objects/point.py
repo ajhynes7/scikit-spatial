@@ -78,6 +78,7 @@ class Points(_BaseArray2D):
             [5., 4.]])
 
     """
+
     def __new__(cls, points):
 
         points_normalized = list(_normalize_dimension(*points))
@@ -86,8 +87,12 @@ class Points(_BaseArray2D):
         return super().__new__(cls, array_2d)
 
     @ensure("The output must be Points.", lambda _, result: isinstance(result, Points))
-    @ensure("The output points must have the same dimension.", lambda args, result: result.shape[1] == args.self.shape[1])
-    @ensure("There must be fewer or an equal number of rows.", lambda args, result: result.shape[0] <= args.self.shape[0])
+    @ensure(
+        "The output points must have the same dimension.", lambda args, result: result.shape[1] == args.self.shape[1]
+    )
+    @ensure(
+        "There must be fewer or an equal number of rows.", lambda args, result: result.shape[0] <= args.self.shape[0]
+    )
     def unique(self):
         """
         Return unique points.

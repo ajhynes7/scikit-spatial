@@ -6,12 +6,8 @@ from dpcontracts import require, ensure, types
 
 @types(array=np.ndarray, dim=int)
 @require("The array must be 1D.", lambda args: args.array.ndim == 1)
-@require(
-    "The desired dimension cannot be less than the array dimension.", lambda args: args.array.size <= args.dim
-)
-@ensure(
-    "The output must have the desired dimensions.", lambda args, result: result.shape == (args.dim,),
-)
+@require("The desired dimension cannot be less than the array dimension.", lambda args: args.array.size <= args.dim)
+@ensure("The output must have the desired dimensions.", lambda args, result: result.shape == (args.dim,))
 def _set_dimension_1d(array, dim):
     """
     Set the desired dimension (length) of the 1D array.
@@ -57,7 +53,7 @@ def _set_dimension_1d(array, dim):
     "The points dimension cannot be greater than the desired dimension.", lambda args: args.array.shape[1] <= args.dim
 )
 @ensure(
-    "The output must have the desired dimensions.", lambda args, result: result.shape == (len(args.array), args.dim),
+    "The output must have the desired dimensions.", lambda args, result: result.shape == (len(args.array), args.dim)
 )
 def _set_dimension_2d(array, dim):
     """
@@ -180,6 +176,7 @@ def norm_dim(func):
     The dimension of each array is set to the largest dimension of the input arrays.
 
     """
+
     def inner(*objs, **kwargs):
 
         objs_normalized = _normalize_dimension(*objs)
@@ -214,7 +211,9 @@ class _BaseArray(np.ndarray):
         else:
             return self.shape[0]
 
-    @ensure("The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
+    @ensure(
+        "The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self))
+    )
     def set_dimension(self, dim):
 
         if self.ndim == 1:
@@ -229,7 +228,10 @@ class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
     @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
-    @ensure("The output must be a 1D array with the input length.", lambda args, result: result.shape == (len(args.array_like),))
+    @ensure(
+        "The output must be a 1D array with the input length.",
+        lambda args, result: result.shape == (len(args.array_like),),
+    )
     def __new__(cls, array_like):
 
         return super().__new__(cls, array_like)

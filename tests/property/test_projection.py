@@ -1,13 +1,14 @@
 import hypothesis.strategies as st
 import numpy as np
 import pytest
-from hypothesis import given
+from hypothesis import given, settings
 
 from skspatial.constants import ATOL
 from skspatial.objects import Vector
 from tests.property.strategies import st_arrays, st_line, st_plane
 
 
+@settings(deadline=None)
 @pytest.mark.parametrize('name_object', ['line', 'plane'])
 @given(data=st.data())
 def test_project_point(data, name_object):
