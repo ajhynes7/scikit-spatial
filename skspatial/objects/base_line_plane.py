@@ -22,7 +22,7 @@ class _BaseLinePlane:
         point, vector = _normalize_dimension(point, vector)
 
         self.point = Point(point)
-        self.vector = Vector(vector).unit()
+        self.vector = Vector(vector)
 
     def __repr__(self):
 
