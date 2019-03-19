@@ -180,10 +180,10 @@ def norm_dim(func):
     The dimension of each array is set to the largest dimension of the input arrays.
 
     """
-    def inner(*objs):
+    def inner(*objs, **kwargs):
 
         objs_normalized = _normalize_dimension(*objs)
-        return func(*objs_normalized)
+        return func(*objs_normalized, **kwargs)
 
     return inner
 
