@@ -1,5 +1,5 @@
 import numpy as np
-from dpcontracts import require, ensure, types
+from dpcontracts import require, ensure
 
 from .base_line_plane import _BaseLinePlane
 from .line import Line
