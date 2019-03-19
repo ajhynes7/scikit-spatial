@@ -139,12 +139,17 @@ class Points(_BaseArray2D):
 
         return points_centered, centroid
 
-    def affine_rank(self):
+    def affine_rank(self, **kwargs):
         """
         Return the affine rank of the points.
 
         The affine rank is the dimension of the smallest affine space that contains the points.
         A rank of 1 means the points are collinear, and a rank of 2 means they are coplanar.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.matrix_rank`.
 
         Returns
         -------
@@ -177,16 +182,16 @@ class Points(_BaseArray2D):
         """
         points_centered, _ = self.mean_center()
 
-        return matrix_rank(points_centered)
+        return matrix_rank(points_centered, **kwargs)
 
-    def are_concurrent(self):
+    def are_concurrent(self, **kwargs):
         """Check if the points are all contained in one point."""
-        return self.affine_rank() == 0
+        return self.affine_rank(**kwargs) == 0
 
-    def are_collinear(self):
+    def are_collinear(self, **kwargs):
         """Check if the points are all contained in one line."""
-        return self.affine_rank() <= 1
+        return self.affine_rank(**kwargs) <= 1
 
-    def are_coplanar(self):
+    def are_coplanar(self, **kwargs):
         """Check if the points are all contained in one plane."""
-        return self.affine_rank() <= 2
+        return self.affine_rank(**kwargs) <= 2
