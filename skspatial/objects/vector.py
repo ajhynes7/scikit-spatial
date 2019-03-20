@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import require, ensure
 
 from skspatial.constants import ATOL
-from skspatial.objects.base_array import _BaseArray1D, norm_dim
+from skspatial.objects.base_array import _BaseArray1D
 
 
 class Vector(_BaseArray1D):
@@ -121,7 +121,6 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    @norm_dim
     def dot(self, other):
         """Return the dot product with another array."""
         return np.dot(self, other)

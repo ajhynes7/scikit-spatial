@@ -236,12 +236,10 @@ class _BaseArray1D(_BaseArray):
 
         return super().__new__(cls, array_like)
 
-    @norm_dim
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
         return np.allclose(self, other, **kwargs)
 
-    @norm_dim
     @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
     def add(self, vector):
         """
