@@ -141,6 +141,37 @@ class Plane(_BaseLinePlane):
 
         return Plane.from_vectors(point_a, vector_ab, vector_ac)
 
+    def cartesian(self):
+        """
+        Return the coefficients of the Cartesian equation of the plane.
+
+        The equation has the form ax + by + cz + d = 0.
+
+        Returns
+        -------
+        tuple
+            Coefficients a, b, c, d.
+
+        Examples
+        --------
+        >>> from skspatial.objects import plane
+
+        >>> Plane(point=[1, 2], normal=[0, 0, 1]).cartesian()
+        (0.0, 0.0, 1.0, -0.0)
+
+        >>> Plane(point=[1, 2, 8], normal=[0, 0, 5]).cartesian()
+        (0.0, 0.0, 5.0, -40.0)
+
+        >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
+        (10.0, 2.0, 4.0, -54.0)
+
+        """
+        a, b, c = self.normal
+
+        d = - self.normal.dot(self.point)
+
+        return a, b, c, d
+
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project_point(self, point):
         """
