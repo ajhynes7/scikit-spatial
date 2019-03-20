@@ -374,27 +374,55 @@ class Vector(_BaseArray1D):
         """
         return np.sign(np.cross(other, self)).astype(int)
 
-    @ensure("The vector projection must be parallel to self.",
-            lambda args, result: isinstance(result, np.number) or args.self.is_parallel(result, atol=ATOL),
-    )
-    def project(self, other, scalar=False):
+    def scalar_projection(self, other):
         """
-        Project an other vector onto self.
-
-        The scalar or vector projection can be returned.
+        Return the scalar projection of an other vector onto this vector.
 
         Parameters
         ----------
         other : array_like
             Input vector.
-        scalar : bool, optional
-            If True, return the scalar projection
-            instead of the vector projection (default False).
 
         Returns
         -------
-        {Vector, scalar}
-            Scalar or vector projection of other vector onto self.
+        scalar
+            Scalar projection of other vector onto self.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([0, 1]).scalar_projection([2, 1])
+        1.0
+
+        >>> Vector([-1, -1]).scalar_projection([1, 0]).round(3)
+        -0.707
+
+        >>> Vector([0, 100]).scalar_projection([9, 5])
+        5.0
+
+        >>> Vector([5, 0]).scalar_projection([-10, 3])
+        -10.0
+
+        """
+        return self.unit().dot(other)
+
+    @ensure("The vector projection must be parallel to self.",
+            lambda args, result: args.self.is_parallel(result, atol=ATOL),
+    )
+    def project(self, other):
+        """
+        Project an other vector onto this vector.
+
+        Parameters
+        ----------
+        other : array_like
+            Input vector.
+
+        Returns
+        -------
+        Vector
+            Vector projection of other vector onto self.
 
         Examples
         --------
@@ -402,9 +430,6 @@ class Vector(_BaseArray1D):
 
         >>> Vector([0, 1]).project([2, 1])
         Vector([0., 1.])
-
-        >>> Vector([0, 1]).project([2, 1], scalar=True)
-        1.0
 
         >>> Vector([0, 100]).project([2, 1])
         Vector([0., 1.])
@@ -415,16 +440,5 @@ class Vector(_BaseArray1D):
         >>> Vector([0, 100]).project([9, 5])
         Vector([0., 5.])
 
-        >>> Vector([0, 100]).project([9, 5], scalar=True)
-        5.0
-
         """
-        unit_self = self.unit()
-
-        # Scalar projection of other vector onto self.
-        scalar_projection = unit_self.dot(other)
-
-        if scalar is True:
-            return scalar_projection
-
-        return scalar_projection * unit_self
+        return self.dot(other) / self.dot(self) * self
