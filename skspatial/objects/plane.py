@@ -47,7 +47,7 @@ class Plane(_BaseLinePlane):
 
     """
 
-    def __init__(self, point=[0, 0, 0], normal=[0, 0, 1]):
+    def __init__(self, point, normal):
 
         super().__init__(point, normal)
         self.normal = self.vector

@@ -46,7 +46,7 @@ class Line(_BaseLinePlane):
 
     """
 
-    def __init__(self, point=[0, 0], direction=[1, 0]):
+    def __init__(self, point, direction):
 
         super().__init__(point, direction)
 
