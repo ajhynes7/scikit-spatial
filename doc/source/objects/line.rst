@@ -2,7 +2,7 @@
 Line
 ----
 
-A line is defined by a point and a direction vector. The direction of the line is the unit vector of the input vector.
+A line is defined by a point and a direction vector.
 
 >>> from skspatial.objects import Line
 

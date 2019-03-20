@@ -2,7 +2,7 @@
 Plane
 -----
 
-A plane is defined by a point and a normal vector. The normal vector of the plane is the unit vector of the input vector.
+A plane is defined by a point and a normal vector.
 
 >>> from skspatial.objects import Plane
 
