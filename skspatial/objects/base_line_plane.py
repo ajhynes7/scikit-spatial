@@ -6,7 +6,6 @@ from copy import deepcopy
 import numpy as np
 from dpcontracts import require, ensure
 
-from skspatial.objects.base_array import _normalize_dimension
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
@@ -14,12 +13,11 @@ from skspatial.objects.vector import Vector
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
+    @require("The inputs must have the same length.", lambda args: len(args.point) == len(args.vector))
     @require("The vector cannot be the zero vector.", lambda args: not Vector(args.vector).is_zero())
     @ensure("The point is a Point.", lambda args, _: isinstance(args.self.point, Point))
     @ensure("The vector is a Vector", lambda args, _: isinstance(args.self.vector, Vector))
     def __init__(self, point, vector):
-
-        point, vector = _normalize_dimension(point, vector)
 
         self.point = Point(point)
         self.vector = Vector(vector)
