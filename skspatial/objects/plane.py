@@ -275,7 +275,7 @@ class Plane(_BaseLinePlane):
         Examples
         --------
         >>> from skspatial.objects import Plane
-        >>> plane = Plane([0], [0, 0, 1])
+        >>> plane = Plane([0, 0], [0, 0, 1])
 
         >>> plane.side_point([2, 5])
         0.0
@@ -286,7 +286,7 @@ class Plane(_BaseLinePlane):
         >>> plane.side_point([5, 8, -4])
         -1.0
 
-        >>> plane = Plane([0], [0, 0, -1])
+        >>> plane = Plane([0, 0], [0, 0, -1])
         >>> plane.side_point([0, 0, 5])
         -1.0
 
@@ -378,8 +378,8 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Plane
 
-        >>> plane_a = Plane([0], [0, 0, 1])
-        >>> plane_b = Plane([0], [1, 0, 0])
+        >>> plane_a = Plane([0, 0], [0, 0, 1])
+        >>> plane_b = Plane([0, 0], [1, 0, 0])
 
         >>> plane_a.intersect_plane(plane_b)
         Line(point=Point([0., 0., 0.]), direction=Vector([0., 1., 0.]))

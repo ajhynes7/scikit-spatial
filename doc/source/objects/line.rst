@@ -6,7 +6,7 @@ A line is defined by a point and a direction vector.
 
 >>> from skspatial.objects import Line
 
->>> line_1 = Line(point=[0], direction=[5, 0])
+>>> line_1 = Line(point=[0, 0], direction=[5, 0])
 
 >>> line_1
 Line(point=Point([0., 0.]), direction=Vector([5., 0.]))

@@ -8,7 +8,7 @@ from skspatial.objects import Point, Vector
 
 
 @pytest.mark.parametrize(
-    "array", [[1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]
+    "array", [[1, 0], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]
 )
 def test_equality(array):
 
@@ -19,7 +19,7 @@ def test_equality(array):
 
 @pytest.mark.parametrize(
     "array",
-    [[], [np.nan], [1, 1, np.nan], [1, 1, np.inf], [[1], [1]], [[1, 2], [1, 2]]],
+    [[], [np.nan, 0], [1, 1, np.nan], [1, 1, np.inf], [[1], [1]], [[1, 2], [1, 2]]],
 )
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
 def test_failure(class_spatial, array):

@@ -64,7 +64,7 @@ class Points(_BaseArray2D):
 
     Examples
     --------
-    >>> points = ([1, 2], [5, 4, 3], [4])
+    >>> points = ([1, 2], [5, 4, 3], [4, 0])
 
     >>> Points(points)
     Points([[1., 2., 0.],

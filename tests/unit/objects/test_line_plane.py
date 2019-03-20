@@ -9,7 +9,7 @@ from skspatial.objects import Line, Plane
     "point, vector",
     [
         # The zero vector cannot be used.
-        ([0], [0]),
+        ([0, 0], [0, 0]),
         ([1, 1], [0, 0]),
         ([1, 1, 1], [0, 0, 0]),
         ([4, 5, 2, 3], [0, 0, 0, 0]),
