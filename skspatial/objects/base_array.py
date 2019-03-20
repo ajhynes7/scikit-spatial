@@ -188,7 +188,7 @@ def norm_dim(func):
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    @require("The input array must not be empty.", lambda args: len(args.array_like) > 0)
+    @require("The input array must have more than one element.", lambda args: len(args.array_like) > 1)
     @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
     def __new__(cls, array_like):
 
