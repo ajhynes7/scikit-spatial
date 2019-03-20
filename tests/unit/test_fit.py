@@ -22,7 +22,6 @@ def test_best_fit_line(points, line_expected):
 
     assert line_fit.is_close(line_expected)
     assert line_fit.point.is_close(line_expected.point)
-    assert line_fit.vector.is_close(line_expected.vector)
 
 
 @pytest.mark.parametrize(
