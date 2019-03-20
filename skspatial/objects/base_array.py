@@ -268,7 +268,7 @@ class _BaseArray1D(_BaseArray):
         Point([0., 7., 0.])
 
         >>> vector = Vector([5, 9, 1])
-        >>> vector.add([1])
+        >>> vector.add([1, 0])
         Vector([6., 9., 1])
 
         >>> vector.add([1, 2, 3, 4])

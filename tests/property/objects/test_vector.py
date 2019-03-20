@@ -71,7 +71,7 @@ def test_two_vectors(array_a, array_b):
     assert is_parallel == (np.isclose(angle, 0) or np.isclose(angle, 180))
 
     # The zero vector is perpendicular and parallel to any other vector.
-    vector_zero = Vector([0])
+    vector_zero = Vector([0, 0])
     assert vector_a.is_perpendicular(vector_zero)
     assert vector_a.is_parallel(vector_zero)
 

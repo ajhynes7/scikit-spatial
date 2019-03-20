@@ -28,10 +28,7 @@ The `Point` and `Vector` are both subclasses of the NumPy `ndarray`, which gives
 (2,)
 
 
->>> Point([1])
-Point([1.])
-
->>> Point([1, 2])
+>>> point_1
 Point([1., 2.])
 
 

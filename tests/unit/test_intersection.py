@@ -63,18 +63,18 @@ def test_intersect_lines_failure(line_a, line_b):
     "line, plane, point_expected",
     [
         (
-            Line(Point([0]), Vector([1, 0])),
-            Plane(Point([0]), Vector([1, 0])),
-            Point([0]),
+            Line(Point([0, 0]), Vector([1, 0])),
+            Plane(Point([0, 0]), Vector([1, 0])),
+            Point([0, 0]),
         ),
         (
-            Line(Point([0]), Vector([0, 0, 1])),
-            Plane(Point([0]), Vector([0, 0, 1])),
-            Point([0]),
+            Line(Point([0, 0]), Vector([0, 0, 1])),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
+            Point([0, 0]),
         ),
         (
             Line(Point([5, -3]), Vector([0, 0, 1])),
-            Plane(Point([0]), Vector([0, 0, 1])),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
             Point([5, -3, 0]),
         ),
     ],
@@ -88,9 +88,9 @@ def test_intersect_line_plane(line, plane, point_expected):
 @pytest.mark.parametrize(
     "line, plane",
     [
-        (Line(Point([0]), Vector([1, 0, 0])), Plane(Point([0]), Vector([0, 0, 1]))),
-        (Line(Point([0]), Vector([0, 0, 1])), Plane(Point([0]), Vector([1, 0, 0]))),
-        (Line(Point([0]), Vector([0, 0, 1])), Plane(Point([0]), Vector([0, 1, 0]))),
+        (Line(Point([0, 0]), Vector([1, 0, 0])), Plane(Point([0, 0]), Vector([0, 0, 1]))),
+        (Line(Point([0, 0]), Vector([0, 0, 1])), Plane(Point([0, 0]), Vector([1, 0, 0]))),
+        (Line(Point([0, 0]), Vector([0, 0, 1])), Plane(Point([0, 0]), Vector([0, 1, 0]))),
     ],
 )
 def test_intersect_line_plane_failure(line, plane):
@@ -103,14 +103,14 @@ def test_intersect_line_plane_failure(line, plane):
     "plane_a, plane_b, line_expected",
     [
         (
-            Plane(Point([0]), Vector([0, 0, 1])),
-            Plane(Point([0]), Vector([1, 0, 0])),
-            Line(Point([0]), Vector([0, 1])),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
+            Plane(Point([0, 0]), Vector([1, 0, 0])),
+            Line(Point([0, 0]), Vector([0, 1])),
         ),
         (
             Plane(Point([0, 0, 0]), Vector([0, 0, 1])),
             Plane(Point([0, 0, 1]), Vector([1, 0, 1])),
-            Line(Point([1]), Vector([0, 1])),
+            Line(Point([1, 0]), Vector([0, 1])),
         ),
         (
             Plane(Point([0, 0, 0]), Vector([-1, 1, 0])),

@@ -8,13 +8,13 @@ from skspatial.objects import Vector
 @pytest.mark.parametrize(
     "array_a, array_b, vector_expected",
     [
-        ([0], [1], Vector([1])),
+        ([0, 0], [1, 0], Vector([1, 0])),
         ([1, 0], [1, 0], Vector([0, 0])),
         ([1, 0], [2, 0], Vector([1, 0])),
         ([8, 3, -5], [3, 7, 1], Vector([-5, 4, 6])),
         ([5, 7, 8, 9], [2, 5, 3, -4], Vector([-3, -2, -5, -13])),
         # The lengths of the arrays are set to the largest array.
-        ([2], [4, 5], Vector([2, 5])),
+        ([2, 0], [4, 5], Vector([2, 5])),
         ([1, 2], [5, 0, 3], Vector([4, -2, 3])),
         ([5, 6], [1, 7, -3, 2], Vector([-4, 1, -3, 2])),
     ],
@@ -48,7 +48,6 @@ def test_unit(array, array_unit_expected):
 @pytest.mark.parametrize(
     "array, kwargs, bool_expected",
     [
-        ([0], {}, True),
         ([0, 0], {}, True),
         ([0, 0, 0], {}, True),
         ([0, 1], {}, False),
