@@ -153,7 +153,7 @@ def _normalize_dimension(*objs):
 
     >>> line = Line([1, 2], [4, 3])
 
-    >>> list(_normalize_dimension(line, [5]))
+    >>> list(_normalize_dimension(line, [5, 0]))
     [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), _BaseArray([5., 0.])]
 
     >>> list(_normalize_dimension(line, [5, 4, 3]))
