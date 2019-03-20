@@ -163,6 +163,88 @@ class Vector(_BaseArray1D):
 
         return Vector(np.cross(vector_a, vector_b))
 
+    def cosine_similarity(self, other):
+        """
+        Return the cosine similarity of this vector with another.
+
+        This is the cosine of the angle between the vectors.
+
+        Parameters
+        ----------
+        other : array_like
+            Input vector.
+
+        Returns
+        -------
+        scalar
+            Cosine similarity.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 0]).cosine_similarity([0, 1])
+        0.0
+
+        >>> Vector([30, 0]).cosine_similarity([0, 20])
+        0.0
+
+        >>> Vector([1, 0]).cosine_similarity([-1, 0])
+        -1.0
+
+        >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
+        0.707
+
+        """
+        cos_theta = self.dot(other) / (self.norm() * Vector(other).norm())
+
+        # Ensure that the output is in the range [-1, 1],
+        # so that the angle theta is defined.
+        return np.clip(cos_theta, -1, 1)
+
+    @require(
+        "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
+    )
+    @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
+    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    def angle_between(self, other):
+        """
+        Return the angle in radians between this vector and another.
+
+        Parameters
+        ----------
+        other : array_like
+            Input vector.
+
+        Returns
+        -------
+        scalar
+            Angle between vectors in radians.
+
+        Examples
+        --------
+        >>> import numpy as np
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 0]).angle_between([1, 0])
+        0.0
+
+        >>> Vector([1, 1, 1]).angle_between([1, 1, 1])
+        0.0
+
+        >>> angle = Vector([1, 0]).angle_between([1, 1])
+        >>> np.degrees(angle).round()
+        45.0
+
+        >>> angle = Vector([1, 0]).angle_between([-2, 0])
+        >>> np.degrees(angle).round()
+        180.0
+
+        """
+        cos_theta = self.cosine_similarity(other)
+
+        return np.arccos(cos_theta)
+
     def is_perpendicular(self, other, **kwargs):
         """
         Check if an other vector is perpendicular to self.
@@ -227,6 +309,9 @@ class Vector(_BaseArray1D):
         >>> Vector([0, 1]).is_parallel([1, 0])
         False
 
+        >>> Vector([1, 1]).is_parallel([1, 1])
+        True
+
         >>> Vector([-1, 5]).is_parallel([2, -10])
         True
 
@@ -242,59 +327,10 @@ class Vector(_BaseArray1D):
 
         """
         if Vector(self).is_zero(**kwargs) or Vector(other).is_zero(**kwargs):
+            # The zero vector is perpendicular to all vectors.
             return True
 
-        angle = self.angle_between(other)
-
-        is_direction_same = np.isclose(angle, 0, **kwargs)
-        is_direction_opposite = np.isclose(angle, np.pi, **kwargs)
-
-        return is_direction_same or is_direction_opposite
-
-    @require(
-        "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
-    )
-    @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
-    def angle_between(self, other):
-        """
-        Return the angle in radians between this vector and another.
-
-        Parameters
-        ----------
-        other : array_like
-
-        Returns
-        -------
-        scalar
-            Angle between vectors in radians.
-
-        Examples
-        --------
-        >>> import numpy as np
-        >>> from skspatial.objects import Vector
-
-        >>> Vector([1, 0]).angle_between([1, 0])
-        0.0
-
-        >>> Vector([1, 1, 1]).angle_between([1, 1, 1])
-        0.0
-
-        >>> angle = Vector([1, 0]).angle_between([1, 1])
-        >>> np.degrees(angle).round()
-        45.0
-
-        >>> angle = Vector([1, 0]).angle_between([-2, 0])
-        >>> np.degrees(angle).round()
-        180.0
-
-        """
-        cos_theta = self.dot(other) / (self.norm() * Vector(other).norm())
-
-        # Ensure that input to arccos is in range [-1, 1] so that output is real.
-        cos_theta = np.clip(cos_theta, -1, 1)
-
-        return np.arccos(cos_theta)
+        return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
 
     @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
     @ensure("The output is in set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
