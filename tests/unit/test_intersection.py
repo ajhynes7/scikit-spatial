@@ -88,9 +88,18 @@ def test_intersect_line_plane(line, plane, point_expected):
 @pytest.mark.parametrize(
     "line, plane",
     [
-        (Line(Point([0, 0]), Vector([1, 0, 0])), Plane(Point([0, 0]), Vector([0, 0, 1]))),
-        (Line(Point([0, 0]), Vector([0, 0, 1])), Plane(Point([0, 0]), Vector([1, 0, 0]))),
-        (Line(Point([0, 0]), Vector([0, 0, 1])), Plane(Point([0, 0]), Vector([0, 1, 0]))),
+        (
+            Line(Point([0, 0]), Vector([1, 0, 0])),
+            Plane(Point([0, 0]), Vector([0, 0, 1])),
+        ),
+        (
+            Line(Point([0, 0]), Vector([0, 0, 1])),
+            Plane(Point([0, 0]), Vector([1, 0, 0])),
+        ),
+        (
+            Line(Point([0, 0]), Vector([0, 0, 1])),
+            Plane(Point([0, 0]), Vector([0, 1, 0])),
+        ),
     ],
 )
 def test_intersect_line_plane_failure(line, plane):

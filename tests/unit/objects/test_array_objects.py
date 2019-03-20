@@ -1,4 +1,4 @@
-"""Test functionality of objects based on a single NumPy array (Point and Vector)."""
+"""Test functionality of objects based on a single 1D NumPy array (Point and Vector)."""
 
 import numpy as np
 import pytest
@@ -19,7 +19,16 @@ def test_equality(array):
 
 @pytest.mark.parametrize(
     "array",
-    [[], [np.nan, 0], [1, 1, np.nan], [1, 1, np.inf], [[1], [1]], [[1, 2], [1, 2]]],
+    [
+        [],
+        [0],
+        [5],
+        [np.nan, 0],
+        [1, 1, np.nan],
+        [1, 1, np.inf],
+        [[1], [1]],
+        [[1, 2], [1, 2]],
+    ],
 )
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
 def test_failure(class_spatial, array):

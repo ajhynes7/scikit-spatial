@@ -168,7 +168,7 @@ class Plane(_BaseLinePlane):
         """
         a, b, c = self.normal
 
-        d = - self.normal.dot(self.point)
+        d = -self.normal.dot(self.point)
 
         return a, b, c, d
 

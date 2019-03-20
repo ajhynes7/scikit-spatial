@@ -407,8 +407,8 @@ class Vector(_BaseArray1D):
         """
         return self.unit().dot(other)
 
-    @ensure("The vector projection must be parallel to self.",
-            lambda args, result: args.self.is_parallel(result, atol=ATOL),
+    @ensure(
+        "The vector projection must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL)
     )
     def project(self, other):
         """
