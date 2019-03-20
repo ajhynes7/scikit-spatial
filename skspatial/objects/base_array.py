@@ -129,7 +129,7 @@ def _to_arrays(*objs):
 
     >>> line = Line([1, 2], [4, 3])
     >>> list(_to_arrays(line, [5, 9]))
-    [Line(point=Point([1., 2.]), direction=Vector([0.8, 0.6])), _BaseArray([5., 9.])]
+    [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), _BaseArray([5., 9.])]
 
     """
     for obj in objs:
@@ -154,10 +154,10 @@ def _normalize_dimension(*objs):
     >>> line = Line([1, 2], [4, 3])
 
     >>> list(_normalize_dimension(line, [5]))
-    [Line(point=Point([1., 2.]), direction=Vector([0.8, 0.6])), _BaseArray([5., 0.])]
+    [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), _BaseArray([5., 0.])]
 
     >>> list(_normalize_dimension(line, [5, 4, 3]))
-    [Line(point=Point([1., 2., 0.]), direction=Vector([0.8, 0.6, 0. ])), _BaseArray([5., 4., 3.])]
+    [Line(point=Point([1., 2., 0.]), direction=Vector([4., 3., 0.])), _BaseArray([5., 4., 3.])]
 
     """
     # Convert objects to the base array class so we can get/set the dimension.

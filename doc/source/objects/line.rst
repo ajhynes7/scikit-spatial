@@ -9,7 +9,7 @@ A line is defined by a point and a direction vector. The direction of the line i
 >>> line_1 = Line(point=[0], direction=[5, 0])
 
 >>> line_1
-Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
+Line(point=Point([0., 0.]), direction=Vector([5., 0.]))
 
 
 Alternatively, a `Line` can be defined by two points.

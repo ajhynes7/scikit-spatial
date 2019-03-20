@@ -35,15 +35,14 @@ class Line(_BaseLinePlane):
     >>> line = Line(point=[0, 0], direction=[3, 0])
 
     >>> line
-    Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
+    Line(point=Point([0., 0.]), direction=Vector([3., 0.]))
 
-    The direction attribute is the unit vector of the input.
     >>> line.direction
-    Vector([1., 0.])
+    Vector([3., 0.])
 
     The direction can also be accessed with the 'vector' attribute.
     >>> line.vector
-    Vector([1., 0.])
+    Vector([3., 0.])
 
     """
 
@@ -165,7 +164,7 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], direction=[1, 0])
+        >>> line = Line(point=[0, 0], direction=[8, 0])
         >>> line.project_point([5, 5])
         Point([5., 0.])
 

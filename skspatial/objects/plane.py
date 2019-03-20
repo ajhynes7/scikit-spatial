@@ -36,15 +36,14 @@ class Plane(_BaseLinePlane):
     >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 5])
 
     >>> plane
-    Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
+    Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 5.]))
 
-    The normal attribute is the unit vector of the input.
     >>> plane.normal
-    Vector([0., 0., 1.])
+    Vector([0., 0., 5.])
 
     The normal can also be accessed with the 'vector' attribute.
     >>> plane.vector
-    Vector([0., 0., 1.])
+    Vector([0., 0., 5.])
 
     """
 
@@ -124,12 +123,12 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
 
         >>> Plane.from_points([0, 0], [1, 0], [3, 3])
-        Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
+        Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 3.]))
 
         The order of the points affects the direction of the normal vector.
 
         >>> Plane.from_points([0, 0], [3, 3], [1, 0])
-        Plane(point=Point([0., 0., 0.]), normal=Vector([ 0.,  0., -1.]))
+        Plane(point=Point([0., 0., 0.]), normal=Vector([ 0.,  0., -3.]))
 
         >>> Plane.from_points([0, 0], [0, 1], [0, 3])
         Traceback (most recent call last):
@@ -161,7 +160,7 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Plane
 
-        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+        >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 2])
 
         >>> plane.project_point([10, 2, 5])
         Point([10.,  2.,  0.])
@@ -222,7 +221,7 @@ class Plane(_BaseLinePlane):
         """
         vector_to_point = Vector.from_points(self.point, point)
 
-        return self.normal.dot(vector_to_point)
+        return self.normal.scalar_projection(vector_to_point)
 
     @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
     def side_point(self, point):
