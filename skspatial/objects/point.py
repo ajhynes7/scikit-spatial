@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import ensure
 from numpy.linalg import matrix_rank
 
-from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D, _normalize_dimension
+from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D
 from skspatial.objects.vector import Vector
 
 
@@ -81,8 +81,7 @@ class Points(_BaseArray2D):
 
     def __new__(cls, points):
 
-        points_normalized = list(_normalize_dimension(*points))
-        array_2d = np.stack(points_normalized)
+        array_2d = np.stack(points)
 
         return super().__new__(cls, array_2d)
 
