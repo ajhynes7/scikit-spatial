@@ -48,8 +48,8 @@ def test_intersect_lines(line_a, line_b, array_expected):
         (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0])),
         (Line([0, 0], [1, 0]), Line([5, 5], [-1, 0])),
         (
-            Line([0, 0], [1, 1, 1]),
-            Line([0, 1], [-1, 0, 0]),
+            Line([0, 0, 0], [1, 1, 1]),
+            Line([0, 1, 0], [-1, 0, 0]),
         ),
     ],
 )
@@ -63,18 +63,18 @@ def test_intersect_lines_failure(line_a, line_b):
     "line, plane, array_expected",
     [
         (
-            Line([0, 0], [1, 0]),
-            Plane([0, 0], [1, 0]),
-            [0, 0],
+            Line([0, 0, 0], [1, 0, 0]),
+            Plane([0, 0, 0], [1, 0, 0]),
+            [0, 0, 0],
         ),
         (
-            Line([0, 0], [0, 0, 1]),
-            Plane([0, 0], [0, 0, 1]),
-            [0, 0],
+            Line([0, 0, 0], [0, 0, 1]),
+            Plane([0, 0, 0], [0, 0, 1]),
+            [0, 0, 0],
         ),
         (
-            Line([5, -3], [0, 0, 1]),
-            Plane([0, 0], [0, 0, 1]),
+            Line([5, -3, 0], [0, 0, 1]),
+            Plane([0, 0, 0], [0, 0, 1]),
             [5, -3, 0],
         ),
     ],
@@ -89,16 +89,16 @@ def test_intersect_line_plane(line, plane, array_expected):
     "line, plane",
     [
         (
-            Line([0, 0], [1, 0, 0]),
-            Plane([0, 0], [0, 0, 1]),
+            Line([0, 0, 0], [1, 0, 0]),
+            Plane([0, 0, 0], [0, 0, 1]),
         ),
         (
-            Line([0, 0], [0, 0, 1]),
-            Plane([0, 0], [1, 0, 0]),
+            Line([0, 0, 0], [0, 0, 1]),
+            Plane([0, 0, 0], [1, 0, 0]),
         ),
         (
-            Line([0, 0], [0, 0, 1]),
-            Plane([0, 0], [0, 1, 0]),
+            Line([0, 0, 0], [0, 0, 1]),
+            Plane([0, 0, 0], [0, 1, 0]),
         ),
     ],
 )
@@ -112,14 +112,14 @@ def test_intersect_line_plane_failure(line, plane):
     "plane_a, plane_b, line_expected",
     [
         (
-            Plane([0, 0], [0, 0, 1]),
-            Plane([0, 0], [1, 0, 0]),
-            Line([0, 0], [0, 1]),
+            Plane([0, 0, 0], [0, 0, 1]),
+            Plane([0, 0, 0], [1, 0, 0]),
+            Line([0, 0, 0], [0, 1, 0]),
         ),
         (
             Plane([0, 0, 0], [0, 0, 1]),
             Plane([0, 0, 1], [1, 0, 1]),
-            Line([1, 0], [0, 1]),
+            Line([1, 0, 0], [0, 1, 0]),
         ),
         (
             Plane([0, 0, 0], [-1, 1, 0]),

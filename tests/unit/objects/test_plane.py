@@ -6,13 +6,13 @@ from skspatial.objects import Plane
 @pytest.mark.parametrize(
     "point_a, point_b, point_c, plane_expected",
     [
-        ([0, 0], [1, 0], [0, 1], Plane([0, 0], [0, 0, 1])),
+        ([0, 0], [1, 0], [0, 1], Plane([0, 0, 0], [0, 0, 1])),
         # The spacing between the points is irrelevant.
-        ([0, 0], [9, 0], [0, 9], Plane([0, 0], [0, 0, 1])),
+        ([0, 0], [9, 0], [0, 9], Plane([0, 0, 0], [0, 0, 1])),
         # The first point is used as the plane point.
-        ([0, 0.1], [1, 0], [0, 1], Plane([0, 0.1], [0, 0, 1])),
+        ([0, 0.1], [1, 0], [0, 1], Plane([0, 0.1, 0], [0, 0, 1])),
         # The order of points is relevant.
-        ([0, 0], [0, 1], [1, 0], Plane([0, 0], [0, 0, -1])),
+        ([0, 0], [0, 1], [1, 0], Plane([0, 0, 0], [0, 0, -1])),
     ],
 )
 def test_from_points(point_a, point_b, point_c, plane_expected):
