@@ -56,7 +56,7 @@ Measure the distance from a point to a plane.
 >>> from skspatial.objects import Plane
 
 >>> point = [5, 7, -2]
->>> plane = Plane(point=[0, 0], normal=[0, 0, 1])
+>>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 1])
 
 >>> plane.distance_point(point)
 2.0
@@ -126,6 +126,6 @@ The points are the vertices of the tetrahedron.
 >>> volume_tetrahedron([0, 0], [1, 0], [0, 1], [1, 1])
 0.0
 
->>> volume = volume_tetrahedron([0, 0], [1, 0], [0, 1], [0, 0, 1])
+>>> volume = volume_tetrahedron([0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1])
 >>> volume.round(3)
 0.167

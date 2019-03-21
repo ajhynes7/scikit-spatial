@@ -64,6 +64,9 @@ class Points(_BaseArray2D):
 
     Examples
     --------
+    >>> import numpy as np
+    >>> from skspatial.objects import Points
+
     >>> points = ([1, 2, 0], [5, 4, 3], [4, 0, 0])
 
     >>> Points(points)
@@ -119,6 +122,8 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> from skspatial.objects import Points
+
         >>> Points([[1, 2, 3], [2, 2, 3]]).centroid()
         Point([1.5, 2. , 3. ])
 
@@ -179,6 +184,8 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> from skspatial.objects import Points
+
         >>> Points([[5, 5], [5, 5]]).affine_rank()
         0
 
