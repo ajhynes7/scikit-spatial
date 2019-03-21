@@ -97,4 +97,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     vector_cross = vector_ac.cross(vector_ad)
 
+    # Set the dimension to 3 so it matches the cross product.
+    vector_ab = vector_ab.set_dimension(3)
+
     return 1 / 6 * abs(vector_ab.dot(vector_cross))

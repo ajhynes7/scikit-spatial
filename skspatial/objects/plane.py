@@ -88,7 +88,11 @@ class Plane(_BaseLinePlane):
         dpcontracts.PreconditionError: The vectors must not be parallel.
 
         """
+        # The cross product returns a 3D vector.
         vector_normal = Vector(vector_a).cross(vector_b)
+
+        # Convert the point to 3D so that it matches the vector dimension.
+        point = Point(point).set_dimension(3)
 
         return cls(point, vector_normal)
 
