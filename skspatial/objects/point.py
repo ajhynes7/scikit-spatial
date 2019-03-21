@@ -59,12 +59,12 @@ class Points(_BaseArray2D):
     ----------
     points : {array_like, sequence}
         Multiple points in space.
-        Either an array_like or a sequence of array_likes with different lengths.
-        The lengths are normalized before converting to a 2D ndarray.
+        Either an array_like or a sequence of array_likes.
+        The points must all have the same length.
 
     Examples
     --------
-    >>> points = ([1, 2], [5, 4, 3], [4, 0])
+    >>> points = ([1, 2, 0], [5, 4, 3], [4, 0, 0])
 
     >>> Points(points)
     Points([[1., 2., 0.],

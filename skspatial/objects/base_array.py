@@ -258,7 +258,7 @@ class _BaseArray1D(_BaseArray):
         --------
         >>> from skspatial.objects import Point, Vector
 
-        >>> point = Point([1, 2])
+        >>> point = Point([1, 2, 0])
         >>> point.add([2, 9, 1])
         Point([ 3., 11.,  1.])
 
@@ -266,11 +266,11 @@ class _BaseArray1D(_BaseArray):
         Point([0., 7., 0.])
 
         >>> vector = Vector([5, 9, 1])
-        >>> vector.add([1, 0])
-        Vector([6., 9., 1])
+        >>> vector.add([1, 0, 0])
+        Vector([6., 9., 1.])
 
-        >>> vector.add([1, 2, 3, 4])
-        Vector([6., 11., 4., 4])
+        >>> Vector([5, 9, 1, 0]).add([1, 2, 3, 4])
+        Vector([ 6., 11.,  4.,  4.])
 
         """
         return self.__class__(self + vector)

@@ -83,7 +83,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     >>> volume_tetrahedron([0, 0], [3, 2], [-3, 5], [1, 8])
     0.0
 
-    >>> volume = volume_tetrahedron([0, 0], [2, 0], [1, 1], [0, 0, 1])
+    >>> volume = volume_tetrahedron([0, 0, 0], [2, 0, 0], [1, 1, 0], [0, 0, 1])
     >>> volume.round(3)
     0.333
 

@@ -87,8 +87,8 @@ class _BaseLinePlane:
         >>> line_a.is_close(line_b)
         False
 
-        >>> plane_a = Plane(point=[0, 0], normal=[0, 0, 5])
-        >>> plane_b = Plane(point=[23, 45], normal=[0, 0, -20])
+        >>> plane_a = Plane(point=[0, 0, 0], normal=[0, 0, 5])
+        >>> plane_b = Plane(point=[23, 45, 0], normal=[0, 0, -20])
         >>> plane_a.is_close(plane_b)
         True
 
