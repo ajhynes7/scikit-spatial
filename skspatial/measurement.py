@@ -46,9 +46,10 @@ def area_triangle(point_a, point_b, point_c):
     vector_ab = Vector.from_points(point_a, point_b)
     vector_ac = Vector.from_points(point_a, point_c)
 
-    vector_cross = vector_ab.cross(vector_ac)
+    # Normal vector of plane defined by the three points.
+    vector_normal = vector_ab.cross(vector_ac)
 
-    return 0.5 * vector_cross.norm()
+    return 0.5 * vector_normal.norm()
 
 
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
