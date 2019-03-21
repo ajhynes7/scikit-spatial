@@ -240,9 +240,9 @@ class Line(_BaseLinePlane):
         else:
             # The lines are skew.
             vector_ab = Vector.from_points(self.point, other.point)
-            vector_cross = self.direction.cross(other.direction)
+            vector_perpendicular = self.direction.cross(other.direction)
 
-            distance = abs(vector_ab.dot(vector_cross)) / vector_cross.norm()
+            distance = abs(vector_ab.dot(vector_perpendicular)) / vector_perpendicular.norm()
 
         return distance
 
