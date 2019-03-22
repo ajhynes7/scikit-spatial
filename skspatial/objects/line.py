@@ -395,9 +395,10 @@ class Line(_BaseLinePlane):
 
         """
         points = Points(points)
+        dim_points = points.get_dimension()
 
-        point_line = self.point.set_dimension(points.shape[0])
-        direction_line = self.direction.set_dimension(points.shape[0])
+        point_line = self.point.set_dimension(dim_points)
+        direction_line = self.direction.set_dimension(dim_points)
 
         vectors_to_points = points - point_line
 

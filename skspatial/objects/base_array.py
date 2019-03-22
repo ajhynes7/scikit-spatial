@@ -122,7 +122,7 @@ class _BaseArray(np.ndarray):
         if self.ndim == 1:
             return self.size
         else:
-            return self.shape[0]
+            return self.shape[1]
 
     @ensure(
         "The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self))
