@@ -9,3 +9,6 @@ test_unit:
 
 test_docs: # Run all doctests in documentation.
 	sphinx-build -b doctest doc/source/ doc/build/
+
+test_readme:
+	python -m doctest README.rst

@@ -56,7 +56,7 @@ def test_project_point_plane(
 
 
 @pytest.mark.parametrize(
-    "array_u, array_v, array_expected",
+    "vector_u, vector_v, vector_expected",
     [
         ([1, 1], [1, 0], [1, 0]),
         ([1, 5], [1, 0], [1, 0]),
@@ -72,42 +72,39 @@ def test_project_point_plane(
         ([0, 0], [0, 1], [0, 0]),
     ],
 )
-def test_project_vector(array_u, array_v, array_expected):
+def test_project_vector(vector_u, vector_v, vector_expected):
     """Test projecting vector u onto vector v."""
-    vector_u = Vector(array_u)
-    vector_v = Vector(array_v)
-    vector_expected = Vector(array_expected)
 
-    vector_u_projected = vector_v.project(vector_u)
+    vector_u_projected = Vector(vector_v).project(vector_u)
 
     assert vector_u_projected.is_close(vector_expected)
 
 
 @pytest.mark.parametrize(
-    "vector, line, vector_expected",
+    "line, vector, vector_expected",
     [
-        ([1, 1], Line([0, 0], [1, 0]), Vector([1, 0])),
-        ([1, 1], Line([-56, 72], [1, 0]), Vector([1, 0])),
-        ([5, 9], Line([-56, 72], [200, 0]), Vector([5, 0])),
-        ([-5, 9], Line([-56, 72], [200, 0]), Vector([-5, 0])),
+        (Line([0, 0], [1, 0]), [1, 1], [1, 0]),
+        (Line([-56, 72], [1, 0]), [1, 1], [1, 0]),
+        (Line([-56, 72], [200, 0]), [5, 9], [5, 0]),
+        (Line([-56, 72], [200, 0]), [-5, 9], [-5, 0]),
     ],
 )
-def test_project_vector_line(vector, line, vector_expected):
+def test_project_vector_line(line, vector, vector_expected):
 
     vector_projected = line.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
 
 
 @pytest.mark.parametrize(
-    "vector, plane, vector_expected",
+    "plane, vector, vector_expected",
     [
-        ([1, 1], Plane([0, 0], [0, 0, 1]), Vector([1, 1])),
-        ([1, 1, 1], Plane([0, 0], [0, 0, 1]), Vector([1, 1])),
-        ([7, -5, 20], Plane([0, 0], [0, 0, 1]), Vector([7, -5])),
-        ([7, -5, 20], Plane([0, 0], [0, 0, -10]), Vector([7, -5])),
+        (Plane([0, 0, 0], [0, 0, 1]), [1, 1, 0], [1, 1, 0]),
+        (Plane([0, 0, 0], [0, 0, 1]), [1, 1, 1], [1, 1, 0]),
+        (Plane([0, 0, 0], [0, 0, 1]), [7, -5, 20], [7, -5, 0]),
+        (Plane([0, 0, 0], [0, 0, -10]), [7, -5, 20], [7, -5, 0]),
     ],
 )
-def test_project_vector_plane(vector, plane, vector_expected):
+def test_project_vector_plane(plane, vector, vector_expected):
 
     vector_projected = plane.project_vector(vector)
     assert vector_projected.is_close(vector_expected)

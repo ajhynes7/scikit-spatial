@@ -4,6 +4,205 @@ import numpy as np
 from dpcontracts import require, ensure, types
 
 
+class _BaseArray(np.ndarray):
+    """Private base class for spatial objects based on a single NumPy array."""
+
+    @require("The input array must have more than one element.", lambda args: np.array(args.array_like).size > 1)
+    @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
+    def __new__(cls, array_like):
+
+        array = np.array(array_like, dtype=float)
+
+        # We cast the input array to be our class type.
+        obj = np.asarray(array).view(cls)
+
+        return obj
+
+    def __array_finalize__(self, obj):
+
+        if obj is None:
+            return
+
+    @classmethod
+    def _to_arrays(cls, *objs):
+        """
+        Convert array_like inputs to an array class.
+
+        Other spatial objects (e.g., Line) are ignored.
+
+        Parameters
+        ----------
+        objs
+            Input objects
+
+        Yields
+        ------
+        object
+            Object converted to BaseArray if it was an array_like.
+            Otherwise, the same object is yielded.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Line
+
+        >>> list(Point._to_arrays([1, 2], 1, [4, 5], 10))
+        [Point([1., 2.]), 1, Point([4., 5.]), 10]
+
+        >>> line = Line([1, 2], [4, 3])
+        >>> list(Point._to_arrays(line, [5, 9]))
+        [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), Point([5., 9.])]
+
+        """
+        for obj in objs:
+
+            if hasattr(obj, '__len__') and not hasattr(obj, 'set_dimension'):
+                yield cls(obj)
+            else:
+                yield obj
+
+    @classmethod
+    def normalize_dimension(cls, *objs):
+        """
+        Normalize the dimensions of all arrays associated with the input objects.
+
+        The dimension of each array is set to the largest dimension of the input arrays.
+        Array-like objects (e.g. `list`, `ndarray`) are converted
+        to the input spatial array class (e.g. `Point`).
+
+        Objects that are already a spatial array (e.g. `Vector`) do not change type.
+
+        Yields
+        ------
+        object
+            Spatial object with the largest dimension of the inputs.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Points, Vector, Line
+
+        >>> line = Line([1, 2], [4, 3])
+        >>> point, line = Point.normalize_dimension([5, 0, 5], line)
+
+        >>> point
+        Point([5., 0., 5.])
+
+        >>> line
+        Line(point=Point([1., 2., 0.]), direction=Vector([4., 3., 0.]))
+
+        >>> points = Points([[1, 2], [4, 5]])
+        >>> vector, points = Vector.normalize_dimension([6, 4, 7, 1], points)
+
+        >>> vector
+        Vector([6., 4., 7., 1.])
+
+        >>> points
+        Points([[1., 2., 0., 0.],
+                [4., 5., 0., 0.]])
+
+        >>> vector = Vector([0, 1, 1])
+        >>> point, vector = Point.normalize_dimension([1, 2], vector)
+
+        >>> point
+        Point([1., 2., 0.])
+
+        >>> vector
+        Vector([0., 1., 1.])
+
+        """
+        # Convert objects to the base array class so we can get/set the dimension.
+        objs = list(cls._to_arrays(*objs))
+
+        dim_max = max([obj.get_dimension() for obj in objs])
+
+        for obj in objs:
+            yield obj.set_dimension(dim_max)
+
+    def get_dimension(self):
+
+        if self.ndim == 1:
+            return self.size
+        else:
+            return self.shape[0]
+
+    @ensure(
+        "The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self))
+    )
+    def set_dimension(self, dim):
+
+        if self.ndim == 1:
+            array = _set_dimension_1d(self, dim)
+        else:
+            array = _set_dimension_2d(self, dim)
+
+        return self.__class__(array)
+
+
+class _BaseArray1D(_BaseArray):
+    """Private base class for spatial objects based on a single 1D NumPy array."""
+
+    @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
+    @ensure(
+        "The output must be a 1D array with the input length.",
+        lambda args, result: result.shape == (len(args.array_like),),
+    )
+    def __new__(cls, array_like):
+
+        return super().__new__(cls, array_like)
+
+    def is_close(self, other, **kwargs):
+        """Check if array is close to another array."""
+        return np.allclose(self, other, **kwargs)
+
+    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
+    def add(self, vector):
+        """
+        Add a vector to the array.
+
+        Parameters
+        ----------
+        vector : Array
+            Input array.
+
+        Returns
+        -------
+        Array
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector
+
+        >>> point = Point([1, 2, 0])
+        >>> point.add([2, 9, 1])
+        Point([ 3., 11.,  1.])
+
+        >>> point.add([-1, 5, 0])
+        Point([0., 7., 0.])
+
+        >>> vector = Vector([5, 9, 1])
+        >>> vector.add([1, 0, 0])
+        Vector([6., 9., 1.])
+
+        >>> Vector([5, 9, 1, 0]).add([1, 2, 3, 4])
+        Vector([ 6., 11.,  4.,  4.])
+
+        """
+        return self.__class__(self + vector)
+
+    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
+    def subtract(self, vector):
+
+        return self.add(-np.array(vector))
+
+
+class _BaseArray2D(_BaseArray):
+    """Private base class for spatial objects based on a single 2D NumPy array."""
+
+    @require("The input array must be 2D.", lambda args: np.array(args.array_like).ndim == 2)
+    def __new__(cls, array_like):
+
+        return super().__new__(cls, array_like)
+
+
 @types(array=np.ndarray, dim=int)
 @require("The array must be 1D.", lambda args: args.array.ndim == 1)
 @require("The desired dimension cannot be less than the array dimension.", lambda args: args.array.size <= args.dim)
@@ -99,194 +298,3 @@ def _set_dimension_2d(array, dim):
     n_cols = array.shape[1]
 
     return np.pad(array, ((0, 0), (0, dim - n_cols)), 'constant')
-
-
-def _to_arrays(*objs):
-    """
-    Convert array_like inputs to the base array class.
-
-    Other spatial objects (e.g., Line) are ignored.
-
-
-    Parameters
-    ----------
-    objs
-        Input objects
-
-    Yields
-    ------
-    object
-        Object converted to BaseArray if it was an array_like.
-        Otherwise, the same object is yielded.
-
-    Examples
-    --------
-    >>> from skspatial.objects.base_array import _to_arrays
-    >>> from skspatial.objects import Line
-
-    >>> list(_to_arrays([1, 2], 1, [4, 5], 10))
-    [_BaseArray([1., 2.]), 1, _BaseArray([4., 5.]), 10]
-
-    >>> line = Line([1, 2], [4, 3])
-    >>> list(_to_arrays(line, [5, 9]))
-    [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), _BaseArray([5., 9.])]
-
-    """
-    for obj in objs:
-
-        if hasattr(obj, '__len__') and not hasattr(obj, 'set_dimension'):
-            yield _BaseArray(obj)
-        else:
-            yield obj
-
-
-def _normalize_dimension(*objs):
-    """
-    Normalize the dimensions of all arrays associated with the input objects.
-
-    The dimension of each array is set to the largest dimension of the input arrays.
-
-    Examples
-    --------
-    >>> from skspatial.objects.base_array import _normalize_dimension
-    >>> from skspatial.objects import Line
-
-    >>> line = Line([1, 2], [4, 3])
-
-    >>> list(_normalize_dimension(line, [5, 0]))
-    [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), _BaseArray([5., 0.])]
-
-    >>> list(_normalize_dimension(line, [5, 4, 3]))
-    [Line(point=Point([1., 2., 0.]), direction=Vector([4., 3., 0.])), _BaseArray([5., 4., 3.])]
-
-    """
-    # Convert objects to the base array class so we can get/set the dimension.
-    objs = list(_to_arrays(*objs))
-
-    dim_max = max([obj.get_dimension() for obj in objs])
-
-    for obj in objs:
-        yield obj.set_dimension(dim_max)
-
-
-def norm_dim(func):
-    """
-    Decorator to normalize the dimensions of all inputs.
-
-    The dimension of each array is set to the largest dimension of the input arrays.
-
-    """
-
-    def inner(*objs, **kwargs):
-
-        objs_normalized = _normalize_dimension(*objs)
-        return func(*objs_normalized, **kwargs)
-
-    return inner
-
-
-class _BaseArray(np.ndarray):
-    """Private base class for spatial objects based on a single NumPy array."""
-
-    @require("The input array must have more than one element.", lambda args: np.array(args.array_like).size > 1)
-    @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
-    def __new__(cls, array_like):
-
-        array = np.array(array_like, dtype=float)
-
-        # We cast the input array to be our class type.
-        obj = np.asarray(array).view(cls)
-
-        return obj
-
-    def __array_finalize__(self, obj):
-
-        if obj is None:
-            return
-
-    def get_dimension(self):
-
-        if self.ndim == 1:
-            return self.size
-        else:
-            return self.shape[0]
-
-    @ensure(
-        "The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self))
-    )
-    def set_dimension(self, dim):
-
-        if self.ndim == 1:
-            array = _set_dimension_1d(self, dim)
-        else:
-            array = _set_dimension_2d(self, dim)
-
-        return self.__class__(array)
-
-
-class _BaseArray1D(_BaseArray):
-    """Private base class for spatial objects based on a single 1D NumPy array."""
-
-    @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
-    @ensure(
-        "The output must be a 1D array with the input length.",
-        lambda args, result: result.shape == (len(args.array_like),),
-    )
-    def __new__(cls, array_like):
-
-        return super().__new__(cls, array_like)
-
-    @norm_dim
-    def is_close(self, other, **kwargs):
-        """Check if array is close to another array."""
-        return np.allclose(self, other, **kwargs)
-
-    @norm_dim
-    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
-    def add(self, vector):
-        """
-        Add a vector to the array.
-
-        Parameters
-        ----------
-        vector : Array
-            Input array.
-
-        Returns
-        -------
-        Array
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point, Vector
-
-        >>> point = Point([1, 2])
-        >>> point.add([2, 9, 1])
-        Point([ 3., 11.,  1.])
-
-        >>> point.add([-1, 5, 0])
-        Point([0., 7., 0.])
-
-        >>> vector = Vector([5, 9, 1])
-        >>> vector.add([1, 0])
-        Vector([6., 9., 1])
-
-        >>> vector.add([1, 2, 3, 4])
-        Vector([6., 11., 4., 4])
-
-        """
-        return self.__class__(self + vector)
-
-    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
-    def subtract(self, vector):
-
-        return self.add(-np.array(vector))
-
-
-class _BaseArray2D(_BaseArray):
-    """Private base class for spatial objects based on a single 2D NumPy array."""
-
-    @require("The input array must be 2D.", lambda args: np.array(args.array_like).ndim == 2)
-    def __new__(cls, array_like):
-
-        return super().__new__(cls, array_like)

@@ -46,9 +46,10 @@ def area_triangle(point_a, point_b, point_c):
     vector_ab = Vector.from_points(point_a, point_b)
     vector_ac = Vector.from_points(point_a, point_c)
 
-    vector_cross = vector_ab.cross(vector_ac)
+    # Normal vector of plane defined by the three points.
+    vector_normal = vector_ab.cross(vector_ac)
 
-    return 0.5 * vector_cross.norm()
+    return 0.5 * vector_normal.norm()
 
 
 @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
@@ -82,7 +83,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     >>> volume_tetrahedron([0, 0], [3, 2], [-3, 5], [1, 8])
     0.0
 
-    >>> volume = volume_tetrahedron([0, 0], [2, 0], [1, 1], [0, 0, 1])
+    >>> volume = volume_tetrahedron([0, 0, 0], [2, 0, 0], [1, 1, 0], [0, 0, 1])
     >>> volume.round(3)
     0.333
 
@@ -96,5 +97,8 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     vector_ad = Vector.from_points(point_a, point_d)
 
     vector_cross = vector_ac.cross(vector_ad)
+
+    # Set the dimension to 3 so it matches the cross product.
+    vector_ab = vector_ab.set_dimension(3)
 
     return 1 / 6 * abs(vector_ab.dot(vector_cross))

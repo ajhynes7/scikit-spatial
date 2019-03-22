@@ -47,7 +47,7 @@ class Plane(_BaseLinePlane):
 
     """
 
-    def __init__(self, point=[0, 0, 0], normal=[0, 0, 1]):
+    def __init__(self, point, normal):
 
         super().__init__(point, normal)
         self.normal = self.vector
@@ -88,7 +88,11 @@ class Plane(_BaseLinePlane):
         dpcontracts.PreconditionError: The vectors must not be parallel.
 
         """
+        # The cross product returns a 3D vector.
         vector_normal = Vector(vector_a).cross(vector_b)
+
+        # Convert the point to 3D so that it matches the vector dimension.
+        point = Point(point).set_dimension(3)
 
         return cls(point, vector_normal)
 
@@ -156,7 +160,7 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import plane
 
-        >>> Plane(point=[1, 2], normal=[0, 0, 1]).cartesian()
+        >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
         (0.0, 0.0, 1.0, -0.0)
 
         >>> Plane(point=[1, 2, 8], normal=[0, 0, 5]).cartesian()
@@ -232,9 +236,9 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Plane
 
-        >>> plane = Plane([0, 0], [0, 0, 1])
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
-        >>> plane.distance_point_signed([5, 2])
+        >>> plane.distance_point_signed([5, 2, 0])
         0.0
 
         >>> plane.distance_point_signed([5, 2, 1])
@@ -275,9 +279,9 @@ class Plane(_BaseLinePlane):
         Examples
         --------
         >>> from skspatial.objects import Plane
-        >>> plane = Plane([0, 0], [0, 0, 1])
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
-        >>> plane.side_point([2, 5])
+        >>> plane.side_point([2, 5, 0])
         0.0
 
         >>> plane.side_point([1, -5, 6])
@@ -286,7 +290,7 @@ class Plane(_BaseLinePlane):
         >>> plane.side_point([5, 8, -4])
         -1.0
 
-        >>> plane = Plane([0, 0], [0, 0, -1])
+        >>> plane = Plane([0, 0, 0], [0, 0, -1])
         >>> plane.side_point([0, 0, 5])
         -1.0
 
@@ -320,8 +324,8 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line, Plane
 
-        >>> line = Line([0, 0], [0, 0, 1])
-        >>> plane = Plane([0, 0], [0, 0, 1])
+        >>> line = Line([0, 0, 0], [0, 0, 1])
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.intersect_line(line)
         Point([0., 0., 0.])
@@ -330,7 +334,7 @@ class Plane(_BaseLinePlane):
         >>> plane.intersect_line(line)
         Point([ 0.,  0., -7.])
 
-        >>> line = Line([0, 1], [1, 0, 0])
+        >>> line = Line([0, 1, 0], [1, 0, 0])
         >>> plane.intersect_line(line)
         Traceback (most recent call last):
         ...
@@ -378,8 +382,8 @@ class Plane(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Plane
 
-        >>> plane_a = Plane([0, 0], [0, 0, 1])
-        >>> plane_b = Plane([0, 0], [1, 0, 0])
+        >>> plane_a = Plane([0, 0, 0], [0, 0, 1])
+        >>> plane_b = Plane([0, 0, 0], [1, 0, 0])
 
         >>> plane_a.intersect_plane(plane_b)
         Line(point=Point([0., 0., 0.]), direction=Vector([0., 1., 0.]))
@@ -448,7 +452,7 @@ class Plane(_BaseLinePlane):
         >>> import numpy as np
         >>> from skspatial.objects import Plane
 
-        >>> points = ([0, 0], [1, 0], [0, 1], [1, 1, 0])
+        >>> points = ([0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0])
         >>> plane = Plane.best_fit(points)
 
         >>> plane.point

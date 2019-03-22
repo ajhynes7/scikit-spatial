@@ -13,10 +13,6 @@ from skspatial.objects import Vector
         ([1, 0], [2, 0], Vector([1, 0])),
         ([8, 3, -5], [3, 7, 1], Vector([-5, 4, 6])),
         ([5, 7, 8, 9], [2, 5, 3, -4], Vector([-3, -2, -5, -13])),
-        # The lengths of the arrays are set to the largest array.
-        ([2, 0], [4, 5], Vector([2, 5])),
-        ([1, 2], [5, 0, 3], Vector([4, -2, 3])),
-        ([5, 6], [1, 7, -3, 2], Vector([-4, 1, -3, 2])),
     ],
 )
 def test_from_points(array_a, array_b, vector_expected):

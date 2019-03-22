@@ -2,7 +2,7 @@ import numpy as np
 from dpcontracts import ensure
 from numpy.linalg import matrix_rank
 
-from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D, _normalize_dimension
+from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D
 from skspatial.objects.vector import Vector
 
 
@@ -59,12 +59,15 @@ class Points(_BaseArray2D):
     ----------
     points : {array_like, sequence}
         Multiple points in space.
-        Either an array_like or a sequence of array_likes with different lengths.
-        The lengths are normalized before converting to a 2D ndarray.
+        Either an array_like or a sequence of array_likes.
+        The points must all have the same length.
 
     Examples
     --------
-    >>> points = ([1, 2], [5, 4, 3], [4, 0])
+    >>> import numpy as np
+    >>> from skspatial.objects import Points
+
+    >>> points = ([1, 2, 0], [5, 4, 3], [4, 0, 0])
 
     >>> Points(points)
     Points([[1., 2., 0.],
@@ -81,8 +84,7 @@ class Points(_BaseArray2D):
 
     def __new__(cls, points):
 
-        points_normalized = list(_normalize_dimension(*points))
-        array_2d = np.stack(points_normalized)
+        array_2d = np.stack(points)
 
         return super().__new__(cls, array_2d)
 
@@ -120,6 +122,8 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> from skspatial.objects import Points
+
         >>> Points([[1, 2, 3], [2, 2, 3]]).centroid()
         Point([1.5, 2. , 3. ])
 
@@ -180,6 +184,8 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> from skspatial.objects import Points
+
         >>> Points([[5, 5], [5, 5]]).affine_rank()
         0
 

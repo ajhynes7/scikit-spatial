@@ -12,7 +12,7 @@ from skspatial.objects import Line
         ([5, 2], [9, 2], Line([5, 2], [4, 0])),
         ([1, 1], [0, 0], Line([1, 1], [-1, -1])),
         ([0, 0], [5, 0], Line([0, 0], [5, 0])),
-        ([0, 5, 9, 2], [4, 0], Line([0, 5, 9, 2], [4, -5, -9, -2])),
+        ([0, 5, 9, 2], [4, 0, 0, 0], Line([0, 5, 9, 2], [4, -5, -9, -2])),
     ],
 )
 def test_from_points(array_a, array_b, line_expected):
