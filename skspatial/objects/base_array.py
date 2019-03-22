@@ -277,7 +277,7 @@ def _set_dimension_2d(array, dim):
     Examples
     --------
     >>> import numpy as np
-    >>> from skspatial.objects.base_array import _set_dimension_1d
+    >>> from skspatial.objects.base_array import _set_dimension_2d
 
     >>> array = np.array([[1, 0], [2, 3]])
 
