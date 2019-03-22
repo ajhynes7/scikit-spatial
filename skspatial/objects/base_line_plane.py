@@ -42,7 +42,7 @@ class _BaseLinePlane:
 
     def get_dimension(self):
 
-        return self.point.size
+        return self.point.get_dimension()
 
     def set_dimension(self, dim):
 
