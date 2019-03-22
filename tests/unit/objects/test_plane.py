@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 from skspatial.objects import Plane
@@ -38,3 +39,22 @@ def test_from_points_failure(point_a, point_b, point_c):
 
     with pytest.raises(Exception):
         Plane.from_points(point_a, point_b, point_c)
+
+
+@pytest.mark.parametrize(
+    "plane, coeffs_expected",
+    [
+        (Plane([-1, 2], [22, -3]), [22, -3, 0, 28]),
+        (Plane([0, 0, 0], [0, 0, 1]), [0, 0, 1, 0]),
+        (Plane([0, 0, 0], [0, 0, 25]), [0, 0, 25, 0]),
+        (Plane([0, 0, 0], [0, 0, 25]), [0, 0, 25, 0]),
+        (Plane([1, 2, 0], [5, 4, 6]), [5, 4, 6, -13]),
+        (Plane([-4, 5, 8], [22, -3, 6]), [22, -3, 6, 55]),
+    ],
+)
+def test_cartesian(plane, coeffs_expected):
+    """Test the coefficients of the Cartesian plane equation."""
+
+    a, b, c, d = plane.cartesian()
+
+    assert np.allclose([a, b, c, d], coeffs_expected)

@@ -170,8 +170,10 @@ class Plane(_BaseLinePlane):
         (10.0, 2.0, 4.0, -54.0)
 
         """
-        a, b, c = self.normal
+        # The point and normal must be 3D to extract the coefficients.
+        self = self.set_dimension(3)
 
+        a, b, c = self.normal
         d = -self.normal.dot(self.point)
 
         return a, b, c, d
