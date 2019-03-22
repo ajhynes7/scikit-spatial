@@ -4,6 +4,9 @@ docs: # Generate Sphinx HTML documentation.
 	make clean && make html
 	cd ..
 	
+doctests:
+	pytest --doctest-modules skspatial/
+
 test_unit:
 	pytest tests/unit/ --cov=skspatial --cov-report=html
 
