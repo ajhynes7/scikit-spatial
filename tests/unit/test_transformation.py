@@ -34,17 +34,9 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
 @pytest.mark.parametrize(
     "line, points, coords_expected",
     [
-        (
-            Line([0, 0], [1, 0]),
-            [[1, 0], [2, 0], [3, 0], [4, 0]],
-            [1, 2, 3, 4],
-        ),
+        (Line([0, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [1, 2, 3, 4]),
         # The point on the line acts as the origin.
-        (
-            Line([3, 0], [1, 0]),
-            [[1, 0], [2, 0], [3, 0], [4, 0]],
-            [-2, -1, 0, 1],
-        ),
+        (Line([3, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [-2, -1, 0, 1]),
         (
             Line([0, 0], [1, 0]),
             [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],

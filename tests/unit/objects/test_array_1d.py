@@ -49,3 +49,30 @@ def test_failure(class_spatial, array):
 
     with pytest.raises(Exception):
         class_spatial(array)
+
+
+@pytest.mark.parametrize("class_spatial", [Point, Vector])
+@pytest.mark.parametrize(
+    "array, dim_expected",
+    [([0, 0], 2), ([0, 0, 0], 3), ([0, 0, 0, 0], 4), ([-6, 3, 8, 9], 4)],
+)
+def test_get_dimension(class_spatial, array, dim_expected):
+
+    object_spatial = class_spatial(array)
+    assert object_spatial.get_dimension() == dim_expected
+
+
+@pytest.mark.parametrize("class_spatial", [Point, Vector])
+@pytest.mark.parametrize(
+    "array, dim, array_expected",
+    [
+        ([0, 0], 2, [0, 0]),
+        ([0, 0], 3, [0, 0, 0]),
+        ([0, 0], 5, [0, 0, 0, 0, 0]),
+        ([6, 3, 7], 4, [6, 3, 7, 0]),
+    ],
+)
+def test_set_dimension(class_spatial, array, dim, array_expected):
+
+    object_spatial = class_spatial(array).set_dimension(dim)
+    assert object_spatial.is_close(array_expected)
