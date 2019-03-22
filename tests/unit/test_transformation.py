@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_array_almost_equal
 
-from skspatial.objects import Points
+from skspatial.objects import Points, Line
 
 
 @pytest.mark.parametrize(
@@ -29,3 +29,38 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
 
     assert_array_almost_equal(points_centered, array_centered_expected)
     assert_array_almost_equal(centroid, centroid_expected)
+
+
+@pytest.mark.parametrize(
+    "line, points, coords_expected",
+    [
+        (Line([0, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [1, 2, 3, 4]),
+        # The point on the line acts as the origin.
+        (Line([3, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [-2, -1, 0, 1]),
+        (
+            Line([0, 0], [1, 0]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [1, 2, 3, 4],
+        ),
+        (
+            Line([0, 0], [0, 1]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [20, -5, 59, 0],
+        ),
+        (
+            Line([0, 0], [1, 1]),
+            [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
+            [1, 2, 3, 1, 2, 3],
+        ),
+        # The magnitude of the direction vector is relevant.
+        (
+            Line([0, 0], [3, 3]),
+            [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
+            [3, 6, 9, 3, 6, 9],
+        ),
+    ],
+)
+def test_transform_points_line(line, points, coords_expected):
+
+    coordinates = line.transform_points(points)
+    assert_array_almost_equal(coordinates, coords_expected)

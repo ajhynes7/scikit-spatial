@@ -6,6 +6,28 @@ from skspatial.objects import Point, Vector, Line, Plane
 
 
 @pytest.mark.parametrize(
+    "array_u, array_v, similarity_expected",
+    [
+        ([1, 0], [1, 0], 1),
+        ([1, 0], [0, 1], 0),
+        ([1, 0], [-1, 0], -1),
+        ([1, 0], [0, -1], 0),
+        ([1, 0], [1, 1], np.sqrt(2) / 2),
+        ([1, 0], [-1, 1], -np.sqrt(2) / 2),
+        ([1, 0], [-1, -1], -np.sqrt(2) / 2),
+        ([1, 0], [1, -1], np.sqrt(2) / 2),
+        ([1, 0], [0.5, np.sqrt(3) / 2], 0.5),
+        ([1, 0], [np.sqrt(3) / 2, 0.5], np.sqrt(3) / 2),
+        ([1, 1], [-1, 1], 0),
+    ],
+)
+def test_cosine_similarity(array_u, array_v, similarity_expected):
+
+    similarity = Vector(array_u).cosine_similarity(array_v)
+    assert np.isclose(similarity, similarity_expected)
+
+
+@pytest.mark.parametrize(
     "array_u, array_v, angle_expected",
     [
         ([1, 0], [1, 0], 0),

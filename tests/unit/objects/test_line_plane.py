@@ -5,6 +5,7 @@ import pytest
 from skspatial.objects import Line, Plane
 
 
+@pytest.mark.parametrize("class_spatial", [Line, Plane])
 @pytest.mark.parametrize(
     "point, vector",
     [
@@ -15,8 +16,7 @@ from skspatial.objects import Line, Plane
         ([4, 5, 2, 3], [0, 0, 0, 0]),
     ],
 )
-@pytest.mark.parametrize("class_spatial", [Line, Plane])
-def test_init_failure(point, vector, class_spatial):
+def test_init_failure(class_spatial, point, vector):
 
     with pytest.raises(Exception):
         class_spatial(point, vector)
