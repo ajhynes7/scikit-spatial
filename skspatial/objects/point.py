@@ -224,3 +224,7 @@ class Points(_BaseArray2D):
     def are_coplanar(self, **kwargs):
         """Check if the points are all contained in one plane."""
         return self.affine_rank(**kwargs) <= 2
+
+    def is_close(self, other, **kwargs):
+        """Check if this set of points is close to another."""
+        return np.allclose(self, other, **kwargs)
