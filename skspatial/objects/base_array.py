@@ -112,25 +112,6 @@ class _BaseArray(np.ndarray):
         for obj in objs:
             yield obj.set_dimension(dim_max)
 
-    def get_dimension(self):
-
-        if self.ndim == 1:
-            return self.size
-        else:
-            return self.shape[1]
-
-    @ensure(
-        "The output must have the same class as the input.", lambda args, result: isinstance(result, type(args.self))
-    )
-    def set_dimension(self, dim):
-
-        if self.ndim == 1:
-            array = _set_dimension_1d(self, dim)
-        else:
-            array = _set_dimension_2d(self, dim)
-
-        return self.__class__(array)
-
 
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
@@ -143,6 +124,15 @@ class _BaseArray1D(_BaseArray):
     def __new__(cls, array_like):
 
         return super().__new__(cls, array_like)
+
+    def get_dimension(self):
+
+        return self.size
+
+    def set_dimension(self, dim):
+
+        array = _set_dimension_1d(self, dim)
+        return self.__class__(array)
 
     def is_close(self, other, **kwargs):
         """Check if array is close to another array."""
@@ -196,6 +186,15 @@ class _BaseArray2D(_BaseArray):
     def __new__(cls, array_like):
 
         return super().__new__(cls, array_like)
+
+    def get_dimension(self):
+
+        return self.shape[1]
+
+    def set_dimension(self, dim):
+
+        array = _set_dimension_2d(self, dim)
+        return self.__class__(array)
 
 
 @types(array=np.ndarray, dim=int)
