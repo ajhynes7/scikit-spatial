@@ -1,24 +1,32 @@
 import hypothesis.strategies as st
 import numpy as np
 import pytest
-from hypothesis import given, settings
+from hypothesis import given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Vector
-from tests.property.strategies import st_arrays, st_line, st_plane
+from tests.property.strategies import (
+    DIM_MAX,
+    DIM_MIN,
+    st_array_fixed,
+    st_line,
+    st_plane,
+)
 
 
-@settings(deadline=None)
 @pytest.mark.parametrize('name_object', ['line', 'plane'])
 @given(data=st.data())
 def test_project_point(data, name_object):
     """Test projecting a point onto a line or plane."""
-    array = data.draw(st_arrays)
+
+    dim = data.draw(st.integers(min_value=DIM_MIN, max_value=DIM_MAX))
+
+    array = data.draw(st_array_fixed(dim))
 
     if name_object == 'line':
-        line_or_plane = data.draw(st_line())
+        line_or_plane = data.draw(st_line(dim))
     elif name_object == 'plane':
-        line_or_plane = data.draw(st_plane())
+        line_or_plane = data.draw(st_plane(dim))
 
     point_projected = line_or_plane.project_point(array)
 
