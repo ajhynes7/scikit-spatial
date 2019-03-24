@@ -53,7 +53,10 @@ class Plane(_BaseLinePlane):
         self.normal = self.vector
 
     @classmethod
-    @require("The vectors must not be parallel.", lambda args: not Vector(args.vector_a).is_parallel(args.vector_b, rtol=0, atol=0))
+    @require(
+        "The vectors must not be parallel.",
+        lambda args: not Vector(args.vector_a).is_parallel(args.vector_b, rtol=0, atol=0),
+    )
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_vectors(cls, point, vector_a, vector_b):
         """
