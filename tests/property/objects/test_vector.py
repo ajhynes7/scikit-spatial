@@ -4,11 +4,20 @@ from hypothesis import assume, given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Point, Vector
-from tests.property.strategies import st_floats, st_arrays, st_arrays_nonzero
+from tests.property.strategies import (
+    consistent_dim,
+    st_array_fixed,
+    st_array_fixed_nonzero,
+    st_arrays,
+    st_arrays_nonzero,
+    st_floats,
+)
 
 
-@given(st_arrays, st_arrays)
-def test_from_points(array_a, array_b):
+@given(consistent_dim(2 * [st_array_fixed]))
+def test_from_points(arrays):
+
+    array_a, array_b = arrays
 
     vector_ab = Vector.from_points(array_a, array_b)
 
@@ -54,9 +63,10 @@ def test_scale(array, scalar):
         assert np.isclose(angle, 180, atol=ATOL)
 
 
-@given(st_arrays_nonzero, st_arrays_nonzero)
-def test_two_vectors(array_a, array_b):
+@given(consistent_dim(2 * [st_array_fixed_nonzero]))
+def test_two_vectors(arrays):
 
+    array_a, array_b = arrays
     vector_a = Vector(array_a)
 
     is_perpendicular = vector_a.is_perpendicular(array_b)
@@ -65,13 +75,16 @@ def test_two_vectors(array_a, array_b):
     # Two non-zero vectors cannot be both perpendicular and parallel.
     assert not (is_perpendicular and is_parallel)
 
-    angle = np.degrees(vector_a.angle_between(array_b))
+    angle = vector_a.angle_between(array_b)
 
-    assert is_perpendicular == np.isclose(angle, 90)
-    assert is_parallel == (np.isclose(angle, 0) or np.isclose(angle, 180))
+    if is_perpendicular:
+        assert np.isclose(angle, np.pi / 2, atol=ATOL)
+
+    if is_parallel:
+        assert np.isclose(angle, 0, atol=ATOL) or np.isclose(angle, np.pi, atol=ATOL)
 
     # The zero vector is perpendicular and parallel to any other vector.
-    vector_zero = Vector([0, 0])
+    vector_zero = np.zeros(vector_a.size)
     assert vector_a.is_perpendicular(vector_zero)
     assert vector_a.is_parallel(vector_zero)
 
@@ -85,5 +98,3 @@ def test_two_vectors(array_a, array_b):
 
     # The projection is zero iff vectors A and B are perpendicular.
     assert vector_b_projected.is_zero() == is_perpendicular
-
-    assert (vector_a.dot(array_b) > 0) == (angle < 90)

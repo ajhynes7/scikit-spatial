@@ -1,25 +1,31 @@
+import numpy as np
 from hypothesis import given
 
 from skspatial.constants import ATOL
-from skspatial.objects import Point, Line
-from tests.property.strategies import st_arrays, st_arrays_nonzero, st_line
+from skspatial.objects import Line
+from tests.property.strategies import (
+    consistent_dim,
+    st_line,
+    st_point,
+    st_vector_nonzero,
+)
 
 
-@given(st_arrays, st_arrays_nonzero)
-def test_line_creation(array_point, array_vector):
+@given(consistent_dim([st_point, st_vector_nonzero]))
+def test_from_points(objs):
 
-    line_1 = Line(array_point, array_vector)
+    point, vector = objs
 
-    point_1 = Point(array_point)
-    point_2 = point_1.add(array_vector)
-
-    line_2 = Line.from_points(point_1, point_2)
+    line_1 = Line(point, vector)
+    line_2 = Line.from_points(point, point + vector)
 
     assert line_1.is_close(line_2, atol=ATOL)
 
 
-@given(st_line(), st_line())
-def test_two_lines(line_a, line_b):
+@given(consistent_dim(2 * [st_line]))
+def test_two_lines(lines):
+
+    line_a, line_b = lines
 
     are_parallel = line_a.direction.is_parallel(line_b.direction)
     are_coplanar = line_a.is_coplanar(line_b)
@@ -28,4 +34,6 @@ def test_two_lines(line_a, line_b):
         assert are_coplanar
 
     elif are_coplanar:
-        assert line_a.distance_line(line_b) == 0
+        # The lines are coplanar but not parallel, so they must intersect.
+        distance = line_a.distance_line(line_b)
+        assert np.isclose(distance, 0)

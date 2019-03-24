@@ -1,13 +1,14 @@
-from hypothesis import given, settings
+from hypothesis import given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Point, Points, Line
-from tests.property.strategies import st_arrays
+from tests.property.strategies import consistent_dim, st_array_fixed
 
 
-@settings(deadline=None)
-@given(st_arrays, st_arrays, st_arrays)
-def test_are_collinear(array_a, array_b, array_c):
+@given(consistent_dim(3 * [st_array_fixed]))
+def test_are_collinear(arrays):
+
+    array_a, array_b, array_c = arrays
 
     assert Points([array_a, array_a, array_a]).are_collinear(tol=ATOL)
     assert Points([array_a, array_a, array_b]).are_collinear(tol=ATOL)
