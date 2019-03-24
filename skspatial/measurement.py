@@ -13,6 +13,7 @@ def area_triangle(point_a, point_b, point_c):
     Return the area of a triangle defined by three points.
 
     The points are the three vertices of the triangle.
+    The points must be 3D or less.
 
     Parameters
     ----------
@@ -59,6 +60,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     Return the volume of a tetrahedron defined by four points.
 
     The points are the four vertices of the tetrahedron.
+    The points must be 3D or less.
 
     Parameters
     ----------
