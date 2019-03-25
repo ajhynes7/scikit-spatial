@@ -30,7 +30,7 @@ setup(
     include_package_data=True,
     keywords='scikit-spatial',
     name='scikit-spatial',
-    packages=find_packages(exclude=['doc', 'tests']),
+    packages=find_packages(exclude=['tests*']),
     setup_requires=requirements_setup,
     test_suite='tests',
     tests_require=requirements_test,
