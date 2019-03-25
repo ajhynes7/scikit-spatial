@@ -332,7 +332,7 @@ class Vector(_BaseArray1D):
         return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
 
     @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
-    @ensure("The output is in set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
+    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side(self, other):
         """
         Find which side a vector is compared to this vector.

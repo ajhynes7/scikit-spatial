@@ -357,13 +357,13 @@ class Line(_BaseLinePlane):
 
         return cls(centroid, direction)
 
-    @require("The points are all finite.", lambda args: np.isfinite(args.points).all())
+    @require("The points must be all finite.", lambda args: np.isfinite(args.points).all())
     @ensure(
-        "There is one coordinate for each input point.",
+        "There must be one coordinate for each input point.",
         lambda args, result: result.size == Points(args.points).shape[0],
     )
-    @ensure("The output is a 1D array.", lambda _, result: result.ndim == 1)
-    @ensure("The coordinates are all finite.", lambda _, result: np.isfinite(result).all())
+    @ensure("The output must be a 1D array.", lambda _, result: result.ndim == 1)
+    @ensure("The coordinates must be all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
         """
         Transform points to a one-dimensional coordinate system defined by a line.
