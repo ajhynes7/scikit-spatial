@@ -96,5 +96,6 @@ def test_two_vectors(arrays):
     vector_b_projected = vector_a.project(array_b)
     assert vector_a.is_parallel(vector_b_projected, atol=ATOL)
 
-    # The projection is zero iff vectors A and B are perpendicular.
-    assert vector_b_projected.is_zero() == is_perpendicular
+    # The projection is zero if vectors A and B are perpendicular.
+    if is_perpendicular:
+        assert vector_b_projected.is_zero(atol=ATOL)
