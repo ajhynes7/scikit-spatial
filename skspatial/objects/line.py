@@ -88,7 +88,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    def is_coplanar(self, other):
+    def is_coplanar(self, other, **kwargs):
         """
         Check if the line is coplanar with another.
 
@@ -96,6 +96,8 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Input line.
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.matrix_rank`.
 
         Returns
         -------
@@ -131,7 +133,7 @@ class Line(_BaseLinePlane):
 
         points = Points([point_1, point_2, point_3, point_4])
 
-        return points.are_coplanar()
+        return points.are_coplanar(**kwargs)
 
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
