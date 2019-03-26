@@ -1,19 +1,21 @@
 from hypothesis import given
 
 from skspatial.constants import ATOL
-from skspatial.objects import Point, Points, Plane
+from skspatial.objects import Points, Plane
 from tests.property.strategies import consistent_dim, st_array_fixed
 
 
 @given(consistent_dim(3 * [st_array_fixed], max_dim=3))
 def test_from_points(arrays):
 
-    if not Points(arrays).are_collinear(tol=ATOL):
+    points = Points(arrays)
+
+    if not points.are_collinear(tol=ATOL):
 
         # The plane must contain each point.
-        plane = Plane.from_points(*arrays)
+        plane = Plane.from_points(*points)
 
-        for array in arrays:
+        points = points.set_dimension(plane.get_dimension())
 
-            point = Point(array).set_dimension(plane.get_dimension())
+        for point in points:
             assert plane.contains_point(point)
