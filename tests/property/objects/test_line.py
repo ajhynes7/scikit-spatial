@@ -27,13 +27,11 @@ def test_two_lines(lines):
 
     line_a, line_b = lines
 
-    are_parallel = line_a.direction.is_parallel(line_b.direction)
-    are_coplanar = line_a.is_coplanar(line_b)
+    if line_a.direction.is_parallel(line_b.direction):
 
-    if are_parallel:
-        assert are_coplanar
+        assert line_a.is_coplanar(line_b, tol=ATOL)
 
-    elif are_coplanar:
+    elif line_a.is_coplanar(line_b):
         # The lines are coplanar but not parallel, so they must intersect.
         distance = line_a.distance_line(line_b)
         assert np.isclose(distance, 0)
