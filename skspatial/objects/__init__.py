@@ -1,3 +1,5 @@
+"""Package containing spatial objects."""
+
 from skspatial.objects.point import Point, Points
 from skspatial.objects.vector import Vector
 from skspatial.objects.line import Line

@@ -1,3 +1,5 @@
+"""Module for the Line class."""
+
 import numpy as np
 from dpcontracts import require, ensure
 

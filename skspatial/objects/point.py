@@ -1,3 +1,5 @@
+"""Module for the Point and Points classes."""
+
 import numpy as np
 from dpcontracts import ensure
 from numpy.linalg import matrix_rank
@@ -10,7 +12,7 @@ class Point(_BaseArray1D):
     """Point implemented as an ndarray subclass."""
 
     def __new__(cls, array_like):
-
+        """Create a new Point object."""
         return super().__new__(cls, array_like)
 
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
@@ -83,7 +85,7 @@ class Points(_BaseArray2D):
     """
 
     def __new__(cls, points):
-
+        """Create a new Points object."""
         array_2d = np.stack(points)
 
         return super().__new__(cls, array_2d)

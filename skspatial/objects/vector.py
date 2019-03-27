@@ -1,3 +1,5 @@
+"""Module for the Vector class."""
+
 import numpy as np
 from dpcontracts import require, ensure
 
@@ -9,7 +11,7 @@ class Vector(_BaseArray1D):
     """Vector implemented as an ndarray subclass."""
 
     def __new__(cls, array_like):
-
+        """Create a new Vector object."""
         obj = super().__new__(cls, array_like)
 
         return obj

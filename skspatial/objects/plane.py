@@ -1,3 +1,5 @@
+"""Module for the Plane class."""
+
 import numpy as np
 from dpcontracts import require, ensure
 
@@ -267,6 +269,7 @@ class Plane(_BaseLinePlane):
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.
+
         The planes must not be parallel.
 
         Parameters
