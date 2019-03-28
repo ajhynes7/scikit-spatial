@@ -111,3 +111,10 @@ class _BaseLinePlane:
         distance = self.distance_point(point)
 
         return np.isclose(distance, 0, **kwargs)
+
+    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
+    def sum_squares(self, points):
+
+        distances_squared = np.apply_along_axis(self.distance_point, 1, points) ** 2
+
+        return distances_squared.sum()
