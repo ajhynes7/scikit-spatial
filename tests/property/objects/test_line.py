@@ -14,12 +14,18 @@ from tests.property.strategies import (
 @given(consistent_dim([st_point, st_vector_nonzero]))
 def test_from_points(objs):
 
-    point, vector = objs
+    point_a, vector = objs
+    point_b = point_a + vector
 
-    line_1 = Line(point, vector)
-    line_2 = Line.from_points(point, point + vector)
+    line = Line(point_a, vector)
+    line_from_points = Line.from_points(point_a, point_b)
 
-    assert line_1.is_close(line_2, atol=ATOL)
+    assert line.is_close(line_from_points, atol=ATOL)
+
+    # The line of best fit should be the same
+    # as the line from two points.
+    line_fit = Line.best_fit([point_a, point_b])
+    assert line_fit.is_close(line_from_points)
 
 
 @given(consistent_dim(2 * [st_line]))

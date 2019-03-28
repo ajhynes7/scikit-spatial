@@ -89,8 +89,6 @@ def test_best_fit_line_failure(points):
 @pytest.mark.parametrize(
     "points",
     [
-        # The dimension is greater than three.
-        [[0, 0, 0, 0], [1, 0, 0, 0], [0, 3, 2, 1]],
         # The points are collinear.
         [[0, 0], [1, 0]],
         [[0, 0], [2, 5]],

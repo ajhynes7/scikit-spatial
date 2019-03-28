@@ -470,7 +470,11 @@ class Plane(_BaseLinePlane):
         Vector([0., 0., 1.])
 
         """
-        points = Points(points).set_dimension(3)
+        points = Points(points)
+
+        if points.get_dimension() < 3:
+            points = points.set_dimension(3)
+
         points_centered, centroid = points.mean_center()
 
         u, s, vh = np.linalg.svd(points_centered.T)

@@ -1,4 +1,4 @@
-from hypothesis import given
+from hypothesis import assume, given
 
 from skspatial.constants import ATOL
 from skspatial.objects import Points, Plane
@@ -9,13 +9,17 @@ from tests.property.strategies import consistent_dim, st_array_fixed
 def test_from_points(arrays):
 
     points = Points(arrays)
+    assume(not points.are_collinear(tol=ATOL))
 
-    if not points.are_collinear(tol=ATOL):
+    # The plane must contain each point.
+    plane = Plane.from_points(*points)
 
-        # The plane must contain each point.
-        plane = Plane.from_points(*points)
+    points = points.set_dimension(plane.get_dimension())
 
-        points = points.set_dimension(plane.get_dimension())
+    for point in points:
+        assert plane.contains_point(point)
 
-        for point in points:
-            assert plane.contains_point(point)
+    # The plane of best fit should be the same
+    # as the plane from three points.
+    plane_fit = Plane.best_fit(points)
+    assert plane_fit.is_close(plane)
