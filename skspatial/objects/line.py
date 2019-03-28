@@ -324,7 +324,7 @@ class Line(_BaseLinePlane):
         return self.point.add(vector_a_scaled)
 
     @classmethod
-    @require("The points must not be concurrent.", lambda args: not Points(args.points).are_concurrent())
+    @require("The points must not be concurrent.", lambda args: not Points(args.points).are_concurrent(tol=0))
     @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def best_fit(cls, points):
         """

@@ -437,7 +437,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    @require("The points cannot be collinear.", lambda args: not Points(args.points).are_collinear())
+    @require("The points cannot be collinear.", lambda args: not Points(args.points).are_collinear(tol=0))
     @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def best_fit(cls, points):
         """
