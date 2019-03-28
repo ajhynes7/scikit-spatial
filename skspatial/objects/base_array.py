@@ -7,7 +7,6 @@ from dpcontracts import require, ensure, types
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    @require("The input array must have more than one element.", lambda args: np.array(args.array_like).size > 1)
     @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
     def __new__(cls, array_like):
 
@@ -117,6 +116,7 @@ class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
     @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
+    @require("The length must be greater than one.", lambda args: len(args.array_like) > 1)
     @ensure(
         "The output must be a 1D array with the input length.",
         lambda args, result: result.shape == (len(args.array_like),),
@@ -183,6 +183,7 @@ class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
     @require("The input array must be 2D.", lambda args: np.array(args.array_like).ndim == 2)
+    @require("The input array must have more than one column.", lambda args: np.array(args.array_like).shape[1] > 1)
     def __new__(cls, array_like):
 
         return super().__new__(cls, array_like)
