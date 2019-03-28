@@ -3,7 +3,7 @@
 import hypothesis.strategies as st
 
 from skspatial.constants import ATOL
-from skspatial.objects import Point, Vector, Line, Plane
+from skspatial.objects import Point, Points, Vector, Line, Plane
 
 
 DIM_MIN, DIM_MAX = 2, 10
@@ -34,6 +34,15 @@ def st_line_plane(draw, LineOrPlane, dim):
 def st_point(draw, dim):
 
     return Point(draw(st_array_fixed(dim)))
+
+
+@st.composite
+def st_points(draw, dim):
+
+    n_points = draw(st.integers(min_value=1, max_value=50))
+    array_like_2d = [draw(st_array_fixed(dim)) for _ in range(n_points)]
+
+    return Points(array_like_2d)
 
 
 @st.composite
