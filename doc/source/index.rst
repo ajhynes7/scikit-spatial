@@ -18,5 +18,7 @@
    computations/comparison
    computations/projection
    computations/intersection
+   computations/transformation
+   computations/fitting
 
    source_code/source_code_toc
