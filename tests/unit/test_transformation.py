@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 from numpy.testing import assert_array_almost_equal
 
@@ -50,13 +51,13 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
         (
             Line([0, 0], [1, 1]),
             [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
-            [1, 2, 3, 1, 2, 3],
+            np.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
         ),
-        # The magnitude of the direction vector is relevant.
+        # The magnitude of the direction vector is irrelevant.
         (
             Line([0, 0], [3, 3]),
             [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
-            [3, 6, 9, 3, 6, 9],
+            np.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
         ),
     ],
 )
