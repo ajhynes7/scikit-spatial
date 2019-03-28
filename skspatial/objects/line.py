@@ -399,11 +399,10 @@ class Line(_BaseLinePlane):
 
         """
         points = Points(points)
-        dim_points = points.get_dimension()
 
-        point_line = self.point.set_dimension(dim_points)
-        direction_line = self.direction.set_dimension(dim_points)
+        line = self.set_dimension(points.get_dimension())
+        direction_unit = line.direction.unit()
 
-        vectors_to_points = points - point_line
+        vectors_to_points = points - line.point
 
-        return np.apply_along_axis(np.dot, 1, vectors_to_points, direction_line)
+        return np.apply_along_axis(np.dot, 1, vectors_to_points, direction_unit)
