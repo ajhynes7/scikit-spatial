@@ -30,7 +30,7 @@ class _BaseLinePlane:
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
+        return"{}(point={}, {}={})".format(name_class, repr_point, name_vector, repr_vector)
 
     def __getitem__(self, name_item):
 
