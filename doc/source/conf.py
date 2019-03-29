@@ -43,7 +43,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon',  # For numpy docstrings
+    'sphinx.ext.napoleon',  # For NumPy docstrings
     'sphinx.ext.doctest',
 ]
 

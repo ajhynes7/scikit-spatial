@@ -99,7 +99,7 @@ class _BaseLinePlane:
         return contains_point and is_parallel
 
     @ensure("The output must zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, point):
         """Compute the distance from a point to this object."""
         point_projected = self.project_point(point)

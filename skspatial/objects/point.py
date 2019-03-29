@@ -16,7 +16,7 @@ class Point(_BaseArray1D):
         return super().__new__(cls, array_like)
 
     @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, other):
         """
         Compute the distance from self to another point.

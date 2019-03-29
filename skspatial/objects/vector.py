@@ -207,7 +207,7 @@ class Vector(_BaseArray1D):
         "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
     )
     @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def angle_between(self, other):
         """
         Return the angle in radians between this vector and another.

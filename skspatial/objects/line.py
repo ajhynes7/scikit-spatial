@@ -190,7 +190,7 @@ class Line(_BaseLinePlane):
 
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_line(self, other):
         """
         Return the shortest distance from an other line to self.

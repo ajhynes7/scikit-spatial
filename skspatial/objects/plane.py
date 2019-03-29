@@ -224,7 +224,7 @@ class Plane(_BaseLinePlane):
 
         return Vector.from_points(self.point, point_on_plane)
 
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point_signed(self, point):
         """
         Return the signed distance from a point to self.
@@ -265,7 +265,7 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    @ensure("The output must be a numpy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.
