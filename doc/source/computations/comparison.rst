@@ -35,12 +35,24 @@ True
 False
 
 
+Concurrency
+------------
+
+Check if multiple points are concurrent.
+
+>>> from skspatial.objects import Points
+
+>>> Points([[0, 0], [1, 1], [1, 1]]).are_concurrent()
+False
+
+>>> Points([[1, 1], [1, 1], [1, 1]]).are_concurrent()
+True
+
+
 Collinearity
 ------------
 
 Check if multiple points are collinear.
-
->>> from skspatial.objects import Points
 
 >>> Points(([0, 0, 0], [1, 2, 3], [2, 4, 6])).are_collinear()
 True
@@ -54,6 +66,12 @@ False
 
 Coplanarity
 -----------
+
+Check if multiple points are coplanar.
+
+>>> Points([[1, 2], [9, -18], [12, 4], [2, 1]]).are_coplanar()
+True
+
 
 Check if two lines are coplanar.
 

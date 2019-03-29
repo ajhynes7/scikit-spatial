@@ -12,11 +12,6 @@
    :caption: Contents:
    :hidden:
 
-   objects/objects_toc
-
-   computations/measurement
-   computations/comparison
-   computations/projection
-   computations/intersection
-
-   source_code/source_code_toc
+   objects/toc
+   computations/toc
+   source_code/toc

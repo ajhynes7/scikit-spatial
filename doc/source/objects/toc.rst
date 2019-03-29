@@ -6,5 +6,6 @@ Spatial Objects
    :maxdepth: 1
 
    point_vector
+   points
    line
    plane
