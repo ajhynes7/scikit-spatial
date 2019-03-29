@@ -1,14 +1,21 @@
+import hypothesis.strategies as st
 import numpy as np
 from hypothesis import given
 from numpy.testing import assert_array_almost_equal
 
-from tests.property.strategies import consistent_dim, st_line, st_points
+from skspatial.objects import Points
+from tests.property.strategies import st_array_fixed, st_line, st_points
 
 
-@given(consistent_dim([st_line, st_points]))
-def test_transform_points_line(objs):
 
-    line, points = objs
+@given(st.data())
+def test_transform_points_line(data):
+
+    n_points = data.draw(st.integers(min_value=2, max_value=5))
+    dim = data.draw(st.integers(min_value=2, max_value=4))
+
+    points = Points([data.draw(st_array_fixed(dim)) for _ in range(n_points)])
+    line = data.draw(st_line(dim))
 
     # Transform the points into 1D coordinates.
     coordinates = line.transform_points(points)
