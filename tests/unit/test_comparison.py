@@ -69,9 +69,9 @@ def test_is_parallel(array_u, array_v, bool_expected):
         ([0, 1], [-5, 50], 1),
     ],
 )
-def test_vector_side(array_a, array_b, value_expected):
+def test_vector_side_2d(array_a, array_b, value_expected):
 
-    Vector(array_a).side(array_b) == value_expected
+    Vector(array_a).side_2d(array_b) == value_expected
 
 
 @pytest.mark.parametrize(
