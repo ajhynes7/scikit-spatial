@@ -28,21 +28,18 @@ Spatial objects and computations in 3D
 Introduction
 ------------
 
-This package provides spatial objects in 3D (`Point`, `Vector`, `Line`, and `Plane`) based on NumPy arrays, as well as computations using these objects.
+This package provides spatial objects (`Point`, `Points`, `Vector`, `Line`, and `Plane`) based on NumPy arrays, as well as computations using these objects. The package includes computations for 2D, 3D, and higher-dimensional space.
 
-`Point` and `Vector` are subclasses of the NumPy `ndarray`, allowing them to be easily integrated with the `SciPy ecosystem <https://www.scipy.org/about.html>`_. The `Line` and `Plane` objects have `Point` and `Vector` objects as attributes.
+`Point`, `Points`, and `Vector` are subclasses of the NumPy `ndarray`, allowing them to be easily integrated with the `SciPy ecosystem <https://www.scipy.org/about.html>`_. The `Line` and `Plane` objects have `Point` and `Vector` objects as attributes.
 
 The computations can be grouped into the following main categories:
 
    - Measurement
-      - e.g.: Measure the angle between two vectors.
    - Comparison
-      - e.g.: Check if two vectors are perpendicular.      
    - Projection
-      - e.g.: Project a point onto a line.
    - Intersection
-      - e.g.: Find the intersection of a line and a plane.
-
+   - Fitting
+   - Transformation
 
 The package has been built using `contracts <https://github.com/deadpixi/contracts>`_ and is tested with `hypothesis <https://github.com/HypothesisWorks/hypothesis>`_ (see this `PyCon talk <https://www.youtube.com/watch?v=MYucYon2-lk>`_ for a good introduction to both libraries). The contracts prevent spatial computations that are undefined in Euclidean space, such as finding the intersection of two parallel lines.  
 
@@ -62,17 +59,32 @@ The package can be installed via pip.
 Example Usage
 -------------
 
-Measure the angle between two vectors.
+Measurement
+~~~~~~~~~~~
 
->>> import numpy as np
+Measure the cosine similarity between two vectors.
+
 >>> from skspatial.objects import Vector
 
->>> vector = Vector([1, 0])
->>> angle = vector.angle_between([1, 1])
+>>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
+0.707
 
->>> np.degrees(angle).round()
-45.0
 
+Comparison
+~~~~~~~~~~
+
+Check if multiple points are collinear.
+
+>>> from skspatial.objects import Points
+
+>>> points = Points([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+
+>>> points.are_collinear()
+True
+
+
+Projection
+~~~~~~~~~~
 
 Project a point onto a line.
 
@@ -93,6 +105,43 @@ An error is returned if the computation is undefined.
 Traceback (most recent call last):
 ...
 dpcontracts.PreconditionError: The lines must not be parallel.
+
+
+Intersection
+~~~~~~~~~~~~
+
+Find the intersection of two planes.
+
+>>> from skspatial.objects import Plane
+
+>>> plane_a = Plane([0, 0, 0], [0, 0, 1])
+>>> plane_b = Plane([5, 16, -94], [1, 0, 0])
+
+>>> plane_a.intersect_plane(plane_b)
+Line(point=Point([5., 0., 0.]), direction=Vector([0., 1., 0.]))
+
+
+Fitting
+~~~~~~~
+
+Find the plane of best fit for multiple points.
+
+>>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]]
+
+>>> Plane.best_fit(points)
+Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
+
+
+Transformation
+~~~~~~~~~~~~~~
+
+Transform multiple points to 1D coordinates along a line.
+
+>>> line = Line(point=[0, 0], direction=[1, 2])
+>>> points = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+>>> line.transform_points(points).round(3)
+array([ 2.236,  6.261, 10.286])
 
 
 Acknowledgment
