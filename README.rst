@@ -7,7 +7,7 @@ Spatial objects and computations based on NumPy arrays
 ======================================================
 
 
-.. image:: https://img.shields.io/pypi/v/scikit-spatial.svg
+.. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
 .. image:: https://img.shields.io/travis/ajhynes7/scikit-spatial.svg
