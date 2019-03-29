@@ -461,13 +461,9 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
 
         >>> points = ([0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0])
-        >>> plane = Plane.best_fit(points)
 
-        >>> plane.point
-        Point([0.5, 0.5, 0. ])
-
-        >>> plane.normal
-        Vector([0., 0., 1.])
+        >>> Plane.best_fit(points)
+        Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
         """
         points = Points(points)
