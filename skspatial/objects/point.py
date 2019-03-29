@@ -86,9 +86,7 @@ class Points(_BaseArray2D):
 
     def __new__(cls, points):
         """Create a new Points object."""
-        array_2d = np.stack(points)
-
-        return super().__new__(cls, array_2d)
+        return super().__new__(cls, points)
 
     @ensure("The output must be Points.", lambda _, result: isinstance(result, Points))
     @ensure(
