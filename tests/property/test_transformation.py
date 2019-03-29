@@ -7,6 +7,20 @@ from skspatial.objects import Points
 from tests.property.strategies import st_array_fixed, st_line, st_points
 
 
+@given(st.data())
+def test_mean_center(data):
+
+    dim = data.draw(st.integers(min_value=2, max_value=4))
+    points = data.draw(st_points(dim))
+
+    points_centered, _ = points.mean_center()
+
+    # The centroid of the centered points should be the origin.
+    centroid_new = points_centered.centroid()
+    origin = np.zeros(points.get_dimension())
+
+    assert_array_almost_equal(centroid_new, origin)
+
 
 @given(st.data())
 def test_transform_points_line(data):
