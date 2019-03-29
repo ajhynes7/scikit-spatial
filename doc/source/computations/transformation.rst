@@ -2,13 +2,44 @@
 Transformation
 ==============
 
+Mean-Center Points
+------------------
 
-Line Coordinates
-----------------
+Mean-center a set of points.
+
+
+The centroid of the points is treated as the origin of the new coordinate system.
+
+>>> from skspatial.objects import Points
+
+>>> points = Points([[6, 3], [7, 8], [5, -2]])
+>>> points_centered, centroid = points.mean_center()
+
+>>> points_centered
+Points([[ 0.,  0.],
+        [ 1.,  5.],
+        [-1., -5.]])
+
+
+The original centroid is returned as well.
+
+>>> centroid 
+Point([6., 3.])
+
+
+The centroid of the centered points is the origin.
+
+>>> points_centered.centroid()
+Point([0., 0.])
+
+
+Points to Line
+--------------
 
 Transform points in space to coordinates along a line.
 
 This is analogous is projecting the points onto the line, then computing the signed distance from the line point to the projections.
+
 
 >>> from skspatial.objects import Line
 
