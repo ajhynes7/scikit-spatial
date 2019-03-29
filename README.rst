@@ -3,8 +3,8 @@
 scikit-spatial 
 ==============
 
-Spatial objects and computations in 3D
-======================================
+Spatial objects and computations based on NumPy arrays
+======================================================
 
 
 .. image:: https://img.shields.io/pypi/v/scikit-spatial.svg

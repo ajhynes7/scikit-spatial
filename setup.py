@@ -19,7 +19,7 @@ setup(
         'Topic :: Scientific/Engineering',
     ],
 
-    description="Spatial objects and computations in 3D.",
+    description="Spatial objects and computations based on NumPy arrays.",
     long_description=readme,
 
     name='scikit-spatial',
