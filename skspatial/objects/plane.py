@@ -270,8 +270,6 @@ class Plane(_BaseLinePlane):
         """
         Find the side of the plane where a point lies.
 
-        The planes must not be parallel.
-
         Parameters
         ----------
         point : array_like
