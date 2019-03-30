@@ -337,7 +337,7 @@ class Vector(_BaseArray1D):
     @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_vector(self, other):
         """
-        Find which side a 2D vector is compared to this vector.
+        Find the side of the vector where another vector is directed.
 
         Both vectors must be 2D.
 
