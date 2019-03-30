@@ -83,11 +83,28 @@ def test_is_parallel(array_u, array_v, bool_expected):
 def test_side_point_line(line, point, value_expected):
 
     assert line.side_point(point) == value_expected
+
+
+@pytest.mark.parametrize(
+    "plane, point, value_expected",
+    [
+        (Plane([0, 0], [1, 1]), [2, 2], 1),
+        (Plane([0, 0], [1, 1]), [0, 0], 0),
+        (Plane([0, 1], [1, 1]), [0, 0], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 0, 0], 0),
+        (Plane([0, 0, 0], [1, 0, 0]), [1, 0, 0], 1),
+        (Plane([0, 0, 0], [1, 0, 0]), [-1, 0, 0], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [25, 53, -105], 1),
+        (Plane([0, 0, 0], [1, 0, 0]), [-2, 53, -105], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 38, 19], 0),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 101, -45], 0),
+        (Plane([0, 0, 0], [-1, 0, 0]), [1, 0, 0], -1),
+        (Plane([5, 0, 0], [1, 0, 0]), [1, 0, 0], -1),
     ],
 )
-def test_vector_side_2d(array_a, array_b, value_expected):
+def test_side_point_plane(plane, point, value_expected):
 
-    Vector(array_a).side_2d(array_b) == value_expected
+    assert plane.side_point(point) == value_expected
 
 
 @pytest.mark.parametrize(
