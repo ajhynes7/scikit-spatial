@@ -265,7 +265,7 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.
