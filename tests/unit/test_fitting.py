@@ -5,6 +5,40 @@ from skspatial.objects import Line, Plane
 
 
 @pytest.mark.parametrize(
+    "line, points, error_expected",
+    [
+        (Line([0, 0], [1, 0]), [[0, 0], [10, 0]], 0),
+        (Line([0, 0], [5, 0]), [[0, 0], [0, 1]], 1),
+        (Line([0, 0], [1, 0]), [[0, 1], [0, -1]], 2),
+        (Line([0, 0], [1, 0]), [[0, 5]], 25),
+        (Line([0, 0], [1, 0]), [[0, 3], [0, -2]], 13),
+        (Line([0, 0], [-20, 0]), [[1, 3], [2, -2], [3, -5]], 38),
+    ],
+)
+def test_sum_squares_line(line, points, error_expected):
+
+    error = line.sum_squares(points)
+    assert np.isclose(error, error_expected)
+
+
+@pytest.mark.parametrize(
+    "plane, points, error_expected",
+    [
+        (Plane([0, 0, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
+        (Plane([25, 9, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
+        (Plane([25, 9, -2], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 8),
+        (Plane([0, 0, 0], [0, 0, 1]), [[25, 3, 2], [-6, 5, 0]], 4),
+        (Plane([0, 0, 0], [0, 0, 5]), [[25, 3, 2], [-6, 5, 0]], 4),
+        (Plane([0, 0, 0], [0, 0, -5]), [[25, 3, 2], [-6, 5, 0]], 4),
+    ],
+)
+def test_sum_squares_plane(plane, points, error_expected):
+
+    error = plane.sum_squares(points)
+    assert np.isclose(error, error_expected)
+
+
+@pytest.mark.parametrize(
     "points, line_expected",
     [
         ([[0, 0], [1, 0]], Line([0.5, 0], [1, 0])),
