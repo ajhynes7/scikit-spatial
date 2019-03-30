@@ -67,6 +67,22 @@ def test_is_parallel(array_u, array_v, bool_expected):
         ([0, 1], [-1, 20], -1),
         ([0, 1], [-1, -20], -1),
         ([0, 1], [-5, 50], 1),
+@pytest.mark.parametrize(
+    "line, point, value_expected",
+    [
+        (Line([0, 0], [0, 1]), [0, 0], 0),
+        (Line([0, 0], [0, 1]), [1, 0], 1),
+        (Line([0, 0], [0, 1]), [1, 1], 1),
+        (Line([0, 0], [0, 1]), [1, 10], 1),
+        (Line([0, 0], [0, 1]), [1, -10], 1),
+        (Line([0, 0], [0, 1]), [-1, 0], -1),
+        (Line([0, 0], [0, 1]), [-1, 1], -1),
+        (Line([0, 0], [0, 1]), [-1, -25], -1),
+    ],
+)
+def test_side_point_line(line, point, value_expected):
+
+    assert line.side_point(point) == value_expected
     ],
 )
 def test_vector_side_2d(array_a, array_b, value_expected):
