@@ -88,3 +88,97 @@ True
 False
 
 
+Vector Side
+-----------
+
+Find the side of a target vector where another vector is directed.
+Both vectors must be 2D.
+
+
+>>> vector_target = Vector([0, 1])
+
+
+The vector is parallel to the target vector. 
+
+>>> vector_target.side_vector([0, 2])
+0
+>>> vector_target.side_vector([0, -5])
+0
+
+
+The vector is to the right of the target vector.
+
+>>> vector_target.side_vector([1, 1])
+1
+>>> vector_target.side_vector([1, -10])
+1
+
+
+The vector is to the left of the target vector.
+
+>>> vector_target.side_vector([-3, 4])
+-1
+
+
+Point-Line Side
+---------------
+
+Find the side of the line where a point lies.
+The line and point must be 2D.
+
+
+>>> line = Line([0, 0], [1, 1])
+
+
+The point is on the line.
+
+>>> line.side_point([2, 2])
+0
+
+
+The point is to the right of the line.
+
+>>> line.side_point([5, 3])
+1
+
+
+The point is to the left of the line.
+
+>>> line.side_point([5, 10])
+-1
+
+
+Point-Plane Side
+----------------
+
+Find the side of the plane where a point lies.
+
+
+>>> from skspatial.objects import Plane
+>>> plane = Plane([0, 0, 0], [0, 0, 1])
+
+
+The point is in on the plane.
+
+>>> plane.side_point([2, 5, 0])
+0
+
+
+The point is in front of the plane.
+
+>>> plane.side_point([1, -5, 6])
+1
+
+
+The point is behind the plane.
+
+>>> plane.side_point([5, 8, -4])
+-1
+
+
+Higher dimensions are supported.
+
+>>> plane = Plane([0, 0, 0, 0], [0, 1, 0, 1])
+
+>>> plane.side_point([0, -10, 4, 1])
+-1

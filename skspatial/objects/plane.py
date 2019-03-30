@@ -265,12 +265,10 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
+    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.
-
-        The planes must not be parallel.
 
         Parameters
         ----------
@@ -279,7 +277,7 @@ class Plane(_BaseLinePlane):
 
         Returns
         -------
-        scalar
+        int
             -1 if the point is behind the plane.
             0 if the point is on the plane.
             1 if the point is in front of the plane.
@@ -290,20 +288,20 @@ class Plane(_BaseLinePlane):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.side_point([2, 5, 0])
-        0.0
+        0
 
         >>> plane.side_point([1, -5, 6])
-        1.0
+        1
 
         >>> plane.side_point([5, 8, -4])
-        -1.0
+        -1
 
-        >>> plane = Plane([0, 0, 0], [0, 0, -1])
-        >>> plane.side_point([0, 0, 5])
-        -1.0
+        >>> plane = Plane([0, 0, 0, 0], [0, 0, -1, 1])
+        >>> plane.side_point([0, 0, 5, 1])
+        -1
 
         """
-        return np.sign(self.distance_point_signed(point))
+        return np.sign(self.distance_point_signed(point)).astype(int)
 
     @require(
         "The line and plane must not be parallel.",

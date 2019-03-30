@@ -335,9 +335,9 @@ class Vector(_BaseArray1D):
 
     @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
     @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
-    def side_2d(self, other):
+    def side_vector(self, other):
         """
-        Find which side a 2D vector is compared to this vector.
+        Find the side of the vector where another vector is directed.
 
         Both vectors must be 2D.
 
@@ -357,19 +357,19 @@ class Vector(_BaseArray1D):
         --------
         >>> vector = Vector([0, 1])
 
-        >>> vector.side_2d([1, 1])
+        >>> vector.side_vector([1, 1])
         1
 
-        >>> vector.side_2d([1, -10])
+        >>> vector.side_vector([1, -10])
         1
 
-        >>> vector.side_2d([0, 2])
+        >>> vector.side_vector([0, 2])
         0
 
-        >>> vector.side_2d([0, -5])
+        >>> vector.side_vector([0, -5])
         0
 
-        >>> vector.side_2d([-3, 4])
+        >>> vector.side_vector([-3, 4])
         -1
 
         """

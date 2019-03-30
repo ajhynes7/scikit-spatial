@@ -188,6 +188,49 @@ class Line(_BaseLinePlane):
         """Project a vector onto the line."""
         return self.direction.project(vector)
 
+    @require("The inputs must have length two.", lambda args: args.self.get_dimension() == len(args.point) == 2)
+    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
+    def side_point(self, point):
+        """
+        Find the side of the line where a point lies.
+
+        The line and point must be 2D.
+
+        Parameters
+        ----------
+        point : array_like
+            Input point.
+
+        Returns
+        -------
+        scalar
+            -1 if the point is left of the line.
+            0 if the point is on the line.
+            1 if the point is right of the line.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+        >>> line = Line([0, 0], [0, 1])
+
+        >>> line.side_point([1, 1])
+        1
+
+        >>> line.side_point([1, -10])
+        1
+
+        >>> line.side_point([-4, 10])
+        -1
+
+        >>> line = Line([0, 0], [1, 1])
+        >>> line.side_point([1, 5])
+        -1
+
+        """
+        vector_to_point = Vector.from_points(self.point, point)
+
+        return self.direction.side_vector(vector_to_point)
+
     @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
     @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
