@@ -279,7 +279,7 @@ class Plane(_BaseLinePlane):
 
         Returns
         -------
-        scalar
+        int
             -1 if the point is behind the plane.
             0 if the point is on the plane.
             1 if the point is in front of the plane.
@@ -290,20 +290,20 @@ class Plane(_BaseLinePlane):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.side_point([2, 5, 0])
-        0.0
+        0
 
         >>> plane.side_point([1, -5, 6])
-        1.0
+        1
 
         >>> plane.side_point([5, 8, -4])
-        -1.0
+        -1
 
-        >>> plane = Plane([0, 0, 0], [0, 0, -1])
-        >>> plane.side_point([0, 0, 5])
-        -1.0
+        >>> plane = Plane([0, 0, 0, 0], [0, 0, -1, 1])
+        >>> plane.side_point([0, 0, 5, 1])
+        -1
 
         """
-        return np.sign(self.distance_point_signed(point))
+        return np.sign(self.distance_point_signed(point)).astype(int)
 
     @require(
         "The line and plane must not be parallel.",
