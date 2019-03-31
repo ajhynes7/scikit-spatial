@@ -30,7 +30,9 @@ Introduction
 
 This package provides spatial objects (`Point`, `Points`, `Vector`, `Line`, and `Plane`) based on NumPy arrays, as well as computations using these objects. The package includes computations for 2D, 3D, and higher-dimensional space.
 
-`Point`, `Points`, and `Vector` are subclasses of the NumPy `ndarray`, allowing them to be easily integrated with the `SciPy ecosystem <https://www.scipy.org/about.html>`_. The `Line` and `Plane` objects have `Point` and `Vector` objects as attributes.
+`Point`, `Points`, and `Vector` are subclasses of the NumPy `ndarray`, allowing them to be easily integrated with the `SciPy ecosystem <https://www.scipy.org/about.html>`_. `Point` and `Vector` are based on a 1D NumPy array, while `Points` is based on a 2D NumPy array, where each row represents a point in space. 
+
+`Line` and `Plane` objects have `Point` and `Vector` objects as attributes. 
 
 The computations can be grouped into the following main categories:
 
