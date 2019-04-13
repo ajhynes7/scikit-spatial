@@ -93,7 +93,7 @@ def test_two_vectors(arrays):
         vector_a.angle_between(vector_zero)
 
     # The projection of vector B onto A is parallel to A.
-    vector_b_projected = vector_a.project(array_b)
+    vector_b_projected = vector_a.project_vector(array_b)
     assert vector_a.is_parallel(vector_b_projected, atol=ATOL)
 
     # The projection is zero if vectors A and B are perpendicular.

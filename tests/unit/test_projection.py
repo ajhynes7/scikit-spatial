@@ -75,7 +75,7 @@ def test_project_point_plane(
 def test_project_vector(vector_u, vector_v, vector_expected):
     """Test projecting vector u onto vector v."""
 
-    vector_u_projected = Vector(vector_v).project(vector_u)
+    vector_u_projected = Vector(vector_v).project_vector(vector_u)
 
     assert vector_u_projected.is_close(vector_expected)
 

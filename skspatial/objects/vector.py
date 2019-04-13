@@ -411,7 +411,7 @@ class Vector(_BaseArray1D):
     @ensure(
         "The vector projection must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL)
     )
-    def project(self, other):
+    def project_vector(self, other):
         """
         Project an other vector onto this vector.
 
@@ -429,16 +429,16 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> Vector([0, 1]).project([2, 1])
+        >>> Vector([0, 1]).project_vector([2, 1])
         Vector([0., 1.])
 
-        >>> Vector([0, 100]).project([2, 1])
+        >>> Vector([0, 100]).project_vector([2, 1])
         Vector([0., 1.])
 
-        >>> Vector([0, 1]).project([9, 5])
+        >>> Vector([0, 1]).project_vector([9, 5])
         Vector([0., 5.])
 
-        >>> Vector([0, 100]).project([9, 5])
+        >>> Vector([0, 100]).project_vector([9, 5])
         Vector([0., 5.])
 
         """

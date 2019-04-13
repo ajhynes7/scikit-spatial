@@ -212,7 +212,7 @@ class Plane(_BaseLinePlane):
         vector_to_plane = Vector.from_points(point, self.point)
 
         # Perpendicular vector from the point in space to the plane.
-        vector_projected = self.normal.project(vector_to_plane)
+        vector_projected = self.normal.project_vector(vector_to_plane)
 
         return Point(point).add(vector_projected)
 
