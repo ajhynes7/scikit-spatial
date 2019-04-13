@@ -417,8 +417,8 @@ class Line(_BaseLinePlane):
 
         The point on the line acts as the origin of the coordinate system.
 
-        The line is analogous to an x-axis. The output coordinates represent the
-        x-values of points on this line.
+        This is analogous is projecting the points onto the line,
+        then computing the signed distance from the line point to the projections.
 
         Parameters
         ----------
