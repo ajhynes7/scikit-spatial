@@ -21,7 +21,7 @@ def test_best_fit_line(data):
     error_line = line.sum_squares(points)
     error_fit = line_fit.sum_squares(points)
 
-    assert error_fit <= error_line
+    assert error_fit <= error_line + ATOL
 
 
 @given(st.data())
@@ -46,4 +46,4 @@ def test_best_fit_plane(data):
     error_plane = plane.sum_squares(points)
     error_fit = plane_fit.sum_squares(points)
 
-    assert error_fit <= error_plane
+    assert error_fit <= error_plane + ATOL
