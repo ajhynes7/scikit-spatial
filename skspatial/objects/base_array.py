@@ -139,13 +139,13 @@ class _BaseArray1D(_BaseArray):
         return np.allclose(self, other, **kwargs)
 
     @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
-    def add(self, vector):
+    def add(self, array):
         """
-        Add a vector to the array.
+        Add an array to self.
 
         Parameters
         ----------
-        vector : Array
+        array : array_like
             Input array.
 
         Returns
@@ -171,12 +171,12 @@ class _BaseArray1D(_BaseArray):
         Vector([ 6., 11.,  4.,  4.])
 
         """
-        return self.__class__(self + vector)
+        return self.__class__(np.add(self, array))
 
     @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
-    def subtract(self, vector):
+    def subtract(self, array):
 
-        return self.add(-np.array(vector))
+        return self.__class__(np.subtract(self, array))
 
 
 class _BaseArray2D(_BaseArray):
