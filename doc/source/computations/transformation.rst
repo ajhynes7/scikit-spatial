@@ -33,8 +33,8 @@ The centroid of the centered points is the origin.
 Point([0., 0.])
 
 
-Points to Line
---------------
+Points to Line Coordinates
+--------------------------
 
 Transform points in space to coordinates along a line.
 
