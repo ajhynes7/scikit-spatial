@@ -11,7 +11,7 @@ Project a vector onto a vector.
 
 >>> vector_a = Vector([1, 0])
 
->>> vector_a.project([22, 9])  # Project vector B onto vector A.
+>>> vector_a.project_vector([22, 9])  # Project vector B onto vector A.
 Vector([22.,  0.])
 
 
