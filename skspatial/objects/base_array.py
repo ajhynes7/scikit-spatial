@@ -175,7 +175,7 @@ class _BaseArray1D(_BaseArray):
 
     @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
     def subtract(self, array):
-
+        """Subtract an array from self."""
         return self.__class__(np.subtract(self, array))
 
 
