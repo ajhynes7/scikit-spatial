@@ -139,7 +139,7 @@ Transformation
 
 Transform multiple points to 1D coordinates along a line.
 
->>> line = Line(point=[0, 0], direction=[1, 2])
+>>> line = Line(point=[0, 0, 0], direction=[1, 2, 0])
 >>> points = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 >>> line.transform_points(points).round(3)
