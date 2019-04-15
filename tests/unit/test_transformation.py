@@ -64,6 +64,4 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
 def test_transform_points_line(line, points, coords_expected):
 
     coordinates = line.transform_points(points)
-    coords_expected_column = np.reshape(coords_expected, (-1, 1))
-
-    assert_array_almost_equal(coordinates, coords_expected_column)
+    assert_array_almost_equal(coordinates, coords_expected)

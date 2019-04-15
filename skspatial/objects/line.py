@@ -407,8 +407,8 @@ class Line(_BaseLinePlane):
 
     @require("The points must be all finite.", lambda args: np.isfinite(args.points).all())
     @ensure(
-        "The output shape must be (n_points, 1).",
-        lambda args, result: result.shape == (len(args.points), 1),
+        "The output shape must be (n_points,).",
+        lambda args, result: result.shape == (len(args.points),),
     )
     @ensure("The coordinates must be all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
@@ -428,22 +428,22 @@ class Line(_BaseLinePlane):
         Returns
         -------
         ndarray
-            (n, 1) array of n coordinates.
+            (n,) array of n coordinates.
 
         Examples
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], direction=[1, 0])
+        >>> line = Line(point=[0, 0, 0], direction=[1, 0, 0])
         >>> points = [[10, 2, 0], [3, 4, 0], [-5, 5, 0]]
 
         >>> line.transform_points(points)
-        array([[10.],
-               [ 3.],
-               [-5.]])
+        array([10.,  3., -5.])
 
         """
         # Basis vector of the subspace (the line).
         vectors_basis = [self.direction.unit()]
 
-        return transform_coordinates(points, self.point, vectors_basis)
+        column = transform_coordinates(points, self.point, vectors_basis)
+
+        return column.flatten()
