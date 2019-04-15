@@ -6,6 +6,7 @@ from dpcontracts import require, ensure
 from skspatial.objects.base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point, Points
 from skspatial.objects.vector import Vector
+from skspatial.transformation import transform_coordinates
 
 
 class Line(_BaseLinePlane):
@@ -406,10 +407,9 @@ class Line(_BaseLinePlane):
 
     @require("The points must be all finite.", lambda args: np.isfinite(args.points).all())
     @ensure(
-        "There must be one coordinate for each input point.",
-        lambda args, result: result.size == Points(args.points).shape[0],
+        "The output shape must be (n_points, 1).",
+        lambda args, result: result.shape == (len(args.points), 1),
     )
-    @ensure("The output must be a 1D array.", lambda _, result: result.ndim == 1)
     @ensure("The coordinates must be all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
         """
@@ -422,13 +422,13 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        points : ndarray
+        points : array_like
             (n, d) array of n points with dimension d.
 
         Returns
         -------
         ndarray
-            One-dimensional coordinates.
+            (n, 1) array of n coordinates.
 
         Examples
         --------
@@ -438,14 +438,12 @@ class Line(_BaseLinePlane):
         >>> points = [[10, 2, 0], [3, 4, 0], [-5, 5, 0]]
 
         >>> line.transform_points(points)
-        array([10.,  3., -5.])
+        array([[10.],
+               [ 3.],
+               [-5.]])
 
         """
-        points = Points(points)
+        # Basis vector of the subspace (the line).
+        vectors_basis = [self.direction.unit()]
 
-        line = self.set_dimension(points.get_dimension())
-        direction_unit = line.direction.unit()
-
-        vectors_to_points = points - line.point
-
-        return np.apply_along_axis(np.dot, 1, vectors_to_points, direction_unit)
+        return transform_coordinates(points, self.point, vectors_basis)

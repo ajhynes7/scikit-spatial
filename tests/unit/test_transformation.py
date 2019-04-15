@@ -39,16 +39,6 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
         # The point on the line acts as the origin.
         (Line([3, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [-2, -1, 0, 1]),
         (
-            Line([0, 0], [1, 0]),
-            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
-            [1, 2, 3, 4],
-        ),
-        (
-            Line([0, 0], [0, 1]),
-            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
-            [20, -5, 59, 0],
-        ),
-        (
             Line([0, 0], [1, 1]),
             [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
             np.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
@@ -59,9 +49,21 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
             [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
             np.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
         ),
+        (
+            Line([0, 0, 0], [1, 0, 0]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [1, 2, 3, 4],
+        ),
+        (
+            Line([0, 0, 0], [0, 1, 0]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [20, -5, 59, 0],
+        ),
     ],
 )
 def test_transform_points_line(line, points, coords_expected):
 
     coordinates = line.transform_points(points)
-    assert_array_almost_equal(coordinates, coords_expected)
+    coords_expected_column = np.reshape(coords_expected, (-1, 1))
+
+    assert_array_almost_equal(coordinates, coords_expected_column)
