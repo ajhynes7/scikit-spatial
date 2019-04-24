@@ -42,7 +42,8 @@ The computations can be grouped into the following main categories:
 The package has been built using `contracts <https://github.com/deadpixi/contracts>`_ and is tested with `hypothesis <https://github.com/HypothesisWorks/hypothesis>`_ (see this `PyCon talk <https://www.youtube.com/watch?v=MYucYon2-lk>`_ for a good introduction to both libraries). The contracts prevent spatial computations that are undefined in Euclidean space, such as finding the intersection of two parallel lines.  
 
 
-## Why this instead of `scipy.spatial` or `sympy.geometry`?
+Why this instead of `scipy.spatial` or `sympy.geometry`?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This package has little to no overlap with the functionality of `scipy.spatial`. It can be viewed as an extension.
 
@@ -52,13 +53,15 @@ While similar spatial objects and computations exist in the `sympy.geometry` mod
 
 >>> vector = Vector([2, 0, 0])
 
-# Behaviour inherited from NumPy
+Behaviour inherited from NumPy:
+
 >>> vector.size
 3
 >>> vector.mean().round(3)
 0.667
 
-# Additional methods from scikit-spatial
+Additional methods from `scikit-spatial`:
+
 >>> vector.norm()
 2.0
 >>> vector.unit()
@@ -74,7 +77,6 @@ Because the computations of `scikit-spatial` are also based on NumPy, keyword ar
 
 >>> points.are_collinear()
 False
-
 >>> points.are_collinear(tol=1)
 True
 
