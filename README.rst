@@ -30,10 +30,6 @@ Introduction
 
 This package provides spatial objects (`Point`, `Points`, `Vector`, `Line`, and `Plane`) based on NumPy arrays, as well as computations using these objects. The package includes computations for 2D, 3D, and higher-dimensional space.
 
-`Point`, `Points`, and `Vector` are subclasses of the NumPy `ndarray`, allowing them to be easily integrated with the `SciPy ecosystem <https://www.scipy.org/about.html>`_. `Point` and `Vector` are based on a 1D NumPy array, while `Points` is based on a 2D NumPy array, where each row represents a point in space. 
-
-`Line` and `Plane` objects have `Point` and `Vector` objects as attributes. 
-
 The computations can be grouped into the following main categories:
 
    - Measurement
@@ -44,6 +40,43 @@ The computations can be grouped into the following main categories:
    - Transformation
 
 The package has been built using `contracts <https://github.com/deadpixi/contracts>`_ and is tested with `hypothesis <https://github.com/HypothesisWorks/hypothesis>`_ (see this `PyCon talk <https://www.youtube.com/watch?v=MYucYon2-lk>`_ for a good introduction to both libraries). The contracts prevent spatial computations that are undefined in Euclidean space, such as finding the intersection of two parallel lines.  
+
+
+## Why this instead of `scipy.spatial` or `sympy.geometry`?
+
+This package has little to no overlap with the functionality of `scipy.spatial`. It can be viewed as an extension.
+
+While similar spatial objects and computations exist in the `sympy.geometry` module, `scikit-spatial` is based on NumPy rather than symbolic math. The primary objects of `scikit-spatial` (`Point`, `Points`, and `Vector`) are actually subclasses of the NumPy `ndarray`. This gives them all the regular functionality of the `ndarray`, plus additional methods from this package.
+
+>>> from skspatial.objects import Vector
+
+>>> vector = Vector([2, 0, 0])
+
+# Behaviour inherited from NumPy
+>>> vector.size
+3
+>>> vector.mean().round(3)
+0.667
+
+# Additional methods from scikit-spatial
+>>> vector.norm()
+2.0
+>>> vector.unit()
+Vector([1., 0., 0.])
+
+`Point` and `Vector` are based on a 1D NumPy array, and `Points` is based on a 2D NumPy array, where each row represents a point in space.  The `Line` and `Plane` objects have `Point` and `Vector` objects as attributes. 
+
+Because the computations of `scikit-spatial` are also based on NumPy, keyword arguments can be passed into NumPy functions. For example, a tolerance can be specified while testing for collinearity. The `tol` keyword is passed into `np.linalg.matrix_rank`.
+
+>>> from skspatial.objects import Points
+
+>>> points = Points([[1, 2, 3], [4, 5, 6], [7, 8, 8]])
+
+>>> points.are_collinear()
+False
+
+>>> points.are_collinear(tol=1)
+True
 
 
 
