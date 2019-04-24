@@ -214,17 +214,49 @@ class Points(_BaseArray2D):
         return matrix_rank(points_centered, **kwargs)
 
     def are_concurrent(self, **kwargs):
-        """Check if the points are all contained in one point."""
+        """
+        Check if the points are all contained in one point.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.matrix_rank`.
+
+        """
         return self.affine_rank(**kwargs) == 0
 
     def are_collinear(self, **kwargs):
-        """Check if the points are all contained in one line."""
+        """
+        Check if the points are all contained in one line.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.matrix_rank`.
+
+        """
         return self.affine_rank(**kwargs) <= 1
 
     def are_coplanar(self, **kwargs):
-        """Check if the points are all contained in one plane."""
+        """
+        Check if the points are all contained in one plane.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.linalg.matrix_rank`.
+
+        """
         return self.affine_rank(**kwargs) <= 2
 
     def is_close(self, other, **kwargs):
-        """Check if this set of points is close to another."""
+        """
+        Check if this set of points is close to another.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to `np.allclose`
+
+        """
         return np.allclose(self, other, **kwargs)
