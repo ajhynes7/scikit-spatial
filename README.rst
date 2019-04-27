@@ -1,10 +1,6 @@
 
-==============
-scikit-spatial 
-==============
-
-Spatial objects and computations based on NumPy arrays
-======================================================
+.. figure:: images/logo.svg
+         :width: 70%
 
 
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
@@ -23,7 +19,7 @@ Spatial objects and computations based on NumPy arrays
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
-
+| 
 
 Introduction
 ------------
