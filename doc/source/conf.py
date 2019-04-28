@@ -14,9 +14,13 @@
 #
 import os
 import sys
+
+import sphinx_bootstrap_theme
+
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
 
 import skspatial
+
 
 # -- Project information -----------------------------------------------------
 
@@ -40,12 +44,15 @@ version = skspatial.__version__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
+    'sphinx.ext.doctest',
+    'sphinx.ext.githubpages',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon',  # For NumPy docstrings
-    'sphinx.ext.doctest',
+    'numpydoc',
 ]
+
+# Prevent warnings about nonexisting documents
+numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -80,7 +87,8 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'bootstrap'
+html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
