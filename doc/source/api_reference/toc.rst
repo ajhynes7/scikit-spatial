@@ -6,3 +6,4 @@ API Reference
 
    skspatial.objects
    skspatial.measurement
+   skspatial.transformation

@@ -1,5 +1,5 @@
-skspatial.measurement module
-============================
+skspatial.measurement
+=====================
 
 .. automodule:: skspatial.measurement
     :members:
