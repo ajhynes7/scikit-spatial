@@ -256,14 +256,17 @@ class Line(_BaseLinePlane):
         >>> line_c = Line([0, 1], [1, 1])
 
         The lines are parallel.
+        
         >>> line_a.distance_line(line_b)
         1.0
 
         The lines are coplanar and not parallel.
+
         >>> line_a.distance_line(line_c)
         0.0
 
         The lines are skew.
+
         >>> line_a = Line([0, 0, 0], [1, 0, 0])
         >>> line_b = Line([0, 5, 0], [0, 0, 1])
         >>> line_a.distance_line(line_b)

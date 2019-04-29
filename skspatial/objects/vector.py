@@ -321,6 +321,7 @@ class Vector(_BaseArray1D):
         True
 
         The zero vector is parallel to all vectors.
+
         >>> Vector([1, 2, 3]).is_parallel([0, 0, 0])
         True
 
