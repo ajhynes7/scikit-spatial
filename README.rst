@@ -65,7 +65,7 @@ Vector([1., 0., 0.])
 
 ``Point`` and ``Vector`` are based on a 1D NumPy array, and ``Points`` is based on a 2D NumPy array, where each row represents a point in space.  The ``Line`` and ``Plane`` objects have ``Point`` and ``Vector`` objects as attributes. 
 
-Because the computations of ``scikit-spatial`` are also based on NumPy, keyword arguments can be passed into NumPy functions. For example, a tolerance can be specified while testing for collinearity. The ``tol`` keyword is passed into ``np.linalg.matrix_rank``.
+Because the computations of ``scikit-spatial`` are also based on NumPy, keyword arguments can be passed to NumPy functions. For example, a tolerance can be specified while testing for collinearity. The ``tol`` keyword is passed to ``numpy.linalg.matrix_rank``.
 
 >>> from skspatial.objects import Points
 
