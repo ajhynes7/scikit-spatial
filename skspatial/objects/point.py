@@ -253,6 +253,8 @@ class Points(_BaseArray2D):
 
         Parameters
         ----------
+        other : array_like
+            Other 2D array representing multiple points.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.allclose`
 
