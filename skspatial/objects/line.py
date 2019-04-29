@@ -257,7 +257,7 @@ class Line(_BaseLinePlane):
         >>> line_c = Line([0, 1], [1, 1])
 
         The lines are parallel.
-        
+
         >>> line_a.distance_line(line_b)
         1.0
 
