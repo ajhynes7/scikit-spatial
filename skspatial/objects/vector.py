@@ -24,10 +24,8 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        point_a : array_like
-            Input point A.
-        point_b : array_like
-            Input point B.
+        point_a, point_b : array_like
+            Points defining the vector.
 
         Returns
         -------

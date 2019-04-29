@@ -17,12 +17,8 @@ def area_triangle(point_a, point_b, point_c):
 
     Parameters
     ----------
-    point_a : array_like
-        Input point A.
-    point_b : array_like
-        Input point B.
-    point_c : array_like
-        Input point C.
+    point_a, point_b, point_c : array_like
+        The three vertices of the triangle.
 
     Returns
     -------
@@ -64,14 +60,8 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Parameters
     ----------
-    point_a : array_like
-        Input point A.
-    point_b : array_like
-        Input point B.
-    point_c : array_like
-        Input point C.
-    point_d : array_like
-        Input point D.
+    point_a, point_b, point_c, point_d : array_like
+        The four vertices of the tetrahedron.
 
     Returns
     -------

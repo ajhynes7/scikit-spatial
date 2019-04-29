@@ -115,12 +115,8 @@ class Plane(_BaseLinePlane):
 
         Parameters
         ----------
-        point_a : array_like
-            Input point A.
-        point_b : array_like
-            Input point B.
-        point_c : array_like
-            Input point C.
+        point_a, point_b, point_c: array_like
+            Three points defining the plane.
 
         Returns
         -------

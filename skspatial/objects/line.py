@@ -63,10 +63,8 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        point_a : array_like
-            Input point A.
-        point_b : array_like
-            Input point B.
+        point_a, point_b : array_like
+            Two points defining the line.
 
         Returns
         -------
