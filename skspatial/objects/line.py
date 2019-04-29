@@ -17,9 +17,9 @@ class Line(_BaseLinePlane):
 
     Parameters
     ----------
-    point : array_like, optional
+    point : array_like
         Point on the line.
-    direction : array_like, optional
+    direction : array_like
         Direction vector of the line.
 
     Attributes

@@ -17,9 +17,9 @@ class Plane(_BaseLinePlane):
 
     Parameters
     ----------
-    point : array_like, optional
+    point : array_like
         Point on the plane.
-    direction : array_like, optional
+    direction : array_like
         Normal vector of the plane.
 
     Attributes
