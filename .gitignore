@@ -4,7 +4,9 @@
 .coverage
 .eggs
 .hypothesis
+.ipynb_checkpoints
 .tox
+.vscode
 __pycache__
 build
 dist
