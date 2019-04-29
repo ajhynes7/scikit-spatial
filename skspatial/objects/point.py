@@ -173,7 +173,7 @@ class Points(_BaseArray2D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.matrix_rank`.
+            Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
         Returns
         -------
@@ -218,7 +218,7 @@ class Points(_BaseArray2D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.matrix_rank`.
+            Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
         """
         return self.affine_rank(**kwargs) == 0
@@ -230,7 +230,7 @@ class Points(_BaseArray2D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.matrix_rank`.
+            Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
         """
         return self.affine_rank(**kwargs) <= 1
@@ -242,7 +242,7 @@ class Points(_BaseArray2D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.matrix_rank`.
+            Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
         """
         return self.affine_rank(**kwargs) <= 2
@@ -254,7 +254,7 @@ class Points(_BaseArray2D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.allclose`
+            Additional keywords passed to :func:`numpy.allclose`
 
         """
         return np.allclose(self, other, **kwargs)

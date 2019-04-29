@@ -56,7 +56,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.norm`.
+            Additional keywords passed to :func:`numpy.linalg.norm`.
 
         Returns
         -------
@@ -97,7 +97,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to `np.allclose`.
+            Additional keywords passed to :func:`numpy.allclose`.
 
         Returns
         -------
@@ -255,7 +255,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Input vector.
         kwargs : dict, optional
-            Additional keywords passed to `np.isclose`.
+            Additional keywords passed to :func:`numpy.isclose`.
 
         Returns
         -------
@@ -294,7 +294,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Input vector.
         kwargs : dict, optional
-            Additional keywords passed to `np.isclose`.
+            Additional keywords passed to :func:`numpy.isclose`.
 
         Returns
         -------

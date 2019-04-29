@@ -98,7 +98,7 @@ class Line(_BaseLinePlane):
         other : Line
             Input line.
         kwargs : dict, optional
-            Additional keywords passed to `np.linalg.matrix_rank`.
+            Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
         Returns
         -------

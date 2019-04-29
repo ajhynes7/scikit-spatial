@@ -4,7 +4,7 @@ Point and Vector
 
 The two basic spatial objects are the `Point` and `Vector`. A `Point` can be viewed as a position in space, and a `Vector` as an arrow through space.
 
-They are instantiated with an `array_like` object, which is an object that can be passed to `np.array()`.
+They are instantiated with an `array_like` object, which is an object that can be passed to :func:`numpy.array`.
 
 >>> import numpy as np
 >>> from skspatial.objects import Point
