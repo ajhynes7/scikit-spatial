@@ -59,10 +59,8 @@ class Points(_BaseArray2D):
 
     Parameters
     ----------
-    points : {array_like, sequence}
-        Multiple points in space.
-        Either an array_like or a sequence of array_likes.
-        The points must all have the same length.
+    points : array_like
+        (n, d) array representing n points with dimension d.
 
     Examples
     --------

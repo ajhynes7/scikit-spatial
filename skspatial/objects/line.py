@@ -377,7 +377,7 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        points : {array_like, sequence}
+        points : array_like
              Input points.
 
         Returns
