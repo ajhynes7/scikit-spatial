@@ -140,9 +140,35 @@ class Line(_BaseLinePlane):
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
         """
-        Return a point along the line using a parameter t.
+        Return a point along the line using a parameter `t`.
 
-        Computed as line.point + t * line.direction.
+        Parameters
+        ----------
+        t : number
+            Parameter that defines the new point along the line.
+
+        Returns
+        -------
+        Point
+            New point along the line.
+
+        Notes
+        -----
+        The new point :math:`p` is computed as:
+
+        .. math:: p = \mathtt{line.point} + t \cdot \mathtt{line.direction}
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+
+        >>> line = Line(point=[0, 0], direction=[2, 0])
+
+        >>> line.to_point()
+        Point([2., 0.])
+
+        >>> line.to_point(t=2)
+        Point([4., 0.])
 
         """
         vector_along_line = t * self.direction
