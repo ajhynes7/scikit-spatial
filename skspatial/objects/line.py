@@ -43,7 +43,8 @@ class Line(_BaseLinePlane):
     >>> line.direction
     Vector([3., 0.])
 
-    The direction can also be accessed with the 'vector' attribute.
+    The direction can also be accessed with the ``vector`` attribute.
+
     >>> line.vector
     Vector([3., 0.])
 

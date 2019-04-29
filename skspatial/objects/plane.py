@@ -43,7 +43,8 @@ class Plane(_BaseLinePlane):
     >>> plane.normal
     Vector([0., 0., 5.])
 
-    The normal can also be accessed with the 'vector' attribute.
+    The normal can also be accessed with the ``vector`` attribute.
+
     >>> plane.vector
     Vector([0., 0., 5.])
 
