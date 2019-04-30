@@ -2,7 +2,7 @@
 Plane
 -----
 
-A plane is defined by a point and a normal vector.
+A :class:`~skspatial.objects.Plane` object is defined by a point and a normal vector.
 
 >>> from skspatial.objects import Plane
 

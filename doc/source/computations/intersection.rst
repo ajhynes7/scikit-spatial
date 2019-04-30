@@ -5,7 +5,7 @@ Intersection
 Line-Line intersection
 ----------------------
 
-The intersection of a `Line` with a `Line` is a `Point`.
+The intersection of a :class:`~skspatial.objects.Line` with a :class:`~skspatial.objects.Line` is a :class:`~skspatial.objects.Point`.
 
 >>> from skspatial.objects import Line
 
@@ -36,7 +36,7 @@ dpcontracts.PreconditionError: The lines must not be parallel.
 Line-Plane intersection
 -----------------------
 
-The intersection of a `Line` with a `Plane` is a `Point`.
+The intersection of a :class:`~skspatial.objects.Line` with a :class:`~skspatial.objects.Plane` is a :class:`~skspatial.objects.Point`.
 
 >>> from skspatial.objects import Plane
 
@@ -60,7 +60,7 @@ dpcontracts.PreconditionError: The line and plane must not be parallel.
 Plane-Plane intersection
 ------------------------
 
-The intersection of a `Plane` with a `Plane` is a `Line`.
+The intersection of a :class:`~skspatial.objects.Plane` with a :class:`~skspatial.objects.Plane` is a :class:`~skspatial.objects.Line`.
 
 >>> plane_a = Plane([0, 0, 0], [-1, 1, 0])
 >>> plane_b = Plane([8, 0, 0], [1, 1, 0])

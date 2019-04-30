@@ -2,16 +2,16 @@
 Points
 ------
 
-The `Points` class represents multiple points in space.
+The :class:`~skspatial.objects.Points` class represents multiple points in space.
 
-While the `Point` and `Vector` objects are instantiated with a 1D array, a `Points` object is instantiated with a 2D array.
+While :class:`~skspatial.objects.Point` and :class:`~skspatial.objects.Vector` objects are instantiated with a 1D array, a :class:`~skspatial.objects.Points` object is instantiated with a 2D array.
 
 >>> from skspatial.objects import Points
 
 >>> points = Points([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
 
-The centroid of the points is a `Point`.
+The centroid of the points is a :class:`~skspatial.objects.Point`.
 
 >>> points.centroid()
 Point([4., 5., 6.])

@@ -2,9 +2,9 @@
 Point and Vector
 ----------------
 
-The two basic spatial objects are the `Point` and `Vector`. A `Point` can be viewed as a position in space, and a `Vector` as an arrow through space.
+The two basic spatial objects are the :class:`~skspatial.objects.Point`, which represents a position in space, and a :class:`~skspatial.objects.Vector`, which represents an arrow through space.
 
-They are instantiated with an `array_like` object, which is an object that can be passed to :func:`numpy.array`.
+They are instantiated with an ``array_like`` object, which is an object that can be passed to :func:`numpy.array`.
 
 >>> import numpy as np
 >>> from skspatial.objects import Point
@@ -20,7 +20,10 @@ True
 True
 
 
-The `Point` and `Vector` are both subclasses of the NumPy `ndarray`, which gives them all the functionality of a regular NumPy array.
+:class:`~skspatial.objects.Point` and :class:`~skspatial.objects.Vector` are both subclasses of the NumPy :class:`~numpy.ndarray`, which gives them all the functionality of a regular NumPy array.
+
+>>> point_1
+Point([1., 2.])
 
 >>> point_1.size
 2
@@ -28,11 +31,8 @@ The `Point` and `Vector` are both subclasses of the NumPy `ndarray`, which gives
 >>> point_1.shape
 (2,)
 
->>> point_1
-Point([1., 2.])
 
-
-The magnitude of the vector is found with the `norm` method.
+The magnitude of the vector is found with the :meth:`~skspatial.objects.Vector.norm` method.
 
 >>> vector = Vector([1, 1])
 >>> vector.norm().round(3)

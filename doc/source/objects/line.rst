@@ -2,7 +2,7 @@
 Line
 ----
 
-A line is defined by a point and a direction vector.
+A :class:`~skspatial.objects.Line` object is defined by a point and a direction vector.
 
 >>> from skspatial.objects import Line
 
@@ -12,7 +12,7 @@ A line is defined by a point and a direction vector.
 Line(point=Point([0., 0.]), direction=Vector([5., 0.]))
 
 
-Alternatively, a `Line` can be defined by two points.
+Alternatively, a line can be defined by two points.
 
 >>> line_2 = Line.from_points([0, 0], [100, 0])
 
@@ -20,7 +20,7 @@ Alternatively, a `Line` can be defined by two points.
 True
 
 
-The `is_close` method checks if two lines are equal within a tolerance.
+The ``is_close`` method checks if two lines are equal within a tolerance.
 
 Lines with different points and directions can still be equal. One line must contain the other line's point, and their vectors must be parallel.
 
@@ -30,12 +30,12 @@ Lines with different points and directions can still be equal. One line must con
 >>> line_1.is_close(line_2)
 True
 
-The distance from a `Point` to a `Line` can be found.
+The distance from a point to a line can be found.
 
 >>> line_1.distance_point([20, 75])
 75.0
 
-A `Point` can be projected onto a `Line`, returning a new `Point`.
+A point can be projected onto a line, returning a new :class:`~skspatial.objects.Point` object.
 
 >>> line_1.project_point([50, 20])
 Point([50.,  0.])
