@@ -28,7 +28,12 @@ setup(
 
     packages=find_packages(exclude=['tests*']),
 
-    install_requires=['numpy', 'dpcontracts'],
+    install_requires=[
+        'dpcontracts',
+        'matplotlib'
+        'numpy',
+    ],
+
     setup_requires=['pytest-runner', 'wheel'],
     tests_require=['pytest'],
     test_suite='tests',
