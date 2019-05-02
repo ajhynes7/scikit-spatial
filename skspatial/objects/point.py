@@ -12,7 +12,12 @@ from skspatial.objects.vector import Vector
 
 
 class Point(_BaseArray1D):
-    """Point implemented as an ndarray subclass."""
+    """
+    A point in space implemented as a 1D array.
+
+    The array is a subclass of :class:`numpy.ndarray`.
+
+    """
 
     def __new__(cls, array_like):
         """Create a new Point object."""
@@ -88,8 +93,9 @@ class Point(_BaseArray1D):
 
 class Points(_BaseArray2D):
     """
-    Multiple points in space represented as a 2D NumPy array.
+    Multiple points in space implemented as a 2D array.
 
+    The array is a subclass of :class:`numpy.ndarray`.
     Each row in the array represents a point in space.
 
     Parameters
