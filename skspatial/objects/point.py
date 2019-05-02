@@ -1,9 +1,12 @@
 """Module for the Point and Points classes."""
 
 import numpy as np
-from dpcontracts import ensure
+from dpcontracts import require, ensure, types
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
+import skspatial.plotting as pl
 from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D
 from skspatial.objects.vector import Vector
 
@@ -49,6 +52,38 @@ class Point(_BaseArray1D):
         vector = Vector.from_points(self, other)
 
         return vector.norm()
+
+    @types(ax_2d=Axes)
+    @require("The point must be 2D.", lambda args: args.self.get_dimension() == 2)
+    def plot_2d(self, ax_2d, **kwargs):
+        """
+        Plot the point on a 2D scatter plot.
+
+        Parameters
+        ----------
+        ax_2d : Axes
+            Instance of :class:`~matplotlib.axes.Axes`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
+
+        """
+        pl.scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
+
+    @types(ax_3d=Axes3D)
+    @require("The point must be 3D.", lambda args: args.self.get_dimension() == 3)
+    def plot_3d(self, ax_3d, **kwargs):
+        """
+        Plot the point on a 3D scatter plot.
+
+        Parameters
+        ----------
+        ax_3d : Axes3D
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
+
+        """
+        pl.scatter_3d(ax_3d, self.reshape(1, -1), **kwargs)
 
 
 class Points(_BaseArray2D):
@@ -260,3 +295,35 @@ class Points(_BaseArray2D):
 
         """
         return np.allclose(self, other, **kwargs)
+
+    @types(ax_2d=Axes)
+    @require("The points must be 2D.", lambda args: args.self.get_dimension() == 2)
+    def plot_2d(self, ax_2d, **kwargs):
+        """
+        Plot the points on a 2D scatter plot.
+
+        Parameters
+        ----------
+        ax_2d : Axes
+            Instance of :class:`~matplotlib.axes.Axes`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
+
+        """
+        pl.scatter_2d(ax_2d, self, **kwargs)
+
+    @types(ax_3d=Axes3D)
+    @require("The points must be 3D.", lambda args: args.self.get_dimension() == 3)
+    def plot_3d(self, ax_3d, **kwargs):
+        """
+        Plot the points on a 3D scatter plot.
+
+        Parameters
+        ----------
+        ax_3d : Axes3D
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
+
+        """
+        pl.scatter_3d(ax_3d, self, **kwargs)

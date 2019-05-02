@@ -1,8 +1,11 @@
 """Module for the Line class."""
 
 import numpy as np
-from dpcontracts import require, ensure
+from dpcontracts import require, ensure, types
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
+import skspatial.plotting as pl
 from skspatial.objects.base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point, Points
 from skspatial.objects.vector import Vector
@@ -475,3 +478,51 @@ class Line(_BaseLinePlane):
         column = transform_coordinates(points, self.point, vectors_basis)
 
         return column.flatten()
+
+    @types(ax_2d=Axes)
+    @require("The line must be 2D.", lambda args: args.self.get_dimension() == 2)
+    def plot_2d(self, ax_2d, t_1=0, t_2=1, **kwargs):
+        """
+        Plot a 2D line.
+
+        The line is plotted by connecting two 2D points.
+
+        Parameters
+        ----------
+        ax_2d : Axes
+            Instance of :class:`matplotlib.axes.Axes`.
+        t_1, t_2 : number
+            Parameters to determine points 1 and 2 along the line.
+            These are passed to :meth:`Line.to_point`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~matplotlib.axes.Axes.plot`.
+
+        """
+        point_1 = self.to_point(t_1)
+        point_2 = self.to_point(t_2)
+
+        pl.connect_points_2d(ax_2d, point_1, point_2, **kwargs)
+
+    @types(ax_3d=Axes3D)
+    @require("The line must be 3D.", lambda args: args.self.get_dimension() == 3)
+    def plot_3d(self, ax_3d, t_1=0, t_2=1, **kwargs):
+        """
+        Plot a 3D line.
+
+        The line is plotted by connecting two 3D points.
+
+        Parameters
+        ----------
+        ax_3d : Axes3D
+            Instance of :class:`mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        t_1, t_2 : number
+            Parameters to determine points 1 and 2 along the line.
+            These are passed to :meth:`Line.to_point`.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
+
+        """
+        point_1 = self.to_point(t_1)
+        point_2 = self.to_point(t_2)
+
+        pl.connect_points_3d(ax_3d, point_1, point_2, **kwargs)
