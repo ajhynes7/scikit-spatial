@@ -7,6 +7,7 @@ python:
 install: pip install tox-travis codecov
 script: 
     - tox
+    - tox -e lint_code
 after_success:
     - codecov
 deploy:
