@@ -142,7 +142,7 @@ class Line(_BaseLinePlane):
 
     @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
-        """
+        r"""
         Return a point along the line using a parameter `t`.
 
         Parameters
