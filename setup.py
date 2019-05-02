@@ -30,7 +30,7 @@ setup(
 
     install_requires=[
         'dpcontracts',
-        'matplotlib'
+        'matplotlib',
         'numpy',
     ],
 
