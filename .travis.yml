@@ -7,6 +7,7 @@ python:
 install: pip install -r requirements_dev.txt codecov
 script: 
     - pytest tests/unit/ --cov=skspatial
+    - pytest --doctest-modules skspatial/
 after_success:
     - codecov
 deploy:
