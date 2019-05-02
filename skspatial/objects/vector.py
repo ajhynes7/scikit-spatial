@@ -1,8 +1,11 @@
 """Module for the Vector class."""
 
 import numpy as np
-from dpcontracts import require, ensure
+from dpcontracts import require, ensure, types
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
+import skspatial.plotting as pl
 from skspatial.constants import ATOL
 from skspatial.objects.base_array import _BaseArray1D
 
@@ -442,3 +445,47 @@ class Vector(_BaseArray1D):
 
         """
         return self.dot(other) / self.dot(self) * self
+
+    @types(ax_2d=Axes)
+    @require("The vector must be 2D.", lambda args: args.self.get_dimension() == 2)
+    @require("The point must be 2D.", lambda args: len(args.point) == 2)
+    def plot_2d(self, ax_2d, point=(0, 0), **kwargs):
+        """
+        Plot a 2D vector.
+
+        The vector is plotted as an arrow.
+
+        Parameters
+        ----------
+        ax_2d : Axes
+            Instance of :class:`~matplotlib.axes.Axes`.
+        point : array_like, optional
+            Position of the vector tail (default is origin).
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~matplotlib.axes.Axes.arrow`.
+
+        """
+        ax_2d.arrow(*point, *self, **kwargs)
+
+    @types(ax_3d=Axes3D)
+    @require("The vector must be 3D.", lambda args: args.self.get_dimension() == 3)
+    @require("The point must be 3D.", lambda args: len(args.point) == 3)
+    def plot_3d(self, ax_3d, point=(0, 0, 0), **kwargs):
+        """
+        Plot a 3D vector.
+
+        The vector is plotted by connecting two 3D points
+        (the head and tail of the vector).
+
+        Parameters
+        ----------
+        ax_3d : Axes
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        point : array_like, optional
+            Position of the vector tail (default is origin).
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
+
+        """
+        point_2 = Vector(point) + self
+        pl.connect_points_3d(ax_3d, point, point_2, **kwargs)

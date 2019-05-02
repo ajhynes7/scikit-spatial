@@ -472,3 +472,30 @@ class Plane(_BaseLinePlane):
         normal = Vector(u[:, -1])
 
         return cls(centroid, normal)
+
+    @require("The plane must be 3D.", lambda args: args.self.get_dimension() == 3)
+    def plot_3d(self, ax_3d, lims_x=(-1, 1), lims_y=(-1, 1), **kwargs):
+        """
+        Plot a 3D plane.
+
+        Parameters
+        ----------
+        ax_3d : Axes3D
+            Instance of :class:`mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        lims_x, lims_y : tuple
+            The x or y limits of the plane.
+            Tuple of form (min, max).
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
+
+        """
+        a, b, c, d = self.cartesian()
+        x_center, y_center = self.point[:2]
+
+        range_x = np.arange(*lims_x)
+        range_y = np.arange(*lims_y)
+
+        grid_x, grid_y = np.meshgrid(range_x, range_y)
+        grid_z = -(a * grid_x + b * grid_y + d) / c
+
+        ax_3d.plot_surface(grid_x, grid_y, grid_z, **kwargs)
