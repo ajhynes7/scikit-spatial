@@ -14,7 +14,9 @@
 #
 import os
 import sys
+
 import sphinx_bootstrap_theme
+from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
 
@@ -43,6 +45,8 @@ autodoc_mock_imports = ["numpydoc"]
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'numpydoc',
+    'sphinx_gallery.gen_gallery',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.doctest',
@@ -50,11 +54,20 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
-    'numpydoc',
 ]
 
 intersphinx_mapping = {
     'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+    'matplotlib': ('http://matplotlib.org/', None),
+}
+
+sphinx_gallery_conf = {
+    'examples_dirs': '../../examples',   # Path to example scripts
+    'gallery_dirs': 'gallery',  # Path to save generated examples
+    'download_all_examples': False,
+    'subsection_order': ExplicitOrder(['../../examples/projection',
+                                       '../../examples/intersection',
+                                       '../../examples/fitting']),
 }
 
 # Prevent warnings about nonexisting documents
@@ -105,6 +118,7 @@ html_theme_options = {
     'bootswatch_theme': 'cosmo',
     'globaltoc_depth': -1,
     'navbar_links': [
+        ('Gallery', 'gallery/index'),
         ('Objects', 'objects/toc'),
         ('Computations', 'computations/toc'),
         ('API', 'api_reference/toc'),

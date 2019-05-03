@@ -12,6 +12,7 @@
    :caption: Contents:
    :hidden:
 
+   gallery/index
    objects/toc
    computations/toc
    api_reference/toc
