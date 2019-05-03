@@ -88,8 +88,8 @@ True
 False
 
 
-Vector Side
------------
+Vector-Vector Side
+------------------
 
 Find the side of a target vector where another vector is directed.
 Both vectors must be 2D.
