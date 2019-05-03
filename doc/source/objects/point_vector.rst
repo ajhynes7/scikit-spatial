@@ -32,7 +32,9 @@ Point([1., 2.])
 (2,)
 
 
-The magnitude of the vector is found with the :meth:`~skspatial.objects.Vector.norm` method.
+The magnitude of a vector is found with the :meth:`~skspatial.objects.Vector.norm` method.
+
+>>> from skspatial.objects import Vector
 
 >>> vector = Vector([1, 1])
 >>> vector.norm().round(3)
