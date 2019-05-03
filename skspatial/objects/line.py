@@ -437,10 +437,7 @@ class Line(_BaseLinePlane):
         return cls(centroid, direction)
 
     @require("The points must be all finite.", lambda args: np.isfinite(args.points).all())
-    @ensure(
-        "The output shape must be (n_points,).",
-        lambda args, result: result.shape == (len(args.points),),
-    )
+    @ensure("The output shape must be (n_points,).", lambda args, result: result.shape == (len(args.points),))
     @ensure("The coordinates must be all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
         """
