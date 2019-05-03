@@ -6,7 +6,11 @@ python:
     - 3.7
 install: pip install tox-travis codecov
 script: 
-    - tox -e ALL
+    - tox -e unit
+    - tox -e doctests
+    - tox -e lint_code
+    - tox -e lint_docs
+    - tox -e test_docs
 after_success:
     - codecov
 deploy:
