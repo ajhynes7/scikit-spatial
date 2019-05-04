@@ -481,12 +481,12 @@ class Plane(_BaseLinePlane):
         Parameters
         ----------
         ax_3d : Axes3D
-            Instance of :class:`mpl_toolkits.mplot3d.axes3d.Axes3D`.
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         lims_x, lims_y : tuple
             The x or y limits of the plane.
             Tuple of form (min, max).
         kwargs : dict, optional
-            Additional keywords passed to :meth:`mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
 
         """
         a, b, c, d = self.cartesian()

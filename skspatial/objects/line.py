@@ -487,7 +487,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         ax_2d : Axes
-            Instance of :class:`matplotlib.axes.Axes`.
+            Instance of :class:`~matplotlib.axes.Axes`.
         t_1, t_2 : number
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
@@ -511,7 +511,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         ax_3d : Axes3D
-            Instance of :class:`mpl_toolkits.mplot3d.axes3d.Axes3D`.
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         t_1, t_2 : number
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
