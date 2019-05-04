@@ -6,8 +6,8 @@ from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
-import skspatial.plotting as pl
-from skspatial.objects.base_array import _BaseArray1D, _BaseArray2D
+from skspatial._plotting import _scatter_2d, _scatter_3d
+from skspatial.objects._base_array import _BaseArray1D, _BaseArray2D
 from skspatial.objects.vector import Vector
 
 
@@ -72,7 +72,7 @@ class Point(_BaseArray1D):
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
 
         """
-        pl.scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
+        _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
     @types(ax_3d=Axes3D)
     @require("The point must be 3D.", lambda args: args.self.get_dimension() == 3)
@@ -88,7 +88,7 @@ class Point(_BaseArray1D):
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
 
         """
-        pl.scatter_3d(ax_3d, self.reshape(1, -1), **kwargs)
+        _scatter_3d(ax_3d, self.reshape(1, -1), **kwargs)
 
 
 class Points(_BaseArray2D):
@@ -316,7 +316,7 @@ class Points(_BaseArray2D):
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
 
         """
-        pl.scatter_2d(ax_2d, self, **kwargs)
+        _scatter_2d(ax_2d, self, **kwargs)
 
     @types(ax_3d=Axes3D)
     @require("The points must be 3D.", lambda args: args.self.get_dimension() == 3)
@@ -332,4 +332,4 @@ class Points(_BaseArray2D):
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
 
         """
-        pl.scatter_3d(ax_3d, self, **kwargs)
+        _scatter_3d(ax_3d, self, **kwargs)

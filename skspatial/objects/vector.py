@@ -5,9 +5,9 @@ from dpcontracts import require, ensure, types
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
-import skspatial.plotting as pl
-from skspatial.constants import ATOL
-from skspatial.objects.base_array import _BaseArray1D
+from skspatial._constants import ATOL
+from skspatial._plotting import _connect_points_3d
+from skspatial.objects._base_array import _BaseArray1D
 
 
 class Vector(_BaseArray1D):
@@ -488,4 +488,4 @@ class Vector(_BaseArray1D):
 
         """
         point_2 = Vector(point) + self
-        pl.connect_points_3d(ax_3d, point, point_2, **kwargs)
+        _connect_points_3d(ax_3d, point, point_2, **kwargs)

@@ -2,7 +2,7 @@
 
 import hypothesis.strategies as st
 
-from skspatial.constants import ATOL
+from skspatial._constants import ATOL
 from skspatial.objects import Point, Points, Vector, Line, Plane
 
 

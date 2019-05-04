@@ -3,7 +3,7 @@
 import numpy as np
 from dpcontracts import require, ensure
 
-from skspatial.objects.base_line_plane import _BaseLinePlane
+from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point, Points
 from skspatial.objects.vector import Vector

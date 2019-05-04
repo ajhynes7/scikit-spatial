@@ -1,7 +1,7 @@
 import numpy as np
 from hypothesis import given
 
-from skspatial.constants import ATOL
+from skspatial._constants import ATOL
 from skspatial.objects import Line
 from tests.property.strategies import (
     consistent_dim,

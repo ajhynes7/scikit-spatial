@@ -1,6 +1,6 @@
 from hypothesis import assume, given
 
-from skspatial.constants import ATOL
+from skspatial._constants import ATOL
 from skspatial.objects import Points, Plane
 from tests.property.strategies import consistent_dim, st_array_fixed
 

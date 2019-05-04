@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from hypothesis import given
 
-from skspatial.constants import ATOL
+from skspatial._constants import ATOL
 from skspatial.objects import Vector
 from tests.property.strategies import (
     DIM_MAX,

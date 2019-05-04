@@ -5,8 +5,8 @@ from dpcontracts import require, ensure, types
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
-import skspatial.plotting as pl
-from skspatial.objects.base_line_plane import _BaseLinePlane
+from skspatial._plotting import _connect_points_2d, _connect_points_3d
+from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point, Points
 from skspatial.objects.vector import Vector
 from skspatial.transformation import transform_coordinates
@@ -498,7 +498,7 @@ class Line(_BaseLinePlane):
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)
 
-        pl.connect_points_2d(ax_2d, point_1, point_2, **kwargs)
+        _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
     @types(ax_3d=Axes3D)
     @require("The line must be 3D.", lambda args: args.self.get_dimension() == 3)
@@ -522,4 +522,4 @@ class Line(_BaseLinePlane):
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)
 
-        pl.connect_points_3d(ax_3d, point_1, point_2, **kwargs)
+        _connect_points_3d(ax_3d, point_1, point_2, **kwargs)
