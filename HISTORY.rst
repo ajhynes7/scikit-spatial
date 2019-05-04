@@ -2,6 +2,12 @@
 History
 =======
 
+1.1.0 (2019-05-04)
+------------------
+* Add methods for 2D and 3D plotting. 
+* Rename private modules and functions to include leading underscore.
+
+
 1.0.1 (2019-03-29)
 ------------------
 * Support Python versions 3.5-3.7. 
