@@ -146,6 +146,8 @@ class Vector(_BaseArray1D):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> Vector([1, 0]).cross([0, 1])
         Vector([0., 0., 1.])
 
@@ -357,6 +359,8 @@ class Vector(_BaseArray1D):
 
         Examples
         --------
+        >>> from skspatial.objects import Vector
+
         >>> vector = Vector([0, 1])
 
         >>> vector.side_vector([1, 1])

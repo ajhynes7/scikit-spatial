@@ -160,7 +160,7 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> from skspatial.objects import plane
+        >>> from skspatial.objects import Plane
 
         >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
         (0.0, 0.0, 1.0, -0.0)
