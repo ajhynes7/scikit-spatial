@@ -47,6 +47,7 @@ extensions = [
     'numpydoc',
     'sphinx_gallery.gen_gallery',
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'sphinx.ext.coverage',
     'sphinx.ext.doctest',
     'sphinx.ext.githubpages',
@@ -68,6 +69,8 @@ sphinx_gallery_conf = {
                                        '../../examples/intersection',
                                        '../../examples/fitting']),
 }
+
+autosummary_generate = True
 
 # Prevent warnings about nonexisting documents
 numpydoc_show_class_members = False

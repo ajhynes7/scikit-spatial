@@ -3,6 +3,9 @@ skspatial.transformation
 ========================
 
 .. automodule:: skspatial.transformation
-    :members:
-    :undoc-members:
-    :show-inheritance:
+
+
+.. autosummary::
+   :toctree: transformation/functions
+
+   transform_coordinates

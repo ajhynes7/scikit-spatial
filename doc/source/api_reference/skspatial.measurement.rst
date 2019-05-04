@@ -1,7 +1,12 @@
+
 skspatial.measurement
 =====================
 
 .. automodule:: skspatial.measurement
-    :members:
-    :undoc-members:
-    :show-inheritance:
+
+
+.. autosummary::
+   :toctree: measurement/functions
+
+   area_triangle
+   volume_tetrahedron

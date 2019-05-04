@@ -5,7 +5,7 @@ Spatial objects
 ~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    skspatial.objects
 
@@ -14,7 +14,7 @@ Modules
 ~~~~~~~
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    skspatial.measurement
    skspatial.transformation
