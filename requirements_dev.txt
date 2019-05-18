@@ -13,7 +13,7 @@ imagesize==1.1.0
 Jinja2==2.10.1
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
-matplotlib==3.0.3
+matplotlib==3.1.0
 more-itertools==7.0.0
 numpy==1.16.3
 numpydoc==0.9.1
