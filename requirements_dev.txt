@@ -19,7 +19,7 @@ numpy==1.16.3
 numpydoc==0.9.1
 packaging==19.0
 Pillow==6.0.0
-pluggy==0.11.0
+pluggy==0.12.0
 py==1.8.0
 Pygments==2.4.0
 pyparsing==2.4.0
