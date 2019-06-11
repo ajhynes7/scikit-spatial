@@ -23,7 +23,7 @@ def st_array_fixed_nonzero(draw, dim=2):
 
 @st.composite
 def st_line_plane(draw, LineOrPlane, dim):
-
+    """Generate a Line or Plane object."""
     array_point = draw(st_array_fixed(dim))
     array_vector = draw(st_array_fixed_nonzero(dim))
 
@@ -32,13 +32,19 @@ def st_line_plane(draw, LineOrPlane, dim):
 
 @st.composite
 def st_point(draw, dim):
-
+    """Generate a Point object."""
     return Point(draw(st_array_fixed(dim)))
 
 
 @st.composite
-def st_points(draw, dim):
+def st_vector(draw, dim):
+    """Generate a Vector object."""
+    return Vector(draw(st_array_fixed(dim)))
 
+
+@st.composite
+def st_points(draw, dim):
+    """Generate a Points object."""
     n_points = draw(st.integers(min_value=1, max_value=50))
     array_like_2d = [draw(st_array_fixed(dim)) for _ in range(n_points)]
 
@@ -46,32 +52,26 @@ def st_points(draw, dim):
 
 
 @st.composite
-def st_vector(draw, dim):
-
-    return Vector(draw(st_array_fixed(dim)))
-
-
-@st.composite
 def st_vector_nonzero(draw, dim):
-
+    """Generate a Vector that is not the zero vector."""
     return Vector(draw(st_array_fixed_nonzero(dim)))
 
 
 @st.composite
 def st_line(draw, dim):
-
+    """Generate a Line object."""
     return draw(st_line_plane(Line, dim))
 
 
 @st.composite
 def st_plane(draw, dim):
-
+    """Generate a Plane object."""
     return draw(st_line_plane(Plane, dim))
 
 
 @st.composite
 def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
-
+    """Generate multiple spatial objects with the same dimension."""
     dim = draw(st.integers(min_value=min_dim, max_value=max_dim))
 
     return [draw(strategy(dim)) for strategy in strategies]
