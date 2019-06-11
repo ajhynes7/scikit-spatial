@@ -8,9 +8,9 @@ install: pip install tox-travis codecov
 script: 
     - tox -e unit
     - tox -e doctests
+    - tox -e docs
     - tox -e lint_code
     - tox -e lint_docs
-    - tox -e test_docs
 after_success:
     - codecov
 deploy:
