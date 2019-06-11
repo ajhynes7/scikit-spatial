@@ -4,7 +4,7 @@ from hypothesis import assume, given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Point, Vector
-from tests.property.strategies import (
+from skspatial.tests.property.strategies import (
     consistent_dim,
     st_array_fixed,
     st_array_fixed_nonzero,

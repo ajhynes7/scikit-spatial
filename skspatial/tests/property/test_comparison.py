@@ -2,7 +2,7 @@ from hypothesis import given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Point, Points, Line
-from tests.property.strategies import consistent_dim, st_array_fixed
+from skspatial.tests.property.strategies import consistent_dim, st_array_fixed
 
 
 @given(consistent_dim(3 * [st_array_fixed]))

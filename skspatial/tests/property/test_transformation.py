@@ -4,7 +4,7 @@ from hypothesis import given
 from numpy.testing import assert_array_almost_equal
 
 from skspatial.objects import Points
-from tests.property.strategies import st_array_fixed, st_line, st_points
+from skspatial.tests.property.strategies import st_array_fixed, st_line, st_points
 
 
 @given(st.data())

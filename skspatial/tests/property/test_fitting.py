@@ -3,7 +3,7 @@ from hypothesis import assume, given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Points, Line, Plane
-from tests.property.strategies import st_array_fixed, st_line, st_plane
+from skspatial.tests.property.strategies import st_array_fixed, st_line, st_plane
 
 
 @given(st.data())

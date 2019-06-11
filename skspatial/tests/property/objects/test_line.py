@@ -3,7 +3,7 @@ from hypothesis import given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Line
-from tests.property.strategies import (
+from skspatial.tests.property.strategies import (
     consistent_dim,
     st_line,
     st_point,

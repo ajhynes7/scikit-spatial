@@ -5,7 +5,7 @@ from hypothesis import given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Vector
-from tests.property.strategies import (
+from skspatial.tests.property.strategies import (
     DIM_MAX,
     DIM_MIN,
     st_array_fixed,
