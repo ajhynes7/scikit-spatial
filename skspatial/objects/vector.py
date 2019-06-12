@@ -249,6 +249,13 @@ class Vector(_BaseArray1D):
 
         return np.arccos(cos_theta)
 
+    def angle_signed(self, other):
+
+        dot = self.dot(other)
+        det = np.linalg.det([self, other])
+
+        return np.arctan2(det, dot)
+
     def is_perpendicular(self, other, **kwargs):
         """
         Check if an other vector is perpendicular to self.
