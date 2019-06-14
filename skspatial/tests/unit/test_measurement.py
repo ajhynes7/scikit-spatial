@@ -47,6 +47,27 @@ def test_angle_between(array_u, array_v, angle_expected):
 
 
 @pytest.mark.parametrize(
+    "array_u, array_v, angle_expected",
+    [
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [-1, 1], 3 * np.pi / 4),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0], [-1, -1], -3 * np.pi / 4),
+        ([1, 0], [0, -1], - np.pi / 2),
+        ([1, 0], [1, -1], - np.pi / 4),
+        ([1, 1], [0, 1], np.pi / 4),
+        ([1, 1], [1, 0], - np.pi / 4),
+    ],
+)
+def test_angle_signed(array_u, array_v, angle_expected):
+
+    angle = Vector(array_u).angle_signed(array_v)
+    assert np.isclose(angle, angle_expected)
+
+
+@pytest.mark.parametrize(
     "array_a, array_b, dist_expected",
     [
         ([0, 0], [0, 0], 0),

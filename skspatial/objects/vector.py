@@ -249,6 +249,54 @@ class Vector(_BaseArray1D):
 
         return np.arccos(cos_theta)
 
+    def angle_signed(self, other):
+        """
+        Return the signed angle in radians between two 2D vectors.
+
+        Parameters
+        ----------
+        other : array_like
+            Input vector.
+
+        Returns
+        -------
+        scalar
+            Signed angle between vectors in radians.
+
+        Raises
+        ------
+        ValueError
+            If the vectors are not 2D.
+
+        Examples
+        --------
+        >>> import numpy as np
+
+        >>> Vector([1, 0]).angle_signed([1, 0])
+        0.0
+
+        >>> np.degrees(Vector([1, 0]).angle_signed([0, 1]))
+        90.0
+
+        >>> np.degrees(Vector([1, 0]).angle_signed([0, -1]))
+        -90.0
+
+        >>> Vector([1, 0, 0]).angle_signed([0, -1, 0])
+        Traceback (most recent call last):
+        ...
+        ValueError: The vectors must be 2D.
+
+        """
+        other = Vector(other)
+
+        if not (self.dimension == 2 and other.dimension == 2):
+            raise ValueError("The vectors must be 2D.")
+
+        dot = self.dot(other)
+        det = np.linalg.det([self, other])
+
+        return np.arctan2(det, dot)
+
     def is_perpendicular(self, other, **kwargs):
         """
         Check if an other vector is perpendicular to self.
