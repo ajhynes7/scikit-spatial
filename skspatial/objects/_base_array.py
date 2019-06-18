@@ -226,6 +226,11 @@ def _set_dimension_1d(array, dim):
     >>> _set_dimension_1d(np.array([1, 2]), 4)
     array([1, 2, 0, 0])
 
+    >>> _set_dimension_1d(np.array([[1, 2], [2, 3]]), 1)
+    Traceback (most recent call last):
+    ...
+    ValueError: The array must be 1D.
+
     >>> _set_dimension_1d(np.array([1, 2]), 1)
     Traceback (most recent call last):
     ...
