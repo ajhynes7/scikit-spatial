@@ -55,10 +55,10 @@ def test_angle_between(array_u, array_v, angle_expected):
         ([1, 0], [-1, 1], 3 * np.pi / 4),
         ([1, 0], [-1, 0], np.pi),
         ([1, 0], [-1, -1], -3 * np.pi / 4),
-        ([1, 0], [0, -1], - np.pi / 2),
-        ([1, 0], [1, -1], - np.pi / 4),
+        ([1, 0], [0, -1], -np.pi / 2),
+        ([1, 0], [1, -1], -np.pi / 4),
         ([1, 1], [0, 1], np.pi / 4),
-        ([1, 1], [1, 0], - np.pi / 4),
+        ([1, 1], [1, 0], -np.pi / 4),
     ],
 )
 def test_angle_signed(array_u, array_v, angle_expected):
