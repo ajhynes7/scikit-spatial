@@ -8,7 +8,7 @@ class _BaseArray(np.ndarray):
 
     def __new__(cls, array_like):
 
-        array = np.array(array_like, dtype=float)
+        array = np.array(array_like)
 
         if array.size == 0:
             raise ValueError("The array must not be empty.")
@@ -44,11 +44,11 @@ class _BaseArray(np.ndarray):
         >>> from skspatial.objects import Point, Line
 
         >>> list(Point._to_arrays([1, 2], 1, [4, 5], 10))
-        [Point([1., 2.]), 1, Point([4., 5.]), 10]
+        [Point([1, 2]), 1, Point([4, 5]), 10]
 
         >>> line = Line([1, 2], [4, 3])
         >>> list(Point._to_arrays(line, [5, 9]))
-        [Line(point=Point([1., 2.]), direction=Vector([4., 3.])), Point([5., 9.])]
+        [Line(point=Point([1, 2]), direction=Vector([4, 3])), Point([5, 9])]
 
         """
         for obj in objs:
@@ -82,29 +82,29 @@ class _BaseArray(np.ndarray):
         >>> point, line = Point.normalize_dimension([5, 0, 5], line)
 
         >>> point
-        Point([5., 0., 5.])
+        Point([5, 0, 5])
 
         >>> line
-        Line(point=Point([1., 2., 0.]), direction=Vector([4., 3., 0.]))
+        Line(point=Point([1, 2, 0]), direction=Vector([4, 3, 0]))
 
         >>> points = Points([[1, 2], [4, 5]])
         >>> vector, points = Vector.normalize_dimension([6, 4, 7, 1], points)
 
         >>> vector
-        Vector([6., 4., 7., 1.])
+        Vector([6, 4, 7, 1])
 
         >>> points
-        Points([[1., 2., 0., 0.],
-                [4., 5., 0., 0.]])
+        Points([[1, 2, 0, 0],
+                [4, 5, 0, 0]])
 
         >>> vector = Vector([0, 1, 1])
         >>> point, vector = Point.normalize_dimension([1, 2], vector)
 
         >>> point
-        Point([1., 2., 0.])
+        Point([1, 2, 0])
 
         >>> vector
-        Vector([0., 1., 1.])
+        Vector([0, 1, 1])
 
         """
         # Convert objects to the base array class so we can get/set the dimension.
@@ -158,17 +158,17 @@ class _BaseArray1D(_BaseArray):
 
         >>> point = Point([1, 2, 0])
         >>> point.add([2, 9, 1])
-        Point([ 3., 11.,  1.])
+        Point([ 3, 11,  1])
 
         >>> point.add([-1, 5, 0])
-        Point([0., 7., 0.])
+        Point([0, 7, 0])
 
         >>> vector = Vector([5, 9, 1])
         >>> vector.add([1, 0, 0])
-        Vector([6., 9., 1.])
+        Vector([6, 9, 1])
 
         >>> Vector([5, 9, 1, 0]).add([1, 2, 3, 4])
-        Vector([ 6., 11.,  4.,  4.])
+        Vector([ 6, 11,  4,  4])
 
         """
         return self.__class__(np.add(self, array))

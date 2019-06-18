@@ -102,15 +102,15 @@ class Points(_BaseArray2D):
     >>> points = ([1, 2, 0], [5, 4, 3], [4, 0, 0])
 
     >>> Points(points)
-    Points([[1., 2., 0.],
-            [5., 4., 3.],
-            [4., 0., 0.]])
+    Points([[1, 2, 0],
+            [5, 4, 3],
+            [4, 0, 0]])
 
     >>> array = np.array([[1, 2], [5, 4]])
 
     >>> Points(array)
-    Points([[1., 2.],
-            [5., 4.]])
+    Points([[1, 2],
+            [5, 4]])
 
     """
 

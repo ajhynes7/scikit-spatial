@@ -35,13 +35,13 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector.from_points([0, 0], [1, 0])
-        Vector([1., 0.])
+        Vector([1, 0])
 
         >>> Vector.from_points([5, 2], [-2, 8])
-        Vector([-7.,  6.])
+        Vector([-7,  6])
 
         >>> Vector.from_points([3, 1, 1], [7, 7, 0])
-        Vector([ 4.,  6., -1.])
+        Vector([ 4,  6, -1])
 
         """
         return cls(np.subtract(point_b, point_a))
@@ -143,16 +143,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([1, 0]).cross([0, 1])
-        Vector([0., 0., 1.])
+        Vector([0, 0, 1])
 
         >>> Vector([2, 5]).cross([1, 1])
-        Vector([ 0.,  0., -3.])
+        Vector([ 0,  0, -3])
 
         >>> Vector([1, 0]).cross([0, 1])
-        Vector([0., 0., 1.])
+        Vector([0, 0, 1])
 
         >>> Vector([1, 1, 1]).cross([0, 1, 0])
-        Vector([-1.,  0.,  1.])
+        Vector([-1,  0,  1])
 
         """
         # Convert to 3D vectors so that cross product is also 3D.

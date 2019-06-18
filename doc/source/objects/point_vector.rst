@@ -23,7 +23,7 @@ True
 :class:`~skspatial.objects.Point` and :class:`~skspatial.objects.Vector` are both subclasses of the NumPy :class:`~numpy.ndarray`, which gives them all the functionality of a regular NumPy array.
 
 >>> point_1
-Point([1., 2.])
+Point([1, 2])
 
 >>> point_1.size
 2

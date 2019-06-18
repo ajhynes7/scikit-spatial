@@ -37,15 +37,15 @@ class Plane(_BaseLinePlane):
     >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 5])
 
     >>> plane
-    Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 5.]))
+    Plane(point=Point([0, 0, 0]), normal=Vector([0, 0, 5]))
 
     >>> plane.normal
-    Vector([0., 0., 5.])
+    Vector([0, 0, 5])
 
     The normal can also be accessed with the ``vector`` attribute.
 
     >>> plane.vector
-    Vector([0., 0., 5.])
+    Vector([0, 0, 5])
 
     """
 
@@ -80,7 +80,7 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
 
         >>> Plane.from_vectors([0, 0], [1, 0], [0, 1])
-        Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 1.]))
+        Plane(point=Point([0, 0, 0]), normal=Vector([0, 0, 1]))
 
         >>> Plane.from_vectors([0, 0], [1, 0], [2, 0])
         Traceback (most recent call last):
@@ -123,12 +123,12 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
 
         >>> Plane.from_points([0, 0], [1, 0], [3, 3])
-        Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 3.]))
+        Plane(point=Point([0, 0, 0]), normal=Vector([0, 0, 3]))
 
         The order of the points affects the direction of the normal vector.
 
         >>> Plane.from_points([0, 0], [3, 3], [1, 0])
-        Plane(point=Point([0., 0., 0.]), normal=Vector([ 0.,  0., -3.]))
+        Plane(point=Point([0, 0, 0]), normal=Vector([ 0,  0, -3]))
 
         >>> Plane.from_points([0, 0], [0, 1], [0, 3])
         Traceback (most recent call last):
@@ -160,13 +160,13 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
 
         >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
-        (0.0, 0.0, 1.0, -0.0)
+        (0, 0, 1, 0)
 
         >>> Plane(point=[1, 2, 8], normal=[0, 0, 5]).cartesian()
-        (0.0, 0.0, 5.0, -40.0)
+        (0, 0, 5, -40)
 
         >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
-        (10.0, 2.0, 4.0, -54.0)
+        (10, 2, 4, -54)
 
         """
         # The point and normal must be 3D to extract the coefficients.
@@ -371,15 +371,15 @@ class Plane(_BaseLinePlane):
         >>> plane_b = Plane([0, 0, 0], [1, 0, 0])
 
         >>> plane_a.intersect_plane(plane_b)
-        Line(point=Point([0., 0., 0.]), direction=Vector([0., 1., 0.]))
+        Line(point=Point([0., 0., 0.]), direction=Vector([0, 1, 0]))
 
         >>> plane_b = Plane([5, 16, -94], [1, 0, 0])
         >>> plane_a.intersect_plane(plane_b)
-        Line(point=Point([5., 0., 0.]), direction=Vector([0., 1., 0.]))
+        Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
 
         >>> plane_b = Plane([0, 0, 1], [1, 0, 1])
         >>> plane_a.intersect_plane(plane_b)
-        Line(point=Point([1., 0., 0.]), direction=Vector([0., 1., 0.]))
+        Line(point=Point([1., 0., 0.]), direction=Vector([0, 1, 0]))
 
         >>> plane_b = Plane([0, 0, 5], [0, 0, -8])
         >>> plane_a.intersect_plane(plane_b)
