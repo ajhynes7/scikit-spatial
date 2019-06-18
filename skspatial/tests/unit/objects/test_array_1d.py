@@ -10,10 +10,11 @@ from skspatial.objects import Point, Vector
 @pytest.mark.parametrize(
     "line_or_plane, repr_expected",
     [
-        (Point([0, 0]), "Point([0., 0.])"),
-        (Vector([0, 0]), "Vector([0., 0.])"),
-        (Point([-11, 0]), "Point([-11.,   0.])"),
-        (Vector([-11, 0]), "Vector([-11.,   0.])"),
+        (Point([0, 0]), "Point([0, 0])"),
+        (Vector([0, 0]), "Vector([0, 0])"),
+        (Point([-11, 0]), "Point([-11,   0])"),
+        (Vector([-11, 0]), "Vector([-11,   0])"),
+        (Vector([-11.0, 0.0]), "Vector([-11.,   0.])"),
     ],
 )
 def test_repr(line_or_plane, repr_expected):
