@@ -16,10 +16,6 @@ from skspatial.objects import Points
         [5],
         [0, 1],
         [0, 1, 2],
-        # The array cannot have one column.
-        [[0]],
-        [[0], [0]],
-        [[0], [1], [2]],
         # The points cannot have different lengths.
         [[0, 1], [0, 1, 0]],
     ],
@@ -39,9 +35,9 @@ def test_failure(array):
         (Points([[4, 3, 9, 1], [3, 7, 8, 1]]), 4),
     ],
 )
-def get_dimension(points, dim_expected):
+def test_dimension(points, dim_expected):
 
-    assert points.get_dimension() == dim_expected
+    assert points.dimension == dim_expected
 
 
 @pytest.mark.parametrize(

@@ -1,9 +1,6 @@
 """Module for the Point and Points classes."""
 
 import numpy as np
-from dpcontracts import require, ensure, types
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
 from skspatial._plotting import _scatter_2d, _scatter_3d
@@ -23,8 +20,6 @@ class Point(_BaseArray1D):
         """Create a new Point object."""
         return super().__new__(cls, array_like)
 
-    @ensure("The result must be zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, other):
         """
         Compute the distance from self to another point.
@@ -58,8 +53,6 @@ class Point(_BaseArray1D):
 
         return vector.norm()
 
-    @types(ax_2d=Axes)
-    @require("The point must be 2D.", lambda args: args.self.get_dimension() == 2)
     def plot_2d(self, ax_2d, **kwargs):
         """
         Plot the point on a 2D scatter plot.
@@ -74,8 +67,6 @@ class Point(_BaseArray1D):
         """
         _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
-    @types(ax_3d=Axes3D)
-    @require("The point must be 3D.", lambda args: args.self.get_dimension() == 3)
     def plot_3d(self, ax_3d, **kwargs):
         """
         Plot the point on a 3D scatter plot.
@@ -127,13 +118,6 @@ class Points(_BaseArray2D):
         """Create a new Points object."""
         return super().__new__(cls, points)
 
-    @ensure("The output must be Points.", lambda _, result: isinstance(result, Points))
-    @ensure(
-        "The output points must have the same dimension.", lambda args, result: result.shape[1] == args.self.shape[1]
-    )
-    @ensure(
-        "There must be fewer or an equal number of rows.", lambda args, result: result.shape[0] <= args.self.shape[0]
-    )
     def unique(self):
         """
         Return unique points.
@@ -148,8 +132,6 @@ class Points(_BaseArray2D):
         """
         return self.__class__(np.unique(self, axis=0))
 
-    @ensure("The output length must be the input width.", lambda args, result: result.size == args.self.shape[1])
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def centroid(self):
         """
         Return the centroid of the points.
@@ -169,10 +151,6 @@ class Points(_BaseArray2D):
         """
         return Point(self.mean(axis=0))
 
-    @ensure("The first output must have type Points", lambda _, result: isinstance(result[0], Points))
-    @ensure("The second output must have type Point", lambda _, result: isinstance(result[1], Point))
-    @ensure("The centered points must have the input shape", lambda args, result: result[0].shape == args.self.shape)
-    @ensure("The centroid must have shape (dim,).", lambda args, result: result[1].shape == (args.self.shape[1],))
     def mean_center(self):
         """
         Mean-center the points.
@@ -302,8 +280,6 @@ class Points(_BaseArray2D):
         """
         return np.allclose(self, other, **kwargs)
 
-    @types(ax_2d=Axes)
-    @require("The points must be 2D.", lambda args: args.self.get_dimension() == 2)
     def plot_2d(self, ax_2d, **kwargs):
         """
         Plot the points on a 2D scatter plot.
@@ -318,8 +294,6 @@ class Points(_BaseArray2D):
         """
         _scatter_2d(ax_2d, self, **kwargs)
 
-    @types(ax_3d=Axes3D)
-    @require("The points must be 3D.", lambda args: args.self.get_dimension() == 3)
     def plot_3d(self, ax_3d, **kwargs):
         """
         Plot the points on a 3D scatter plot.

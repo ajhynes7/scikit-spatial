@@ -35,8 +35,6 @@ The computations can be grouped into the following main categories:
    - Fitting
    - Transformation
 
-The package has been built using `contracts <https://github.com/deadpixi/contracts>`_ and is tested with `hypothesis <https://github.com/HypothesisWorks/hypothesis>`_ (see this `PyCon talk <https://www.youtube.com/watch?v=MYucYon2-lk>`_ for a good introduction to both libraries). The contracts prevent spatial computations that are undefined in Euclidean space, such as finding the intersection of two parallel lines.  
-
 
 Why this instead of ``scipy.spatial`` or ``sympy.geometry``?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +135,7 @@ An error is returned if the computation is undefined.
 >>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The lines must not be parallel.
+ValueError: The lines must not be parallel.
 
 
 Intersection

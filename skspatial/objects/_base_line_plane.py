@@ -4,7 +4,6 @@ import inspect
 from copy import deepcopy
 
 import numpy as np
-from dpcontracts import require, ensure
 
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
@@ -13,14 +12,16 @@ from skspatial.objects.vector import Vector
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
-    @require("The inputs must have the same length.", lambda args: len(args.point) == len(args.vector))
-    @require("The vector cannot be the zero vector.", lambda args: not Vector(args.vector).is_zero())
-    @ensure("The point must be a Point.", lambda args, _: isinstance(args.self.point, Point))
-    @ensure("The vector must be a Vector", lambda args, _: isinstance(args.self.vector, Vector))
     def __init__(self, point, vector):
 
         self.point = Point(point)
         self.vector = Vector(vector)
+
+        if self.point.dimension != self.vector.dimension:
+            raise ValueError("The point and vector must have the same dimension.")
+
+        if self.vector.is_zero(atol=0, rtol=0):
+            raise ValueError("The vector must not be the zero vector.")
 
         self.dimension = self.point.dimension
 
@@ -32,7 +33,9 @@ class _BaseLinePlane:
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return "{}(point={}, {}={})".format(name_class, repr_point, name_vector, repr_vector)
+        return "{}(point={}, {}={})".format(
+            name_class, repr_point, name_vector, repr_vector
+        )
 
     def __getitem__(self, name_item):
 
@@ -55,7 +58,6 @@ class _BaseLinePlane:
 
         return obj_new
 
-    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
     def is_close(self, other, **kwargs):
         """
         Check if line/plane is almost equivalent to another line/plane.
@@ -95,13 +97,14 @@ class _BaseLinePlane:
         True
 
         """
+        if not isinstance(other, type(self)):
+            raise ValueError("The input must have the same type as the object.")
+
         contains_point = self.contains_point(other.point, **kwargs)
         is_parallel = self.vector.is_parallel(other.vector, **kwargs)
 
         return contains_point and is_parallel
 
-    @ensure("The output must zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point(self, point):
         """Compute the distance from a point to this object."""
         point_projected = self.project_point(point)
@@ -114,7 +117,6 @@ class _BaseLinePlane:
 
         return np.isclose(distance, 0, **kwargs)
 
-    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
     def sum_squares(self, points):
 
         distances_squared = np.apply_along_axis(self.distance_point, 1, points) ** 2

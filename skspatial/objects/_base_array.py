@@ -1,16 +1,20 @@
 """Private base classes for arrays."""
 
 import numpy as np
-from dpcontracts import require, ensure, types
 
 
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    @require("The input array must only contain finite numbers.", lambda args: np.all(np.isfinite(args.array_like)))
     def __new__(cls, array_like):
 
         array = np.array(array_like, dtype=float)
+
+        if array.size == 0:
+            raise ValueError("The array must not be empty.")
+
+        if not np.isfinite(array).all():
+            raise ValueError("The values must all be finite.")
 
         # We cast the input array to be our class type.
         obj = np.asarray(array).view(cls)
@@ -106,7 +110,7 @@ class _BaseArray(np.ndarray):
         # Convert objects to the base array class so we can get/set the dimension.
         objs = list(cls._to_arrays(*objs))
 
-        dim_max = max([obj.get_dimension() for obj in objs])
+        dim_max = max([obj.dimension for obj in objs])
 
         for obj in objs:
             yield obj.set_dimension(dim_max)
@@ -115,12 +119,6 @@ class _BaseArray(np.ndarray):
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
-    @require("The input array must be 1D.", lambda args: np.array(args.array_like).ndim == 1)
-    @require("The length must be greater than one.", lambda args: len(args.array_like) > 1)
-    @ensure(
-        "The output must be a 1D array with the input length.",
-        lambda args, result: result.shape == (len(args.array_like),),
-    )
     def __new__(cls, array_like):
 
         array = super().__new__(cls, array_like)
@@ -141,7 +139,6 @@ class _BaseArray1D(_BaseArray):
         """Check if array is close to another array."""
         return np.allclose(self, other, **kwargs)
 
-    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
     def add(self, array):
         """
         Add an array to self.
@@ -176,7 +173,6 @@ class _BaseArray1D(_BaseArray):
         """
         return self.__class__(np.add(self, array))
 
-    @ensure("The output must be the same class as the input.", lambda args, result: isinstance(result, type(args.self)))
     def subtract(self, array):
         """Subtract an array from self."""
         return self.__class__(np.subtract(self, array))
@@ -185,8 +181,6 @@ class _BaseArray1D(_BaseArray):
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
-    @require("The input array must be 2D.", lambda args: np.array(args.array_like).ndim == 2)
-    @require("The input array must have more than one column.", lambda args: np.array(args.array_like).shape[1] > 1)
     def __new__(cls, array_like):
 
         array = super().__new__(cls, array_like)
@@ -204,10 +198,6 @@ class _BaseArray2D(_BaseArray):
         return self.__class__(array)
 
 
-@types(array=np.ndarray, dim=int)
-@require("The array must be 1D.", lambda args: args.array.ndim == 1)
-@require("The desired dimension cannot be less than the array dimension.", lambda args: args.array.size <= args.dim)
-@ensure("The output must have the desired dimensions.", lambda args, result: result.shape == (args.dim,))
 def _set_dimension_1d(array, dim):
     """
     Set the desired dimension (length) of the 1D array.
@@ -236,25 +226,30 @@ def _set_dimension_1d(array, dim):
     >>> _set_dimension_1d(np.array([1, 2]), 4)
     array([1, 2, 0, 0])
 
+    >>> _set_dimension_1d(np.array([[1, 2], [2, 3]]), 1)
+    Traceback (most recent call last):
+    ...
+    ValueError: The array must be 1D.
+
     >>> _set_dimension_1d(np.array([1, 2]), 1)
     Traceback (most recent call last):
     ...
-    dpcontracts.PreconditionError: The desired dimension cannot be less than the array dimension.
+    ValueError: The desired dimension cannot be less than the current dimension.
 
     """
+    if array.ndim != 1:
+        raise ValueError("The array must be 1D.")
+
+    if dim < array.size:
+        raise ValueError(
+            "The desired dimension cannot be less than the current dimension."
+        )
+
     n_zeros = dim - array.size
 
     return np.pad(array, (0, n_zeros), 'constant')
 
 
-@types(array=np.ndarray, dim=int)
-@require("The array must be 2D.", lambda args: args.array.ndim == 2)
-@require(
-    "The points dimension cannot be greater than the desired dimension.", lambda args: args.array.shape[1] <= args.dim
-)
-@ensure(
-    "The output must have the desired dimensions.", lambda args, result: result.shape == (len(args.array), args.dim)
-)
 def _set_dimension_2d(array, dim):
     """
     Change the dimension (width) of a 2D NumPy array.
@@ -293,9 +288,12 @@ def _set_dimension_2d(array, dim):
     >>> _set_dimension_2d(np.array([1, 2]), 3)
     Traceback (most recent call last):
     ...
-    dpcontracts.PreconditionError: The array must be 2D.
+    ValueError: The array must be 2D.
 
     """
+    if array.ndim != 2:
+        raise ValueError("The array must be 2D.")
+
     n_cols = array.shape[1]
 
     return np.pad(array, ((0, 0), (0, dim - n_cols)), 'constant')

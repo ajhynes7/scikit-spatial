@@ -1,7 +1,6 @@
 """Module for the Plane class."""
 
 import numpy as np
-from dpcontracts import require, ensure
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.line import Line
@@ -56,11 +55,6 @@ class Plane(_BaseLinePlane):
         self.normal = self.vector
 
     @classmethod
-    @require(
-        "The vectors must not be parallel.",
-        lambda args: not Vector(args.vector_a).is_parallel(args.vector_b, rtol=0, atol=0),
-    )
-    @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_vectors(cls, point, vector_a, vector_b):
         """
         Instantiate a plane from a point and two vectors.
@@ -91,11 +85,16 @@ class Plane(_BaseLinePlane):
         >>> Plane.from_vectors([0, 0], [1, 0], [2, 0])
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The vectors must not be parallel.
+        ValueError: The vectors must not be parallel.
 
         """
+        vector_a = Vector(vector_a)
+
+        if vector_a.is_parallel(vector_b, rtol=0, atol=0):
+            raise ValueError("The vectors must not be parallel.")
+
         # The cross product returns a 3D vector.
-        vector_normal = Vector(vector_a).cross(vector_b)
+        vector_normal = vector_a.cross(vector_b)
 
         # Convert the point to 3D so that it matches the vector dimension.
         point = Point(point).set_dimension(3)
@@ -103,11 +102,6 @@ class Plane(_BaseLinePlane):
         return cls(point, vector_normal)
 
     @classmethod
-    @require(
-        "The points must not be collinear.",
-        lambda args: not Points([args.point_a, args.point_b, args.point_c]).are_collinear(tol=0),
-    )
-    @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def from_points(cls, point_a, point_b, point_c):
         """
         Instantiate a plane from three points.
@@ -139,9 +133,12 @@ class Plane(_BaseLinePlane):
         >>> Plane.from_points([0, 0], [0, 1], [0, 3])
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The points must not be collinear.
+        ValueError: The points must not be collinear.
 
         """
+        if Points([point_a, point_b, point_c]).are_collinear(tol=0):
+            raise ValueError("The points must not be collinear.")
+
         vector_ab = Vector.from_points(point_a, point_b)
         vector_ac = Vector.from_points(point_a, point_c)
 
@@ -180,7 +177,6 @@ class Plane(_BaseLinePlane):
 
         return a, b, c, d
 
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project_point(self, point):
         """
         Project a point onto self.
@@ -213,7 +209,6 @@ class Plane(_BaseLinePlane):
 
         return Point(point).add(vector_projected)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def project_vector(self, vector):
         """Project a vector onto the plane."""
         point_in_space = self.point.add(vector)
@@ -221,7 +216,6 @@ class Plane(_BaseLinePlane):
 
         return Vector.from_points(self.point, point_on_plane)
 
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_point_signed(self, point):
         """
         Return the signed distance from a point to self.
@@ -262,7 +256,6 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.
@@ -300,13 +293,6 @@ class Plane(_BaseLinePlane):
         """
         return np.sign(self.distance_point_signed(point)).astype(int)
 
-    @require(
-        "The line and plane must not be parallel.",
-        lambda args: not args.self.normal.is_perpendicular(args.line.direction),
-    )
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    @ensure("The point must be on the plane.", lambda args, result: args.self.contains_point(result))
-    @ensure("The point must be on the line.", lambda args, result: args.line.contains_point(result))
     def intersect_line(self, line):
         """
         Return the intersection of self with a line.
@@ -341,13 +327,16 @@ class Plane(_BaseLinePlane):
         >>> plane.intersect_line(line)
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The line and plane must not be parallel.
+        ValueError: The line and plane must not be parallel.
 
         References
         ----------
         http://geomalgorithms.com/a05-_intersect-1.html
 
         """
+        if self.normal.is_perpendicular(line.direction):
+            raise ValueError("The line and plane must not be parallel.")
+
         vector_plane_line = Vector.from_points(self.point, line.point)
 
         num = -self.normal.dot(vector_plane_line)
@@ -358,13 +347,6 @@ class Plane(_BaseLinePlane):
 
         return line.point.add(vector_line_scaled)
 
-    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    @require("The planes must not be parallel.", lambda args: not args.self.normal.is_parallel(args.other.normal))
-    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
-    @ensure(
-        "The point on the line must be on both planes.",
-        lambda args, result: args.self.contains_point(result.point) and args.other.contains_point(result.point),
-    )
     def intersect_plane(self, other):
         """
         Return the intersection of two planes.
@@ -403,13 +385,16 @@ class Plane(_BaseLinePlane):
         >>> plane_a.intersect_plane(plane_b)
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The planes must not be parallel.
+        ValueError: The planes must not be parallel.
 
         References
         ----------
         http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
 
         """
+        if self.normal.is_parallel(other.normal):
+            raise ValueError("The planes must not be parallel.")
+
         array_normals_stacked = np.vstack((self.normal, other.normal))
 
         # Construct a matrix for a linear system.
@@ -432,8 +417,6 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    @require("The points cannot be collinear.", lambda args: not Points(args.points).are_collinear(tol=0))
-    @ensure("The output must be a plane.", lambda _, result: isinstance(result, Plane))
     def best_fit(cls, points):
         """
         Return the plane of best fit for a set of points.
@@ -463,7 +446,10 @@ class Plane(_BaseLinePlane):
         """
         points = Points(points)
 
-        if points.get_dimension() < 3:
+        if points.are_collinear(tol=0):
+            raise ValueError("The points must not be collinear.")
+
+        if points.dimension < 3:
             points = points.set_dimension(3)
 
         points_centered, centroid = points.mean_center()
@@ -473,7 +459,6 @@ class Plane(_BaseLinePlane):
 
         return cls(centroid, normal)
 
-    @require("The plane must be 3D.", lambda args: args.self.get_dimension() == 3)
     def plot_3d(self, ax_3d, lims_x=(-1, 1), lims_y=(-1, 1), **kwargs):
         """
         Plot a 3D plane.

@@ -1,13 +1,8 @@
 """Measurements using spatial objects."""
 
-import numpy as np
-from dpcontracts import ensure
-
 from skspatial.objects import Vector
 
 
-@ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-@ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
 def area_triangle(point_a, point_b, point_c):
     """
     Return the area of a triangle defined by three points.
@@ -49,8 +44,6 @@ def area_triangle(point_a, point_b, point_c):
     return 0.5 * vector_normal.norm()
 
 
-@ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-@ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
 def volume_tetrahedron(point_a, point_b, point_c, point_d):
     """
     Return the volume of a tetrahedron defined by four points.

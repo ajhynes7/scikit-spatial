@@ -1,13 +1,10 @@
 """Module for the Line class."""
 
 import numpy as np
-from dpcontracts import require, ensure, types
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._plotting import _connect_points_2d, _connect_points_3d
 from skspatial.objects._base_line_plane import _BaseLinePlane
-from skspatial.objects.point import Point, Points
+from skspatial.objects.point import Points
 from skspatial.objects.vector import Vector
 from skspatial.transformation import transform_coordinates
 
@@ -60,7 +57,6 @@ class Line(_BaseLinePlane):
         self.direction = self.vector
 
     @classmethod
-    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def from_points(cls, point_a, point_b):
         """
         Instantiate a line from two points.
@@ -175,6 +171,9 @@ class Line(_BaseLinePlane):
         http://mathworld.wolfram.com/Coplanar.html
 
         """
+        if not isinstance(other, type(self)):
+            raise ValueError("The input must also be a line.")
+
         point_1 = self.point
         point_2 = self.to_point()
         point_3 = other.point
@@ -184,7 +183,6 @@ class Line(_BaseLinePlane):
 
         return points.are_coplanar(**kwargs)
 
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def to_point(self, t=1):
         r"""
         Return a point along the line using a parameter `t`.
@@ -222,7 +220,6 @@ class Line(_BaseLinePlane):
 
         return self.point.add(vector_along_line)
 
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
     def project_point(self, point):
         """
         Project a point onto this line.
@@ -255,14 +252,10 @@ class Line(_BaseLinePlane):
         # Add the projected vector to the point on the line.
         return self.point.add(vector_projected)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure("The output must be parallel to the line.", lambda args, result: args.self.direction.is_parallel(result))
     def project_vector(self, vector):
         """Project a vector onto the line."""
         return self.direction.project_vector(vector)
 
-    @require("The inputs must have length two.", lambda args: args.self.get_dimension() == len(args.point) == 2)
-    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_point(self, point):
         """
         Find the side of the line where a point lies.
@@ -304,9 +297,6 @@ class Line(_BaseLinePlane):
 
         return self.direction.side_vector(vector_to_point)
 
-    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    @ensure("The output must be zero or greater.", lambda _, result: result >= 0)
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def distance_line(self, other):
         """
         Return the shortest distance from an other line to self.
@@ -369,14 +359,6 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
-    @require("The lines must be coplanar.", lambda args: args.self.is_coplanar(args.other))
-    @require("The lines must not be parallel.", lambda args: not args.self.direction.is_parallel(args.other.direction))
-    @ensure("The output must be a point.", lambda _, result: isinstance(result, Point))
-    @ensure(
-        "The point must be on both lines.",
-        lambda args, result: args.self.contains_point(result) and args.other.contains_point(result),
-    )
     def intersect_line(self, other):
         """
         Return the intersection of a line with self.
@@ -407,7 +389,7 @@ class Line(_BaseLinePlane):
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The lines must not be parallel.
+        ValueError: The lines must not be parallel.
 
         >>> line_a = Line([1, 2, 3], [-4, 1, 1])
         >>> line_b = Line([4, 5, 6], [3, 1, 5])
@@ -415,7 +397,7 @@ class Line(_BaseLinePlane):
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
-        dpcontracts.PreconditionError: The lines must be coplanar.
+        ValueError: The lines must be coplanar.
 
         >>> line_a = Line([0, 0, 0], [1, 1, 1])
         >>> line_b = Line([5, 5, 0], [0, 0, -8])
@@ -428,6 +410,12 @@ class Line(_BaseLinePlane):
         http://mathworld.wolfram.com/Line-LineIntersection.html
 
         """
+        if not self.is_coplanar(other):
+            raise ValueError("The lines must be coplanar.")
+
+        if self.direction.is_parallel(other.direction):
+            raise ValueError("The lines must not be parallel.")
+
         # Vector from line A to line B.
         vector_ab = Vector.from_points(self.point, other.point)
 
@@ -443,8 +431,6 @@ class Line(_BaseLinePlane):
         return self.point.add(vector_a_scaled)
 
     @classmethod
-    @require("The points must not be concurrent.", lambda args: not Points(args.points).are_concurrent(tol=0))
-    @ensure("The output must be a line.", lambda _, result: isinstance(result, Line))
     def best_fit(cls, points):
         """
         Return the line of best fit for a set of points.
@@ -473,16 +459,18 @@ class Line(_BaseLinePlane):
         Vector([1., 0.])
 
         """
-        points_centered, centroid = Points(points).mean_center()
+        points = Points(points)
+
+        if points.are_concurrent(tol=0):
+            raise ValueError("The points must not be concurrent.")
+
+        points_centered, centroid = points.mean_center()
 
         _, _, vh = np.linalg.svd(points_centered)
-        direction = Vector(vh[0, :])
+        direction = vh[0, :]
 
         return cls(centroid, direction)
 
-    @require("The points must be all finite.", lambda args: np.isfinite(args.points).all())
-    @ensure("The output shape must be (n_points,).", lambda args, result: result.shape == (len(args.points),))
-    @ensure("The coordinates must be all finite.", lambda _, result: np.isfinite(result).all())
     def transform_points(self, points):
         """
         Transform points to a one-dimensional coordinate system defined by a line.
@@ -520,8 +508,6 @@ class Line(_BaseLinePlane):
 
         return column.flatten()
 
-    @types(ax_2d=Axes)
-    @require("The line must be 2D.", lambda args: args.self.get_dimension() == 2)
     def plot_2d(self, ax_2d, t_1=0, t_2=1, **kwargs):
         """
         Plot a 2D line.
@@ -544,8 +530,6 @@ class Line(_BaseLinePlane):
 
         _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
-    @types(ax_3d=Axes3D)
-    @require("The line must be 3D.", lambda args: args.self.get_dimension() == 3)
     def plot_3d(self, ax_3d, t_1=0, t_2=1, **kwargs):
         """
         Plot a 3D line.

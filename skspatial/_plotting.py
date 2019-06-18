@@ -1,12 +1,8 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
 import numpy as np
-from dpcontracts import types
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 
-@types(ax_2d=Axes)
 def _scatter_2d(ax_2d, points, **kwargs):
     """
     Plot points on a 2D scatter plot.
@@ -25,7 +21,6 @@ def _scatter_2d(ax_2d, points, **kwargs):
     ax_2d.scatter(array[:, 0], array[:, 1], **kwargs)
 
 
-@types(ax_3d=Axes3D)
 def _scatter_3d(ax_3d, points, **kwargs):
     """
     Plot points on a 3D scatter plot.
@@ -44,7 +39,6 @@ def _scatter_3d(ax_3d, points, **kwargs):
     ax_3d.scatter(array[:, 0], array[:, 1], array[:, 2], **kwargs)
 
 
-@types(ax_2d=Axes)
 def _connect_points_2d(ax_2d, point_a, point_b, **kwargs):
     """
     Plot a line between two 2D points.
@@ -65,7 +59,6 @@ def _connect_points_2d(ax_2d, point_a, point_b, **kwargs):
     ax_2d.plot(xs, ys, **kwargs)
 
 
-@types(ax_3d=Axes3D)
 def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
     """
     Plot a line between two 3D points.
