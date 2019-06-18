@@ -8,7 +8,7 @@ class _BaseArray(np.ndarray):
 
     def __new__(cls, array_like):
 
-        array = np.array(array_like, dtype=float)
+        array = np.array(array_like)
 
         if array.size == 0:
             raise ValueError("The array must not be empty.")
