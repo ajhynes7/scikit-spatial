@@ -5,6 +5,7 @@ from copy import deepcopy
 
 import numpy as np
 
+from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
