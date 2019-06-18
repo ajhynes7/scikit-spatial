@@ -50,7 +50,6 @@ def transform_coordinates(points, point_origin, vectors_basis):
 
     def yield_columns():
         """Yield each column of points in the new coordinate system."""
-
         for i, vector_basis in enumerate(vectors_basis):
             yield np.apply_along_axis(np.dot, 1, vectors_to_points, vector_basis)
 
