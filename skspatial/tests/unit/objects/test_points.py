@@ -16,10 +16,6 @@ from skspatial.objects import Points
         [5],
         [0, 1],
         [0, 1, 2],
-        # The array cannot have one column.
-        [[0]],
-        [[0], [0]],
-        [[0], [1], [2]],
         # The points cannot have different lengths.
         [[0, 1], [0, 1, 0]],
     ],

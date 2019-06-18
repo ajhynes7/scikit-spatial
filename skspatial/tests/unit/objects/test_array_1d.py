@@ -36,8 +36,6 @@ def test_equality(array):
     "array",
     [
         [],
-        [0],
-        [5],
         [np.nan, 0],
         [1, 1, np.nan],
         [1, 1, np.inf],
