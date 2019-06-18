@@ -37,6 +37,26 @@ def test_from_points_failure(array_a, array_b):
 
 
 @pytest.mark.parametrize(
+    "slope, y_intercept, line_expected",
+    [
+        (0, 0, Line([0, 0], [1, 0])),
+        (0, 1, Line([0, 1], [1, 0])),
+        (0, 5, Line([0, 5], [1, 0])),
+        (1, 0, Line([0, 0], [1, 1])),
+        (-5, 0, Line([0, 0], [1, -5])),
+
+        # The slope has the form rise / run.
+        (-2 / 7, 0, Line([0, 0], [7, -2])),
+        (3 / 4, 0, Line([0, 0], [4, 3])),
+        (5 / 4, 0, Line([0, 0], [4, 5])),
+    ],
+)
+def test_from_slope(slope, y_intercept, line_expected):
+
+    assert Line.from_slope(slope, y_intercept).is_close(line_expected)
+
+
+@pytest.mark.parametrize(
     "line, param, array_expected",
     [
         (Line([0, 0], [1, 0]), 0, [0, 0]),

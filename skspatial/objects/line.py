@@ -92,7 +92,51 @@ class Line(_BaseLinePlane):
 
         return cls(point_a, vector_ab)
 
-    @require("The input must have the same type as the object.", lambda args: isinstance(args.other, type(args.self)))
+    @classmethod
+    def from_slope(cls, slope, y_intercept):
+        r"""
+        Instantiate a 2D line from a slope and Y-intercept.
+
+        A 2D line can be represented by the equation
+
+        .. math:: y = mx + b
+
+        where :math:`m` is the slope and :math:`p` is the Y-intercept.
+
+        Parameters
+        ----------
+        slope : scalar
+            Slope of the 2D line.
+        y_intercept : scalar
+            Y coordinate of the point where the line intersects the Y axis.
+
+        Returns
+        -------
+        Line
+            A 2D Line object.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+
+        >>> Line.from_slope(2, 0)
+        Line(point=Point([0, 0]), direction=Vector([1, 2]))
+
+        >>> Line.from_slope(-3, 5)
+        Line(point=Point([0, 5]), direction=Vector([ 1, -3]))
+
+        >>> line_a = Line.from_slope(1, 0)
+        >>> line_b = Line.from_slope(0, 5)
+
+        >>> line_a.intersect_line(line_b)
+        Point([5., 5.])
+
+        """
+        point = [0, y_intercept]
+        direction = [1, slope]
+
+        return cls(point, direction)
+
     def is_coplanar(self, other, **kwargs):
         """
         Check if the line is coplanar with another.
