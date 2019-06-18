@@ -1,11 +1,7 @@
 """Module for the Vector class."""
 
 import numpy as np
-from dpcontracts import require, ensure, types
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._constants import ATOL
 from skspatial._plotting import _connect_points_3d
 from skspatial.objects._base_array import _BaseArray1D
 
@@ -20,7 +16,6 @@ class Vector(_BaseArray1D):
         return obj
 
     @classmethod
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
     def from_points(cls, point_a, point_b):
         """
         Instantiate a vector from point A to point B.
@@ -49,9 +44,8 @@ class Vector(_BaseArray1D):
         Vector([ 4.,  6., -1.])
 
         """
-        return cls(Vector(point_b).subtract(point_a))
+        return cls(np.subtract(point_b, point_a))
 
-    @ensure("The magnitude must be zero or greater", lambda _, result: result >= 0)
     def norm(self, **kwargs):
         """
         Return the norm of the vector.
@@ -84,12 +78,14 @@ class Vector(_BaseArray1D):
         """
         return np.linalg.norm(self, **kwargs)
 
-    @require("The vector cannot be the zero vector.", lambda args: not args.self.is_zero())
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure("The output must have a magnitude of one.", lambda _, result: np.isclose(result.norm(), 1))
     def unit(self):
         """Return the unit vector of this vector."""
-        return Vector(self / self.norm())
+        magnitude = self.norm()
+
+        if magnitude == 0:
+            raise ValueError("The magnitude must not be zero.")
+
+        return self / magnitude
 
     def is_zero(self, **kwargs):
         """
@@ -128,8 +124,6 @@ class Vector(_BaseArray1D):
         """Return the dot product with another array."""
         return np.dot(self, other)
 
-    @ensure("The output must be a vector.", lambda _, result: isinstance(result, Vector))
-    @ensure("The output must be a 1D array with length three.", lambda _, result: result.shape == (3,))
     def cross(self, other):
         """
         Compute the cross product with another vector.
@@ -200,17 +194,17 @@ class Vector(_BaseArray1D):
         0.707
 
         """
-        cos_theta = self.dot(other) / (self.norm() * Vector(other).norm())
+        denom = self.norm() * Vector(other).norm()
+
+        if denom == 0:
+            raise ValueError("The vectors must have non-zero magnitudes.")
+
+        cos_theta = self.dot(other) / denom
 
         # Ensure that the output is in the range [-1, 1],
         # so that the angle theta is defined.
         return np.clip(cos_theta, -1, 1)
 
-    @require(
-        "Neither vector can be the zero vector.", lambda args: not (args.self.is_zero() or Vector(args.other).is_zero())
-    )
-    @ensure("The output must be in range [0, pi].", lambda _, result: result >= 0 and result <= np.pi)
-    @ensure("The output must be a NumPy scalar.", lambda _, result: isinstance(result, np.number))
     def angle_between(self, other):
         """
         Return the angle in radians between this vector and another.
@@ -379,14 +373,12 @@ class Vector(_BaseArray1D):
         True
 
         """
-        if Vector(self).is_zero(**kwargs) or Vector(other).is_zero(**kwargs):
+        if self.is_zero(**kwargs) or Vector(other).is_zero(**kwargs):
             # The zero vector is perpendicular to all vectors.
             return True
 
         return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
 
-    @require("The vectors must have length two.", lambda args: len(args.self) == len(args.other) == 2)
-    @ensure("The output must be in the set {-1, 0, 1}.", lambda _, result: result in {-1, 0, 1})
     def side_vector(self, other):
         """
         Find the side of the vector where another vector is directed.
@@ -427,7 +419,12 @@ class Vector(_BaseArray1D):
         -1
 
         """
-        return np.sign(np.cross(other, self)).astype(int)
+        value_cross = np.cross(other, self)
+
+        if value_cross.ndim != 0:
+            raise ValueError("The vectors must have dimension 2.")
+
+        return np.sign(value_cross).astype(int)
 
     def scalar_projection(self, other):
         """
@@ -462,9 +459,6 @@ class Vector(_BaseArray1D):
         """
         return self.unit().dot(other)
 
-    @ensure(
-        "The vector projection must be parallel to self.", lambda args, result: args.self.is_parallel(result, atol=ATOL)
-    )
     def project_vector(self, other):
         """
         Project an other vector onto this vector.
@@ -498,9 +492,6 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    @types(ax_2d=Axes)
-    @require("The vector must be 2D.", lambda args: args.self.get_dimension() == 2)
-    @require("The point must be 2D.", lambda args: len(args.point) == 2)
     def plot_2d(self, ax_2d, point=(0, 0), **kwargs):
         """
         Plot a 2D vector.
@@ -519,9 +510,6 @@ class Vector(_BaseArray1D):
         """
         ax_2d.arrow(*point, *self, **kwargs)
 
-    @types(ax_3d=Axes3D)
-    @require("The vector must be 3D.", lambda args: args.self.get_dimension() == 3)
-    @require("The point must be 3D.", lambda args: len(args.point) == 3)
     def plot_3d(self, ax_3d, point=(0, 0, 0), **kwargs):
         """
         Plot a 3D vector.

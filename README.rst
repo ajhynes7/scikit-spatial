@@ -137,7 +137,7 @@ An error is returned if the computation is undefined.
 >>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The lines must not be parallel.
+ValueError: The lines must not be parallel.
 
 
 Intersection

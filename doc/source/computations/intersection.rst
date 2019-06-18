@@ -23,13 +23,13 @@ In order to intersect, the lines must be coplanar and not parallel. An error is 
 >>> line_a.set_dimension(3).intersect_line(line_b)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The lines must be coplanar.
+ValueError: The lines must be coplanar.
 
 >>> line_b = Line([10, 0], [1, 1])
 >>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The lines must not be parallel.
+ValueError: The lines must not be parallel.
 
 
 
@@ -53,7 +53,7 @@ The line must not be parallel to the plane.
 >>> plane.intersect_line(line)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The line and plane must not be parallel.
+ValueError: The line and plane must not be parallel.
 
 
 
@@ -75,4 +75,4 @@ The planes must not be parallel.
 >>> plane_a.intersect_plane(plane_b)
 Traceback (most recent call last):
 ...
-dpcontracts.PreconditionError: The planes must not be parallel.
+ValueError: The planes must not be parallel.
