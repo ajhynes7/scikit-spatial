@@ -1,6 +1,7 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 
 def _scatter_2d(ax_2d, points, **kwargs):
@@ -35,6 +36,9 @@ def _scatter_3d(ax_3d, points, **kwargs):
         Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
 
     """
+    if not isinstance(ax_3d, Axes3D):
+        raise ValueError("Axis must be instance of class Axes3D.")
+
     array = np.array(points)
     ax_3d.scatter(array[:, 0], array[:, 1], array[:, 2], **kwargs)
 
@@ -73,6 +77,9 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
         Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
 
     """
+    if not isinstance(ax_3d, Axes3D):
+        raise ValueError("Axis must be instance of class Axes3D.")
+
     xs = [point_a[0], point_b[0]]
     ys = [point_a[1], point_b[1]]
     zs = [point_a[2], point_b[2]]
