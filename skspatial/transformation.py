@@ -33,27 +33,27 @@ def transform_coordinates(points, point_origin, vectors_basis):
     >>> vectors_basis = [[1, 0], [1, 1]]
 
     >>> transform_coordinates(points, [0, 0], vectors_basis)
-    array([[ 1.,  3.],
-           [ 3.,  7.],
-           [ 5., 11.]])
+    array([[ 1,  3],
+           [ 3,  7],
+           [ 5, 11]])
 
     >>> points = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     >>> vectors_basis = [[1, 0, 0], [-1, 1, 0]]
 
     >>> transform_coordinates(points, [0, 0, 0], vectors_basis)
-    array([[1., 1.],
-           [4., 1.],
-           [7., 1.]])
+    array([[1, 1],
+           [4, 1],
+           [7, 1]])
 
     """
-    n_points, n_bases = len(points), len(vectors_basis)
-    coordinates = np.zeros((n_points, n_bases))
-
     vectors_to_points = np.subtract(points, point_origin)
 
-    for i, vector_basis in enumerate(vectors_basis):
-        coordinates[:, i] = np.apply_along_axis(
-            np.dot, 1, vectors_to_points, vector_basis
-        )
+    def yield_columns():
+        """Yield each column of points in the new coordinate system."""
+
+        for i, vector_basis in enumerate(vectors_basis):
+            yield np.apply_along_axis(np.dot, 1, vectors_to_points, vector_basis)
+
+    coordinates = np.column_stack([*yield_columns()])
 
     return coordinates
