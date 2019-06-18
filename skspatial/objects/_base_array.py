@@ -241,7 +241,9 @@ def _set_dimension_1d(array, dim):
         raise ValueError("The array must be 1D.")
 
     if dim < array.size:
-        raise ValueError("The desired dimension cannot be less than the current dimension.")
+        raise ValueError(
+            "The desired dimension cannot be less than the current dimension."
+        )
 
     n_zeros = dim - array.size
 

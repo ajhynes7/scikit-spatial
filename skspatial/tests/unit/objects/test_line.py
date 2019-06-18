@@ -44,7 +44,6 @@ def test_from_points_failure(array_a, array_b):
         (0, 5, Line([0, 5], [1, 0])),
         (1, 0, Line([0, 0], [1, 1])),
         (-5, 0, Line([0, 0], [1, -5])),
-
         # The slope has the form rise / run.
         (-2 / 7, 0, Line([0, 0], [7, -2])),
         (3 / 4, 0, Line([0, 0], [4, 3])),

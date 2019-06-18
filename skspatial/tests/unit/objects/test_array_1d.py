@@ -34,14 +34,7 @@ def test_equality(array):
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
 @pytest.mark.parametrize(
     "array",
-    [
-        [],
-        [np.nan, 0],
-        [1, 1, np.nan],
-        [1, 1, np.inf],
-        [[1], [1]],
-        [[1, 2], [1, 2]],
-    ],
+    [[], [np.nan, 0], [1, 1, np.nan], [1, 1, np.inf], [[1], [1]], [[1, 2], [1, 2]]],
 )
 def test_failure(class_spatial, array):
 
