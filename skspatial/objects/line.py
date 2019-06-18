@@ -38,15 +38,15 @@ class Line(_BaseLinePlane):
     >>> line = Line(point=[0, 0], direction=[3, 0])
 
     >>> line
-    Line(point=Point([0., 0.]), direction=Vector([3., 0.]))
+    Line(point=Point([0, 0]), direction=Vector([3, 0]))
 
     >>> line.direction
-    Vector([3., 0.])
+    Vector([3, 0])
 
     The direction can also be accessed with the ``vector`` attribute.
 
     >>> line.vector
-    Vector([3., 0.])
+    Vector([3, 0])
 
     """
 
@@ -76,12 +76,12 @@ class Line(_BaseLinePlane):
         >>> from skspatial.objects import Line
 
         >>> Line.from_points([0, 0], [1, 0])
-        Line(point=Point([0., 0.]), direction=Vector([1., 0.]))
+        Line(point=Point([0, 0]), direction=Vector([1, 0]))
 
         The order of the points affects the line point and direction vector.
 
         >>> Line.from_points([1, 0], [0, 0])
-        Line(point=Point([1., 0.]), direction=Vector([-1.,  0.]))
+        Line(point=Point([1, 0]), direction=Vector([-1,  0]))
 
         """
         vector_ab = Vector.from_points(point_a, point_b)
@@ -210,10 +210,10 @@ class Line(_BaseLinePlane):
         >>> line = Line(point=[0, 0], direction=[2, 0])
 
         >>> line.to_point()
-        Point([2., 0.])
+        Point([2, 0])
 
         >>> line.to_point(t=2)
-        Point([4., 0.])
+        Point([4, 0])
 
         """
         vector_along_line = t * self.direction
