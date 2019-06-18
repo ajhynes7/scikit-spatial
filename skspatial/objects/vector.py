@@ -79,7 +79,41 @@ class Vector(_BaseArray1D):
         return np.linalg.norm(self, **kwargs)
 
     def unit(self):
-        """Return the unit vector of this vector."""
+        """
+        Return the unit vector of this vector.
+
+        Returns
+        -------
+        Vector
+            Unit vector in same direction as original vector.
+
+        Raises
+        ------
+        ValueError
+            If the magnitude of the vector is zero.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 0]).unit()
+        Vector([1., 0.])
+
+        >>> Vector([-20, 0]).unit()
+        Vector([-1.,  0.])
+
+        >>> Vector([1, 1]).unit()
+        Vector([0.70710678, 0.70710678])
+
+        >>> Vector([1, 1, 1]).unit()
+        Vector([0.57735027, 0.57735027, 0.57735027])
+
+        >>> Vector([0, 0]).unit()
+        Traceback (most recent call last):
+        ...
+        ValueError: The magnitude must not be zero.
+
+        """
         magnitude = self.norm()
 
         if magnitude == 0:
