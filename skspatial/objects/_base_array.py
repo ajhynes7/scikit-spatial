@@ -123,11 +123,14 @@ class _BaseArray1D(_BaseArray):
     )
     def __new__(cls, array_like):
 
-        return super().__new__(cls, array_like)
+        array = super().__new__(cls, array_like)
 
-    def get_dimension(self):
+        if array.ndim != 1:
+            raise ValueError("The array must be 1D.")
 
-        return self.size
+        array.dimension = array.size
+
+        return array
 
     def set_dimension(self, dim):
 
@@ -186,11 +189,14 @@ class _BaseArray2D(_BaseArray):
     @require("The input array must have more than one column.", lambda args: np.array(args.array_like).shape[1] > 1)
     def __new__(cls, array_like):
 
-        return super().__new__(cls, array_like)
+        array = super().__new__(cls, array_like)
 
-    def get_dimension(self):
+        if array.ndim != 2:
+            raise ValueError("The array must be 2D.")
 
-        return self.shape[1]
+        array.dimension = array.shape[1]
+
+        return array
 
     def set_dimension(self, dim):
 

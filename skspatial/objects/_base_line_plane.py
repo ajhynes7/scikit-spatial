@@ -22,6 +22,8 @@ class _BaseLinePlane:
         self.point = Point(point)
         self.vector = Vector(vector)
 
+        self.dimension = self.point.dimension
+
     def __repr__(self):
 
         name_class = type(self).__name__
@@ -40,16 +42,16 @@ class _BaseLinePlane:
 
         return setattr(self, name_item, value)
 
-    def get_dimension(self):
-
-        return self.point.get_dimension()
-
     def set_dimension(self, dim):
 
         obj_new = deepcopy(self)
 
         for name_item in vars(self):
-            obj_new[name_item] = self[name_item].set_dimension(dim)
+
+            attribute = self[name_item]
+
+            if isinstance(attribute, _BaseArray1D):
+                obj_new[name_item] = attribute.set_dimension(dim)
 
         return obj_new
 
