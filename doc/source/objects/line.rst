@@ -9,7 +9,7 @@ A :class:`~skspatial.objects.Line` object is defined by a point and a direction 
 >>> line_1 = Line(point=[0, 0], direction=[5, 0])
 
 >>> line_1
-Line(point=Point([0., 0.]), direction=Vector([5., 0.]))
+Line(point=Point([0, 0]), direction=Vector([5, 0]))
 
 
 Alternatively, a line can be defined by two points.

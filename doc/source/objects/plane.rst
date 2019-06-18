@@ -17,7 +17,7 @@ Alternatively, a plane can be defined by three points.
 >>> plane_2 = Plane.from_points(point_a, point_b, point_c)
 
 >>> plane_2
-Plane(point=Point([0, 0, 0]), normal=Vector([  -0,    0, 5100]))
+Plane(point=Point([0, 0, 0]), normal=Vector([   0,    0, 5100]))
 
 >>> plane_1.is_close(plane_2)
 True

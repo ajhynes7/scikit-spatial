@@ -66,7 +66,7 @@ The intersection of a :class:`~skspatial.objects.Plane` with a :class:`~skspatia
 >>> plane_b = Plane([8, 0, 0], [1, 1, 0])
 
 >>> plane_a.intersect_plane(plane_b)
-Line(point=Point([4., 4., 0.]), direction=Vector([ 0.,  0., -2.]))
+Line(point=Point([4., 4., 0.]), direction=Vector([ 0,  0, -2]))
 
 
 The planes must not be parallel.
