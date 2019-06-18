@@ -38,7 +38,7 @@ def test_best_fit_plane(data):
     # The best fit plane could have a higher dimension than the points
     # (e.g., 2D points have a 3D plane of best fit).
     # So, we convert the points dimension to that of the best fit plane.
-    dim_fit = plane_fit.get_dimension()
+    dim_fit = plane_fit.dimension
     points = points.set_dimension(dim_fit)
 
     plane = data.draw(st_plane(dim_fit))

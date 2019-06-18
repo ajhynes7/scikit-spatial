@@ -14,7 +14,7 @@ def test_from_points(arrays):
     # The plane must contain each point.
     plane = Plane.from_points(*points)
 
-    points = points.set_dimension(plane.get_dimension())
+    points = points.set_dimension(plane.dimension)
 
     for point in points:
         assert plane.contains_point(point)

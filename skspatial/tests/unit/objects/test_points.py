@@ -39,9 +39,9 @@ def test_failure(array):
         (Points([[4, 3, 9, 1], [3, 7, 8, 1]]), 4),
     ],
 )
-def get_dimension(points, dim_expected):
+def test_dimension(points, dim_expected):
 
-    assert points.get_dimension() == dim_expected
+    assert points.dimension == dim_expected
 
 
 @pytest.mark.parametrize(

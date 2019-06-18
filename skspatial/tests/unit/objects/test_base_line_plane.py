@@ -34,10 +34,10 @@ def test_repr(line_or_plane, repr_expected):
     "point, vector, dim_expected",
     [([0, 0], [1, 0], 2), ([0, 0, 0], [1, 0, 0], 3), ([0, 0, 0, 0], [1, 0, 0, 0], 4)],
 )
-def test_get_dimension(class_spatial, point, vector, dim_expected):
+def test_dimension(class_spatial, point, vector, dim_expected):
 
     object_spatial = class_spatial(point, vector)
-    assert object_spatial.get_dimension() == dim_expected
+    assert object_spatial.dimension == dim_expected
 
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])

@@ -17,7 +17,7 @@ def test_mean_center(data):
 
     # The centroid of the centered points should be the origin.
     centroid_new = points_centered.centroid()
-    origin = np.zeros(points.get_dimension())
+    origin = np.zeros(points.dimension)
 
     assert_array_almost_equal(centroid_new, origin)
 
