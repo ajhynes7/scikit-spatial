@@ -3,6 +3,12 @@ History
 =======
 
 
+1.3.0 (2019-06-19)
+------------------
+* Remove dpcontracts as a dependency. The contracts were causing performance issues.
+* Add 'dimension' attribute to all spatial objects.
+
+
 1.2.0 (2019-06-11)
 ------------------
 * Move tests into skspatial directory. This allows for importing custom hypothesis strategies for testing other projects.
