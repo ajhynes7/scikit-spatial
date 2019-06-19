@@ -52,6 +52,16 @@ class Plane(_BaseLinePlane):
     >>> plane.vector
     Vector([0, 0, 5])
 
+    >>> Plane([0, 0], [1, 0, 0])
+    Traceback (most recent call last):
+    ...
+    ValueError: The point and vector must have the same dimension.
+
+    >>> Plane([1, 1], [0, 0])
+    Traceback (most recent call last):
+    ...
+    ValueError: The vector must not be the zero vector.
+
     """
 
     def __init__(self, point, normal):

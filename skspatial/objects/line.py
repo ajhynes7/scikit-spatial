@@ -54,6 +54,16 @@ class Line(_BaseLinePlane):
     >>> line.vector
     Vector([3, 0])
 
+    >>> Line([0, 0], [1, 0, 0])
+    Traceback (most recent call last):
+    ...
+    ValueError: The point and vector must have the same dimension.
+
+    >>> Line([1, 1], [0, 0])
+    Traceback (most recent call last):
+    ...
+    ValueError: The vector must not be the zero vector.
+
     """
 
     def __init__(self, point, direction):

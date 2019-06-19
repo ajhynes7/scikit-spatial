@@ -148,21 +148,38 @@ class Points(_BaseArray2D):
 
     Examples
     --------
-    >>> import numpy as np
     >>> from skspatial.objects import Points
 
-    >>> points = ([1, 2, 0], [5, 4, 3], [4, 0, 0])
+    >>> points = Points([[1, 2, 0], [5, 4, 3]])
 
-    >>> Points(points)
+    >>> points
     Points([[1, 2, 0],
-            [5, 4, 3],
-            [4, 0, 0]])
+            [5, 4, 3]])
 
-    >>> array = np.array([[1, 2], [5, 4]])
+    >>> points.dimension
+    3
 
-    >>> Points(array)
-    Points([[1, 2],
-            [5, 4]])
+    The object inherits methods from :class:`numpy.ndarray`.
+
+    >>> points.mean(axis=0)
+    Points([3. , 3. , 1.5])
+
+    >>> Points([])
+    Traceback (most recent call last):
+    ...
+    ValueError: The array must not be empty.
+
+    >>> import numpy as np
+
+    >>> Points([[1, 2], [1, np.nan]])
+    Traceback (most recent call last):
+    ...
+    ValueError: The values must all be finite.
+
+    >>> Points([1, 2, 3])
+    Traceback (most recent call last):
+    ...
+    ValueError: The array must be 2D.
 
     """
 

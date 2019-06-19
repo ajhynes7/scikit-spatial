@@ -284,6 +284,11 @@ class Vector(_BaseArray1D):
         >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
         0.707
 
+        >>> Vector([0, 0]).cosine_similarity([1, 1])
+        Traceback (most recent call last):
+        ...
+        ValueError: The vectors must have non-zero magnitudes.
+
         """
         denom = self.norm() * Vector(other).norm()
 
@@ -513,6 +518,11 @@ class Vector(_BaseArray1D):
 
         >>> vector.side_vector([-3, 4])
         -1
+
+        >>> Vector([1, 0, 0]).side_vector([1, 2, 3])
+        Traceback (most recent call last):
+        ...
+        ValueError: The vectors must be 2D.
 
         """
         value_cross = np.cross(other, self)

@@ -102,6 +102,11 @@ class _BaseLinePlane:
         >>> plane_a.is_close(plane_b)
         True
 
+        >>> line_a.is_close(plane_a)
+        Traceback (most recent call last):
+        ...
+        ValueError: The input must have the same type as the object.
+
         """
         if not isinstance(other, type(self)):
             raise ValueError("The input must have the same type as the object.")
