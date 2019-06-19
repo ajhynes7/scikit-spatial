@@ -259,8 +259,8 @@ def _set_dimension_2d(array, dim):
 
     Parameters
     ----------
-    array : ndarray
-        (n, d) input array of n rows with dimension d.
+    array : (N, D) ndarray
+        Array of N rows with dimension D.
     dim : int
         Desired dimension.
         Must be greater than or equal to the current dimension d.
@@ -268,7 +268,7 @@ def _set_dimension_2d(array, dim):
     Returns
     -------
     ndarray
-        (n, dim) array.
+        (N, dim) array.
 
     Examples
     --------

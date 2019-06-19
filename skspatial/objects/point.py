@@ -139,7 +139,8 @@ class Points(_BaseArray2D):
     Parameters
     ----------
     points : array_like
-        (n, d) array representing n points with dimension d.
+        (N, D) array representing N points with dimension D.
+
     Raises
     ------
     ValueError
@@ -196,7 +197,7 @@ class Points(_BaseArray2D):
         Returns
         -------
         Points
-            (n, d) array of n unique points with dimension d.
+            (N, D) array of N unique points with dimension D.
 
         """
         return self.__class__(np.unique(self, axis=0))
@@ -228,10 +229,10 @@ class Points(_BaseArray2D):
 
         Returns
         -------
-        points_centered : Points
-            (n, dim) array of mean-centered points.
-        centroid : Point
-            (dim,) array for the centroid of the points.
+        points_centered : (N, D) Points
+            Array of N mean-centered points with dimension D.
+        centroid : (D,) Point
+            Centroid of the points.
 
         Examples
         --------

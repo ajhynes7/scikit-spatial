@@ -9,21 +9,21 @@ def transform_coordinates(points, point_origin, vectors_basis):
 
     Parameters
     ----------
-    points : array_like
-        (n, d) array of n points with dimension d.
-    point_origin : array_like
+    points : (N, D) array_like
+        Array of N points with dimension D.
+    point_origin : (D,) array_like
         Origin of the new coordinate system.
-        (d,) array for one point with dimension d.
+        Array for one point with dimension D.
     vectors_basis : sequence
         Basis vectors of the new coordinate system.
-        Sequence of n_bases vectors.
-        Each vector is an array_like with d elements.
+        Sequence of N_bases vectors.
+        Each vector is an array_like with D elements.
 
     Returns
     -------
     ndarray
         Coordinates in the new coordinate system.
-        (n, n_bases) array.
+        (N, N_bases) array.
 
     Examples
     --------

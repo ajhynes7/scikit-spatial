@@ -522,13 +522,13 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        points : array_like
-            (n, d) array of n points with dimension d.
+        points : (N, D) array_like
+            Array of N points with dimension D.
 
         Returns
         -------
         ndarray
-            (n,) array of n coordinates.
+            (N,) array of N coordinates.
 
         Examples
         --------
