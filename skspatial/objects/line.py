@@ -30,6 +30,8 @@ class Line(_BaseLinePlane):
         Unit direction vector.
     vector : Vector
         Same as the direction.
+    dimension : int
+        Dimension of the line.
 
     Raises
     ------
@@ -53,6 +55,11 @@ class Line(_BaseLinePlane):
 
     >>> line.vector
     Vector([3, 0])
+
+    The line dimension is the dimension of the point and vector.
+
+    >>> line.dimension
+    2
 
     >>> Line([0, 0], [1, 0, 0])
     Traceback (most recent call last):

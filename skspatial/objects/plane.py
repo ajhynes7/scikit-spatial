@@ -29,6 +29,9 @@ class Plane(_BaseLinePlane):
         Unit normal vector.
     vector : Vector
         Same as the normal.
+    dimension : int
+        Dimension of the plane.
+
     Raises
     ------
     ValueError
@@ -51,6 +54,11 @@ class Plane(_BaseLinePlane):
 
     >>> plane.vector
     Vector([0, 0, 5])
+
+    The plane dimension is the dimension of the point and vector.
+
+    >>> plane.dimension
+    3
 
     >>> Plane([0, 0], [1, 0, 0])
     Traceback (most recent call last):
