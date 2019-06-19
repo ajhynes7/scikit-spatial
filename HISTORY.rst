@@ -7,6 +7,8 @@ History
 ------------------
 * Remove dpcontracts as a dependency. The contracts were causing performance issues.
 * Add 'dimension' attribute to all spatial objects.
+* Add Vector.angle_signed method.
+* Add Line.from_slope method.
 
 
 1.2.0 (2019-06-11)
