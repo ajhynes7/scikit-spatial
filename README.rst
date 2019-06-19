@@ -127,7 +127,7 @@ Project a point onto a line.
 Point([5.5, 5.5, 0. ])
 
 
-An error is returned if the computation is undefined.
+An error is raised if the computation is undefined.
 
 >>> line_a = Line([0, 0], [1, 0])
 >>> line_b = Line([1, 0], [1, 0])
