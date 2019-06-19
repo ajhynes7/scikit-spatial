@@ -35,6 +35,11 @@ def _scatter_3d(ax_3d, points, **kwargs):
     kwargs : dict, optional
         Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
 
+    Raises
+    ------
+    ValueError
+        If the axis is not an instance of Axes3D.
+
     """
     if not isinstance(ax_3d, Axes3D):
         raise ValueError("Axis must be instance of class Axes3D.")
@@ -75,6 +80,11 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
         The two 3D points to be connected.
     kwargs : dict, optional
         Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
+
+    Raises
+    ------
+    ValueError
+        If the axis is not an instance of Axes3D.
 
     """
     if not isinstance(ax_3d, Axes3D):
