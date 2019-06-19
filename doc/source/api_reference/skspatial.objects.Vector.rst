@@ -9,6 +9,7 @@ skspatial.objects.Vector
    :toctree: Vector/methods
 
    ~skspatial.objects.Vector.angle_between
+   ~skspatial.objects.Vector.angle_signed
    ~skspatial.objects.Vector.cosine_similarity
    ~skspatial.objects.Vector.cross
    ~skspatial.objects.Vector.dot
