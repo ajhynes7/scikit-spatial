@@ -93,6 +93,11 @@ class Points(_BaseArray2D):
     ----------
     points : array_like
         (n, d) array representing n points with dimension d.
+    Raises
+    ------
+    ValueError
+        If the array is empty, the values are not finite,
+        or the dimension is not two.
 
     Examples
     --------

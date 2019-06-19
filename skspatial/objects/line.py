@@ -31,6 +31,12 @@ class Line(_BaseLinePlane):
     vector : Vector
         Same as the direction.
 
+    Raises
+    ------
+    ValueError
+        If the point and vector have different dimensions,
+        or if the vector is all zeros.
+
     Examples
     --------
     >>> from skspatial.objects import Line
@@ -148,6 +154,11 @@ class Line(_BaseLinePlane):
         -------
         bool
             True if the line is coplanar; false otherwise.
+
+        Raises
+        ------
+        ValueError
+            If input is not a line.
 
         Examples
         --------
@@ -377,6 +388,11 @@ class Line(_BaseLinePlane):
         Point
             The point at the intersection.
 
+        Raises
+        ------
+        ValueError
+            If the lines are parallel or are not coplanar.
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -446,6 +462,11 @@ class Line(_BaseLinePlane):
         -------
         Line
             The line of best fit.
+
+        Raises
+        ------
+        ValueError
+            If the points are concurrent.
 
         Examples
         --------

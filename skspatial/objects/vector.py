@@ -211,6 +211,11 @@ class Vector(_BaseArray1D):
         scalar
             Cosine similarity.
 
+        Raises
+        ------
+        ValueError
+            If either vector has a magnitude of zero.
+
         Examples
         --------
         >>> from skspatial.objects import Vector
@@ -430,6 +435,11 @@ class Vector(_BaseArray1D):
             1 if the other vector is right of self.
             0 if other is parallel to self.
             -1 if other is left of self.
+
+        Raises
+        ------
+        ValueError
+            If the vectors are not 2D.
 
         Examples
         --------

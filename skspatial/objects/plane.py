@@ -29,6 +29,11 @@ class Plane(_BaseLinePlane):
         Unit normal vector.
     vector : Vector
         Same as the normal.
+    Raises
+    ------
+    ValueError
+        If the point and vector have different dimensions,
+        or if the vector is all zeros.
 
     Examples
     --------
@@ -75,6 +80,11 @@ class Plane(_BaseLinePlane):
         Plane
             Plane containing input point and spanned by the two vectors.
 
+        Raises
+        ------
+        ValueError
+            If the vectors are parallel.
+
         Examples
         --------
         >>> from skspatial.objects import Plane
@@ -117,6 +127,11 @@ class Plane(_BaseLinePlane):
         -------
         Plane
             Plane containing the three input points.
+
+        Raises
+        ------
+        ValueError
+            If the points are collinear.
 
         Examples
         --------
@@ -309,6 +324,11 @@ class Plane(_BaseLinePlane):
         Point
             The point at the intersection.
 
+        Raises
+        ------
+        ValueError
+            If the line and plane are parallel.
+
         Examples
         --------
         >>> from skspatial.objects import Line, Plane
@@ -362,6 +382,11 @@ class Plane(_BaseLinePlane):
         -------
         Line
             The line of intersection.
+
+        Raises
+        ------
+        ValueError
+            If the planes are parallel.
 
         Examples
         --------
@@ -432,6 +457,11 @@ class Plane(_BaseLinePlane):
         -------
         Plane
             The plane of best fit.
+
+        Raises
+        ------
+        ValueError
+            If the points are collinear.
 
         Examples
         --------

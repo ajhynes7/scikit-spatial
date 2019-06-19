@@ -75,6 +75,11 @@ class _BaseLinePlane:
         bool
             True if the objects are almost equivalent; false otherwise.
 
+        Raises
+        ------
+        ValueError
+            If the input doesn't have the same type as the object.
+
         Examples
         --------
         >>> from skspatial.objects import Line, Plane
