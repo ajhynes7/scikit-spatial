@@ -445,11 +445,11 @@ class Line(_BaseLinePlane):
         http://mathworld.wolfram.com/Line-LineIntersection.html
 
         """
-        if not self.is_coplanar(other):
-            raise ValueError("The lines must be coplanar.")
-
         if self.direction.is_parallel(other.direction):
             raise ValueError("The lines must not be parallel.")
+
+        if not self.is_coplanar(other):
+            raise ValueError("The lines must be coplanar.")
 
         # Vector from line A to line B.
         vector_ab = Vector.from_points(self.point, other.point)
