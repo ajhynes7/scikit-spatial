@@ -528,7 +528,7 @@ class Vector(_BaseArray1D):
         value_cross = np.cross(other, self)
 
         if value_cross.ndim != 0:
-            raise ValueError("The vectors must have dimension 2.")
+            raise ValueError("The vectors must be 2D.")
 
         return np.sign(value_cross).astype(int)
 
