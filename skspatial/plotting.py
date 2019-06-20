@@ -99,7 +99,7 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
 
 
 def plot_2d(*plotters):
-
+    """Plot multiple spatial objects in 2D."""
     fig, ax = plt.subplots()
 
     for plotter in plotters:
@@ -109,7 +109,7 @@ def plot_2d(*plotters):
 
 
 def plot_3d(*plotters):
-
+    """Plot multiple spatial objects in 3D."""
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
