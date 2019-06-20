@@ -533,3 +533,7 @@ class Plane(_BaseLinePlane):
         grid_z = -(a * grid_x + b * grid_y + d) / c
 
         ax_3d.plot_surface(grid_x, grid_y, grid_z, **kwargs)
+
+    def plotter(self, **kwargs):
+
+        return lambda ax: self.plot_3d(ax, **kwargs)

@@ -147,6 +147,14 @@ class _BaseArray(np.ndarray):
         for obj in objs:
             yield obj.set_dimension(dim_max)
 
+    def plotter(self, **kwargs):
+
+        if self.dimension == 2:
+            return lambda ax: self.plot_2d(ax, **kwargs)
+
+        elif self.dimension == 3:
+            return lambda ax: self.plot_3d(ax, **kwargs)
+
 
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
