@@ -4,7 +4,7 @@ import numpy as np
 
 from skspatial._plotting import _connect_points_2d, _connect_points_3d
 from skspatial.objects._base_line_plane import _BaseLinePlane
-from skspatial.objects.point import Points
+from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 from skspatial.transformation import transform_coordinates
 
