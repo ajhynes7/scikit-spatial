@@ -2,10 +2,10 @@
 
 import numpy as np
 
-from skspatial._plotting import _connect_points_2d, _connect_points_3d
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
+from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.transformation import transform_coordinates
 
 
@@ -217,7 +217,7 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        t : number
+        t : scalar
             Parameter that defines the new point along the line.
 
         Returns
@@ -336,7 +336,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        number
+        scalar
             The distance between the lines.
 
         Examples
@@ -558,7 +558,7 @@ class Line(_BaseLinePlane):
         ----------
         ax_2d : Axes
             Instance of :class:`~matplotlib.axes.Axes`.
-        t_1, t_2 : number
+        t_1, t_2 : scalar
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
         kwargs : dict, optional
@@ -580,7 +580,7 @@ class Line(_BaseLinePlane):
         ----------
         ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        t_1, t_2 : number
+        t_1, t_2 : scalar
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
         kwargs : dict, optional
@@ -591,3 +591,11 @@ class Line(_BaseLinePlane):
         point_2 = self.to_point(t_2)
 
         _connect_points_3d(ax_3d, point_1, point_2, **kwargs)
+
+    def plotter(self, **kwargs):
+        """Return a function that plots the object when passed a matplotlib axes."""
+        if self.dimension == 2:
+            return lambda ax: self.plot_2d(ax, **kwargs)
+
+        elif self.dimension == 3:
+            return lambda ax: self.plot_3d(ax, **kwargs)

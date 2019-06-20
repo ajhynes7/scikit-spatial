@@ -1,5 +1,6 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
+import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -95,3 +96,24 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
     zs = [point_a[2], point_b[2]]
 
     ax_3d.plot(xs, ys, zs, **kwargs)
+
+
+def plot_2d(*plotters):
+    """Plot multiple spatial objects in 2D."""
+    fig, ax = plt.subplots()
+
+    for plotter in plotters:
+        plotter(ax)
+
+    return fig, ax
+
+
+def plot_3d(*plotters):
+    """Plot multiple spatial objects in 3D."""
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    for plotter in plotters:
+        plotter(ax)
+
+    return fig, ax

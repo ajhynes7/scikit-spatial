@@ -5,9 +5,8 @@
 Fit a line to multiple 2D points.
 
 """
-import matplotlib.pyplot as plt
-
 from skspatial.objects import Points, Line
+from skspatial.plotting import plot_3d
 
 
 points = Points([
@@ -24,10 +23,7 @@ points = Points([
 line_fit = Line.best_fit(points)
 
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
-line_fit.plot_3d(ax, t_1=-7, t_2=7, c='k')
-points.plot_3d(ax, c='b', depthshade=False)
-
-plt.show()
+plot_3d(
+    line_fit.plotter(t_1=-7, t_2=7, c='k'),
+    points.plotter(c='b', depthshade=False),
+)

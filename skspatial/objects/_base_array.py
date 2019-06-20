@@ -21,6 +21,40 @@ class _BaseArray(np.ndarray):
 
         return obj
 
+    def __array_finalize__(self, obj):
+        """
+        Finalize creation of the array.
+
+        This function is required for adding extra attributes to a subclass of ndarray.
+        Without it, an array constructed from another may not have the extra attributes
+        (e.g., a projection of a vector onto another vector).
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector, Points
+
+        >>> vector_a = Vector([1, 0])
+        >>> vector_b = vector_a.project_vector([1, 1])
+
+        Without __array_finalize__, this vector will not have the dimension attribute.
+
+        >>> vector_a.dimension == vector_b.dimension
+        True
+
+        The same applies for 2D arrays.
+
+        >>> points = Points([[1, 2, 3], [4, 5, 6]])
+        >>> points_centered, centroid = points.mean_center()
+
+        >>> points.dimension == points_centered.dimension
+        True
+
+        """
+        if obj is None:
+            return
+
+        self.dimension = getattr(obj, 'dimension', None)
+
     @classmethod
     def _to_arrays(cls, *objs):
         """
@@ -114,6 +148,14 @@ class _BaseArray(np.ndarray):
 
         for obj in objs:
             yield obj.set_dimension(dim_max)
+
+    def plotter(self, **kwargs):
+        """Return a function that plots the object when passed a matplotlib axes."""
+        if self.dimension == 2:
+            return lambda ax: self.plot_2d(ax, **kwargs)
+
+        elif self.dimension == 3:
+            return lambda ax: self.plot_3d(ax, **kwargs)
 
 
 class _BaseArray1D(_BaseArray):
