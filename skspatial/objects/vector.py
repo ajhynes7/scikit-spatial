@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from skspatial._plotting import _connect_points_3d
 from skspatial.objects._base_array import _BaseArray1D
+from skspatial.plotting import _connect_points_3d
 
 
 class Vector(_BaseArray1D):

@@ -1,8 +1,8 @@
 """Module for the Point class."""
 
-from skspatial._plotting import _scatter_2d, _scatter_3d
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
+from skspatial.plotting import _scatter_2d, _scatter_3d
 
 
 class Point(_BaseArray1D):
