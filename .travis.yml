@@ -12,6 +12,8 @@ script:
     - tox -e lint_docs
 after_success:
     - codecov
+branches:
+    - master
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
