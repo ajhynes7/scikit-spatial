@@ -361,6 +361,7 @@ class Vector(_BaseArray1D):
         Examples
         --------
         >>> import numpy as np
+        >>> from skspatial.objects import Vector
 
         >>> Vector([1, 0]).angle_signed([1, 0])
         0.0
