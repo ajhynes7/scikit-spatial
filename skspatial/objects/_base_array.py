@@ -23,9 +23,11 @@ class _BaseArray(np.ndarray):
 
     def __array_finalize__(self, obj):
         """
-        This function is needed for adding extra attributes to a subclass of ndarray.
+        Finalize creation of the array.
 
-        Without it, an array constructed from another may not have the extra attributes.
+        This function is required for adding extra attributes to a subclass of ndarray.
+        Without it, an array constructed from another may not have the extra attributes
+        (e.g., a projection of a vector onto another vector).
 
         Examples
         --------
