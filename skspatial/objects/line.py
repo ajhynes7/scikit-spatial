@@ -217,7 +217,7 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        t : number
+        t : scalar
             Parameter that defines the new point along the line.
 
         Returns
@@ -336,7 +336,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        number
+        scalar
             The distance between the lines.
 
         Examples
@@ -558,7 +558,7 @@ class Line(_BaseLinePlane):
         ----------
         ax_2d : Axes
             Instance of :class:`~matplotlib.axes.Axes`.
-        t_1, t_2 : number
+        t_1, t_2 : scalar
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
         kwargs : dict, optional
@@ -580,7 +580,7 @@ class Line(_BaseLinePlane):
         ----------
         ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        t_1, t_2 : number
+        t_1, t_2 : scalar
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
         kwargs : dict, optional
