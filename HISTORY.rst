@@ -3,6 +3,11 @@ History
 =======
 
 
+1.4.1 (2019-06-21)
+------------------
+* Extra release because travis did not deploy the last one.
+
+
 1.4.0 (2019-06-21)
 ------------------
 * Add functions `plot_2d` and `plot_3d` to facilitate plotting multiple spatial objects.
