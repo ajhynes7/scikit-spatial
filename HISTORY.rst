@@ -3,6 +3,12 @@ History
 =======
 
 
+1.3.1 (2019-06-21)
+------------------
+* Add functions `plot_2d` and `plot_3d` to facilitate plotting multiple spatial objects.
+* Change `_plotting` module name to `plotting`, because it now contains some public functions.
+
+
 1.3.0 (2019-06-19)
 ------------------
 * Remove dpcontracts as a dependency. The contracts were causing performance issues.
