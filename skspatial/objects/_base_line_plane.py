@@ -1,16 +1,15 @@
-"""Classes for the Line and Plane spatial objects."""
+"""Module for private parent class of Line and Plane."""
 
 import inspect
-from copy import deepcopy
 
 import numpy as np
 
-from skspatial.objects._base_array import _BaseArray1D
+from skspatial.objects._base_composite import _BaseComposite
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
 
-class _BaseLinePlane:
+class _BaseLinePlane(_BaseComposite):
     """Private parent class for Line and Plane."""
 
     def __init__(self, point, vector):
@@ -37,27 +36,6 @@ class _BaseLinePlane:
         return "{}(point={}, {}={})".format(
             name_class, repr_point, name_vector, repr_vector
         )
-
-    def __getitem__(self, name_item):
-
-        return getattr(self, name_item)
-
-    def __setitem__(self, name_item, value):
-
-        return setattr(self, name_item, value)
-
-    def set_dimension(self, dim):
-
-        obj_new = deepcopy(self)
-
-        for name_item in vars(self):
-
-            attribute = self[name_item]
-
-            if isinstance(attribute, _BaseArray1D):
-                obj_new[name_item] = attribute.set_dimension(dim)
-
-        return obj_new
 
     def is_close(self, other, **kwargs):
         """
@@ -115,21 +93,3 @@ class _BaseLinePlane:
         is_parallel = self.vector.is_parallel(other.vector, **kwargs)
 
         return contains_point and is_parallel
-
-    def distance_point(self, point):
-        """Compute the distance from a point to this object."""
-        point_projected = self.project_point(point)
-
-        return point_projected.distance_point(point)
-
-    def contains_point(self, point, **kwargs):
-        """Check if this spatial object contains a point."""
-        distance = self.distance_point(point)
-
-        return np.isclose(distance, 0, **kwargs)
-
-    def sum_squares(self, points):
-
-        distances_squared = np.apply_along_axis(self.distance_point, 1, points) ** 2
-
-        return distances_squared.sum()

@@ -591,11 +591,3 @@ class Line(_BaseLinePlane):
         point_2 = self.to_point(t_2)
 
         _connect_points_3d(ax_3d, point_1, point_2, **kwargs)
-
-    def plotter(self, **kwargs):
-        """Return a function that plots the object when passed a matplotlib axes."""
-        if self.dimension == 2:
-            return lambda ax: self.plot_2d(ax, **kwargs)
-
-        elif self.dimension == 3:
-            return lambda ax: self.plot_3d(ax, **kwargs)
