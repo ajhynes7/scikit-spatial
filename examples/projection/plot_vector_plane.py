@@ -15,11 +15,10 @@ vector = Vector([1, 1, 1])
 vector_projected = plane.project_vector(vector)
 
 
-fig, ax = plot_3d(
+_, ax = plot_3d(
     plane.plotter(lims_x=(-5, 5), lims_y=(-5, 5), alpha=0.3),
     vector.plotter(point=plane.point, color='k'),
     vector_projected.plotter(point=plane.point, color='r', linewidth=2, zorder=3),
 )
 
 ax.set_zlim([-1, 1])
-fig.show()

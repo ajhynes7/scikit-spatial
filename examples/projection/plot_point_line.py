@@ -15,7 +15,7 @@ point = Point([1, 4])
 point_projected = line.project_point(point)
 line_projection = Line.from_points(point, point_projected)
 
-fig, ax = plot_2d(
+_, ax = plot_2d(
     line.plotter(t_2=5, c='k'),
     line_projection.plotter(c='k', linestyle='--'),
     point.plotter(s=75, c='k'),
@@ -23,4 +23,3 @@ fig, ax = plot_2d(
 )
 
 ax.axis('equal')
-fig.show()
