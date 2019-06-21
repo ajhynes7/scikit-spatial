@@ -3,6 +3,11 @@ History
 =======
 
 
+1.4.2 (2019-06-21)
+------------------
+* Extra release because regex for version tags was incorrect in travis.
+
+
 1.4.1 (2019-06-21)
 ------------------
 * Extra release because travis did not deploy the last one.
