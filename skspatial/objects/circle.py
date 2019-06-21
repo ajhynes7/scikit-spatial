@@ -45,6 +45,9 @@ class Circle(_BaseSphere):
         determinant = x_1 * y_2 - x_2 * y_1
         discriminant = self.radius ** 2 * d_r_squared - determinant ** 2
 
+        if discriminant < 0:
+            raise ValueError("The line does not intersect the circle.")
+
         root = np.sqrt(discriminant)
 
         # Array to compute plus/minus.
