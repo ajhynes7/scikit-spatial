@@ -599,7 +599,7 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def plot_2d(self, ax_2d, point=(0, 0), **kwargs):
+    def plot_2d(self, ax_2d, point=(0, 0), scalar=1, **kwargs):
         """
         Plot a 2D vector.
 
@@ -611,13 +611,18 @@ class Vector(_BaseArray1D):
             Instance of :class:`~matplotlib.axes.Axes`.
         point : array_like, optional
             Position of the vector tail (default is origin).
+        scalar : scalar, optional
+            Value used to scale the vector (default 1).
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.arrow`.
 
         """
-        ax_2d.arrow(*point, *self, **kwargs)
+        x, y = point
+        dx, dy = scalar * self
 
-    def plot_3d(self, ax_3d, point=(0, 0, 0), **kwargs):
+        ax_2d.arrow(x, y, dx, dy, **kwargs)
+
+    def plot_3d(self, ax_3d, point=(0, 0, 0), scalar=1, **kwargs):
         """
         Plot a 3D vector.
 
@@ -630,9 +635,12 @@ class Vector(_BaseArray1D):
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         point : array_like, optional
             Position of the vector tail (default is origin).
+        scalar : scalar, optional
+            Value used to scale the vector (default 1).
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
 
         """
-        point_2 = Vector(point) + self
+        point_2 = np.array(point) + scalar * self
+
         _connect_points_3d(ax_3d, point, point_2, **kwargs)
