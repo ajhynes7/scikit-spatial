@@ -5,7 +5,7 @@ Spatial objects
 ~~~~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
    skspatial.objects
 
