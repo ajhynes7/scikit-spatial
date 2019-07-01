@@ -11,7 +11,7 @@ from skspatial.transformation import transform_coordinates
 
 class Line(_BaseLinePlane):
     """
-    Line in space.
+    A line in space.
 
     The line is defined by a point and a direction vector.
 

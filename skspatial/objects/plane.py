@@ -11,7 +11,7 @@ from skspatial.objects.vector import Vector
 
 class Plane(_BaseLinePlane):
     """
-    Plane in space.
+    A plane in space.
 
     The plane is defined by a point and a normal vector.
 
