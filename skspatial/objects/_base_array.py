@@ -8,16 +8,14 @@ class _BaseArray(np.ndarray):
 
     def __new__(cls, array_like):
 
-        array = np.array(array_like)
-
-        if array.size == 0:
+        if np.size(array_like) == 0:
             raise ValueError("The array must not be empty.")
 
-        if not np.isfinite(array).all():
+        if not np.isfinite(array_like).all():
             raise ValueError("The values must all be finite.")
 
         # We cast the input array to be our class type.
-        obj = np.asarray(array).view(cls)
+        obj = np.asarray(array_like).view(cls)
 
         return obj
 
