@@ -246,7 +246,7 @@ class Line(_BaseLinePlane):
         """
         vector_along_line = t * self.direction
 
-        return self.point.add(vector_along_line)
+        return self.point + vector_along_line
 
     def project_point(self, point):
         """
@@ -278,7 +278,7 @@ class Line(_BaseLinePlane):
         vector_projected = self.direction.project_vector(vector_to_point)
 
         # Add the projected vector to the point on the line.
-        return self.point.add(vector_projected)
+        return self.point + vector_projected
 
     def project_vector(self, vector):
         """Project a vector onto the line."""
@@ -463,7 +463,7 @@ class Line(_BaseLinePlane):
         # Vector along line A to the intersection point.
         vector_a_scaled = num / denom * self.direction
 
-        return self.point.add(vector_a_scaled)
+        return self.point + vector_a_scaled
 
     @classmethod
     def best_fit(cls, points):

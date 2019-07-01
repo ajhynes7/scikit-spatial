@@ -19,9 +19,10 @@ def test_from_points(arrays):
 
     array_a, array_b = arrays
 
+    point_a = Point(array_a)
     vector_ab = Vector.from_points(array_a, array_b)
 
-    assert Point(array_a).add(vector_ab).is_close(array_b)
+    assert (point_a + vector_ab).is_close(array_b)
 
 
 @given(st_arrays_nonzero)
@@ -42,7 +43,7 @@ def test_unit(array):
 @given(st_arrays)
 def test_add_subtract(array):
     vector = Vector(array)
-    assert vector.add(array).subtract(array).is_close(array)
+    assert (vector + array - array).is_close(array)
 
 
 @given(st_arrays_nonzero, st_floats)

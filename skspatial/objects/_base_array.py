@@ -181,44 +181,6 @@ class _BaseArray1D(_BaseArray):
         """Check if array is close to another array."""
         return np.allclose(self, other, **kwargs)
 
-    def add(self, array):
-        """
-        Add an array to self.
-
-        Parameters
-        ----------
-        array : array_like
-            Input array.
-
-        Returns
-        -------
-        Array
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point, Vector
-
-        >>> point = Point([1, 2, 0])
-        >>> point.add([2, 9, 1])
-        Point([ 3, 11,  1])
-
-        >>> point.add([-1, 5, 0])
-        Point([0, 7, 0])
-
-        >>> vector = Vector([5, 9, 1])
-        >>> vector.add([1, 0, 0])
-        Vector([6, 9, 1])
-
-        >>> Vector([5, 9, 1, 0]).add([1, 2, 3, 4])
-        Vector([ 6, 11,  4,  4])
-
-        """
-        return self.__class__(np.add(self, array))
-
-    def subtract(self, array):
-        """Subtract an array from self."""
-        return self.__class__(np.subtract(self, array))
-
 
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""

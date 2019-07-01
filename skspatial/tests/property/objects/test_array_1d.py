@@ -16,7 +16,7 @@ def test_add(arrays):
     array_a, array_b = arrays
 
     # Add and subtract the array to obtain the same point.
-    assert Point(array_a).add(array_b).subtract(array_b).is_close(array_a)
+    assert (Point(array_a) + array_b - array_b).is_close(array_a)
 
 
 @given(st_arrays)
