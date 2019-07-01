@@ -264,6 +264,10 @@ class Plane(_BaseLinePlane):
         float
             Signed distance from the point to plane.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Point-PlaneDistance.html
+
         Examples
         --------
         >>> from skspatial.objects import Plane
@@ -280,10 +284,6 @@ class Plane(_BaseLinePlane):
         4.0
         >>> plane.distance_point_signed([5, 2, -4])
         -4.0
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Point-PlaneDistance.html
 
         """
         vector_to_point = Vector.from_points(self.point, point)
@@ -348,6 +348,10 @@ class Plane(_BaseLinePlane):
         ValueError
             If the line and plane are parallel.
 
+        References
+        ----------
+        http://geomalgorithms.com/a05-_intersect-1.html
+
         Examples
         --------
         >>> from skspatial.objects import Line, Plane
@@ -367,10 +371,6 @@ class Plane(_BaseLinePlane):
         Traceback (most recent call last):
         ...
         ValueError: The line and plane must not be parallel.
-
-        References
-        ----------
-        http://geomalgorithms.com/a05-_intersect-1.html
 
         """
         if self.normal.is_perpendicular(line.direction):
@@ -407,6 +407,10 @@ class Plane(_BaseLinePlane):
         ValueError
             If the planes are parallel.
 
+        References
+        ----------
+        http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
+
         Examples
         --------
         >>> from skspatial.objects import Plane
@@ -430,10 +434,6 @@ class Plane(_BaseLinePlane):
         Traceback (most recent call last):
         ...
         ValueError: The planes must not be parallel.
-
-        References
-        ----------
-        http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
 
         """
         if self.normal.is_parallel(other.normal):

@@ -177,6 +177,10 @@ class Line(_BaseLinePlane):
         ValueError
             If input is not a line.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Coplanar.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -193,10 +197,6 @@ class Line(_BaseLinePlane):
 
         >>> line_b.is_coplanar(line_c)
         False
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Coplanar.html
 
         """
         if not isinstance(other, type(self)):
@@ -339,6 +339,10 @@ class Line(_BaseLinePlane):
         scalar
             The distance between the lines.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineDistance.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -363,10 +367,6 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([0, 5, 0], [0, 0, 1])
         >>> line_a.distance_line(line_b)
         5.0
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Line-LineDistance.html
 
         """
         if self.direction.is_parallel(other.direction):
@@ -410,6 +410,10 @@ class Line(_BaseLinePlane):
         ValueError
             If the lines are parallel or are not coplanar.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineIntersection.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -439,10 +443,6 @@ class Line(_BaseLinePlane):
 
         >>> line_a.intersect_line(line_b)
         Point([5., 5., 5.])
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Line-LineIntersection.html
 
         """
         if self.direction.is_parallel(other.direction):

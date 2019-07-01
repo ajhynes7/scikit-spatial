@@ -20,6 +20,10 @@ def area_triangle(point_a, point_b, point_c):
     scalar
         The area of the triangle.
 
+    References
+    ----------
+    http://mathworld.wolfram.com/TriangleArea.html
+
     Examples
     --------
     >>> from skspatial.measurement import area_triangle
@@ -29,10 +33,6 @@ def area_triangle(point_a, point_b, point_c):
 
     >>> area_triangle([0, 0], [0, 2], [1, 1])
     1.0
-
-    References
-    ----------
-    http://mathworld.wolfram.com/TriangleArea.html
 
     """
     vector_ab = Vector.from_points(point_a, point_b)
@@ -61,6 +61,10 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     scalar
         The volume of the tetrahedron.
 
+    References
+    ----------
+    http://mathworld.wolfram.com/Tetrahedron.html
+
     Examples
     --------
     >>> from skspatial.measurement import volume_tetrahedron
@@ -71,10 +75,6 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
     >>> volume = volume_tetrahedron([0, 0, 0], [2, 0, 0], [1, 1, 0], [0, 0, 1])
     >>> volume.round(3)
     0.333
-
-    References
-    ----------
-    http://mathworld.wolfram.com/Tetrahedron.html
 
     """
     vector_ab = Vector.from_points(point_a, point_b)
