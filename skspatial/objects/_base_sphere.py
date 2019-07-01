@@ -13,7 +13,7 @@ class _BaseSphere(_BaseComposite):
     def __init__(self, point, radius):
 
         if radius <= 0:
-            raise ValueError("The radius must be greater than zero.")
+            raise ValueError("The radius must be positive.")
 
         self.point = Point(point)
         self.radius = radius
