@@ -2,8 +2,6 @@
 Circle-Line Intersection
 ========================
 
-Intersect a circle with a line.
-
 """
 from skspatial.objects import Circle, Line
 from skspatial.plotting import plot_2d

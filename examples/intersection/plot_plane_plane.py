@@ -2,8 +2,6 @@
 Plane-Plane Intersection
 ========================
 
-Intersect a plane with another plane.
-
 """
 from skspatial.objects import Plane
 from skspatial.plotting import plot_3d
