@@ -31,8 +31,14 @@ class Circle(_BaseSphere):
         # The points on the line are translated to mimic the circle being centered on the origin.
         vector_to_line = Vector.from_points(self.point, line.point)
 
-        point_1 = Point(vector_to_line)
+        """
+        # Two points on the line.
+        point_1 = line.point
         point_2 = point_1 + line.direction.unit()
+
+        # Translate the points on the line to mimic the circle being centered on the origin.
+        point_1 -= self.point
+        point_2 -= self.point
 
         x_1, y_1 = point_1
         x_2, y_2 = point_2
@@ -50,9 +56,7 @@ class Circle(_BaseSphere):
 
         root = np.sqrt(discriminant)
 
-        # Array to compute plus/minus.
-        pm = np.array([-1, 1])
-
+        pm = np.array([-1, 1])  # Array to compute plus/minus.
         sign = -1 if d_y < 0 else 1
 
         coords_x = (determinant * d_y + pm * sign * d_x * root) / d_r_squared
@@ -61,9 +65,9 @@ class Circle(_BaseSphere):
         point_a = Point([coords_x[0], coords_y[0]])
         point_b = Point([coords_x[1], coords_y[1]])
 
-        # Translate points back from origin circle to real circle.
-        point_a -= vector_to_line
-        point_b -= vector_to_line
+        # Translate the intersection points back from origin circle to real circle.
+        point_a += self.point
+        point_b += self.point
 
         return point_a, point_b
 
