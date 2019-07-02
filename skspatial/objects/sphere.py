@@ -136,7 +136,21 @@ class Sphere(_BaseSphere):
             The two points of intersection.
 
         Examples
-        -------
+        --------
+        >>> from skspatial.objects import Sphere, Line
+
+        >>> sphere = Sphere([0, 0, 0], 1)
+
+        >>> sphere.intersect_line(Line([0, 0, 0], [1, 0, 0]))
+        (Point([-1.,  0.,  0.]), Point([1., 0., 0.]))
+
+        >>> sphere.intersect_line(Line([0, 0, 1], [1, 0, 0]))
+        (Point([0., 0., 1.]), Point([0., 0., 1.]))
+
+        >>> sphere.intersect_line(Line([0, 0, 2], [1, 0, 0]))
+        Traceback (most recent call last):
+        ...
+        ValueError: The line does not intersect the sphere.
 
         """
         vector_to_line = Vector.from_points(self.point, line.point)
