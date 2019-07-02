@@ -1,7 +1,7 @@
 import hypothesis.strategies as st
 import numpy as np
 import pytest
-from hypothesis import given
+from hypothesis import assume, given
 
 from skspatial._constants import ATOL
 from skspatial.objects import Vector
@@ -9,8 +9,10 @@ from skspatial.tests.property.strategies import (
     DIM_MAX,
     DIM_MIN,
     st_array_fixed,
+    st_circle,
     st_line,
     st_plane,
+    st_sphere,
 )
 
 
@@ -49,3 +51,17 @@ def test_project_point(data, name_object):
     assert distance_projection < distance_points or np.isclose(
         distance_projection, distance_points
     )
+
+
+@pytest.mark.parametrize('st_circle_or_sphere', [st_circle(), st_sphere()])
+@given(data=st.data())
+def test_project_point_circle_sphere(data, st_circle_or_sphere):
+
+    circle_or_sphere = data.draw(st_circle_or_sphere)
+    array_point = data.draw(st_array_fixed(circle_or_sphere.dimension))
+
+    assume(not circle_or_sphere.point.is_close(array_point))
+
+    point_projected = circle_or_sphere.project_point(array_point)
+
+    assert np.isclose(circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius)

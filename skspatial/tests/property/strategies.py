@@ -3,7 +3,7 @@
 import hypothesis.strategies as st
 
 from skspatial._constants import ATOL
-from skspatial.objects import Point, Points, Vector, Line, Plane
+from skspatial.objects import Point, Points, Vector, Line, Plane, Circle, Sphere
 
 
 DIM_MIN, DIM_MAX = 2, 10
@@ -70,6 +70,18 @@ def st_plane(draw, dim):
 
 
 @st.composite
+def st_circle(draw):
+    """Generate a Circle object."""
+    return Circle(draw(st_array_fixed(2)), draw(st_radii))
+
+
+@st.composite
+def st_sphere(draw):
+    """Generate a Sphere object."""
+    return Sphere(draw(st_array_fixed(3)), draw(st_radii))
+
+
+@st.composite
 def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
     """Generate multiple spatial objects with the same dimension."""
     dim = draw(st.integers(min_value=min_dim, max_value=max_dim))
@@ -83,3 +95,7 @@ st_floats = st.floats(min_value=-1e4, max_value=1e4).filter(
 
 st_arrays = st.lists(st_floats, min_size=DIM_MIN, max_size=DIM_MAX)
 st_arrays_nonzero = st_arrays.filter(lambda array: any(array))
+
+st_radii = st.floats(min_value=0, max_value=1e4).filter(
+    lambda x: x > ATOL
+)
