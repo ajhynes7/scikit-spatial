@@ -1,15 +1,16 @@
-"""Module for private parent class of Line and Plane."""
+"""Classes for the Line and Plane spatial objects."""
 
 import inspect
+from copy import deepcopy
 
 import numpy as np
 
-from skspatial.objects._base_composite import _BaseComposite
+from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
 
-class _BaseLinePlane(_BaseComposite):
+class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
     def __init__(self, point, vector):
@@ -33,7 +34,30 @@ class _BaseLinePlane(_BaseComposite):
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
+        return "{}(point={}, {}={})".format(
+            name_class, repr_point, name_vector, repr_vector
+        )
+
+    def __getitem__(self, name_item):
+
+        return getattr(self, name_item)
+
+    def __setitem__(self, name_item, value):
+
+        return setattr(self, name_item, value)
+
+    def set_dimension(self, dim):
+
+        obj_new = deepcopy(self)
+
+        for name_item in vars(self):
+
+            attribute = self[name_item]
+
+            if isinstance(attribute, _BaseArray1D):
+                obj_new[name_item] = attribute.set_dimension(dim)
+
+        return obj_new
 
     def is_close(self, other, **kwargs):
         """
@@ -91,3 +115,21 @@ class _BaseLinePlane(_BaseComposite):
         is_parallel = self.vector.is_parallel(other.vector, **kwargs)
 
         return contains_point and is_parallel
+
+    def distance_point(self, point):
+        """Compute the distance from a point to this object."""
+        point_projected = self.project_point(point)
+
+        return point_projected.distance_point(point)
+
+    def contains_point(self, point, **kwargs):
+        """Check if this spatial object contains a point."""
+        distance = self.distance_point(point)
+
+        return np.isclose(distance, 0, **kwargs)
+
+    def sum_squares(self, points):
+
+        distances_squared = np.apply_along_axis(self.distance_point, 1, points) ** 2
+
+        return distances_squared.sum()

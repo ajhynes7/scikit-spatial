@@ -215,6 +215,20 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) <= 2
 
+    def is_close(self, other, **kwargs):
+        """
+        Check if this set of points is close to another.
+
+        Parameters
+        ----------
+        other : array_like
+            Other 2D array representing multiple points.
+        kwargs : dict, optional
+            Additional keywords passed to :func:`numpy.allclose`
+
+        """
+        return np.allclose(self, other, **kwargs)
+
     def plot_2d(self, ax_2d, **kwargs):
         """
         Plot the points on a 2D scatter plot.

@@ -5,8 +5,6 @@ skspatial.objects.Vector
 .. autoclass:: skspatial.objects.Vector
 
 
-Methods
--------
 .. autosummary::
    :toctree: Vector/methods
 

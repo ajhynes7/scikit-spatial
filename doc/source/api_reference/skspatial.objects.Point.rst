@@ -5,8 +5,6 @@ skspatial.objects.Point
 .. autoclass:: skspatial.objects.Point
 
 
-Methods
--------
 .. autosummary::
    :toctree: Point/methods
 

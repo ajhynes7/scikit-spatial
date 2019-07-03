@@ -8,14 +8,16 @@ class _BaseArray(np.ndarray):
 
     def __new__(cls, array_like):
 
-        if np.size(array_like) == 0:
+        array = np.array(array_like)
+
+        if array.size == 0:
             raise ValueError("The array must not be empty.")
 
-        if not np.isfinite(array_like).all():
+        if not np.isfinite(array).all():
             raise ValueError("The values must all be finite.")
 
         # We cast the input array to be our class type.
-        obj = np.asarray(array_like).view(cls)
+        obj = np.asarray(array).view(cls)
 
         return obj
 
@@ -147,41 +149,6 @@ class _BaseArray(np.ndarray):
         for obj in objs:
             yield obj.set_dimension(dim_max)
 
-    def is_close(self, other, **kwargs):
-        """
-        Check if the array is close to another.
-
-        Parameters
-        ----------
-        other : array_like
-            Other array.
-        kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.allclose`
-
-        Returns
-        -------
-        True if the arrays are close; false otherwise.
-
-        """
-        return np.allclose(self, other, **kwargs)
-
-    def is_equal(self, other):
-        """
-        Check if the array is equal to another.
-
-        Parameters
-        ----------
-        other : array_like
-            Other array.
-
-        Returns
-        -------
-        bool
-            True if the arrays are equal; false otherwise.
-
-        """
-        return np.array_equal(self, other)
-
     def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:
@@ -209,6 +176,48 @@ class _BaseArray1D(_BaseArray):
 
         array = _set_dimension_1d(self, dim)
         return self.__class__(array)
+
+    def is_close(self, other, **kwargs):
+        """Check if array is close to another array."""
+        return np.allclose(self, other, **kwargs)
+
+    def add(self, array):
+        """
+        Add an array to self.
+
+        Parameters
+        ----------
+        array : array_like
+            Input array.
+
+        Returns
+        -------
+        Array
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point, Vector
+
+        >>> point = Point([1, 2, 0])
+        >>> point.add([2, 9, 1])
+        Point([ 3, 11,  1])
+
+        >>> point.add([-1, 5, 0])
+        Point([0, 7, 0])
+
+        >>> vector = Vector([5, 9, 1])
+        >>> vector.add([1, 0, 0])
+        Vector([6, 9, 1])
+
+        >>> Vector([5, 9, 1, 0]).add([1, 2, 3, 4])
+        Vector([ 6, 11,  4,  4])
+
+        """
+        return self.__class__(np.add(self, array))
+
+    def subtract(self, array):
+        """Subtract an array from self."""
+        return self.__class__(np.subtract(self, array))
 
 
 class _BaseArray2D(_BaseArray):

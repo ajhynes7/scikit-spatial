@@ -2,6 +2,8 @@
 3D Line-Line Intersection
 =========================
 
+Intersect two 3D lines.
+
 """
 from skspatial.objects import Line
 from skspatial.plotting import plot_3d

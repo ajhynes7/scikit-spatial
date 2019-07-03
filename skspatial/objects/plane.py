@@ -11,7 +11,7 @@ from skspatial.objects.vector import Vector
 
 class Plane(_BaseLinePlane):
     """
-    A plane in space.
+    Plane in space.
 
     The plane is defined by a point and a normal vector.
 
@@ -241,11 +241,11 @@ class Plane(_BaseLinePlane):
         # Perpendicular vector from the point in space to the plane.
         vector_projected = self.normal.project_vector(vector_to_plane)
 
-        return Point(point) + vector_projected
+        return Point(point).add(vector_projected)
 
     def project_vector(self, vector):
         """Project a vector onto the plane."""
-        point_in_space = self.point + vector
+        point_in_space = self.point.add(vector)
         point_on_plane = self.project_point(point_in_space)
 
         return Vector.from_points(self.point, point_on_plane)
@@ -264,10 +264,6 @@ class Plane(_BaseLinePlane):
         float
             Signed distance from the point to plane.
 
-        References
-        ----------
-        http://mathworld.wolfram.com/Point-PlaneDistance.html
-
         Examples
         --------
         >>> from skspatial.objects import Plane
@@ -284,6 +280,10 @@ class Plane(_BaseLinePlane):
         4.0
         >>> plane.distance_point_signed([5, 2, -4])
         -4.0
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Point-PlaneDistance.html
 
         """
         vector_to_point = Vector.from_points(self.point, point)
@@ -348,10 +348,6 @@ class Plane(_BaseLinePlane):
         ValueError
             If the line and plane are parallel.
 
-        References
-        ----------
-        http://geomalgorithms.com/a05-_intersect-1.html
-
         Examples
         --------
         >>> from skspatial.objects import Line, Plane
@@ -372,6 +368,10 @@ class Plane(_BaseLinePlane):
         ...
         ValueError: The line and plane must not be parallel.
 
+        References
+        ----------
+        http://geomalgorithms.com/a05-_intersect-1.html
+
         """
         if self.normal.is_perpendicular(line.direction):
             raise ValueError("The line and plane must not be parallel.")
@@ -384,7 +384,7 @@ class Plane(_BaseLinePlane):
         # Vector along the line to the intersection point.
         vector_line_scaled = num / denom * line.direction
 
-        return line.point + vector_line_scaled
+        return line.point.add(vector_line_scaled)
 
     def intersect_plane(self, other):
         """
@@ -406,10 +406,6 @@ class Plane(_BaseLinePlane):
         ------
         ValueError
             If the planes are parallel.
-
-        References
-        ----------
-        http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
 
         Examples
         --------
@@ -434,6 +430,10 @@ class Plane(_BaseLinePlane):
         Traceback (most recent call last):
         ...
         ValueError: The planes must not be parallel.
+
+        References
+        ----------
+        http://tbirdal.blogspot.com/2016/10/a-better-approach-to-plane-intersection.html
 
         """
         if self.normal.is_parallel(other.normal):

@@ -9,5 +9,3 @@ skspatial.objects
    skspatial.objects.Vector
    skspatial.objects.Line
    skspatial.objects.Plane
-   skspatial.objects.Circle
-   skspatial.objects.Sphere

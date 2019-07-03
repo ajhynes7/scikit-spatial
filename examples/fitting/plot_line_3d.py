@@ -2,7 +2,7 @@
 3D Line of Best Fit
 ===================
 
-Fit a line to multiple 3D points.
+Fit a line to multiple 2D points.
 
 """
 from skspatial.objects import Points, Line
