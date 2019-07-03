@@ -27,18 +27,20 @@ Vector([0.70710678, 0.70710678])
 Plane of Best Fit
 -----------------
 
-Find the best fitting plane of multiple points.
+Find the best fitting plane of multiple 3D points.
 
 >>> from skspatial.objects import Plane
 
-The point on the plane is the centroid of the points.
+>>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]
 
 >>> plane = Plane.best_fit(points)
 
+The point on the plane is the centroid of the points.
+
 >>> plane.point
-Point([1.6, 1.6, 0. ])
+Point([0.25, 0.25, 0.25])
 
 The plane normal is a unit vector.
 
 >>> plane.normal
-Vector([0., 0., 1.])
+Vector([-0.57735027, -0.57735027, -0.57735027])

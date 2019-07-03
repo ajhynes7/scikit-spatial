@@ -18,14 +18,15 @@ Point([10., 10.])
 
 In order to intersect, the lines must be coplanar and not parallel. An error is returned otherwise.
 
->>> line_b = Line([10, 0, 0], [1, 1, 1])
+>>> line_a = Line([0, 0, 0], [1, 0, 0])
+>>> line_b = Line([0, 1, 0], [1, 1, 1])
 
->>> line_a.set_dimension(3).intersect_line(line_b)
+>>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
 ...
 ValueError: The lines must be coplanar.
 
->>> line_b = Line([10, 0], [1, 1])
+>>> line_b = Line([0, 1, 0], [5, 0, 0])
 >>> line_a.intersect_line(line_b)
 Traceback (most recent call last):
 ...

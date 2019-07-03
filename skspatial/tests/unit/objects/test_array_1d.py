@@ -8,21 +8,6 @@ from skspatial.objects import Point, Vector
 
 
 @pytest.mark.parametrize(
-    "line_or_plane, repr_expected",
-    [
-        (Point([0, 0]), "Point([0, 0])"),
-        (Vector([0, 0]), "Vector([0, 0])"),
-        (Point([-11, 0]), "Point([-11,   0])"),
-        (Vector([-11, 0]), "Vector([-11,   0])"),
-        (Vector([-11.0, 0.0]), "Vector([-11.,   0.])"),
-    ],
-)
-def test_repr(line_or_plane, repr_expected):
-
-    assert repr(line_or_plane) == repr_expected
-
-
-@pytest.mark.parametrize(
     "array", [[1, 0], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]
 )
 def test_equality(array):
@@ -62,9 +47,20 @@ def test_dimension(class_spatial, array, dim_expected):
         ([0, 0], 3, [0, 0, 0]),
         ([0, 0], 5, [0, 0, 0, 0, 0]),
         ([6, 3, 7], 4, [6, 3, 7, 0]),
+        ([0], 0, None),
+        ([0, 0], 1, None),
+        ([6, 3, 7], 2, None),
     ],
 )
 def test_set_dimension(class_spatial, array, dim, array_expected):
 
-    object_spatial = class_spatial(array).set_dimension(dim)
-    assert object_spatial.is_close(array_expected)
+    if array_expected is None:
+        with pytest.raises(
+            ValueError,
+            match="The desired dimension cannot be less than the current dimension.",
+        ):
+            class_spatial(array).set_dimension(dim)
+
+    else:
+        object_spatial = class_spatial(array).set_dimension(dim)
+        assert object_spatial.is_close(array_expected)

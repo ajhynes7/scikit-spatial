@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Line, Plane
+from skspatial.objects import Line, Plane, Points
 
 
 @pytest.mark.parametrize(
@@ -99,7 +99,8 @@ def test_best_fit_line(points, line_expected):
 )
 def test_best_fit_plane(points, plane_expected):
 
-    plane_fit = Plane.best_fit(np.array(points))
+    points = Points(points).set_dimension(3)
+    plane_fit = Plane.best_fit(points)
 
     assert plane_fit.is_close(plane_expected)
     assert plane_fit.point.is_close(plane_expected.point)

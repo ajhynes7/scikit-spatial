@@ -31,14 +31,19 @@ def test_from_points(array_a, array_b, vector_expected):
         ([1, 1, 1], [np.sqrt(3) / 3, np.sqrt(3) / 3, np.sqrt(3) / 3]),
         ([2, 0, 0, 0], [1, 0, 0, 0]),
         ([3, 3, 0, 0], [np.sqrt(2) / 2, np.sqrt(2) / 2, 0, 0]),
+        ([0], None),
+        ([0, 0], None),
+        ([0, 0, 0], None),
     ],
 )
 def test_unit(array, array_unit_expected):
 
-    vector = Vector(array)
-    vector_unit_expected = Vector(array_unit_expected)
+    if array_unit_expected is None:
+        with pytest.raises(ValueError, match="The magnitude must not be zero."):
+            Vector(array).unit()
 
-    assert vector.unit().is_close(vector_unit_expected)
+    else:
+        assert Vector(array).unit().is_close(array_unit_expected)
 
 
 @pytest.mark.parametrize(

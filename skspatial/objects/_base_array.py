@@ -48,104 +48,7 @@ class _BaseArray(np.ndarray):
         True
 
         """
-        if obj is None:
-            return
-
         self.dimension = getattr(obj, 'dimension', None)
-
-    @classmethod
-    def _to_arrays(cls, *objs):
-        """
-        Convert array_like inputs to an array class.
-
-        Other spatial objects (e.g., Line) are ignored.
-
-        Parameters
-        ----------
-        objs
-            Input objects
-
-        Yields
-        ------
-        object
-            Object converted to BaseArray if it was an array_like.
-            Otherwise, the same object is yielded.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point, Line
-
-        >>> list(Point._to_arrays([1, 2], 1, [4, 5], 10))
-        [Point([1, 2]), 1, Point([4, 5]), 10]
-
-        >>> line = Line([1, 2], [4, 3])
-        >>> list(Point._to_arrays(line, [5, 9]))
-        [Line(point=Point([1, 2]), direction=Vector([4, 3])), Point([5, 9])]
-
-        """
-        for obj in objs:
-
-            if hasattr(obj, '__len__') and not hasattr(obj, 'set_dimension'):
-                yield cls(obj)
-            else:
-                yield obj
-
-    @classmethod
-    def normalize_dimension(cls, *objs):
-        """
-        Normalize the dimensions of all arrays associated with the input objects.
-
-        The dimension of each array is set to the largest dimension of the input arrays.
-        Array-like objects (e.g. `list`, `ndarray`) are converted
-        to the input spatial array class (e.g. `Point`).
-
-        Objects that are already a spatial array (e.g. `Vector`) do not change type.
-
-        Yields
-        ------
-        object
-            Spatial object with the largest dimension of the inputs.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Point, Points, Vector, Line
-
-        >>> line = Line([1, 2], [4, 3])
-        >>> point, line = Point.normalize_dimension([5, 0, 5], line)
-
-        >>> point
-        Point([5, 0, 5])
-
-        >>> line
-        Line(point=Point([1, 2, 0]), direction=Vector([4, 3, 0]))
-
-        >>> points = Points([[1, 2], [4, 5]])
-        >>> vector, points = Vector.normalize_dimension([6, 4, 7, 1], points)
-
-        >>> vector
-        Vector([6, 4, 7, 1])
-
-        >>> points
-        Points([[1, 2, 0, 0],
-                [4, 5, 0, 0]])
-
-        >>> vector = Vector([0, 1, 1])
-        >>> point, vector = Point.normalize_dimension([1, 2], vector)
-
-        >>> point
-        Point([1, 2, 0])
-
-        >>> vector
-        Vector([0, 1, 1])
-
-        """
-        # Convert objects to the base array class so we can get/set the dimension.
-        objs = list(cls._to_arrays(*objs))
-
-        dim_max = max([obj.dimension for obj in objs])
-
-        for obj in objs:
-            yield obj.set_dimension(dim_max)
 
     def is_close(self, other, **kwargs):
         """
@@ -206,9 +109,50 @@ class _BaseArray1D(_BaseArray):
         return array
 
     def set_dimension(self, dim):
+        """
+        Set the dimension (length) of the 1D array.
 
-        array = _set_dimension_1d(self, dim)
-        return self.__class__(array)
+        Parameters
+        ----------
+        dim : int
+            Desired dimension.
+            Must be greater than or equal to the current dimension.
+
+        Returns
+        -------
+        ndarray
+            (dim,) array.
+
+        Raises
+        ------
+        ValueError
+            If the desired dimension is less than the current dimension.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point
+
+        >>> Point([1]).set_dimension(2)
+        Point([1, 0])
+
+        >>> Point([1, 2]).set_dimension(4)
+        Point([1, 2, 0, 0])
+
+        >>> Point([1, 2, 3]).set_dimension(2)
+        Traceback (most recent call last):
+        ...
+        ValueError: The desired dimension cannot be less than the current dimension.
+
+        """
+        if dim < self.dimension:
+            raise ValueError(
+                "The desired dimension cannot be less than the current dimension."
+            )
+
+        n_zeros = dim - self.size
+        array_padded = np.pad(self, (0, n_zeros), 'constant')
+
+        return self.__class__(array_padded)
 
 
 class _BaseArray2D(_BaseArray):
@@ -226,107 +170,54 @@ class _BaseArray2D(_BaseArray):
         return array
 
     def set_dimension(self, dim):
+        """
+        Set the dimension (width) of the 2D array.
 
-        array = _set_dimension_2d(self, dim)
-        return self.__class__(array)
+        E.g., each row of the array represents a point in space.
+        The width of the array is the dimension of the points.
 
+        Parameters
+        ----------
+        dim : int
+            Desired dimension.
+            Must be greater than or equal to the current dimension.
 
-def _set_dimension_1d(array, dim):
-    """
-    Set the desired dimension (length) of the 1D array.
+        Returns
+        -------
+        ndarray
+            (N, dim) array.
 
-    Parameters
-    ----------
-    array : ndarray
-        (d,) input array of with dimension d.
-    dim : int
-        Desired dimension.
-        Must be greater than or equal to the current dimension d.
+        Raises
+        ------
+        ValueError
+            If the desired dimension is less than the current dimension.
 
-    Returns
-    -------
-    ndarray
-        (dim,) array.
+        Examples
+        --------
+        >>> from skspatial.objects import Points
 
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from skspatial.objects._base_array import _set_dimension_1d
+        >>> points = Points([[1, 0], [2, 3]])
 
-    >>> _set_dimension_1d(np.array([1]), 2)
-    array([1, 0])
+        >>> points.set_dimension(3)
+        Points([[1, 0, 0],
+                [2, 3, 0]])
 
-    >>> _set_dimension_1d(np.array([1, 2]), 4)
-    array([1, 2, 0, 0])
+        >>> points.set_dimension(5)
+        Points([[1, 0, 0, 0, 0],
+                [2, 3, 0, 0, 0]])
 
-    >>> _set_dimension_1d(np.array([[1, 2], [2, 3]]), 1)
-    Traceback (most recent call last):
-    ...
-    ValueError: The array must be 1D.
+        >>> Points([[1, 2, 3], [4, 5, 6]]).set_dimension(2)
+        Traceback (most recent call last):
+        ...
+        ValueError: The desired dimension cannot be less than the current dimension.
 
-    >>> _set_dimension_1d(np.array([1, 2]), 1)
-    Traceback (most recent call last):
-    ...
-    ValueError: The desired dimension cannot be less than the current dimension.
+        """
+        if dim < self.dimension:
+            raise ValueError(
+                "The desired dimension cannot be less than the current dimension."
+            )
 
-    """
-    if array.ndim != 1:
-        raise ValueError("The array must be 1D.")
+        n_cols = self.shape[1]
+        array_padded = np.pad(self, ((0, 0), (0, dim - n_cols)), 'constant')
 
-    if dim < array.size:
-        raise ValueError(
-            "The desired dimension cannot be less than the current dimension."
-        )
-
-    n_zeros = dim - array.size
-
-    return np.pad(array, (0, n_zeros), 'constant')
-
-
-def _set_dimension_2d(array, dim):
-    """
-    Change the dimension (width) of a 2D NumPy array.
-
-    E.g., each row of the array represents a point in space.
-    The width of the array is the dimension of the points.
-
-    Parameters
-    ----------
-    array : (N, D) ndarray
-        Array of N rows with dimension D.
-    dim : int
-        Desired dimension.
-        Must be greater than or equal to the current dimension d.
-
-    Returns
-    -------
-    ndarray
-        (N, dim) array.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> from skspatial.objects._base_array import _set_dimension_2d
-
-    >>> array = np.array([[1, 0], [2, 3]])
-
-    >>> _set_dimension_2d(array, 3)
-    array([[1, 0, 0],
-           [2, 3, 0]])
-
-    >>> _set_dimension_2d(array, 5)
-    array([[1, 0, 0, 0, 0],
-           [2, 3, 0, 0, 0]])
-
-    >>> _set_dimension_2d(np.array([1, 2]), 3)
-    Traceback (most recent call last):
-    ...
-    ValueError: The array must be 2D.
-
-    """
-    if array.ndim != 2:
-        raise ValueError("The array must be 2D.")
-
-    n_cols = array.shape[1]
-
-    return np.pad(array, ((0, 0), (0, dim - n_cols)), 'constant')
+        return self.__class__(array_padded)

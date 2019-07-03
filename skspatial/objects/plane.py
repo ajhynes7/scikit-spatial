@@ -189,9 +189,17 @@ class Plane(_BaseLinePlane):
         tuple
             Coefficients a, b, c, d.
 
+        Raises
+        ------
+        ValueError
+            If the plane dimension is higher than 3.
+
         Examples
         --------
         >>> from skspatial.objects import Plane
+
+        >>> Plane(point=[1, 1], normal=[1, 0]).cartesian()
+        (1, 0, 0, -1)
 
         >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
         (0, 0, 1, 0)
@@ -202,11 +210,18 @@ class Plane(_BaseLinePlane):
         >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
         (10, 2, 4, -54)
 
-        """
-        # The point and normal must be 3D to extract the coefficients.
-        self = self.set_dimension(3)
+        >>> Plane([0, 0, 0, 0], [1, 0, 0, 0]).cartesian()
+        Traceback (most recent call last):
+        ...
+        ValueError: The plane dimension must be <= 3.
 
-        a, b, c = self.normal
+        """
+        if self.dimension > 3:
+            raise ValueError("The plane dimension must be <= 3.")
+
+        # The normal must be 3D to extract the coefficients.
+        a, b, c = self.normal.set_dimension(3)
+
         d = -self.normal.dot(self.point)
 
         return a, b, c, d
@@ -463,14 +478,12 @@ class Plane(_BaseLinePlane):
     @classmethod
     def best_fit(cls, points):
         """
-        Return the plane of best fit for a set of points.
-
-        The points must not have a higher dimension than 3D.
+        Return the plane of best fit for a set of 3D points.
 
         Parameters
         ----------
         points : array_like
-             Input points.
+             Input 3D points.
 
         Returns
         -------
@@ -480,7 +493,7 @@ class Plane(_BaseLinePlane):
         Raises
         ------
         ValueError
-            If the points are collinear.
+            If the points are collinear or are not 3D.
 
         Examples
         --------
@@ -495,11 +508,11 @@ class Plane(_BaseLinePlane):
         """
         points = Points(points)
 
+        if points.dimension != 3:
+            raise ValueError("The points must be 3D.")
+
         if points.are_collinear(tol=0):
             raise ValueError("The points must not be collinear.")
-
-        if points.dimension < 3:
-            points = points.set_dimension(3)
 
         points_centered, centroid = points.mean_center()
 

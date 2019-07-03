@@ -50,11 +50,15 @@ def test_from_points_failure(point_a, point_b, point_c):
         (Plane([0, 0, 0], [0, 0, 25]), [0, 0, 25, 0]),
         (Plane([1, 2, 0], [5, 4, 6]), [5, 4, 6, -13]),
         (Plane([-4, 5, 8], [22, -3, 6]), [22, -3, 6, 55]),
+        (Plane([0, 0, 0, 0], [1, 2, 3, 4]), None),
     ],
 )
 def test_cartesian(plane, coeffs_expected):
     """Test the coefficients of the Cartesian plane equation."""
 
-    a, b, c, d = plane.cartesian()
+    if coeffs_expected is None:
+        with pytest.raises(ValueError, match="The plane dimension must be <= 3."):
+            plane.cartesian()
 
-    assert np.allclose([a, b, c, d], coeffs_expected)
+    else:
+        assert np.allclose(plane.cartesian(), coeffs_expected)

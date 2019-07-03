@@ -174,7 +174,7 @@ class Line(_BaseLinePlane):
 
         Raises
         ------
-        ValueError
+        TypeError
             If input is not a line.
 
         References
@@ -198,9 +198,18 @@ class Line(_BaseLinePlane):
         >>> line_b.is_coplanar(line_c)
         False
 
+        The input must be another line.
+
+        >>> from skspatial.objects import Plane
+
+        >>> line_a.is_coplanar(Plane(line_a.point, line_a.vector))
+        Traceback (most recent call last):
+        ...
+        TypeError: The input must also be a line.
+
         """
         if not isinstance(other, type(self)):
-            raise ValueError("The input must also be a line.")
+            raise TypeError("The input must also be a line.")
 
         point_1 = self.point
         point_2 = self.to_point()

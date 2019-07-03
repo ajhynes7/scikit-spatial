@@ -28,9 +28,8 @@ def test_best_fit_line(data):
 def test_best_fit_plane(data):
 
     n_points = data.draw(st.integers(min_value=3, max_value=5))
-    dim = data.draw(st.integers(min_value=2, max_value=4))
 
-    points = Points([data.draw(st_array_fixed(dim)) for _ in range(n_points)])
+    points = Points([data.draw(st_array_fixed(3)) for _ in range(n_points)])
     assume(not points.are_collinear(tol=ATOL))
 
     plane_fit = Plane.best_fit(points)

@@ -67,11 +67,19 @@ def test_is_parallel(array_u, array_v, bool_expected):
         ([0, 1], [-1, 20], -1),
         ([0, 1], [-1, -20], -1),
         ([0, 1], [-5, 50], -1),
+        ([0], [1], None),
+        ([0, 0, 0], [1, 1, 1], None),
+        ([0, 0, 0, 0], [1, 1, 1, 1], None),
     ],
 )
 def test_side_vector(array_a, array_b, value_expected):
 
-    assert Vector(array_a).side_vector(array_b) == value_expected
+    if value_expected is None:
+        with pytest.raises(ValueError):
+            Vector(array_a).side_vector(array_b)
+
+    else:
+        assert Vector(array_a).side_vector(array_b) == value_expected
 
 
 @pytest.mark.parametrize(
@@ -143,9 +151,15 @@ def test_are_collinear(points, bool_expected):
         (Line([0, 0, 1], [1, 1, 0]), Line([0, 0, 0], [0, 1, 0]), False),
         (Line([0, 0, 1], [1, 1, 0]), Line([0, 0, 1], [0, 1, 0]), True),
         (Line([0, 0, 1], [1, 0, 1]), Line([0, 0, 1], [2, 0, 2]), True),
+        (Line([0, 0, 1], [1, 0, 1]), Plane([0, 0, 1], [2, 0, 2]), None),
     ],
 )
 def test_is_coplanar(line_a, line_b, bool_expected):
     """Test checking if two lines are coplanar."""
 
-    assert line_a.is_coplanar(line_b) == bool_expected
+    if bool_expected is None:
+        with pytest.raises(TypeError, match="The input must also be a line."):
+            line_a.is_coplanar(line_b) == bool_expected
+
+    else:
+        assert line_a.is_coplanar(line_b) == bool_expected
