@@ -53,7 +53,7 @@ class _BaseLinePlane(_BaseComposite):
 
         Raises
         ------
-        ValueError
+        TypeError
             If the input doesn't have the same type as the object.
 
         Examples
@@ -81,11 +81,11 @@ class _BaseLinePlane(_BaseComposite):
         >>> line_a.is_close(plane_a)
         Traceback (most recent call last):
         ...
-        ValueError: The input must have the same type as the object.
+        TypeError: The input must have the same type as the object.
 
         """
         if not isinstance(other, type(self)):
-            raise ValueError("The input must have the same type as the object.")
+            raise TypeError("The input must have the same type as the object.")
 
         contains_point = self.contains_point(other.point, **kwargs)
         is_parallel = self.vector.is_parallel(other.vector, **kwargs)
