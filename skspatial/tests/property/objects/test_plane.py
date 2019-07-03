@@ -1,8 +1,8 @@
 from hypothesis import assume, given
 
-from skspatial._constants import ATOL
 from skspatial.objects import Points, Plane
-from skspatial.tests.property.strategies import consistent_dim, st_array_fixed
+from .constants import ATOL
+from .strategies import consistent_dim, st_array_fixed
 
 
 @given(consistent_dim(3 * [st_array_fixed], max_dim=3))

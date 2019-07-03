@@ -2,11 +2,8 @@
 
 import hypothesis.strategies as st
 
-from skspatial._constants import ATOL
 from skspatial.objects import Point, Points, Vector, Line, Plane, Circle, Sphere
-
-
-DIM_MIN, DIM_MAX = 2, 10
+from .constants import ATOL, DIM_MIN, DIM_MAX
 
 
 @st.composite

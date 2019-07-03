@@ -2,9 +2,9 @@ import numpy as np
 import pytest
 from hypothesis import assume, given
 
-from skspatial._constants import ATOL
 from skspatial.objects import Point, Vector
-from skspatial.tests.property.strategies import (
+from .constants import ATOL
+from .strategies import (
     consistent_dim,
     st_array_fixed,
     st_array_fixed_nonzero,

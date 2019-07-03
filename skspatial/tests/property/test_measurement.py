@@ -1,9 +1,9 @@
 import numpy as np
 from hypothesis import given
 
-from skspatial._constants import ATOL
 from skspatial.measurement import area_triangle, volume_tetrahedron
 from skspatial.objects import Points
+from skspatial.tests._constants import ATOL
 from skspatial.tests.property.strategies import consistent_dim, st_array_fixed
 
 

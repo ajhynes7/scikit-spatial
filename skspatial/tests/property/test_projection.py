@@ -3,9 +3,9 @@ import numpy as np
 import pytest
 from hypothesis import assume, given
 
-from skspatial._constants import ATOL
 from skspatial.objects import Vector
-from skspatial.tests.property.strategies import (
+from .constants import ATOL
+from .strategies import (
     DIM_MAX,
     DIM_MIN,
     st_array_fixed,
