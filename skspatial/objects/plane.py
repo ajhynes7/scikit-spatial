@@ -210,7 +210,7 @@ class Plane(_BaseLinePlane):
         >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
         (10, 2, 4, -54)
 
-        >>> Plane(np.zeros(4), np.ones(4)).cartesian()
+        >>> Plane([0, 0, 0, 0], [1, 0, 0, 0]).cartesian()
         Traceback (most recent call last):
         ...
         ValueError: The plane dimension must be <= 3.
