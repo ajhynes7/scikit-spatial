@@ -164,6 +164,24 @@ class _BaseArray(np.ndarray):
 
         """
         return np.allclose(self, other, **kwargs)
+
+    def is_equal(self, other):
+        """
+        Check if the array is equal to another.
+
+        Parameters
+        ----------
+        other : array_like
+            Other array.
+
+        Returns
+        -------
+        bool
+            True if the arrays are equal; false otherwise.
+
+        """
+        return np.array_equal(self, other)
+
     def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:
