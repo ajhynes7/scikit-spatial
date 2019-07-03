@@ -33,9 +33,7 @@ class _BaseLinePlane(_BaseComposite):
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return "{}(point={}, {}={})".format(
-            name_class, repr_point, name_vector, repr_vector
-        )
+        return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
 
     def is_close(self, other, **kwargs):
         """
