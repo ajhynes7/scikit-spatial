@@ -18,13 +18,19 @@ from skspatial.objects import Point, Vector, Line, Plane
         ([1, 0], [1, -1], np.sqrt(2) / 2),
         ([1, 0], [0.5, np.sqrt(3) / 2], 0.5),
         ([1, 0], [np.sqrt(3) / 2, 0.5], np.sqrt(3) / 2),
-        ([1, 1], [-1, 1], 0),
+        ([1, 1], [0, 0], None),
+        ([0, 0], [1, 1], None),
     ],
 )
 def test_cosine_similarity(array_u, array_v, similarity_expected):
 
-    similarity = Vector(array_u).cosine_similarity(array_v)
-    assert np.isclose(similarity, similarity_expected)
+    if similarity_expected is None:
+        with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
+            Vector(array_u).cosine_similarity(array_v)
+
+    else:
+        similarity = Vector(array_u).cosine_similarity(array_v)
+        assert np.isclose(similarity, similarity_expected)
 
 
 @pytest.mark.parametrize(
@@ -59,12 +65,20 @@ def test_angle_between(array_u, array_v, angle_expected):
         ([1, 0], [1, -1], -np.pi / 4),
         ([1, 1], [0, 1], np.pi / 4),
         ([1, 1], [1, 0], -np.pi / 4),
+        ([0], [0], None),
+        ([1, 1, 1], [1, 0, 0], None),
+        (np.ones(4), np.ones(4), None),
     ],
 )
 def test_angle_signed(array_u, array_v, angle_expected):
 
-    angle = Vector(array_u).angle_signed(array_v)
-    assert np.isclose(angle, angle_expected)
+    if angle_expected is None:
+        with pytest.raises(ValueError, match="The vectors must be 2D."):
+            Vector(array_u).angle_signed(array_v)
+
+    else:
+        angle = Vector(array_u).angle_signed(array_v)
+        assert np.isclose(angle, angle_expected)
 
 
 @pytest.mark.parametrize(
