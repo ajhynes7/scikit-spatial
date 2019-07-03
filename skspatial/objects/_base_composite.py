@@ -1,22 +1,10 @@
 """Module for base class of composite spatial objects."""
 
-from copy import deepcopy
-
 import numpy as np
-
-from skspatial.objects._base_array import _BaseArray1D
 
 
 class _BaseComposite:
     """Private parent class for composite spatial objects."""
-
-    def __getitem__(self, name_item):
-
-        return getattr(self, name_item)
-
-    def __setitem__(self, name_item, value):
-
-        return setattr(self, name_item, value)
 
     def distance_point(self, point):
         """Compute the distance from a point to this object."""
