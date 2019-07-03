@@ -147,6 +147,23 @@ class _BaseArray(np.ndarray):
         for obj in objs:
             yield obj.set_dimension(dim_max)
 
+    def is_close(self, other, **kwargs):
+        """
+        Check if the array is close to another.
+
+        Parameters
+        ----------
+        other : array_like
+            Other array.
+        kwargs : dict, optional
+            Additional keywords passed to :func:`numpy.allclose`
+
+        Returns
+        -------
+        True if the arrays are close; false otherwise.
+
+        """
+        return np.allclose(self, other, **kwargs)
     def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:
@@ -174,10 +191,6 @@ class _BaseArray1D(_BaseArray):
 
         array = _set_dimension_1d(self, dim)
         return self.__class__(array)
-
-    def is_close(self, other, **kwargs):
-        """Check if array is close to another array."""
-        return np.allclose(self, other, **kwargs)
 
 
 class _BaseArray2D(_BaseArray):
