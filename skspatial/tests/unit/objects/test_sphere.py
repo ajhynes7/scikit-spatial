@@ -16,7 +16,7 @@ from skspatial.objects import Sphere
         ([0, 0, 0], 0),
         ([0, 0, 0], -1),
         ([0, 0, 0], -5),
-    ]
+    ],
 )
 def test_failure(point, radius):
 
@@ -32,7 +32,7 @@ def test_failure(point, radius):
         (3, 36 * np.pi, 36 * np.pi),
         (4.5, 81 * np.pi, 121.5 * np.pi),
         (10, 400 * np.pi, 4000 / 3 * np.pi),
-    ]
+    ],
 )
 def test_surface_area_volume(radius, surface_area_expected, volume_expected):
 

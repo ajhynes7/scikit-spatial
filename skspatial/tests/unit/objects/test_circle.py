@@ -16,7 +16,7 @@ from skspatial.objects import Circle
         ([0, 0], 0),
         ([0, 0], -1),
         ([0, 0], -5),
-    ]
+    ],
 )
 def test_failure(point, radius):
 
@@ -32,7 +32,7 @@ def test_failure(point, radius):
         (3, 6 * np.pi, 9 * np.pi),
         (4.5, 9 * np.pi, 20.25 * np.pi),
         (10, 20 * np.pi, 100 * np.pi),
-    ]
+    ],
 )
 def test_circumference_area(radius, circumference_expected, area_expected):
 

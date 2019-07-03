@@ -164,7 +164,7 @@ class Sphere(_BaseSphere):
             raise ValueError("The line does not intersect the sphere.")
 
         pm = np.array([-1, 1])  # Array to compute plus/minus.
-        distances = - dot + pm * np.sqrt(discriminant)
+        distances = -dot + pm * np.sqrt(discriminant)
 
         point_a, point_b = line.point + distances.reshape(-1, 1) * vector_unit
 

@@ -71,7 +71,9 @@ class _BaseSphere(_BaseComposite):
 
         """
         if self.point.is_equal(point):
-            raise ValueError("The point must not be the center of the circle or sphere.")
+            raise ValueError(
+                "The point must not be the center of the circle or sphere."
+            )
 
         vector_to_point = Vector.from_points(self.point, point)
 

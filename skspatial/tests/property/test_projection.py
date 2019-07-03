@@ -60,4 +60,6 @@ def test_project_point_circle_sphere(st_circle_or_sphere, data):
 
     point_projected = circle_or_sphere.project_point(array_point)
 
-    assert np.isclose(circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius)
+    assert np.isclose(
+        circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius
+    )

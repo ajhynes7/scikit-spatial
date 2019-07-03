@@ -96,6 +96,4 @@ st_floats = st.floats(min_value=-1e4, max_value=1e4).filter(
 st_arrays = st.lists(st_floats, min_size=DIM_MIN, max_size=DIM_MAX)
 st_arrays_nonzero = st_arrays.filter(lambda array: any(array))
 
-st_radii = st.floats(min_value=0, max_value=1e4).filter(
-    lambda x: x > ATOL
-)
+st_radii = st.floats(min_value=0, max_value=1e4).filter(lambda x: x > ATOL)

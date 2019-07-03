@@ -8,12 +8,4 @@ from skspatial.objects.points import Points
 from skspatial.objects.sphere import Sphere
 from skspatial.objects.vector import Vector
 
-__all__ = [
-    'Circle',
-    'Line',
-    'Plane',
-    'Point',
-    'Points',
-    'Sphere',
-    'Vector',
-]
+__all__ = ['Circle', 'Line', 'Plane', 'Point', 'Points', 'Sphere', 'Vector']
