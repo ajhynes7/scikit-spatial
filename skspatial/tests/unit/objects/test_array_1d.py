@@ -8,21 +8,6 @@ from skspatial.objects import Point, Vector
 
 
 @pytest.mark.parametrize(
-    "line_or_plane, repr_expected",
-    [
-        (Point([0, 0]), "Point([0, 0])"),
-        (Vector([0, 0]), "Vector([0, 0])"),
-        (Point([-11, 0]), "Point([-11,   0])"),
-        (Vector([-11, 0]), "Vector([-11,   0])"),
-        (Vector([-11.0, 0.0]), "Vector([-11.,   0.])"),
-    ],
-)
-def test_repr(line_or_plane, repr_expected):
-
-    assert repr(line_or_plane) == repr_expected
-
-
-@pytest.mark.parametrize(
     "array", [[1, 0], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]]
 )
 def test_equality(array):
