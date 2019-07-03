@@ -2,13 +2,8 @@ import numpy as np
 from hypothesis import given
 
 from skspatial.objects import Line
-from .constants import ATOL
-from .strategies import (
-    consistent_dim,
-    st_line,
-    st_point,
-    st_vector_nonzero,
-)
+from ..constants import ATOL
+from ..strategies import consistent_dim, st_line, st_point, st_vector_nonzero
 
 
 @given(consistent_dim([st_point, st_vector_nonzero]))

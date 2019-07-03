@@ -3,8 +3,8 @@ import pytest
 from hypothesis import assume, given
 
 from skspatial.objects import Point, Vector
-from .constants import ATOL
-from .strategies import (
+from ..constants import ATOL
+from ..strategies import (
     consistent_dim,
     st_array_fixed,
     st_array_fixed_nonzero,
