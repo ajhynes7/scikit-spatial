@@ -22,15 +22,6 @@ def st_array_fixed_nonzero(draw, dim=2):
 
 
 @st.composite
-def st_line_plane(draw, LineOrPlane, dim):
-    """Generate a Line or Plane object."""
-    array_point = draw(st_array_fixed(dim))
-    array_vector = draw(st_array_fixed_nonzero(dim))
-
-    return LineOrPlane(array_point, array_vector)
-
-
-@st.composite
 def st_point(draw, dim):
     """Generate a Point object."""
     return Point(draw(st_array_fixed(dim)))
@@ -43,6 +34,12 @@ def st_vector(draw, dim):
 
 
 @st.composite
+def st_vector_nonzero(draw, dim):
+    """Generate a Vector that is not the zero vector."""
+    return Vector(draw(st_array_fixed_nonzero(dim)))
+
+
+@st.composite
 def st_points(draw, dim):
     """Generate a Points object."""
     n_points = draw(st.integers(min_value=1, max_value=50))
@@ -52,9 +49,12 @@ def st_points(draw, dim):
 
 
 @st.composite
-def st_vector_nonzero(draw, dim):
-    """Generate a Vector that is not the zero vector."""
-    return Vector(draw(st_array_fixed_nonzero(dim)))
+def st_line_plane(draw, LineOrPlane, dim):
+    """Generate a Line or Plane object."""
+    array_point = draw(st_array_fixed(dim))
+    array_vector = draw(st_array_fixed_nonzero(dim))
+
+    return LineOrPlane(array_point, array_vector)
 
 
 @st.composite
