@@ -48,9 +48,6 @@ class _BaseArray(np.ndarray):
         True
 
         """
-        if obj is None:
-            return
-
         self.dimension = getattr(obj, 'dimension', None)
 
     def is_close(self, other, **kwargs):
