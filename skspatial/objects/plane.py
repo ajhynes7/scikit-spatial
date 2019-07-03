@@ -463,14 +463,12 @@ class Plane(_BaseLinePlane):
     @classmethod
     def best_fit(cls, points):
         """
-        Return the plane of best fit for a set of points.
-
-        The points must not have a higher dimension than 3D.
+        Return the plane of best fit for a set of 3D points.
 
         Parameters
         ----------
         points : array_like
-             Input points.
+             Input 3D points.
 
         Returns
         -------
@@ -480,7 +478,7 @@ class Plane(_BaseLinePlane):
         Raises
         ------
         ValueError
-            If the points are collinear.
+            If the points are collinear or are not 3D.
 
         Examples
         --------
@@ -495,11 +493,11 @@ class Plane(_BaseLinePlane):
         """
         points = Points(points)
 
+        if points.dimension != 3:
+            raise ValueError("The points must be 3D.")
+
         if points.are_collinear(tol=0):
             raise ValueError("The points must not be collinear.")
-
-        if points.dimension < 3:
-            points = points.set_dimension(3)
 
         points_centered, centroid = points.mean_center()
 
