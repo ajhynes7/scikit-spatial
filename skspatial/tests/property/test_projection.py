@@ -16,19 +16,15 @@ from skspatial.tests.property.strategies import (
 )
 
 
-@pytest.mark.parametrize('name_object', ['line', 'plane'])
+@pytest.mark.parametrize('st_line_or_plane', [st_line, st_plane])
 @given(data=st.data())
-def test_project_point(data, name_object):
+def test_project_point(st_line_or_plane, data):
     """Test projecting a point onto a line or plane."""
 
     dim = data.draw(st.integers(min_value=DIM_MIN, max_value=DIM_MAX))
 
     array = data.draw(st_array_fixed(dim))
-
-    if name_object == 'line':
-        line_or_plane = data.draw(st_line(dim))
-    elif name_object == 'plane':
-        line_or_plane = data.draw(st_plane(dim))
+    line_or_plane = data.draw(st_line_or_plane(dim))
 
     point_projected = line_or_plane.project_point(array)
 
@@ -53,11 +49,11 @@ def test_project_point(data, name_object):
     )
 
 
-@pytest.mark.parametrize('st_circle_or_sphere', [st_circle(), st_sphere()])
+@pytest.mark.parametrize('st_circle_or_sphere', [st_circle, st_sphere])
 @given(data=st.data())
-def test_project_point_circle_sphere(data, st_circle_or_sphere):
+def test_project_point_circle_sphere(st_circle_or_sphere, data):
 
-    circle_or_sphere = data.draw(st_circle_or_sphere)
+    circle_or_sphere = data.draw(st_circle_or_sphere())
     array_point = data.draw(st_array_fixed(circle_or_sphere.dimension))
 
     assume(not circle_or_sphere.point.is_close(array_point))
