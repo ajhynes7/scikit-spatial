@@ -3,8 +3,8 @@ from hypothesis import given
 
 from skspatial.measurement import area_triangle, volume_tetrahedron
 from skspatial.objects import Points
-from skspatial.tests._constants import ATOL
-from skspatial.tests.property.strategies import consistent_dim, st_array_fixed
+from .constants import ATOL
+from .strategies import consistent_dim, st_array_fixed
 
 
 @given(consistent_dim(3 * [st_array_fixed], max_dim=3))
