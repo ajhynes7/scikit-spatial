@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Vector, Line, Plane
+from skspatial.objects import Vector, Line, Plane, Circle, Sphere
 
 
 @pytest.mark.parametrize(
@@ -108,3 +108,58 @@ def test_project_vector_plane(plane, vector, vector_expected):
 
     vector_projected = plane.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
+    "circle, point, point_expected",
+    [
+        (Circle([0, 0], 1), [1, 0], [1, 0]),
+        (Circle([0, 0], 1), [2, 0], [1, 0]),
+        (Circle([0, 0], 1), [-2, 0], [-1, 0]),
+        (Circle([0, 0], 1), [0, 2], [0, 1]),
+        (Circle([0, 0], 1), [0, -2], [0, -1]),
+        (Circle([0, 0], 5), [0, -2], [0, -5]),
+        (Circle([0, 1], 5), [0, -2], [0, -4]),
+        (Circle([0, 0], 1), [1, 1], np.sqrt(2) / 2 * np.ones(2)),
+        (Circle([0, 0], 2), [1, 1], np.sqrt(2) * np.ones(2)),
+    ],
+)
+def test_project_point_circle(circle, point, point_expected):
+
+    point_projected = circle.project_point(point)
+    assert point_projected.is_close(point_expected)
+
+
+@pytest.mark.parametrize(
+    "sphere, point, point_expected",
+    [
+        (Sphere([0, 0, 0], 1), [1, 0, 0], [1, 0, 0]),
+        (Sphere([0, 0, 0], 2), [1, 0, 0], [2, 0, 0]),
+        (Sphere([0, 0, 0], 0.1), [1, 0, 0], [0.1, 0, 0]),
+        (Sphere([-1, 0, 0], 1), [1, 0, 0], [0, 0, 0]),
+        (Sphere([0, 0, 0], 1), [1, 1, 1], np.sqrt(3) / 3 * np.ones(3)),
+        (Sphere([0, 0, 0], 3), [1, 1, 1], np.sqrt(3) * np.ones(3)),
+    ],
+)
+def test_project_point_sphere(sphere, point, point_expected):
+
+    point_projected = sphere.project_point(point)
+    assert point_projected.is_close(point_expected)
+
+
+@pytest.mark.parametrize(
+    "circle_or_sphere, point",
+    [
+        # The point to project cannot be the center of the circle/sphere.
+        (Circle([0, 0], 1), [0, 0]),
+        (Circle([0, 0], 5), [0, 0]),
+        (Circle([7, -1], 5), [7, -1]),
+        (Sphere([0, 0, 0], 1), [0, 0, 0]),
+        (Sphere([0, 0, 0], 5), [0, 0, 0]),
+        (Sphere([5, 2, -6], 5), [5, 2, -6]),
+    ],
+)
+def test_project_point_circle_sphere_failure(circle_or_sphere, point):
+
+    with pytest.raises(Exception):
+        circle_or_sphere.project_point(point)
