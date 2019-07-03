@@ -42,6 +42,11 @@ class _BaseSphere(_BaseComposite):
         Point
             Point projected onto the circle or sphere.
 
+        Raises
+        ------
+        ValueError
+            If the input point is the center of the circle or sphere.
+
         Examples
         --------
         >>> from skspatial.objects import Circle
@@ -54,12 +59,20 @@ class _BaseSphere(_BaseComposite):
         >>> circle.project_point([-6, 3]).round(3)
         array([-0.894,  0.447])
 
+        >>> circle.project_point([0, 0])
+        Traceback (most recent call last):
+        ...
+        ValueError: The point must not be the center of the circle or sphere.
+
         >>> from skspatial.objects import Sphere
 
         >>> Sphere([0, 0, 0], 2).project_point([1, 2, 3]).round(3)
         array([0.535, 1.069, 1.604])
 
         """
+        if self.point.is_equal(point):
+            raise ValueError("The point must not be the center of the circle or sphere.")
+
         vector_to_point = Vector.from_points(self.point, point)
 
         return self.point + self.radius * vector_to_point.unit()
