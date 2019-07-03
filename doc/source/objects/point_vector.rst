@@ -2,7 +2,7 @@
 Point and Vector
 ----------------
 
-The two basic spatial objects are the :class:`~skspatial.objects.Point`, which represents a position in space, and a :class:`~skspatial.objects.Vector`, which represents an arrow through space.
+The two basic spatial objects are the :class:`~skspatial.objects.Point`, which represents a position in space, and the :class:`~skspatial.objects.Vector`, which represents an arrow through space.
 
 They are instantiated with an ``array_like`` object, which is an object that can be passed to :func:`numpy.array`.
 
