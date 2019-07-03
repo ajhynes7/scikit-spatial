@@ -18,19 +18,6 @@ class _BaseComposite:
 
         return setattr(self, name_item, value)
 
-    def set_dimension(self, dim):
-
-        obj_new = deepcopy(self)
-
-        for name_item in vars(self):
-
-            attribute = self[name_item]
-
-            if isinstance(attribute, _BaseArray1D):
-                obj_new[name_item] = attribute.set_dimension(dim)
-
-        return obj_new
-
     def distance_point(self, point):
         """Compute the distance from a point to this object."""
         point_projected = self.project_point(point)
