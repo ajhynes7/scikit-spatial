@@ -55,7 +55,10 @@ def test_dimension(class_spatial, array, dim_expected):
 def test_set_dimension(class_spatial, array, dim, array_expected):
 
     if array_expected is None:
-        with pytest.raises(ValueError, match="The desired dimension cannot be less than the current dimension."):
+        with pytest.raises(
+            ValueError,
+            match="The desired dimension cannot be less than the current dimension.",
+        ):
             class_spatial(array).set_dimension(dim)
 
     else:

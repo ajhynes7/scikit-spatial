@@ -25,7 +25,9 @@ from skspatial.objects import Point, Vector, Line, Plane
 def test_cosine_similarity(array_u, array_v, similarity_expected):
 
     if similarity_expected is None:
-        with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
+        with pytest.raises(
+            ValueError, match="The vectors must have non-zero magnitudes."
+        ):
             Vector(array_u).cosine_similarity(array_v)
 
     else:

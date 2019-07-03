@@ -57,7 +57,10 @@ def test_dimension(points, dim_expected):
 def test_set_dimension(points, dim, points_expected):
 
     if points_expected is None:
-        with pytest.raises(ValueError, match="The desired dimension cannot be less than the current dimension."):
+        with pytest.raises(
+            ValueError,
+            match="The desired dimension cannot be less than the current dimension.",
+        ):
             points.set_dimension(dim)
 
     else:
