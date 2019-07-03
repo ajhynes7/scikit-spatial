@@ -3,6 +3,9 @@
          :align: left
          :width: 70%
 
+.. image:: https://img.shields.io/pypi/v/scikit-spatial.svg
+         :target: https://pypi.python.org/pypi/scikit-spatial
+
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
