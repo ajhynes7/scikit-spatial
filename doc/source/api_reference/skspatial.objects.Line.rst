@@ -5,6 +5,8 @@ skspatial.objects.Line
 .. autoclass:: skspatial.objects.Line
 
 
+Methods
+-------
 .. autosummary::
    :toctree: Line/methods
 

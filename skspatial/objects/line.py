@@ -11,7 +11,7 @@ from skspatial.transformation import transform_coordinates
 
 class Line(_BaseLinePlane):
     """
-    Line in space.
+    A line in space.
 
     The line is defined by a point and a direction vector.
 
@@ -177,6 +177,10 @@ class Line(_BaseLinePlane):
         ValueError
             If input is not a line.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Coplanar.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -193,10 +197,6 @@ class Line(_BaseLinePlane):
 
         >>> line_b.is_coplanar(line_c)
         False
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Coplanar.html
 
         """
         if not isinstance(other, type(self)):
@@ -246,7 +246,7 @@ class Line(_BaseLinePlane):
         """
         vector_along_line = t * self.direction
 
-        return self.point.add(vector_along_line)
+        return self.point + vector_along_line
 
     def project_point(self, point):
         """
@@ -278,7 +278,7 @@ class Line(_BaseLinePlane):
         vector_projected = self.direction.project_vector(vector_to_point)
 
         # Add the projected vector to the point on the line.
-        return self.point.add(vector_projected)
+        return self.point + vector_projected
 
     def project_vector(self, vector):
         """Project a vector onto the line."""
@@ -339,6 +339,10 @@ class Line(_BaseLinePlane):
         scalar
             The distance between the lines.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineDistance.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -363,10 +367,6 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([0, 5, 0], [0, 0, 1])
         >>> line_a.distance_line(line_b)
         5.0
-
-        References
-        ----------
-        http://mathworld.wolfram.com/Line-LineDistance.html
 
         """
         if self.direction.is_parallel(other.direction):
@@ -410,6 +410,10 @@ class Line(_BaseLinePlane):
         ValueError
             If the lines are parallel or are not coplanar.
 
+        References
+        ----------
+        http://mathworld.wolfram.com/Line-LineIntersection.html
+
         Examples
         --------
         >>> from skspatial.objects import Line
@@ -440,10 +444,6 @@ class Line(_BaseLinePlane):
         >>> line_a.intersect_line(line_b)
         Point([5., 5., 5.])
 
-        References
-        ----------
-        http://mathworld.wolfram.com/Line-LineIntersection.html
-
         """
         if self.direction.is_parallel(other.direction):
             raise ValueError("The lines must not be parallel.")
@@ -463,7 +463,7 @@ class Line(_BaseLinePlane):
         # Vector along line A to the intersection point.
         vector_a_scaled = num / denom * self.direction
 
-        return self.point.add(vector_a_scaled)
+        return self.point + vector_a_scaled
 
     @classmethod
     def best_fit(cls, points):
@@ -591,11 +591,3 @@ class Line(_BaseLinePlane):
         point_2 = self.to_point(t_2)
 
         _connect_points_3d(ax_3d, point_1, point_2, **kwargs)
-
-    def plotter(self, **kwargs):
-        """Return a function that plots the object when passed a matplotlib axes."""
-        if self.dimension == 2:
-            return lambda ax: self.plot_2d(ax, **kwargs)
-
-        elif self.dimension == 3:
-            return lambda ax: self.plot_3d(ax, **kwargs)
