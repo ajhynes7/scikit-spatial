@@ -189,9 +189,17 @@ class Plane(_BaseLinePlane):
         tuple
             Coefficients a, b, c, d.
 
+        Raises
+        ------
+        ValueError
+            If the plane dimension is higher than 3.
+
         Examples
         --------
         >>> from skspatial.objects import Plane
+
+        >>> Plane(point=[1, 1], normal=[1, 0]).cartesian()
+        (1, 0, 0, -1)
 
         >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
         (0, 0, 1, 0)
@@ -202,11 +210,18 @@ class Plane(_BaseLinePlane):
         >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
         (10, 2, 4, -54)
 
-        """
-        # The point and normal must be 3D to extract the coefficients.
-        self = self.set_dimension(3)
+        >>> Plane(np.zeros(4), np.ones(4)).cartesian()
+        Traceback (most recent call last):
+        ...
+        ValueError: The plane dimension must be <= 3.
 
-        a, b, c = self.normal
+        """
+        if self.dimension > 3:
+            raise ValueError("The plane dimension must be <= 3.")
+
+        # The normal must be 3D to extract the coefficients.
+        a, b, c = self.normal.set_dimension(3)
+
         d = -self.normal.dot(self.point)
 
         return a, b, c, d
