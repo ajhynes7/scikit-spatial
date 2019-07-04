@@ -121,9 +121,10 @@ html_theme_options = {
     'bootswatch_theme': 'cosmo',
     'globaltoc_depth': -1,
     'navbar_links': [
-        ('Gallery', 'gallery/index'),
         ('Objects', 'objects/toc'),
         ('Computations', 'computations/toc'),
+        ('Plotting', 'plotting'),
+        ('Gallery', 'gallery/index'),
         ('API', 'api_reference/toc'),
     ],
     'navbar_pagenav': False,
