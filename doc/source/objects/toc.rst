@@ -9,3 +9,5 @@ Spatial Objects
    points
    line
    plane
+   circle
+   sphere
