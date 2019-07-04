@@ -223,7 +223,7 @@ class Circle(_BaseSphere):
         Parameters
         ----------
         ax_2d : Axes
-            Instance of :class:`~matplotlib.axes.Axes`gt.
+            Instance of :class:`~matplotlib.axes.Axes`.
         kwargs : dict, optional
             Additional keywords passed to :Class:`matplotlib.patches.Circle`.
 
