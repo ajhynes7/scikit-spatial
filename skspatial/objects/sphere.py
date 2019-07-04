@@ -201,6 +201,8 @@ class Sphere(_BaseSphere):
 
         X = self.point[0] + self.radius * np.outer(np.sin(angles_a), np.sin(angles_b))
         Y = self.point[1] + self.radius * np.outer(np.sin(angles_a), np.cos(angles_b))
-        Z = self.point[2] + self.radius * np.outer(np.cos(angles_a), np.ones_like(angles_b))
+        Z = self.point[2] + self.radius * np.outer(
+            np.cos(angles_a), np.ones_like(angles_b)
+        )
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)
