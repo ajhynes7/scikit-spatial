@@ -90,7 +90,7 @@ class _BaseArray(np.ndarray):
         if self.dimension == 2:
             return lambda ax: self.plot_2d(ax, **kwargs)
 
-        elif self.dimension == 3:
+        if self.dimension == 3:
             return lambda ax: self.plot_3d(ax, **kwargs)
 
 
