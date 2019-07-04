@@ -539,8 +539,8 @@ class Plane(_BaseLinePlane):
         a, b, c, d = self.cartesian()
         x_center, y_center = self.point[:2]
 
-        range_x = np.arange(*lims_x)
-        range_y = np.arange(*lims_y)
+        range_x = x_center + np.arange(*lims_x)
+        range_y = y_center + np.arange(*lims_y)
 
         grid_x, grid_y = np.meshgrid(range_x, range_y)
         grid_z = -(a * grid_x + b * grid_y + d) / c
