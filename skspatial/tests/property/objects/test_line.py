@@ -29,7 +29,7 @@ def test_two_lines(lines):
     line_a, line_b = lines
 
     if line_a.direction.is_parallel(line_b.direction, atol=0):
-        assert line_a.is_coplanar(line_b)
+        assert line_a.is_coplanar(line_b, tol=ATOL)
 
     elif line_a.is_coplanar(line_b):
         # The lines are coplanar but not parallel, so they must intersect.
