@@ -530,19 +530,38 @@ class Plane(_BaseLinePlane):
         ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         lims_x, lims_y : tuple
-            The x or y limits of the plane.
-            Tuple of form (min, max).
+            x and y limits of the plane.
+            Tuple of form (min, max). The default is (-1, 1).
+            The point on the plane is used as the origin.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from mpl_toolkits.mplot3d import Axes3D
+
+            >>> from skspatial.objects import Plane
+
+            >>> fig = plt.figure()
+            >>> ax = fig.add_subplot(111, projection='3d')
+
+            >>> plane = Plane([5, 3, 1], [1, 0, 1])
+
+            >>> plane.plot_3d(ax, alpha=0.2)
+            >>> plane.point.plot_3d(ax, s=100)
 
         """
         a, b, c, d = self.cartesian()
         x_center, y_center = self.point[:2]
 
-        range_x = x_center + np.arange(*lims_x)
-        range_y = y_center + np.arange(*lims_y)
+        values_x = x_center + lims_x
+        values_y = y_center + lims_y
 
-        grid_x, grid_y = np.meshgrid(range_x, range_y)
+        grid_x, grid_y = np.meshgrid(values_x, values_y)
         grid_z = -(a * grid_x + b * grid_y + d) / c
 
         ax_3d.plot_surface(grid_x, grid_y, grid_z, **kwargs)
