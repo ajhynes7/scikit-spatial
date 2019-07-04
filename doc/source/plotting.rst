@@ -30,7 +30,7 @@ Let's project a 2D point onto a 2D line and plot the result with ``plot_2d`` met
    >>> point.plot_2d(ax, s=50)
    >>> point_projected.plot_2d(ax, c='r', s=50, zorder=3)
 
-   >>> ax.axis('equal')
+   >>> limits = ax.axis('equal')
 
 
 For convenience, the ``skspatial.plotting`` module contains ``plot_2d`` and ``plot_3d`` functions as well. These functions can place an arbitrary number of spatial objects on the same plot so that ``matplotlib`` doesn't need to be imported directly. All spatial objects have a ``plotter`` method which is simply used to bundle keyword arguments for the ``plot_2d`` or ``plot_3d`` methods.
@@ -55,4 +55,4 @@ Let's make the same plot as before with the ``plot_2d`` function. The function r
    ...   line.plotter(t_2=5, c='k'),
    ... )
 
-   >>> ax.axis('equal')
+   >>> limits = ax.axis('equal')
