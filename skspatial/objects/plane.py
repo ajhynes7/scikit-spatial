@@ -516,7 +516,7 @@ class Plane(_BaseLinePlane):
 
         points_centered, centroid = points.mean_center()
 
-        u, s, vh = np.linalg.svd(points_centered.T)
+        u, _, _ = np.linalg.svd(points_centered.T)
         normal = Vector(u[:, -1])
 
         return cls(centroid, normal)
