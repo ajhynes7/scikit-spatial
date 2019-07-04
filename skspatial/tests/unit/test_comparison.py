@@ -159,7 +159,7 @@ def test_is_coplanar(line_a, line_b, bool_expected):
 
     if bool_expected is None:
         with pytest.raises(TypeError, match="The input must also be a line."):
-            line_a.is_coplanar(line_b) == bool_expected
+            line_a.is_coplanar(line_b)
 
     else:
         assert line_a.is_coplanar(line_b) == bool_expected
