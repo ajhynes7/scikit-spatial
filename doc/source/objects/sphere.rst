@@ -23,7 +23,7 @@ The surface area and volume of the sphere can be calculated.
 
 An error is raised if the point is not 2D.
 
->>> Sphere([0, 0, 0], 1)
+>>> Sphere([0, 0], 1)
 Traceback (most recent call last):
 ...
 ValueError: The point must be 3D.
