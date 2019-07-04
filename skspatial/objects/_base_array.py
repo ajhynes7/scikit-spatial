@@ -217,7 +217,6 @@ class _BaseArray2D(_BaseArray):
                 "The desired dimension cannot be less than the current dimension."
             )
 
-        n_cols = self.shape[1]
-        array_padded = np.pad(self, ((0, 0), (0, dim - n_cols)), 'constant')
+        array_padded = np.pad(self, ((0, 0), (0, dim - self.dimension)), 'constant')
 
         return self.__class__(array_padded)
