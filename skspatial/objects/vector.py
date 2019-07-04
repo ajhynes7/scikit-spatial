@@ -63,9 +63,7 @@ class Vector(_BaseArray1D):
 
     def __new__(cls, array):
         """Create a new Vector object."""
-        obj = super().__new__(cls, array)
-
-        return obj
+        return super().__new__(cls, array)
 
     @classmethod
     def from_points(cls, point_a, point_b):
