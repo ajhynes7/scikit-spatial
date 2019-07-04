@@ -33,12 +33,11 @@ class _BaseComposite:
 
             return lambda ax: self.plot_2d(ax, **kwargs)
 
-        elif self.dimension == 3:
+        if self.dimension == 3:
 
             if not hasattr(self, 'plot_3d'):
                 raise ValueError("The object cannot be plotted in 3D.")
 
             return lambda ax: self.plot_3d(ax, **kwargs)
 
-        else:
-            raise ValueError("The dimension must be 2 or 3.")
+        raise ValueError("The dimension must be 2 or 3.")
