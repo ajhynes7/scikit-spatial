@@ -339,7 +339,9 @@ class Vector(_BaseArray1D):
 
     def angle_signed(self, other):
         """
-        Return the signed angle in radians between two 2D vectors.
+        Return the signed angle in radians between the vector and another.
+
+        The vectors must be 2D.
 
         Parameters
         ----------

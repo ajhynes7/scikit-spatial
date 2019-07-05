@@ -557,7 +557,7 @@ class Line(_BaseLinePlane):
 
     def transform_points(self, points):
         """
-        Transform points to a one-dimensional coordinate system defined by a line.
+        Transform points to a one-dimensional coordinate system defined by the line.
 
         The point on the line acts as the origin of the coordinate system.
 

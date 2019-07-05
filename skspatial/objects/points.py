@@ -102,9 +102,7 @@ class Points(_BaseArray2D):
 
     def mean_center(self):
         """
-        Mean-center the points.
-
-        The centroid of the points is subtracted from the points.
+        Mean-center the points by subtracting the centroid.
 
         Returns
         -------

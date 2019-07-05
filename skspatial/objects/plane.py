@@ -377,7 +377,7 @@ class Plane(_BaseLinePlane):
 
     def intersect_line(self, line):
         """
-        Return the intersection of the plane with a line.
+        Intersect the plane with a line.
 
         The line and plane must not be parallel.
 
@@ -436,7 +436,7 @@ class Plane(_BaseLinePlane):
 
     def intersect_plane(self, other):
         """
-        Return the intersection of two planes.
+        Intersect the plane with another.
 
         The planes must not be parallel.
 

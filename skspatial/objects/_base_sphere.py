@@ -30,7 +30,7 @@ class _BaseSphere(_BaseComposite):
 
     def project_point(self, point):
         """
-        Project a point onto the surface of the circle or sphere.
+        Project a point onto the circle or sphere.
 
         Parameters
         ----------
