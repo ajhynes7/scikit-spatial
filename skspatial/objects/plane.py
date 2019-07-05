@@ -228,7 +228,7 @@ class Plane(_BaseLinePlane):
 
     def project_point(self, point):
         """
-        Project a point onto self.
+        Project a point onto the plane.
 
         Parameters
         ----------

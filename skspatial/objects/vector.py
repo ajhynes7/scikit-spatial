@@ -549,7 +549,7 @@ class Vector(_BaseArray1D):
         Returns
         -------
         scalar
-            Scalar projection of other vector onto self.
+            Scalar projection.
 
         Examples
         --------
@@ -582,7 +582,7 @@ class Vector(_BaseArray1D):
         Returns
         -------
         Vector
-            Vector projection of other vector onto self.
+            Vector projection.
 
         Examples
         --------

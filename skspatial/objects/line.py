@@ -431,7 +431,7 @@ class Line(_BaseLinePlane):
 
     def intersect_line(self, other):
         """
-        Return the intersection of a line with self.
+        Intersect the line with another.
 
         The lines must be coplanar and not parallel.
 
