@@ -207,7 +207,36 @@ class Vector(_BaseArray1D):
         return np.allclose(self, 0, **kwargs)
 
     def dot(self, other):
-        """Return the dot product with another array."""
+        """
+        Return the dot product with another vector.
+
+        Parameters
+        ----------
+        other : array_like
+             Other vector.
+
+        Returns
+        -------
+        {int, float}
+            Dot product of the vectors.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 0]).dot([0, 1])
+        0
+
+        >>> Vector([1, 0]).dot([1, 1])
+        1
+
+        >>> Vector([1.5, 5.3, 3]).dot([-10, 8, 2])
+        33.4
+
+        >>> Vector([1, 2, 3, 4, 5]).dot([-1, -2, -3, -4, -5])
+        -55
+
+        """
         return np.dot(self, other)
 
     def cross(self, other):
