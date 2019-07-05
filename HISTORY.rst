@@ -2,6 +2,12 @@
 History
 =======
 
+1.5.0 (2019-07-04)
+------------------
+* Add Circle and Sphere spatial objects.
+* Add scalar keyword argument to Vector plot methods.
+* Improve plotting of Plane. The x and y limits now treat the plane point as the origin.
+
 
 1.4.2 (2019-06-21)
 ------------------
