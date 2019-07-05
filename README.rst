@@ -27,7 +27,17 @@
 Introduction
 ------------
 
-This package provides spatial objects (``Point``, ``Points``, ``Vector``, ``Line``, and ``Plane``) based on NumPy arrays, as well as computations using these objects. The package includes computations for 2D, 3D, and higher-dimensional space.
+This package provides spatial objects based on NumPy arrays, as well as computations using these objects. The package includes computations for 2D, 3D, and higher-dimensional space.
+
+The following spatial objects are provided:
+
+   - Point
+   - Points
+   - Vector
+   - Line
+   - Plane
+   - Circle
+   - Sphere
 
 The computations can be grouped into the following main categories:
 
