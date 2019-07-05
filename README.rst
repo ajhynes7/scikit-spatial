@@ -48,11 +48,13 @@ The computations can be grouped into the following main categories:
    - Fitting
    - Transformation
 
+All spatial objects are equipped with plotting methods based on ``matplotlib``. Both 2D and 3D plotting are supported. Spatial computations can be easily visualized by plotting multiple objects at once.
+
 
 Why this instead of ``scipy.spatial`` or ``sympy.geometry``?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package has little to no overlap with the functionality of ``scipy.spatial``. It can be viewed as an extension.
+This package has little to no overlap with the functionality of ``scipy.spatial``. It can be viewed as an object-oriented extension.
 
 While similar spatial objects and computations exist in the ``sympy.geometry`` module, ``scikit-spatial`` is based on NumPy rather than symbolic math. The primary objects of ``scikit-spatial`` (``Point``, ``Points``, and ``Vector``) are actually subclasses of the NumPy *ndarray*. This gives them all the regular functionality of the *ndarray*, plus additional methods from this package.
 
