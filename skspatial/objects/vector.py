@@ -130,12 +130,14 @@ class Vector(_BaseArray1D):
 
     def unit(self):
         """
-        Return the unit vector of this vector.
+        Return the unit vector in the same direction as the vector.
+
+        A unit vector is a vector with a magnitude of one.
 
         Returns
         -------
         Vector
-            Unit vector in same direction as original vector.
+            Unit vector.
 
         Raises
         ------
@@ -215,7 +217,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-             Input vector.
+             Other vector.
 
         Returns
         -------
@@ -247,14 +249,14 @@ class Vector(_BaseArray1D):
 
     def cosine_similarity(self, other):
         """
-        Return the cosine similarity of this vector with another.
+        Return the cosine similarity of the vector with another.
 
         This is the cosine of the angle between the vectors.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -301,12 +303,12 @@ class Vector(_BaseArray1D):
 
     def angle_between(self, other):
         """
-        Return the angle in radians between this vector and another.
+        Return the angle in radians between the vector and another.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -339,12 +341,14 @@ class Vector(_BaseArray1D):
 
     def angle_signed(self, other):
         """
-        Return the signed angle in radians between two 2D vectors.
+        Return the signed angle in radians between the vector and another.
+
+        The vectors must be 2D.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -388,14 +392,14 @@ class Vector(_BaseArray1D):
 
     def is_perpendicular(self, other, **kwargs):
         """
-        Check if an other vector is perpendicular to self.
+        Check if the vector is perpendicular to another.
 
         Vectors u and v are perpendicular <==> Dot product of u and v is zero.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.isclose`.
 
@@ -427,14 +431,14 @@ class Vector(_BaseArray1D):
 
     def is_parallel(self, other, **kwargs):
         """
-        Check if an other vector is parallel to self.
+        Check if the vector is parallel to another.
 
         Two vectors are parallel iff their cross product is the zero vector.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.isclose`.
 
@@ -483,14 +487,14 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input 2D vector.
+            Other 2D vector.
 
         Returns
         -------
         int
-            1 if the other vector is right of self.
-            0 if other is parallel to self.
-            -1 if other is left of self.
+            1 if the other vector is to the right.
+            0 if the other is parallel.
+            -1 if the other is to the left.
 
         Raises
         ------
@@ -501,22 +505,28 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> vector = Vector([0, 1])
+        >>> vector_target = Vector([0, 1])
 
-        >>> vector.side_vector([1, 1])
-        1
+        The vector is parallel to the target vector.
 
-        >>> vector.side_vector([1, -10])
-        1
-
-        >>> vector.side_vector([0, 2])
+        >>> vector_target.side_vector([0, 2])
+        0
+        >>> vector_target.side_vector([0, -5])
         0
 
-        >>> vector.side_vector([0, -5])
-        0
+        The vector is to the right of the target vector.
 
-        >>> vector.side_vector([-3, 4])
+        >>> vector_target.side_vector([1, 1])
+        1
+        >>> vector_target.side_vector([1, -10])
+        1
+
+        The vector is to the left of the target vector.
+
+        >>> vector_target.side_vector([-3, 4])
         -1
+
+        The vectors are not 2D.
 
         >>> Vector([1, 0, 0]).side_vector([1, 2, 3])
         Traceback (most recent call last):
@@ -533,17 +543,17 @@ class Vector(_BaseArray1D):
 
     def scalar_projection(self, other):
         """
-        Return the scalar projection of an other vector onto this vector.
+        Return the scalar projection of an other vector onto the vector.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
         scalar
-            Scalar projection of other vector onto self.
+            Scalar projection.
 
         Examples
         --------
@@ -566,17 +576,17 @@ class Vector(_BaseArray1D):
 
     def project_vector(self, other):
         """
-        Project an other vector onto this vector.
+        Project an other vector onto the vector.
 
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
         Vector
-            Vector projection of other vector onto self.
+            Vector projection.
 
         Examples
         --------

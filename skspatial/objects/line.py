@@ -163,7 +163,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
@@ -175,7 +175,7 @@ class Line(_BaseLinePlane):
         Raises
         ------
         TypeError
-            If input is not a line.
+            If the input is not a line.
 
         References
         ----------
@@ -259,7 +259,7 @@ class Line(_BaseLinePlane):
 
     def project_point(self, point):
         """
-        Project a point onto this line.
+        Project a point onto the line.
 
         Parameters
         ----------
@@ -275,9 +275,11 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0], direction=[8, 0])
-        >>> line.project_point([5, 5])
+        >>> Line(point=[0, 0], direction=[8, 0]).project_point([5, 5])
         Point([5., 0.])
+
+        >>> Line(point=[0, 0, 0], direction=[1, 1, 0]).project_point([5, 5, 3])
+        Point([5., 5., 0.])
 
         """
         # Vector from the point on the line to the point in space.
@@ -290,7 +292,29 @@ class Line(_BaseLinePlane):
         return self.point + vector_projected
 
     def project_vector(self, vector):
-        """Project a vector onto the line."""
+        """
+        Project a vector onto the line.
+
+        Parameters
+        ----------
+        vector : array_like
+            Input vector.
+
+        Returns
+        -------
+        Vector
+            Projection of the vector onto the line.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+
+        >>> line = Line([-1, 5, 3], [3, 4, 5])
+
+        >>> line.project_vector([1, 1, 1])
+        Vector([0.72, 0.96, 1.2 ])
+
+        """
         return self.direction.project_vector(vector)
 
     def side_point(self, point):
@@ -314,19 +338,22 @@ class Line(_BaseLinePlane):
         Examples
         --------
         >>> from skspatial.objects import Line
-        >>> line = Line([0, 0], [0, 1])
-
-        >>> line.side_point([1, 1])
-        1
-
-        >>> line.side_point([1, -10])
-        1
-
-        >>> line.side_point([-4, 10])
-        -1
 
         >>> line = Line([0, 0], [1, 1])
-        >>> line.side_point([1, 5])
+
+        The point is on the line.
+
+        >>> line.side_point([2, 2])
+        0
+
+        The point is to the right of the line.
+
+        >>> line.side_point([5, 3])
+        1
+
+        The point is to the left of the line.
+
+        >>> line.side_point([5, 10])
         -1
 
         """
@@ -336,17 +363,17 @@ class Line(_BaseLinePlane):
 
     def distance_line(self, other):
         """
-        Return the shortest distance from an other line to self.
+        Return the shortest distance from the line to another.
 
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
 
         Returns
         -------
         scalar
-            The distance between the lines.
+            Distance between the lines.
 
         References
         ----------
@@ -354,28 +381,32 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
+        There are three cases:
+
+        1. The lines intersect (i.e., they are coplanar and not parallel)
+
         >>> from skspatial.objects import Line
-
-        >>> line_a = Line([0, 0], [1, 0])
-        >>> line_b = Line([0, 1], [1, 0])
-        >>> line_c = Line([0, 1], [1, 1])
-
-        The lines are parallel.
+        >>> line_a = Line([1, 2], [4, 3])
+        >>> line_b = Line([-4, 1], [7, 23])
 
         >>> line_a.distance_line(line_b)
-        1.0
-
-        The lines are coplanar and not parallel.
-
-        >>> line_a.distance_line(line_c)
         0.0
 
-        The lines are skew.
+        2. The lines are parallel.
 
-        >>> line_a = Line([0, 0, 0], [1, 0, 0])
-        >>> line_b = Line([0, 5, 0], [0, 0, 1])
+        >>> line_a = Line([0, 0], [1, 0])
+        >>> line_b = Line([0, 5], [-1, 0])
+
         >>> line_a.distance_line(line_b)
         5.0
+
+        3. The lines are skew.
+
+        >>> line_a = Line([0, 0, 0], [1, 0, 1])
+        >>> line_b = Line([1, 0, 0], [1, 1, 1])
+
+        >>> line_a.distance_line(line_b).round(3)
+        0.707
 
         """
         if self.direction.is_parallel(other.direction):
@@ -400,14 +431,14 @@ class Line(_BaseLinePlane):
 
     def intersect_line(self, other):
         """
-        Return the intersection of a line with self.
+        Intersect the line with another.
 
         The lines must be coplanar and not parallel.
 
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
 
         Returns
         -------
@@ -498,14 +529,18 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> points = ([1, 0], [2, 0], [3, 0])
+        >>> points = [[0, 0], [1, 2], [2, 1], [2, 3], [3, 2]]
         >>> line = Line.best_fit(points)
 
+        The point on the line is the centroid of the points.
+
         >>> line.point
-        Point([2., 0.])
+        Point([1.6, 1.6])
+
+        The line direction is a unit vector.
 
         >>> line.direction
-        Vector([1., 0.])
+        Vector([0.70710678, 0.70710678])
 
         """
         points = Points(points)
@@ -522,7 +557,7 @@ class Line(_BaseLinePlane):
 
     def transform_points(self, points):
         """
-        Transform points to a one-dimensional coordinate system defined by a line.
+        Transform points to a one-dimensional coordinate system defined by the line.
 
         The point on the line acts as the origin of the coordinate system.
 
@@ -543,11 +578,25 @@ class Line(_BaseLinePlane):
         --------
         >>> from skspatial.objects import Line
 
-        >>> line = Line(point=[0, 0, 0], direction=[1, 0, 0])
-        >>> points = [[10, 2, 0], [3, 4, 0], [-5, 5, 0]]
+        >>> points = [[-1, 1], [0, 1], [1, 1], [2, 1]]
 
-        >>> line.transform_points(points)
-        array([10.,  3., -5.])
+        >>> Line([0, 0], [1, 0]).transform_points(points)
+        array([-1.,  0.,  1.,  2.])
+
+        The point on the line acts as the origin of the coordinates.
+
+        >>> Line([1, 0], [1, 0]).transform_points(points)
+        array([-2., -1.,  0.,  1.])
+
+        The sign of the coordinates depends on the direction of the line.
+
+        >>> Line([0, 0], [-1, 0]).transform_points(points)
+        array([ 1.,  0., -1., -2.])
+
+        The magnitude of the direction vector is irrelevant.
+
+        >>> Line([0, 0], [5, 0]).transform_points(points)
+        array([-1.,  0.,  1.,  2.])
 
         """
         # Basis vector of the subspace (the line).

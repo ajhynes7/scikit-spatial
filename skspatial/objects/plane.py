@@ -89,15 +89,13 @@ class Plane(_BaseLinePlane):
         ----------
         point : array_like
             Point on the plane.
-        vector_a : array_like
-            Input vector A.
-        vector_b : array_like
-            Input vector B.
+        vector_a, vector_b : array_like
+            Input vectors.
 
         Returns
         -------
         Plane
-            Plane containing input point and spanned by the two vectors.
+            Plane containing input point and spanned by the two input vectors.
 
         Raises
         ------
@@ -228,7 +226,7 @@ class Plane(_BaseLinePlane):
 
     def project_point(self, point):
         """
-        Project a point onto self.
+        Project a point onto the plane.
 
         Parameters
         ----------
@@ -249,6 +247,9 @@ class Plane(_BaseLinePlane):
         >>> plane.project_point([10, 2, 5])
         Point([10.,  2.,  0.])
 
+        >>> plane.project_point([5, 9, -3])
+        Point([5., 9., 0.])
+
         """
         # Vector from the point in space to the point on the plane.
         vector_to_plane = Vector.from_points(point, self.point)
@@ -259,7 +260,29 @@ class Plane(_BaseLinePlane):
         return Point(point) + vector_projected
 
     def project_vector(self, vector):
-        """Project a vector onto the plane."""
+        """
+        Project a vector onto the plane.
+
+        Parameters
+        ----------
+        vector : array_like
+            Input vector.
+
+        Returns
+        -------
+        Vector
+            Projection of the vector onto the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane([0, 4, 0], [0, 1, 1])
+
+        >>> plane.project_vector([2, 4, 8])
+        Vector([ 2., -2.,  2.])
+
+        """
         point_in_space = self.point + vector
         point_on_plane = self.project_point(point_in_space)
 
@@ -267,7 +290,7 @@ class Plane(_BaseLinePlane):
 
     def distance_point_signed(self, point):
         """
-        Return the signed distance from a point to self.
+        Return the signed distance from a point to the plane.
 
         Parameters
         ----------
@@ -277,7 +300,7 @@ class Plane(_BaseLinePlane):
         Returns
         -------
         float
-            Signed distance from the point to plane.
+            Signed distance from the point to the plane.
 
         References
         ----------
@@ -326,17 +349,25 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
+        The point is in on the plane.
+
         >>> plane.side_point([2, 5, 0])
         0
+
+        The point is in front of the plane.
 
         >>> plane.side_point([1, -5, 6])
         1
 
+        The point is behind the plane.
+
         >>> plane.side_point([5, 8, -4])
         -1
 
-        >>> plane = Plane([0, 0, 0, 0], [0, 0, -1, 1])
-        >>> plane.side_point([0, 0, 5, 1])
+        Higher dimensions are supported.
+
+        >>> plane = Plane([0, 0, 0, 0], [0, 1, 0, 1])
+        >>> plane.side_point([0, -10, 4, 1])
         -1
 
         """
@@ -344,7 +375,7 @@ class Plane(_BaseLinePlane):
 
     def intersect_line(self, line):
         """
-        Return the intersection of self with a line.
+        Intersect the plane with a line.
 
         The line and plane must not be parallel.
 
@@ -356,7 +387,7 @@ class Plane(_BaseLinePlane):
         Returns
         -------
         Point
-            The point at the intersection.
+            The point of intersection.
 
         Raises
         ------
@@ -403,14 +434,14 @@ class Plane(_BaseLinePlane):
 
     def intersect_plane(self, other):
         """
-        Return the intersection of two planes.
+        Intersect the plane with another.
 
         The planes must not be parallel.
 
         Parameters
         ----------
         other : Plane
-            Input plane B.
+            Other plane.
 
         Returns
         -------
@@ -497,12 +528,22 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> import numpy as np
         >>> from skspatial.objects import Plane
 
-        >>> points = ([0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0])
+        >>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]
+        >>> plane = Plane.best_fit(points)
 
-        >>> Plane.best_fit(points)
+        The point on the plane is the centroid of the points.
+
+        >>> plane.point
+        Point([0.25, 0.25, 0.25])
+
+        The plane normal is a unit vector.
+
+        >>> plane.normal
+        Vector([-0.57735027, -0.57735027, -0.57735027])
+
+        >>> Plane.best_fit([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
         """
