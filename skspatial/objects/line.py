@@ -163,7 +163,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
@@ -368,7 +368,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
 
         Returns
         -------
@@ -438,7 +438,7 @@ class Line(_BaseLinePlane):
         Parameters
         ----------
         other : Line
-            Input line.
+            Other line.
 
         Returns
         -------

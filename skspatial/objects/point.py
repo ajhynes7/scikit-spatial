@@ -71,7 +71,7 @@ class Point(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input point.
+            Other point.
 
         Returns
         -------

@@ -215,7 +215,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-             Input vector.
+             Other vector.
 
         Returns
         -------
@@ -254,7 +254,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -306,7 +306,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -344,7 +344,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -395,7 +395,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.isclose`.
 
@@ -434,7 +434,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.isclose`.
 
@@ -483,7 +483,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input 2D vector.
+            Other 2D vector.
 
         Returns
         -------
@@ -544,7 +544,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------
@@ -577,7 +577,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Input vector.
+            Other vector.
 
         Returns
         -------

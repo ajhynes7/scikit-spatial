@@ -443,7 +443,7 @@ class Plane(_BaseLinePlane):
         Parameters
         ----------
         other : Plane
-            Input plane B.
+            Other plane.
 
         Returns
         -------
