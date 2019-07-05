@@ -249,6 +249,9 @@ class Plane(_BaseLinePlane):
         >>> plane.project_point([10, 2, 5])
         Point([10.,  2.,  0.])
 
+        >>> plane.project_point([5, 9, -3])
+        Point([5., 9., 0.])
+
         """
         # Vector from the point in space to the point on the plane.
         vector_to_plane = Vector.from_points(point, self.point)
@@ -259,7 +262,29 @@ class Plane(_BaseLinePlane):
         return Point(point) + vector_projected
 
     def project_vector(self, vector):
-        """Project a vector onto the plane."""
+        """
+        Project a vector onto the plane.
+
+        Parameters
+        ----------
+        vector : array_like
+            Input vector.
+
+        Returns
+        -------
+        Vector
+            Projection of the vector onto the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane([0, 4, 0], [0, 1, 1])
+
+        >>> plane.project_vector([2, 4, 8])
+        Vector([ 2., -2.,  2.])
+
+        """
         point_in_space = self.point + vector
         point_on_plane = self.project_point(point_in_space)
 
@@ -326,17 +351,25 @@ class Plane(_BaseLinePlane):
         >>> from skspatial.objects import Plane
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
+        The point is in on the plane.
+
         >>> plane.side_point([2, 5, 0])
         0
+
+        The point is in front of the plane.
 
         >>> plane.side_point([1, -5, 6])
         1
 
+        The point is behind the plane.
+
         >>> plane.side_point([5, 8, -4])
         -1
 
-        >>> plane = Plane([0, 0, 0, 0], [0, 0, -1, 1])
-        >>> plane.side_point([0, 0, 5, 1])
+        Higher dimensions are supported.
+
+        >>> plane = Plane([0, 0, 0, 0], [0, 1, 0, 1])
+        >>> plane.side_point([0, -10, 4, 1])
         -1
 
         """
@@ -497,12 +530,22 @@ class Plane(_BaseLinePlane):
 
         Examples
         --------
-        >>> import numpy as np
         >>> from skspatial.objects import Plane
 
-        >>> points = ([0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0])
+        >>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]
+        >>> plane = Plane.best_fit(points)
 
-        >>> Plane.best_fit(points)
+        The point on the plane is the centroid of the points.
+
+        >>> plane.point
+        Point([0.25, 0.25, 0.25])
+
+        The plane normal is a unit vector.
+
+        >>> plane.normal
+        Vector([-0.57735027, -0.57735027, -0.57735027])
+
+        >>> Plane.best_fit([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
         """

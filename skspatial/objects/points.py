@@ -117,13 +117,18 @@ class Points(_BaseArray2D):
         --------
         >>> from skspatial.objects import Points
 
-        >>> points, centroid = Points([[4, 4, 4], [2, 2, 2]]).mean_center()
-        >>> points
+        >>> points_centered, centroid = Points([[4, 4, 4], [2, 2, 2]]).mean_center()
+        >>> points_centered
         Points([[ 1.,  1.,  1.],
                 [-1., -1., -1.]])
 
         >>> centroid
         Point([3., 3., 3.])
+
+        The centroid of the centered points is the origin.
+
+        >>> points_centered.centroid()
+        Point([0., 0.])
 
         """
         centroid = self.centroid()
@@ -188,6 +193,21 @@ class Points(_BaseArray2D):
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
+        Returns
+        -------
+        bool
+            True if points are concurrent; false otherwise.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Points
+
+        >>> Points([[0, 0], [1, 1], [1, 1]]).are_concurrent()
+        False
+
+        >>> Points([[1, 1], [1, 1], [1, 1]]).are_concurrent()
+        True
+
         """
         return self.affine_rank(**kwargs) == 0
 
@@ -200,6 +220,24 @@ class Points(_BaseArray2D):
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.matrix_rank`
 
+        Returns
+        -------
+        bool
+            True if points are collinear; false otherwise.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Points
+
+        >>> Points(([0, 0, 0], [1, 2, 3], [2, 4, 6])).are_collinear()
+        True
+
+        >>> Points(([0, 0, 0], [1, 2, 3], [5, 2, 0])).are_collinear()
+        False
+
+        >>> Points(([0, 0], [1, 2], [5, 2], [6, 3])).are_collinear()
+        False
+
         """
         return self.affine_rank(**kwargs) <= 1
 
@@ -211,6 +249,21 @@ class Points(_BaseArray2D):
         ----------
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.matrix_rank`
+
+        Returns
+        -------
+        bool
+            True if points are coplanar; false otherwise.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Points
+
+        >>> Points([[1, 2], [9, -18], [12, 4], [2, 1]]).are_coplanar()
+        True
+
+        >>> Points([[1, 2], [9, -18], [12, 4], [2, 2]]).are_coplanar()
+        True
 
         """
         return self.affine_rank(**kwargs) <= 2

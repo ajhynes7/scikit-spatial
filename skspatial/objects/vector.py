@@ -501,22 +501,28 @@ class Vector(_BaseArray1D):
         --------
         >>> from skspatial.objects import Vector
 
-        >>> vector = Vector([0, 1])
+        >>> vector_target = Vector([0, 1])
 
-        >>> vector.side_vector([1, 1])
-        1
+        The vector is parallel to the target vector.
 
-        >>> vector.side_vector([1, -10])
-        1
-
-        >>> vector.side_vector([0, 2])
+        >>> vector_target.side_vector([0, 2])
+        0
+        >>> vector_target.side_vector([0, -5])
         0
 
-        >>> vector.side_vector([0, -5])
-        0
+        The vector is to the right of the target vector.
 
-        >>> vector.side_vector([-3, 4])
+        >>> vector_target.side_vector([1, 1])
+        1
+        >>> vector_target.side_vector([1, -10])
+        1
+
+        The vector is to the left of the target vector.
+
+        >>> vector_target.side_vector([-3, 4])
         -1
+
+        The vectors are not 2D.
 
         >>> Vector([1, 0, 0]).side_vector([1, 2, 3])
         Traceback (most recent call last):
