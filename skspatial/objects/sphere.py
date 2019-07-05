@@ -193,7 +193,11 @@ class Sphere(_BaseSphere):
 
             >>> fig = plt.figure()
             >>> ax = fig.add_subplot(111, projection='3d')
-            >>> Sphere([0, 0, 0], 1).plot_3d(ax, cmap='coolwarm')
+
+            >>> sphere = Sphere([1, 2, 3], 2)
+
+            >>> sphere.plot_3d(ax, alpha=0.2)
+            >>> sphere.point.plot_3d(ax, s=100)
 
         """
         angles_a = np.linspace(0, np.pi, 30)
