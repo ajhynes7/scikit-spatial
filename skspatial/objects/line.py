@@ -595,6 +595,24 @@ class Line(_BaseLinePlane):
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
 
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from mpl_toolkits.mplot3d import Axes3D
+
+            >>> from skspatial.objects import Line
+
+            >>> fig = plt.figure()
+            >>> ax = fig.add_subplot(111, projection='3d')
+
+            >>> line = Line([1, 2, 3], [0, 1, 1])
+
+            >>> line.plot_3d(ax, c='k')
+            >>> line.point.plot_3d(ax, s=100)
+
         """
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)
