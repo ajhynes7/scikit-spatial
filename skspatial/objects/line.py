@@ -259,7 +259,7 @@ class Line(_BaseLinePlane):
 
     def project_point(self, point):
         """
-        Project a point onto this line.
+        Project a point onto the line.
 
         Parameters
         ----------

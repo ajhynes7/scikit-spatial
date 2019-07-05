@@ -130,7 +130,7 @@ class Vector(_BaseArray1D):
 
     def unit(self):
         """
-        Return the unit vector of this vector.
+        Return the unit vector in the same direction as the vector.
 
         Returns
         -------
@@ -247,7 +247,7 @@ class Vector(_BaseArray1D):
 
     def cosine_similarity(self, other):
         """
-        Return the cosine similarity of this vector with another.
+        Return the cosine similarity of the vector with another.
 
         This is the cosine of the angle between the vectors.
 
@@ -301,7 +301,7 @@ class Vector(_BaseArray1D):
 
     def angle_between(self, other):
         """
-        Return the angle in radians between this vector and another.
+        Return the angle in radians between the vector and another.
 
         Parameters
         ----------
@@ -539,7 +539,7 @@ class Vector(_BaseArray1D):
 
     def scalar_projection(self, other):
         """
-        Return the scalar projection of an other vector onto this vector.
+        Return the scalar projection of an other vector onto the vector.
 
         Parameters
         ----------
@@ -572,7 +572,7 @@ class Vector(_BaseArray1D):
 
     def project_vector(self, other):
         """
-        Project an other vector onto this vector.
+        Project an other vector onto the vector.
 
         Parameters
         ----------

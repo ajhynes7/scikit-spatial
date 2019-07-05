@@ -43,7 +43,7 @@ class _BaseComposite:
         return point_projected.distance_point(point)
 
     def contains_point(self, point, **kwargs):
-        """Check if this spatial object contains a point."""
+        """Check if the object contains a point."""
         distance = self.distance_point(point)
 
         return np.isclose(distance, 0, **kwargs)
