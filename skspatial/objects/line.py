@@ -363,7 +363,7 @@ class Line(_BaseLinePlane):
 
     def distance_line(self, other):
         """
-        Return the shortest distance from an other line to self.
+        Return the shortest distance from the line to another.
 
         Parameters
         ----------

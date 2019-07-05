@@ -292,7 +292,7 @@ class Plane(_BaseLinePlane):
 
     def distance_point_signed(self, point):
         """
-        Return the signed distance from a point to self.
+        Return the signed distance from a point to the plane.
 
         Parameters
         ----------
@@ -302,7 +302,7 @@ class Plane(_BaseLinePlane):
         Returns
         -------
         float
-            Signed distance from the point to plane.
+            Signed distance from the point to the plane.
 
         References
         ----------
@@ -377,7 +377,7 @@ class Plane(_BaseLinePlane):
 
     def intersect_line(self, line):
         """
-        Return the intersection of self with a line.
+        Return the intersection of the plane with a line.
 
         The line and plane must not be parallel.
 

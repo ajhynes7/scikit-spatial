@@ -66,7 +66,7 @@ class Point(_BaseArray1D):
 
     def distance_point(self, other):
         """
-        Compute the distance from self to another point.
+        Return the distance to another point.
 
         Parameters
         ----------

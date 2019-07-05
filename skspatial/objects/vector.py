@@ -388,7 +388,7 @@ class Vector(_BaseArray1D):
 
     def is_perpendicular(self, other, **kwargs):
         """
-        Check if an other vector is perpendicular to self.
+        Check if the vector is perpendicular to another.
 
         Vectors u and v are perpendicular <==> Dot product of u and v is zero.
 
@@ -427,7 +427,7 @@ class Vector(_BaseArray1D):
 
     def is_parallel(self, other, **kwargs):
         """
-        Check if an other vector is parallel to self.
+        Check if the vector is parallel to another.
 
         Two vectors are parallel iff their cross product is the zero vector.
 
@@ -488,9 +488,9 @@ class Vector(_BaseArray1D):
         Returns
         -------
         int
-            1 if the other vector is right of self.
-            0 if other is parallel to self.
-            -1 if other is left of self.
+            1 if the other vector is to the right.
+            0 if the other is parallel.
+            -1 if the other is to the left.
 
         Raises
         ------
