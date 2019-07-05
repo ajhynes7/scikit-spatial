@@ -132,10 +132,12 @@ class Vector(_BaseArray1D):
         """
         Return the unit vector in the same direction as the vector.
 
+        A unit vector is a vector with a magnitude of one.
+
         Returns
         -------
         Vector
-            Unit vector in same direction as original vector.
+            Unit vector.
 
         Raises
         ------

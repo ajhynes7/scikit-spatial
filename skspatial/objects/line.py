@@ -175,7 +175,7 @@ class Line(_BaseLinePlane):
         Raises
         ------
         TypeError
-            If input is not a line.
+            If the input is not a line.
 
         References
         ----------
@@ -373,7 +373,7 @@ class Line(_BaseLinePlane):
         Returns
         -------
         scalar
-            The distance between the lines.
+            Distance between the lines.
 
         References
         ----------

@@ -89,15 +89,13 @@ class Plane(_BaseLinePlane):
         ----------
         point : array_like
             Point on the plane.
-        vector_a : array_like
-            Input vector A.
-        vector_b : array_like
-            Input vector B.
+        vector_a, vector_b : array_like
+            Input vectors.
 
         Returns
         -------
         Plane
-            Plane containing input point and spanned by the two vectors.
+            Plane containing input point and spanned by the two input vectors.
 
         Raises
         ------
@@ -389,7 +387,7 @@ class Plane(_BaseLinePlane):
         Returns
         -------
         Point
-            The point at the intersection.
+            The point of intersection.
 
         Raises
         ------
