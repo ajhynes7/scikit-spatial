@@ -529,7 +529,7 @@ class Plane(_BaseLinePlane):
         ----------
         ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        lims_x, lims_y : tuple
+        lims_x, lims_y : (2,) tuple
             x and y limits of the plane.
             Tuple of form (min, max). The default is (-1, 1).
             The point on the plane is used as the origin.
