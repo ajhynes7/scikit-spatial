@@ -126,7 +126,7 @@ class Points(_BaseArray2D):
         The centroid of the centered points is the origin.
 
         >>> points_centered.centroid()
-        Point([0., 0.])
+        Point([0., 0., 0.])
 
         """
         centroid = self.centroid()
