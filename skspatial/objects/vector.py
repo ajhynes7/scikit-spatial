@@ -109,7 +109,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Norm of the vector.
 
         Examples
@@ -291,7 +291,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Cosine similarity.
 
         Raises
@@ -343,7 +343,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Angle between vectors in radians.
 
         Examples
@@ -383,7 +383,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Signed angle between vectors in radians.
 
         Raises
@@ -581,7 +581,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Scalar projection.
 
         Examples
@@ -648,7 +648,7 @@ class Vector(_BaseArray1D):
             Instance of :class:`~matplotlib.axes.Axes`.
         point : array_like, optional
             Position of the vector tail (default is origin).
-        scalar : scalar, optional
+        scalar : {int, float}, optional
             Value used to scale the vector (default 1).
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.arrow`.
@@ -686,7 +686,7 @@ class Vector(_BaseArray1D):
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         point : array_like, optional
             Position of the vector tail (default is origin).
-        scalar : scalar, optional
+        scalar : {int, float}, optional
             Value used to scale the vector (default 1).
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.

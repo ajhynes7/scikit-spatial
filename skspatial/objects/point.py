@@ -75,7 +75,7 @@ class Point(_BaseArray1D):
 
         Returns
         -------
-        scalar
+        float
             Distance between the points.
 
         Examples

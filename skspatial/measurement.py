@@ -16,7 +16,7 @@ def area_triangle(point_a, point_b, point_c):
 
     Returns
     -------
-    scalar
+    float
         The area of the triangle.
 
     References
@@ -59,7 +59,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Returns
     -------
-    scalar
+    float
         The volume of the tetrahedron.
 
     References

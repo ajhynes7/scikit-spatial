@@ -124,9 +124,9 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        slope : scalar
+        slope : {int, float}
             Slope of the 2D line.
-        y_intercept : scalar
+        y_intercept : {int, float}
             Y coordinate of the point where the line intersects the Y axis.
 
         Returns
@@ -226,7 +226,7 @@ class Line(_BaseLinePlane):
 
         Parameters
         ----------
-        t : scalar
+        t : {int, float}
             Parameter that defines the new point along the line.
 
         Returns
@@ -330,7 +330,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        scalar
+        int
             -1 if the point is left of the line.
             0 if the point is on the line.
             1 if the point is right of the line.
@@ -372,7 +372,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        scalar
+        float
             Distance between the lines.
 
         References
@@ -616,7 +616,7 @@ class Line(_BaseLinePlane):
         ----------
         ax_2d : Axes
             Instance of :class:`~matplotlib.axes.Axes`.
-        t_1, t_2 : scalar
+        t_1, t_2 : {int, float}
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
         kwargs : dict, optional
@@ -654,9 +654,10 @@ class Line(_BaseLinePlane):
         ----------
         ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        t_1, t_2 : scalar
+        t_1, t_2 : {int, float}
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
+            Defaults are -1 and 1.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
 
