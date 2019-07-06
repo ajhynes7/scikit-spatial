@@ -236,9 +236,12 @@ class Circle(_BaseSphere):
 
             >>> from skspatial.objects import Circle
 
+            >>> circle = Circle([-2, 3], 3)
+
             >>> fig, ax = plt.subplots()
-            >>> Circle([0, 0], 1).plot_2d(ax, fill=False)
-            >>> limits = plt.axis([-2, 2, -2, 2])
+            >>> circle.plot_2d(ax, fill=False)
+            >>> circle.point.plot_2d(ax)
+            >>> limits = plt.axis([-10, 10, -10, 10])
 
         """
         circle = plt.Circle(self.point, self.radius, **kwargs)
