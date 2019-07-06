@@ -16,7 +16,7 @@ vector_projected = line.project_vector(vector)
 
 
 plot_3d(
-    line.plotter(t_1=-1, t_2=1, c='k', linestyle='--'),
+    line.plotter(c='k', linestyle='--'),
     vector.plotter(point=line.point, color='k'),
     vector_projected.plotter(point=line.point, color='r', linewidth=2, zorder=3),
 )

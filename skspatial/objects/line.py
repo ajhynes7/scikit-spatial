@@ -606,7 +606,7 @@ class Line(_BaseLinePlane):
 
         return column.flatten()
 
-    def plot_2d(self, ax_2d, t_1=0, t_2=1, **kwargs):
+    def plot_2d(self, ax_2d, t_1=-1, t_2=1, **kwargs):
         """
         Plot a 2D line.
 
@@ -644,7 +644,7 @@ class Line(_BaseLinePlane):
 
         _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
-    def plot_3d(self, ax_3d, t_1=0, t_2=1, **kwargs):
+    def plot_3d(self, ax_3d, t_1=-1, t_2=1, **kwargs):
         """
         Plot a 3D line.
 

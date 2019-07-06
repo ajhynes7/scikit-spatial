@@ -15,6 +15,6 @@ point_intersection = plane.intersect_line(line)
 
 plot_3d(
     plane.plotter(lims_x=[-2, 2], lims_y=[-2, 2], alpha=0.2),
-    line.plotter(t_1=-1, t_2=5),
+    line.plotter(t_2=5),
     point_intersection.plotter(c='k', s=75),
 )
