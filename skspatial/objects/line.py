@@ -622,6 +622,22 @@ class Line(_BaseLinePlane):
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.plot`.
 
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from skspatial.objects import Line
+
+            >>> _, ax = plt.subplots()
+
+            >>> line = Line([1, 2], [3, 4])
+
+            >>> line.plot_2d(ax, t_1=-2, t_2=3, c='k')
+            >>> line.point.plot_2d(ax, c='r', s=100, zorder=3)
+            >>> grid = ax.grid()
+
         """
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)

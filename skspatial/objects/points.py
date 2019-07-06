@@ -277,6 +277,19 @@ class Points(_BaseArray2D):
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
 
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+
+            >>> from skspatial.objects import Points
+
+            >>> fig, ax = plt.subplots()
+            >>> points = Points([[1, 2], [3, 4], [-4, 2], [-2, 3]])
+            >>> points.plot_2d(ax, c='k')
+
         """
         _scatter_2d(ax_2d, self, **kwargs)
 
@@ -290,6 +303,22 @@ class Points(_BaseArray2D):
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from mpl_toolkits.mplot3d import Axes3D
+
+            >>> from skspatial.objects import Points
+
+            >>> fig = plt.figure()
+            >>> ax = fig.add_subplot(111, projection='3d')
+
+            >>> points = Points([[1, 2, 1], [3, 2, -7], [-4, 2, 2], [-2, 3, 1]])
+            >>> points.plot_3d(ax, s=75, depthshade=False)
 
         """
         _scatter_3d(ax_3d, self, **kwargs)

@@ -1,5 +1,9 @@
 """Module for the Vector class."""
 
+from __future__ import annotations
+
+from typing import Union
+
 import numpy as np
 
 from skspatial.objects._base_array import _BaseArray1D
@@ -61,12 +65,12 @@ class Vector(_BaseArray1D):
 
     """
 
-    def __new__(cls, array):
+    def __new__(cls, array: list):
         """Create a new Vector object."""
         return super().__new__(cls, array)
 
     @classmethod
-    def from_points(cls, point_a, point_b):
+    def from_points(cls, point_a: list, point_b: list) -> Vector:
         """
         Instantiate a vector from point A to point B.
 
@@ -96,7 +100,7 @@ class Vector(_BaseArray1D):
         """
         return cls(np.subtract(point_b, point_a))
 
-    def norm(self, **kwargs):
+    def norm(self, **kwargs) -> float:
         """
         Return the norm of the vector.
 
@@ -173,7 +177,7 @@ class Vector(_BaseArray1D):
 
         return self / magnitude
 
-    def is_zero(self, **kwargs):
+    def is_zero(self, **kwargs) -> bool:
         """
         Check if the vector is the zero vector.
 
@@ -206,7 +210,7 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    def dot(self, other):
+    def dot(self, other: list) -> Union[int, float]:
         """
         Return the dot product with another vector.
 
@@ -239,7 +243,7 @@ class Vector(_BaseArray1D):
         """
         return np.dot(self, other)
 
-    def cross(self, other):
+    def cross(self, other: list) -> Vector:
         """
         Compute the cross product with another vector.
 
@@ -276,7 +280,7 @@ class Vector(_BaseArray1D):
 
         return Vector(np.cross(vector_a, vector_b))
 
-    def cosine_similarity(self, other):
+    def cosine_similarity(self, other: list) -> float:
         """
         Return the cosine similarity of the vector with another.
 
@@ -330,7 +334,7 @@ class Vector(_BaseArray1D):
         # so that the angle theta is defined.
         return np.clip(cos_theta, -1, 1)
 
-    def angle_between(self, other):
+    def angle_between(self, other: list) -> float:
         """
         Return the angle in radians between the vector and another.
 
@@ -368,7 +372,7 @@ class Vector(_BaseArray1D):
 
         return np.arccos(cos_theta)
 
-    def angle_signed(self, other):
+    def angle_signed(self, other: list) -> float:
         """
         Return the signed angle in radians between the vector and another.
 
@@ -409,9 +413,7 @@ class Vector(_BaseArray1D):
         ValueError: The vectors must be 2D.
 
         """
-        other = Vector(other)
-
-        if not (self.dimension == 2 and other.dimension == 2):
+        if not (self.dimension == 2 and Vector(other).dimension == 2):
             raise ValueError("The vectors must be 2D.")
 
         dot = self.dot(other)
@@ -419,7 +421,7 @@ class Vector(_BaseArray1D):
 
         return np.arctan2(det, dot)
 
-    def is_perpendicular(self, other, **kwargs):
+    def is_perpendicular(self, other: list, **kwargs) -> bool:
         """
         Check if the vector is perpendicular to another.
 
@@ -458,7 +460,7 @@ class Vector(_BaseArray1D):
         """
         return np.isclose(self.dot(other), 0, **kwargs)
 
-    def is_parallel(self, other, **kwargs):
+    def is_parallel(self, other: list, **kwargs) -> bool:
         """
         Check if the vector is parallel to another.
 
@@ -507,7 +509,7 @@ class Vector(_BaseArray1D):
 
         return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
 
-    def side_vector(self, other):
+    def side_vector(self, other: list) -> int:
         """
         Find the side of the vector where another vector is directed.
 
@@ -570,7 +572,7 @@ class Vector(_BaseArray1D):
 
         return np.sign(value_cross).astype(int)
 
-    def scalar_projection(self, other):
+    def scalar_projection(self, other: list) -> float:
         """
         Return the scalar projection of an other vector onto the vector.
 
@@ -603,7 +605,7 @@ class Vector(_BaseArray1D):
         """
         return self.unit().dot(other)
 
-    def project_vector(self, other):
+    def project_vector(self, other: list):
         """
         Project an other vector onto the vector.
 
@@ -653,6 +655,20 @@ class Vector(_BaseArray1D):
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.arrow`.
 
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from skspatial.objects import Vector
+
+            >>> _, ax = plt.subplots()
+
+            >>> Vector([1, 1]).plot_2d(ax, point=(-3, 5), scalar=2, head_width=0.5)
+
+            >>> limits = ax.axis([-5, 5, 0, 10])
+
         """
         x, y = point
         dx, dy = scalar * self
@@ -676,6 +692,21 @@ class Vector(_BaseArray1D):
             Value used to scale the vector (default 1).
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from mpl_toolkits.mplot3d import Axes3D
+
+            >>> from skspatial.objects import Vector
+
+            >>> fig = plt.figure()
+            >>> ax = fig.add_subplot(111, projection='3d')
+
+            >>> Vector([-1, 1, 1]).plot_3d(ax, point=(1, 2, 3), c='r')
 
         """
         point_2 = np.array(point) + scalar * self
