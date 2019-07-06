@@ -1,7 +1,5 @@
 """Module for the Vector class."""
 
-from __future__ import annotations
-
 from typing import Union
 
 import numpy as np
@@ -70,7 +68,7 @@ class Vector(_BaseArray1D):
         return super().__new__(cls, array)
 
     @classmethod
-    def from_points(cls, point_a: list, point_b: list) -> Vector:
+    def from_points(cls, point_a: list, point_b: list):
         """
         Instantiate a vector from point A to point B.
 
@@ -243,7 +241,7 @@ class Vector(_BaseArray1D):
         """
         return np.dot(self, other)
 
-    def cross(self, other: list) -> Vector:
+    def cross(self, other: list):
         """
         Compute the cross product with another vector.
 
