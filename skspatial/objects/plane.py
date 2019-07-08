@@ -1,7 +1,5 @@
 """Module for the Plane class."""
 
-from typing import Sequence
-
 import numpy as np
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
