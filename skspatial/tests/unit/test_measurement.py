@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from skspatial.measurement import area_triangle, volume_tetrahedron
-from skspatial.objects import Point, Vector, Line, Plane
+from skspatial.objects import Point, Vector, Line, Plane, Circle, Sphere
 
 
 @pytest.mark.parametrize(
@@ -150,6 +150,43 @@ def test_distance_point_plane(point, plane, dist_signed_expected):
 def test_distance_lines(line_a, line_b, dist_expected):
 
     assert np.isclose(line_a.distance_line(line_b), dist_expected)
+
+
+@pytest.mark.parametrize(
+    "circle, point, dist_expected",
+    [
+        (Circle([0, 0], 1), [0, 0], 1),
+        (Circle([0, 0], 1), [0.5, 0], 0.5),
+        (Circle([0, 0], 1), [1, 0], 0),
+        (Circle([0, 0], 1), [0, 1], 0),
+        (Circle([0, 0], 1), [-1, 0], 0),
+        (Circle([0, 0], 1), [0, -1], 0),
+        (Circle([0, 0], 1), [2, 0], 1),
+        (Circle([0, 0], 1), [1, 1], np.sqrt(2) - 1),
+        (Circle([1, 1], 1), [0, 0], np.sqrt(2) - 1),
+        (Circle([0, 0], 2), [0, 5], 3),
+    ],
+)
+def test_distance_circle_point(circle, point, dist_expected):
+
+    assert np.isclose(circle.distance_point(point), dist_expected)
+
+
+@pytest.mark.parametrize(
+    "sphere, point, dist_expected",
+    [
+        (Sphere([0, 0, 0], 1), [0, 0, 0], 1),
+        (Sphere([0, 0, 0], 1), [1, 0, 0], 0),
+        (Sphere([0, 0, 0], 1), [0, -1, 0], 0),
+        (Sphere([0, 0, 0], 2), [0, 0, 0], 2),
+        (Sphere([0, 0, 0], 1), [1, 1, 1], np.sqrt(3) - 1),
+        (Sphere([0, 0, 0], 2), [1, 1, 1], 2 - np.sqrt(3)),
+        (Sphere([1, 0, 0], 2), [0, 0, 0], 1),
+    ],
+)
+def test_distance_plane_point(sphere, point, dist_expected):
+
+    assert np.isclose(sphere.distance_point(point), dist_expected)
 
 
 @pytest.mark.parametrize(
