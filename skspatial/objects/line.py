@@ -361,6 +361,12 @@ class Line(_BaseLinePlane):
 
         return self.direction.side_vector(vector_to_point)
 
+    def distance_point(self, point):
+        """Return the distance from a point to the line."""
+        point_projected = self.project_point(point)
+
+        return point_projected.distance_point(point)
+
     def distance_line(self, other):
         """
         Return the shortest distance from the line to another.

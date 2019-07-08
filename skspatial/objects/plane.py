@@ -328,6 +328,42 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
+    def distance_point(self, point):
+        """
+        Return the distance from a point to the plane.
+
+        Parameters
+        ----------
+        point : array_like
+            Input point.
+
+        Returns
+        -------
+        np.float64
+            Distance from the point to the plane.
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Point-PlaneDistance.html
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+
+        >>> plane.distance_point([5, 2, 0])
+        0.0
+
+        >>> plane.distance_point([5, 2, 1])
+        1.0
+
+        >>> plane.distance_point([5, 2, -4])
+        4.0
+
+        """
+        return abs(self.distance_point_signed(point))
+
     def side_point(self, point):
         """
         Find the side of the plane where a point lies.

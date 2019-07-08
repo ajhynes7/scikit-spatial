@@ -2,12 +2,13 @@
 
 import numpy as np
 
-from skspatial.objects._base_composite import _BaseComposite
+from skspatial._functions import _contains_point
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
+from skspatial.plotting import _plotter
 
 
-class _BaseSphere(_BaseComposite):
+class _BaseSphere:
     """Private parent class for Circle and Sphere."""
 
     def __init__(self, point, radius):
@@ -27,6 +28,16 @@ class _BaseSphere(_BaseComposite):
         repr_point = np.array_repr(self.point)
 
         return f"{name_class}(point={repr_point}, radius={self.radius})"
+
+    def distance_point(self, point: Sequence) -> np.float64:
+        """Return the distance from a point to the circle/sphere."""
+        distance_to_center = self.point.distance_point(point)
+
+        return abs(distance_to_center - self.radius)
+
+    def contains_point(self, point: Sequence, **kwargs) -> bool:
+        """Check if the line/plane contains a point."""
+        return _contains_point(self, point)
 
     def project_point(self, point):
         """
@@ -78,3 +89,7 @@ class _BaseSphere(_BaseComposite):
         vector_to_point = Vector.from_points(self.point, point)
 
         return self.point + self.radius * vector_to_point.unit()
+
+    def plotter(self, **kwargs):
+
+        return _plotter(self, **kwargs)
