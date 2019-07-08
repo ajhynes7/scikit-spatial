@@ -1,5 +1,7 @@
 """Module for base class of Circle and Sphere."""
 
+from typing import Sequence
+
 import numpy as np
 
 from skspatial._functions import _contains_point

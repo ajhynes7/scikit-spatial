@@ -1,6 +1,7 @@
 """Module for private parent class of Line and Plane."""
 
 import inspect
+from typing import Sequence
 
 import numpy as np
 

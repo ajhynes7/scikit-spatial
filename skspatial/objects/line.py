@@ -1,5 +1,7 @@
 """Module for the Line class."""
 
+from typing import Sequence
+
 import numpy as np
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
