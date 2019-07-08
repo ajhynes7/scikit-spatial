@@ -1,5 +1,7 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
+from typing import Callable
+
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -96,6 +98,30 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
     zs = [point_a[2], point_b[2]]
 
     ax_3d.plot(xs, ys, zs, **kwargs)
+
+
+def _plotter(obj, **kwargs) -> Callable:
+    """Return a function that plots the object when passed a matplotlib axes."""
+    if obj.dimension == 2:
+
+        if not hasattr(obj, 'plot_2d'):
+            raise ValueError("The object cannot be plotted in 2D.")
+
+        def func(ax):
+            obj.plot_2d(ax, **kwargs)
+
+    elif obj.dimension == 3:
+
+        if not hasattr(obj, 'plot_3d'):
+            raise ValueError("The object cannot be plotted in 3D.")
+
+        def func(ax):
+            obj.plot_3d(ax, **kwargs)
+
+    else:
+        raise ValueError("The dimension must be 2 or 3.")
+
+    return func
 
 
 def plot_2d(*plotters):
