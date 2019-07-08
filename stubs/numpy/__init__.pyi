@@ -280,7 +280,7 @@ class _ArrayOrScalarCommon(
 
 _BufferType = Union[ndarray, bytes, bytearray, memoryview]
 
-class ndarray(_ArrayOrScalarCommon, Iterable, Sized, Container):
+class ndarray(_ArrayOrScalarCommon, Sequence):
     real: ndarray
     imag: ndarray
     def __new__(
