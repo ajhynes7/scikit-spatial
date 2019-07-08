@@ -5,6 +5,7 @@
 .eggs
 .hypothesis
 .ipynb_checkpoints
+.mypy_cache
 .tox
 .vscode
 __pycache__
