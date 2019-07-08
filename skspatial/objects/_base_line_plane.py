@@ -4,12 +4,13 @@ import inspect
 
 import numpy as np
 
-from skspatial.objects._base_composite import _BaseComposite
+from skspatial._functions import _contains_point, _sum_squares
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
+from skspatial.plotting import _plotter
 
 
-class _BaseLinePlane(_BaseComposite):
+class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
     def __init__(self, point, vector):
@@ -34,6 +35,10 @@ class _BaseLinePlane(_BaseComposite):
         repr_vector = np.array_repr(self.vector)
 
         return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
+
+    def contains_point(self, point: Sequence, **kwargs) -> bool:
+        """Check if the line/plane contains a point."""
+        return _contains_point(self, point, **kwargs)
 
     def is_close(self, other, **kwargs):
         """
@@ -91,3 +96,11 @@ class _BaseLinePlane(_BaseComposite):
         is_parallel = self.vector.is_parallel(other.vector, **kwargs)
 
         return contains_point and is_parallel
+
+    def sum_squares(self, points: Sequence) -> np.float64:
+
+        return _sum_squares(self, points)
+
+    def plotter(self, **kwargs):
+
+        return _plotter(self, **kwargs)
