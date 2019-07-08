@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from skspatial.plotting import _plotter
+
 
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
@@ -86,12 +88,8 @@ class _BaseArray(np.ndarray):
         return np.array_equal(self, other)
 
     def plotter(self, **kwargs):
-        """Return a function that plots the object when passed a matplotlib axes."""
-        if self.dimension == 2:
-            return lambda ax: self.plot_2d(ax, **kwargs)
 
-        if self.dimension == 3:
-            return lambda ax: self.plot_3d(ax, **kwargs)
+        return _plotter(self, **kwargs)
 
 
 class _BaseArray1D(_BaseArray):
