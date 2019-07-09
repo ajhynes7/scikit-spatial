@@ -63,10 +63,6 @@ class Points(_BaseArray2D):
 
     """
 
-    def __new__(cls, points):
-        """Create a new Points object."""
-        return super().__new__(cls, points)
-
     def unique(self):
         """
         Return unique points.

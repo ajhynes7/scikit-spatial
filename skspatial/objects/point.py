@@ -60,9 +60,6 @@ class Point(_BaseArray1D):
 
     """
 
-    def __new__(cls, array):
-        """Create a new Point object."""
-        return super().__new__(cls, array)
 
     def distance_point(self, other):
         """
