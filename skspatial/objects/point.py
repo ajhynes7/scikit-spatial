@@ -3,6 +3,8 @@
 from typing import Sequence
 
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
@@ -97,7 +99,7 @@ class Point(_BaseArray1D):
 
         return vector.norm()
 
-    def plot_2d(self, ax_2d, **kwargs):
+    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
         """
         Plot the point on a 2D scatter plot.
 
@@ -123,7 +125,7 @@ class Point(_BaseArray1D):
         """
         _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
-    def plot_3d(self, ax_3d, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
         """
         Plot the point on a 3D scatter plot.
 

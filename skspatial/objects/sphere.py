@@ -3,6 +3,7 @@
 from typing import Sequence, Tuple
 
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
@@ -174,7 +175,7 @@ class Sphere(_BaseSphere):
 
         return point_a, point_b
 
-    def plot_3d(self, ax_3d, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
         """
         Plot the sphere in 3D.
 

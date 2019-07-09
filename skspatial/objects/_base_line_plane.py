@@ -1,9 +1,11 @@
 """Module for private parent class of Line and Plane."""
 
 import inspect
-from typing import Sequence
+from typing import Callable, Sequence, Union
 
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _contains_point, _sum_squares
 from skspatial.objects.point import Point
@@ -102,6 +104,6 @@ class _BaseLinePlane:
 
         return _sum_squares(self, points)
 
-    def plotter(self, **kwargs):
+    def plotter(self, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
 
         return _plotter(self, **kwargs)
