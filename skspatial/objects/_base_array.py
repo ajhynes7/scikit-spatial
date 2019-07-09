@@ -1,16 +1,24 @@
 """Private base classes for arrays."""
 
-from typing import Callable, Sequence
+from typing import Callable, Sequence, TypeVar, Type
 
 import numpy as np
 
 from skspatial.plotting import _plotter
 
 
+# Create generic variables that can be 'Parent' or any subclass.
+Array = TypeVar('Array', bound='_BaseArray')
+
+Array1D = TypeVar('Array1D', bound='_BaseArray1D')
+
+Array2D = TypeVar('Array2D', bound='_BaseArray2D')
+
+
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    def __new__(cls, array: Sequence):
+    def __new__(cls: Type[Array], array: Sequence) -> Array:
 
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")
@@ -23,7 +31,7 @@ class _BaseArray(np.ndarray):
 
         return obj
 
-    def __array_finalize__(self, obj):
+    def __array_finalize__(self, obj: Sequence) -> None:
         """
         Finalize creation of the array.
 
@@ -97,7 +105,7 @@ class _BaseArray(np.ndarray):
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
-    def __new__(cls, array: Sequence):
+    def __new__(cls: Type[Array1D], array: Sequence) -> Array1D:
 
         obj = super().__new__(cls, array)
 
@@ -108,7 +116,7 @@ class _BaseArray1D(_BaseArray):
 
         return obj
 
-    def set_dimension(self, dim: int):
+    def set_dimension(self: Array1D, dim: int) -> Array1D:
         """
         Set the dimension (length) of the 1D array.
 
@@ -156,7 +164,7 @@ class _BaseArray1D(_BaseArray):
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
-    def __new__(cls, array: Sequence):
+    def __new__(cls: Type[Array2D], array: Sequence) -> Array2D:
 
         obj = super().__new__(cls, array)
 
@@ -167,7 +175,7 @@ class _BaseArray2D(_BaseArray):
 
         return obj
 
-    def set_dimension(self, dim: int):
+    def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
         Set the dimension (width) of the 2D array.
 
