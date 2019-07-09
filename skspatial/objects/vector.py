@@ -1,6 +1,6 @@
 """Module for the Vector class."""
 
-from typing import Union
+from typing import Sequence
 
 import numpy as np
 
@@ -204,7 +204,7 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    def dot(self, other: list) -> Union[int, float]:
+    def dot(self, other: Sequence) -> np.float64:
         """
         Return the dot product with another vector.
 
