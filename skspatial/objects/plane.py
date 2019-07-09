@@ -1,6 +1,9 @@
 """Module for the Plane class."""
 
+from typing import Sequence, Tuple
+
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.line import Line
@@ -73,13 +76,13 @@ class Plane(_BaseLinePlane):
 
     """
 
-    def __init__(self, point, normal):
+    def __init__(self, point: Sequence, normal: Sequence):
 
         super().__init__(point, normal)
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point, vector_a, vector_b):
+    def from_vectors(cls, point: Sequence, vector_a: Sequence, vector_b: Sequence) -> 'Plane':
         """
         Instantiate a plane from a point and two vectors.
 
@@ -129,7 +132,7 @@ class Plane(_BaseLinePlane):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a, point_b, point_c):
+    def from_points(cls, point_a: Sequence, point_b: Sequence, point_c: Sequence) -> 'Plane':
         """
         Instantiate a plane from three points.
 
@@ -176,7 +179,7 @@ class Plane(_BaseLinePlane):
 
         return Plane.from_vectors(point_a, vector_ab, vector_ac)
 
-    def cartesian(self):
+    def cartesian(self) -> Tuple[np.number, np.number, np.number, np.number]:
         """
         Return the coefficients of the Cartesian equation of the plane.
 
@@ -224,7 +227,7 @@ class Plane(_BaseLinePlane):
 
         return a, b, c, d
 
-    def project_point(self, point):
+    def project_point(self, point: Sequence) -> Point:
         """
         Project a point onto the plane.
 
@@ -259,7 +262,7 @@ class Plane(_BaseLinePlane):
 
         return Point(point) + vector_projected
 
-    def project_vector(self, vector):
+    def project_vector(self, vector: Sequence) -> Vector:
         """
         Project a vector onto the plane.
 
@@ -288,7 +291,7 @@ class Plane(_BaseLinePlane):
 
         return Vector.from_points(self.point, point_on_plane)
 
-    def distance_point_signed(self, point):
+    def distance_point_signed(self, point: Sequence) -> np.float64:
         """
         Return the signed distance from a point to the plane.
 
@@ -299,7 +302,7 @@ class Plane(_BaseLinePlane):
 
         Returns
         -------
-        float
+        np.float64
             Signed distance from the point to the plane.
 
         References
@@ -328,7 +331,7 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    def distance_point(self, point):
+    def distance_point(self, point: Sequence) -> np.float64:
         """
         Return the distance from a point to the plane.
 
@@ -364,7 +367,7 @@ class Plane(_BaseLinePlane):
         """
         return abs(self.distance_point_signed(point))
 
-    def side_point(self, point):
+    def side_point(self, point: Sequence) -> np.float64:
         """
         Find the side of the plane where a point lies.
 
@@ -375,7 +378,7 @@ class Plane(_BaseLinePlane):
 
         Returns
         -------
-        int
+        np.int64
             -1 if the point is behind the plane.
             0 if the point is on the plane.
             1 if the point is in front of the plane.
@@ -409,7 +412,7 @@ class Plane(_BaseLinePlane):
         """
         return np.sign(self.distance_point_signed(point)).astype(int)
 
-    def intersect_line(self, line):
+    def intersect_line(self, line: Line) -> 'Plane':
         """
         Intersect the plane with a line.
 
@@ -468,7 +471,7 @@ class Plane(_BaseLinePlane):
 
         return line.point + vector_line_scaled
 
-    def intersect_plane(self, other):
+    def intersect_plane(self, other: 'Plane') -> Line:
         """
         Intersect the plane with another.
 
@@ -543,7 +546,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points):
+    def best_fit(cls, points: Sequence) -> 'Plane':
         """
         Return the plane of best fit for a set of 3D points.
 
@@ -598,7 +601,7 @@ class Plane(_BaseLinePlane):
 
         return cls(centroid, normal)
 
-    def plot_3d(self, ax_3d, lims_x=(-1, 1), lims_y=(-1, 1), **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1), **kwargs: float) -> None:
         """
         Plot a 3D plane.
 

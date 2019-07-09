@@ -1,5 +1,9 @@
 """Module for the Point class."""
 
+from typing import Sequence
+
+import numpy as np
+
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _scatter_2d, _scatter_3d
@@ -60,8 +64,7 @@ class Point(_BaseArray1D):
 
     """
 
-
-    def distance_point(self, other):
+    def distance_point(self, other: Sequence) -> np.float64:
         """
         Return the distance to another point.
 
@@ -72,7 +75,7 @@ class Point(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Distance between the points.
 
         Examples

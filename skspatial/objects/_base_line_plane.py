@@ -14,7 +14,7 @@ from skspatial.plotting import _plotter
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
-    def __init__(self, point, vector):
+    def __init__(self, point: Sequence, vector: Sequence):
 
         self.point = Point(point)
         self.vector = Vector(vector)
@@ -37,13 +37,13 @@ class _BaseLinePlane:
 
         return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
 
-    def contains_point(self, point: Sequence, **kwargs) -> bool:
+    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point, **kwargs)
 
-    def is_close(self, other, **kwargs):
+    def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
-        Check if line/plane is almost equivalent to another line/plane.
+        Check if the line/plane is almost equivalent to another line/plane.
 
         The points must be close and the vectors must be parallel.
 

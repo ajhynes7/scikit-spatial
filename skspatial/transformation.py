@@ -1,9 +1,11 @@
 """Spatial transformations."""
 
+from typing import Sequence
+
 import numpy as np
 
 
-def transform_coordinates(points, point_origin, vectors_basis):
+def transform_coordinates(points: Sequence, point_origin: Sequence, vectors_basis: Sequence) -> np.ndarray:
     """
     Transform points into a new coordinate system.
 

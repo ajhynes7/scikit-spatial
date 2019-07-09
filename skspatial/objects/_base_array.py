@@ -1,5 +1,7 @@
 """Private base classes for arrays."""
 
+from typing import Callable, Sequence
+
 import numpy as np
 
 from skspatial.plotting import _plotter
@@ -8,16 +10,16 @@ from skspatial.plotting import _plotter
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    def __new__(cls, array_like):
+    def __new__(cls, array: Sequence):
 
-        if np.size(array_like) == 0:
+        if np.size(array) == 0:
             raise ValueError("The array must not be empty.")
 
-        if not np.isfinite(array_like).all():
+        if not np.isfinite(array).all():
             raise ValueError("The values must all be finite.")
 
         # We cast the input array to be our class type.
-        obj = np.asarray(array_like).view(cls)
+        obj = np.asarray(array).view(cls)
 
         return obj
 
@@ -52,7 +54,7 @@ class _BaseArray(np.ndarray):
         """
         self.dimension = getattr(obj, 'dimension', None)
 
-    def is_close(self, other, **kwargs):
+    def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the array is close to another.
 
@@ -70,7 +72,7 @@ class _BaseArray(np.ndarray):
         """
         return np.allclose(self, other, **kwargs)
 
-    def is_equal(self, other):
+    def is_equal(self, other: Sequence) -> bool:
         """
         Check if the array is equal to another.
 
@@ -87,7 +89,7 @@ class _BaseArray(np.ndarray):
         """
         return np.array_equal(self, other)
 
-    def plotter(self, **kwargs):
+    def plotter(self, **kwargs: str) -> Callable:
 
         return _plotter(self, **kwargs)
 
@@ -95,18 +97,18 @@ class _BaseArray(np.ndarray):
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
-    def __new__(cls, array_like):
+    def __new__(cls, array: Sequence):
 
-        array = super().__new__(cls, array_like)
+        obj = super().__new__(cls, array)
 
-        if array.ndim != 1:
+        if obj.ndim != 1:
             raise ValueError("The array must be 1D.")
 
-        array.dimension = array.size
+        obj.dimension = obj.size
 
-        return array
+        return obj
 
-    def set_dimension(self, dim):
+    def set_dimension(self, dim: int):
         """
         Set the dimension (length) of the 1D array.
 
@@ -143,9 +145,7 @@ class _BaseArray1D(_BaseArray):
 
         """
         if dim < self.dimension:
-            raise ValueError(
-                "The desired dimension cannot be less than the current dimension."
-            )
+            raise ValueError("The desired dimension cannot be less than the current dimension.")
 
         n_zeros = dim - self.size
         array_padded = np.pad(self, (0, n_zeros), 'constant')
@@ -156,18 +156,18 @@ class _BaseArray1D(_BaseArray):
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
-    def __new__(cls, array_like):
+    def __new__(cls, array: Sequence):
 
-        array = super().__new__(cls, array_like)
+        obj = super().__new__(cls, array)
 
-        if array.ndim != 2:
+        if obj.ndim != 2:
             raise ValueError("The array must be 2D.")
 
-        array.dimension = array.shape[1]
+        obj.dimension = obj.shape[1]
 
-        return array
+        return obj
 
-    def set_dimension(self, dim):
+    def set_dimension(self, dim: int):
         """
         Set the dimension (width) of the 2D array.
 

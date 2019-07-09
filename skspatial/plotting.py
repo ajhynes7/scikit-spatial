@@ -1,13 +1,14 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
-from typing import Callable
+from typing import Any, Callable, Tuple, Sequence, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def _scatter_2d(ax_2d, points, **kwargs):
+def _scatter_2d(ax_2d: Axes, points: Sequence, **kwargs: str) -> None:
     """
     Plot points on a 2D scatter plot.
 
@@ -25,7 +26,7 @@ def _scatter_2d(ax_2d, points, **kwargs):
     ax_2d.scatter(array[:, 0], array[:, 1], **kwargs)
 
 
-def _scatter_3d(ax_3d, points, **kwargs):
+def _scatter_3d(ax_3d: Axes3D, points: Sequence, **kwargs: str) -> None:
     """
     Plot points on a 3D scatter plot.
 
@@ -51,7 +52,7 @@ def _scatter_3d(ax_3d, points, **kwargs):
     ax_3d.scatter(array[:, 0], array[:, 1], array[:, 2], **kwargs)
 
 
-def _connect_points_2d(ax_2d, point_a, point_b, **kwargs):
+def _connect_points_2d(ax_2d: Axes, point_a: Sequence, point_b: Sequence, **kwargs: str) -> None:
     """
     Plot a line between two 2D points.
 
@@ -71,7 +72,7 @@ def _connect_points_2d(ax_2d, point_a, point_b, **kwargs):
     ax_2d.plot(xs, ys, **kwargs)
 
 
-def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
+def _connect_points_3d(ax_3d: Axes3D, point_a: Sequence, point_b: Sequence, **kwargs: str) -> None:
     """
     Plot a line between two 3D points.
 
@@ -100,7 +101,7 @@ def _connect_points_3d(ax_3d, point_a, point_b, **kwargs):
     ax_3d.plot(xs, ys, zs, **kwargs)
 
 
-def _plotter(obj, **kwargs) -> Callable:
+def _plotter(obj: Any, **kwargs: str) -> Callable[[Union[Axes, Axes3D]], None]:
     """Return a function that plots the object when passed a matplotlib axes."""
     if obj.dimension == 2:
 
@@ -124,7 +125,7 @@ def _plotter(obj, **kwargs) -> Callable:
     return func
 
 
-def plot_2d(*plotters):
+def plot_2d(*plotters: Callable) -> Tuple:
     """Plot multiple spatial objects in 2D."""
     fig, ax = plt.subplots()
 
@@ -134,7 +135,7 @@ def plot_2d(*plotters):
     return fig, ax
 
 
-def plot_3d(*plotters):
+def plot_3d(*plotters: Callable) -> Tuple:
     """Plot multiple spatial objects in 3D."""
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')

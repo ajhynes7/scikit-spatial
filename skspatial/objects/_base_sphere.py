@@ -13,7 +13,7 @@ from skspatial.plotting import _plotter
 class _BaseSphere:
     """Private parent class for Circle and Sphere."""
 
-    def __init__(self, point, radius):
+    def __init__(self, point: Sequence, radius: float):
 
         if radius <= 0:
             raise ValueError("The radius must be positive.")
@@ -37,11 +37,11 @@ class _BaseSphere:
 
         return abs(distance_to_center - self.radius)
 
-    def contains_point(self, point: Sequence, **kwargs) -> bool:
+    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point)
 
-    def project_point(self, point):
+    def project_point(self, point: Sequence) -> Point:
         """
         Project a point onto the circle or sphere.
 
