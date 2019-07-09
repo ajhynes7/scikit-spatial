@@ -87,7 +87,7 @@ class Points(_BaseArray2D):
                 [2, 3, 4]])
 
         """
-        return self.__class__(np.unique(self, axis=0))
+        return Points(np.unique(self, axis=0))
 
     def centroid(self) -> Point:
         """
