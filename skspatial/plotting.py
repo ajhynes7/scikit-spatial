@@ -101,7 +101,7 @@ def _connect_points_3d(ax_3d: Axes3D, point_a: Sequence, point_b: Sequence, **kw
     ax_3d.plot(xs, ys, zs, **kwargs)
 
 
-def _plotter(obj: Any, **kwargs: str) -> Callable[[Union[Axes, Axes3D]], None]:
+def _plotter(obj: Any, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
     """Return a function that plots the object when passed a matplotlib axes."""
     if obj.dimension == 2:
 
