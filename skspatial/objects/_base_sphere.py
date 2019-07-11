@@ -1,8 +1,10 @@
 """Module for base class of Circle and Sphere."""
 
-from typing import Sequence
+from typing import Callable, Sequence, Union
 
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _contains_point
 from skspatial.objects.point import Point
@@ -13,7 +15,7 @@ from skspatial.plotting import _plotter
 class _BaseSphere:
     """Private parent class for Circle and Sphere."""
 
-    def __init__(self, point, radius):
+    def __init__(self, point: Sequence, radius: float):
 
         if radius <= 0:
             raise ValueError("The radius must be positive.")
@@ -23,7 +25,7 @@ class _BaseSphere:
 
         self.dimension = self.point.dimension
 
-    def __repr__(self):
+    def __repr__(self) -> str:
 
         name_class = type(self).__name__
 
@@ -37,11 +39,11 @@ class _BaseSphere:
 
         return abs(distance_to_center - self.radius)
 
-    def contains_point(self, point: Sequence, **kwargs) -> bool:
+    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point)
 
-    def project_point(self, point):
+    def project_point(self, point: Sequence) -> Point:
         """
         Project a point onto the circle or sphere.
 
@@ -84,14 +86,12 @@ class _BaseSphere:
 
         """
         if self.point.is_equal(point):
-            raise ValueError(
-                "The point must not be the center of the circle or sphere."
-            )
+            raise ValueError("The point must not be the center of the circle or sphere.")
 
         vector_to_point = Vector.from_points(self.point, point)
 
         return self.point + self.radius * vector_to_point.unit()
 
-    def plotter(self, **kwargs):
+    def plotter(self, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
 
         return _plotter(self, **kwargs)

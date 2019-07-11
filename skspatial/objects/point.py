@@ -1,5 +1,11 @@
 """Module for the Point class."""
 
+from typing import Sequence
+
+import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
+
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _scatter_2d, _scatter_3d
@@ -60,11 +66,7 @@ class Point(_BaseArray1D):
 
     """
 
-    def __new__(cls, array):
-        """Create a new Point object."""
-        return super().__new__(cls, array)
-
-    def distance_point(self, other):
+    def distance_point(self, other: Sequence) -> np.float64:
         """
         Return the distance to another point.
 
@@ -75,7 +77,7 @@ class Point(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Distance between the points.
 
         Examples
@@ -97,7 +99,7 @@ class Point(_BaseArray1D):
 
         return vector.norm()
 
-    def plot_2d(self, ax_2d, **kwargs):
+    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
         """
         Plot the point on a 2D scatter plot.
 
@@ -123,7 +125,7 @@ class Point(_BaseArray1D):
         """
         _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
-    def plot_3d(self, ax_3d, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
         """
         Plot the point on a 3D scatter plot.
 

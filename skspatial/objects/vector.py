@@ -1,8 +1,10 @@
 """Module for the Vector class."""
 
-from typing import Union
+from typing import Sequence
 
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.plotting import _connect_points_3d
@@ -63,12 +65,8 @@ class Vector(_BaseArray1D):
 
     """
 
-    def __new__(cls, array: list):
-        """Create a new Vector object."""
-        return super().__new__(cls, array)
-
     @classmethod
-    def from_points(cls, point_a: list, point_b: list):
+    def from_points(cls, point_a: Sequence, point_b: Sequence) -> 'Vector':
         """
         Instantiate a vector from point A to point B.
 
@@ -98,7 +96,7 @@ class Vector(_BaseArray1D):
         """
         return cls(np.subtract(point_b, point_a))
 
-    def norm(self, **kwargs) -> float:
+    def norm(self, **kwargs: int) -> np.float64:
         """
         Return the norm of the vector.
 
@@ -109,7 +107,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Norm of the vector.
 
         Examples
@@ -130,7 +128,7 @@ class Vector(_BaseArray1D):
         """
         return np.linalg.norm(self, **kwargs)
 
-    def unit(self):
+    def unit(self) -> 'Vector':
         """
         Return the unit vector in the same direction as the vector.
 
@@ -175,7 +173,7 @@ class Vector(_BaseArray1D):
 
         return self / magnitude
 
-    def is_zero(self, **kwargs) -> bool:
+    def is_zero(self, **kwargs: float) -> bool:
         """
         Check if the vector is the zero vector.
 
@@ -208,7 +206,7 @@ class Vector(_BaseArray1D):
         """
         return np.allclose(self, 0, **kwargs)
 
-    def dot(self, other: list) -> Union[int, float]:
+    def dot(self, other: Sequence) -> np.float64:
         """
         Return the dot product with another vector.
 
@@ -241,7 +239,7 @@ class Vector(_BaseArray1D):
         """
         return np.dot(self, other)
 
-    def cross(self, other: list):
+    def cross(self, other: Sequence) -> 'Vector':
         """
         Compute the cross product with another vector.
 
@@ -278,7 +276,7 @@ class Vector(_BaseArray1D):
 
         return Vector(np.cross(vector_a, vector_b))
 
-    def cosine_similarity(self, other: list) -> float:
+    def cosine_similarity(self, other: Sequence) -> np.float64:
         """
         Return the cosine similarity of the vector with another.
 
@@ -291,7 +289,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Cosine similarity.
 
         Raises
@@ -332,7 +330,7 @@ class Vector(_BaseArray1D):
         # so that the angle theta is defined.
         return np.clip(cos_theta, -1, 1)
 
-    def angle_between(self, other: list) -> float:
+    def angle_between(self, other: Sequence) -> np.float64:
         """
         Return the angle in radians between the vector and another.
 
@@ -343,7 +341,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Angle between vectors in radians.
 
         Examples
@@ -370,7 +368,7 @@ class Vector(_BaseArray1D):
 
         return np.arccos(cos_theta)
 
-    def angle_signed(self, other: list) -> float:
+    def angle_signed(self, other: Sequence) -> np.float64:
         """
         Return the signed angle in radians between the vector and another.
 
@@ -383,7 +381,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Signed angle between vectors in radians.
 
         Raises
@@ -419,7 +417,7 @@ class Vector(_BaseArray1D):
 
         return np.arctan2(det, dot)
 
-    def is_perpendicular(self, other: list, **kwargs) -> bool:
+    def is_perpendicular(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the vector is perpendicular to another.
 
@@ -458,7 +456,7 @@ class Vector(_BaseArray1D):
         """
         return np.isclose(self.dot(other), 0, **kwargs)
 
-    def is_parallel(self, other: list, **kwargs) -> bool:
+    def is_parallel(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the vector is parallel to another.
 
@@ -507,7 +505,7 @@ class Vector(_BaseArray1D):
 
         return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
 
-    def side_vector(self, other: list) -> int:
+    def side_vector(self, other: Sequence) -> np.int64:
         """
         Find the side of the vector where another vector is directed.
 
@@ -520,7 +518,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        int
+        np.int64
             1 if the other vector is to the right.
             0 if the other is parallel.
             -1 if the other is to the left.
@@ -570,7 +568,7 @@ class Vector(_BaseArray1D):
 
         return np.sign(value_cross).astype(int)
 
-    def scalar_projection(self, other: list) -> float:
+    def scalar_projection(self, other: Sequence) -> np.float64:
         """
         Return the scalar projection of an other vector onto the vector.
 
@@ -581,7 +579,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        float
+        np.float64
             Scalar projection.
 
         Examples
@@ -603,7 +601,7 @@ class Vector(_BaseArray1D):
         """
         return self.unit().dot(other)
 
-    def project_vector(self, other: list):
+    def project_vector(self, other: Sequence) -> 'Vector':
         """
         Project an other vector onto the vector.
 
@@ -636,7 +634,7 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def plot_2d(self, ax_2d, point=(0, 0), scalar=1, **kwargs):
+    def plot_2d(self, ax_2d: Axes, point: Sequence = (0, 0), scalar: float = 1, **kwargs: float) -> None:
         """
         Plot a 2D vector.
 
@@ -673,7 +671,7 @@ class Vector(_BaseArray1D):
 
         ax_2d.arrow(x, y, dx, dy, **kwargs)
 
-    def plot_3d(self, ax_3d, point=(0, 0, 0), scalar=1, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, point: Sequence = (0, 0, 0), scalar: float = 1, **kwargs: str) -> None:
         """
         Plot a 3D vector.
 

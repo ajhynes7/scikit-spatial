@@ -1,8 +1,13 @@
 """Module for the Sphere class."""
 
+from typing import Sequence, Tuple
+
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_sphere import _BaseSphere
+from skspatial.objects.line import Line
+from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 
 
@@ -60,14 +65,14 @@ class Sphere(_BaseSphere):
 
     """
 
-    def __init__(self, point, radius):
+    def __init__(self, point: Sequence, radius: float):
 
         super().__init__(point, radius)
 
         if self.point.dimension != 3:
             raise ValueError("The point must be 3D.")
 
-    def surface_area(self):
+    def surface_area(self) -> np.float64:
         r"""
         Return the surface area of the sphere.
 
@@ -93,7 +98,7 @@ class Sphere(_BaseSphere):
         """
         return np.float64(4 * np.pi * self.radius ** 2)
 
-    def volume(self):
+    def volume(self) -> np.float64:
         r"""
         Return the volume of the sphere.
 
@@ -119,7 +124,7 @@ class Sphere(_BaseSphere):
         """
         return np.float64(4 / 3 * np.pi * self.radius ** 3)
 
-    def intersect_line(self, line):
+    def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
         Intersect the sphere with a line.
 
@@ -170,7 +175,7 @@ class Sphere(_BaseSphere):
 
         return point_a, point_b
 
-    def plot_3d(self, ax_3d, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
         """
         Plot the sphere in 3D.
 
@@ -205,8 +210,6 @@ class Sphere(_BaseSphere):
 
         X = self.point[0] + self.radius * np.outer(np.sin(angles_a), np.sin(angles_b))
         Y = self.point[1] + self.radius * np.outer(np.sin(angles_a), np.cos(angles_b))
-        Z = self.point[2] + self.radius * np.outer(
-            np.cos(angles_a), np.ones_like(angles_b)
-        )
+        Z = self.point[2] + self.radius * np.outer(np.cos(angles_a), np.ones_like(angles_b))
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)

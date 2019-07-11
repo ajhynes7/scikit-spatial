@@ -1,6 +1,10 @@
 """Module for the Points class."""
 
+from typing import Tuple
+
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
 from skspatial.objects._base_array import _BaseArray2D
@@ -63,11 +67,7 @@ class Points(_BaseArray2D):
 
     """
 
-    def __new__(cls, points):
-        """Create a new Points object."""
-        return super().__new__(cls, points)
-
-    def unique(self):
+    def unique(self) -> 'Points':
         """
         Return unique points.
 
@@ -78,10 +78,20 @@ class Points(_BaseArray2D):
         Points
             (N, D) array of N unique points with dimension D.
 
-        """
-        return self.__class__(np.unique(self, axis=0))
+        Examples
+        --------
+        >>> from skspatial.objects import Points
 
-    def centroid(self):
+        >>> points = Points([[1, 2, 3], [2, 3, 4], [1, 2, 3]])
+
+        >>> points.unique()
+        Points([[1, 2, 3],
+                [2, 3, 4]])
+
+        """
+        return Points(np.unique(self, axis=0))
+
+    def centroid(self) -> Point:
         """
         Return the centroid of the points.
 
@@ -100,7 +110,7 @@ class Points(_BaseArray2D):
         """
         return Point(self.mean(axis=0))
 
-    def mean_center(self):
+    def mean_center(self) -> Tuple['Points', Point]:
         """
         Mean-center the points by subtracting the centroid.
 
@@ -134,7 +144,7 @@ class Points(_BaseArray2D):
 
         return points_centered, centroid
 
-    def affine_rank(self, **kwargs):
+    def affine_rank(self, **kwargs: float) -> np.int64:
         """
         Return the affine rank of the points.
 
@@ -148,7 +158,7 @@ class Points(_BaseArray2D):
 
         Returns
         -------
-        int
+        np.int64
             Affine rank of the points.
 
         Examples
@@ -182,7 +192,7 @@ class Points(_BaseArray2D):
 
         return matrix_rank(points_centered, **kwargs)
 
-    def are_concurrent(self, **kwargs):
+    def are_concurrent(self, **kwargs: float) -> bool:
         """
         Check if the points are all contained in one point.
 
@@ -209,7 +219,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) == 0
 
-    def are_collinear(self, **kwargs):
+    def are_collinear(self, **kwargs: float) -> bool:
         """
         Check if the points are all contained in one line.
 
@@ -239,7 +249,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) <= 1
 
-    def are_coplanar(self, **kwargs):
+    def are_coplanar(self, **kwargs: float) -> bool:
         """
         Check if the points are all contained in one plane.
 
@@ -266,7 +276,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) <= 2
 
-    def plot_2d(self, ax_2d, **kwargs):
+    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
         """
         Plot the points on a 2D scatter plot.
 
@@ -293,7 +303,7 @@ class Points(_BaseArray2D):
         """
         _scatter_2d(ax_2d, self, **kwargs)
 
-    def plot_3d(self, ax_3d, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
         """
         Plot the points on a 3D scatter plot.
 

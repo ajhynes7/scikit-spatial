@@ -1,9 +1,13 @@
 """Measurements using spatial objects."""
 
+from typing import Sequence
+
+import numpy as np
+
 from skspatial.objects import Vector
 
 
-def area_triangle(point_a, point_b, point_c):
+def area_triangle(point_a: Sequence, point_b: Sequence, point_c: Sequence) -> np.float64:
     """
     Return the area of a triangle defined by three points.
 
@@ -16,7 +20,7 @@ def area_triangle(point_a, point_b, point_c):
 
     Returns
     -------
-    float
+    np.float64
         The area of the triangle.
 
     References
@@ -46,7 +50,7 @@ def area_triangle(point_a, point_b, point_c):
     return 0.5 * vector_normal.norm()
 
 
-def volume_tetrahedron(point_a, point_b, point_c, point_d):
+def volume_tetrahedron(point_a: Sequence, point_b: Sequence, point_c: Sequence, point_d: Sequence) -> np.float64:
     """
     Return the volume of a tetrahedron defined by four points.
 
@@ -59,7 +63,7 @@ def volume_tetrahedron(point_a, point_b, point_c, point_d):
 
     Returns
     -------
-    float
+    np.float64
         The volume of the tetrahedron.
 
     References

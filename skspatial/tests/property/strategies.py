@@ -86,9 +86,7 @@ def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
     return [draw(strategy(dim)) for strategy in strategies]
 
 
-st_floats = st.floats(min_value=-1e4, max_value=1e4).filter(
-    lambda x: x == 0 or abs(x) > ATOL
-)
+st_floats = st.floats(min_value=-1e4, max_value=1e4).filter(lambda x: x == 0 or abs(x) > ATOL)
 
 st_arrays = st.lists(st_floats, min_size=DIM_MIN, max_size=DIM_MAX)
 st_arrays_nonzero = st_arrays.filter(lambda array: any(array))

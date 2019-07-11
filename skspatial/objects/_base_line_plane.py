@@ -1,9 +1,11 @@
 """Module for private parent class of Line and Plane."""
 
 import inspect
-from typing import Sequence
+from typing import Callable, Sequence, Union
 
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _contains_point, _sum_squares
 from skspatial.objects.point import Point
@@ -14,7 +16,7 @@ from skspatial.plotting import _plotter
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
-    def __init__(self, point, vector):
+    def __init__(self, point: Sequence, vector: Sequence):
 
         self.point = Point(point)
         self.vector = Vector(vector)
@@ -27,7 +29,7 @@ class _BaseLinePlane:
 
         self.dimension = self.point.dimension
 
-    def __repr__(self):
+    def __repr__(self) -> str:
 
         name_class = type(self).__name__
         name_vector = inspect.getfullargspec(type(self)).args[-1]
@@ -37,13 +39,13 @@ class _BaseLinePlane:
 
         return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
 
-    def contains_point(self, point: Sequence, **kwargs) -> bool:
+    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point, **kwargs)
 
-    def is_close(self, other, **kwargs):
+    def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
-        Check if line/plane is almost equivalent to another line/plane.
+        Check if the line/plane is almost equivalent to another line/plane.
 
         The points must be close and the vectors must be parallel.
 
@@ -102,6 +104,6 @@ class _BaseLinePlane:
 
         return _sum_squares(self, points)
 
-    def plotter(self, **kwargs):
+    def plotter(self, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
 
         return _plotter(self, **kwargs)

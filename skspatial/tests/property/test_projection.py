@@ -5,15 +5,7 @@ from hypothesis import assume, given
 
 from skspatial.objects import Vector
 from .constants import ATOL
-from .strategies import (
-    DIM_MAX,
-    DIM_MIN,
-    st_array_fixed,
-    st_circle,
-    st_line,
-    st_plane,
-    st_sphere,
-)
+from .strategies import DIM_MAX, DIM_MIN, st_array_fixed, st_circle, st_line, st_plane, st_sphere
 
 
 @pytest.mark.parametrize('st_line_or_plane', [st_line, st_plane])
@@ -44,9 +36,7 @@ def test_project_point(st_line_or_plane, data):
     # The distance of the projection should be the
     # shortest distance from the point to the object.
     distance_points = line_or_plane.point.distance_point(array)
-    assert distance_projection < distance_points or np.isclose(
-        distance_projection, distance_points
-    )
+    assert distance_projection < distance_points or np.isclose(distance_projection, distance_points)
 
 
 @pytest.mark.parametrize('st_circle_or_sphere', [st_circle, st_sphere])
@@ -60,6 +50,4 @@ def test_project_point_circle_sphere(st_circle_or_sphere, data):
 
     point_projected = circle_or_sphere.project_point(array_point)
 
-    assert np.isclose(
-        circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius
-    )
+    assert np.isclose(circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius)

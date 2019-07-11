@@ -1,9 +1,13 @@
 """Module for the Circle class."""
 
+from typing import Sequence, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 
 from skspatial.objects._base_sphere import _BaseSphere
+from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 
 
@@ -61,14 +65,14 @@ class Circle(_BaseSphere):
 
     """
 
-    def __init__(self, point, radius):
+    def __init__(self, point: Sequence, radius: float):
 
         super().__init__(point, radius)
 
         if self.point.dimension != 2:
             raise ValueError("The point must be 2D.")
 
-    def circumference(self):
+    def circumference(self) -> np.float64:
         r"""
         Return the circumference of the circle.
 
@@ -94,7 +98,7 @@ class Circle(_BaseSphere):
         """
         return np.float64(2 * np.pi * self.radius)
 
-    def area(self):
+    def area(self) -> np.float64:
         r"""
         Return the area of the circle.
 
@@ -120,7 +124,7 @@ class Circle(_BaseSphere):
         """
         return np.float64(np.pi * self.radius ** 2)
 
-    def intersect_line(self, line):
+    def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
         Intersect the circle with a line.
 
@@ -216,7 +220,7 @@ class Circle(_BaseSphere):
 
         return point_a, point_b
 
-    def plot_2d(self, ax_2d, **kwargs):
+    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
         """
         Plot the circle in 2D.
 

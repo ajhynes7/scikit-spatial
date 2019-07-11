@@ -1,8 +1,13 @@
 """Module for the Line class."""
 
+from typing import Sequence
+
 import numpy as np
+from matplotlib.axes import Axes
+from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
+from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _connect_points_2d, _connect_points_3d
@@ -73,14 +78,14 @@ class Line(_BaseLinePlane):
 
     """
 
-    def __init__(self, point, direction):
+    def __init__(self, point: Sequence, direction: Sequence):
 
         super().__init__(point, direction)
 
         self.direction = self.vector
 
     @classmethod
-    def from_points(cls, point_a, point_b):
+    def from_points(cls, point_a: Sequence, point_b: Sequence) -> 'Line':
         """
         Instantiate a line from two points.
 
@@ -112,7 +117,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @classmethod
-    def from_slope(cls, slope, y_intercept):
+    def from_slope(cls, slope: float, y_intercept: float) -> 'Line':
         r"""
         Instantiate a 2D line from a slope and Y-intercept.
 
@@ -156,7 +161,7 @@ class Line(_BaseLinePlane):
 
         return cls(point, direction)
 
-    def is_coplanar(self, other, **kwargs):
+    def is_coplanar(self, other: 'Line', **kwargs: float) -> bool:
         """
         Check if the line is coplanar with another.
 
@@ -220,7 +225,7 @@ class Line(_BaseLinePlane):
 
         return points.are_coplanar(**kwargs)
 
-    def to_point(self, t=1):
+    def to_point(self, t: float = 1) -> Point:
         r"""
         Return a point along the line using a parameter `t`.
 
@@ -257,7 +262,7 @@ class Line(_BaseLinePlane):
 
         return self.point + vector_along_line
 
-    def project_point(self, point):
+    def project_point(self, point: Sequence) -> Point:
         """
         Project a point onto the line.
 
@@ -291,7 +296,7 @@ class Line(_BaseLinePlane):
         # Add the projected vector to the point on the line.
         return self.point + vector_projected
 
-    def project_vector(self, vector):
+    def project_vector(self, vector: Sequence) -> Vector:
         """
         Project a vector onto the line.
 
@@ -317,7 +322,7 @@ class Line(_BaseLinePlane):
         """
         return self.direction.project_vector(vector)
 
-    def side_point(self, point):
+    def side_point(self, point: Sequence) -> np.int64:
         """
         Find the side of the line where a point lies.
 
@@ -330,7 +335,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        int
+        np.int64
             -1 if the point is left of the line.
             0 if the point is on the line.
             1 if the point is right of the line.
@@ -361,13 +366,13 @@ class Line(_BaseLinePlane):
 
         return self.direction.side_vector(vector_to_point)
 
-    def distance_point(self, point):
+    def distance_point(self, point: Sequence) -> np.float64:
         """Return the distance from a point to the line."""
         point_projected = self.project_point(point)
 
         return point_projected.distance_point(point)
 
-    def distance_line(self, other):
+    def distance_line(self, other: 'Line') -> np.float64:
         """
         Return the shortest distance from the line to another.
 
@@ -378,7 +383,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        float
+        np.float64
             Distance between the lines.
 
         References
@@ -429,13 +434,11 @@ class Line(_BaseLinePlane):
             vector_ab = Vector.from_points(self.point, other.point)
             vector_perpendicular = self.direction.cross(other.direction)
 
-            distance = (
-                abs(vector_ab.dot(vector_perpendicular)) / vector_perpendicular.norm()
-            )
+            distance = abs(vector_ab.dot(vector_perpendicular)) / vector_perpendicular.norm()
 
         return distance
 
-    def intersect_line(self, other):
+    def intersect_line(self, other: 'Line') -> Point:
         """
         Intersect the line with another.
 
@@ -512,7 +515,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points):
+    def best_fit(cls, points: Sequence) -> 'Line':
         """
         Return the line of best fit for a set of points.
 
@@ -549,19 +552,19 @@ class Line(_BaseLinePlane):
         Vector([0.70710678, 0.70710678])
 
         """
-        points = Points(points)
+        points_spatial = Points(points)
 
-        if points.are_concurrent(tol=0):
+        if points_spatial.are_concurrent(tol=0):
             raise ValueError("The points must not be concurrent.")
 
-        points_centered, centroid = points.mean_center()
+        points_centered, centroid = points_spatial.mean_center()
 
         _, _, vh = np.linalg.svd(points_centered)
         direction = vh[0, :]
 
         return cls(centroid, direction)
 
-    def transform_points(self, points):
+    def transform_points(self, points: Sequence) -> np.ndarray:
         """
         Transform points to a one-dimensional coordinate system defined by the line.
 
@@ -612,7 +615,7 @@ class Line(_BaseLinePlane):
 
         return column.flatten()
 
-    def plot_2d(self, ax_2d, t_1=-1, t_2=1, **kwargs):
+    def plot_2d(self, ax_2d: Axes, t_1: float = -1, t_2: float = 1, **kwargs: str) -> None:
         """
         Plot a 2D line.
 
@@ -625,6 +628,7 @@ class Line(_BaseLinePlane):
         t_1, t_2 : {int, float}
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
+            Defaults are -1 and 1.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.plot`.
 
@@ -650,7 +654,7 @@ class Line(_BaseLinePlane):
 
         _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
-    def plot_3d(self, ax_3d, t_1=-1, t_2=1, **kwargs):
+    def plot_3d(self, ax_3d: Axes3D, t_1: float = -1, t_2: float = 1, **kwargs: str) -> None:
         """
         Plot a 3D line.
 
