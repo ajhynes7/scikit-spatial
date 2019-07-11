@@ -219,9 +219,7 @@ class _BaseArray2D(_BaseArray):
 
         """
         if dim < self.dimension:
-            raise ValueError(
-                "The desired dimension cannot be less than the current dimension."
-            )
+            raise ValueError("The desired dimension cannot be less than the current dimension.")
 
         array_padded = np.pad(self, ((0, 0), (0, dim - self.dimension)), 'constant')
 

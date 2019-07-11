@@ -7,13 +7,7 @@ from skspatial.objects import Line, Plane
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])
 @pytest.mark.parametrize(
-    "point, vector",
-    [
-        ([0, 0], [0, 0]),
-        ([1, 1], [0, 0]),
-        ([1, 1, 1], [0, 0, 0]),
-        ([4, 5, 2, 3], [0, 0, 0, 0]),
-    ],
+    "point, vector", [([0, 0], [0, 0]), ([1, 1], [0, 0]), ([1, 1, 1], [0, 0, 0]), ([4, 5, 2, 3], [0, 0, 0, 0])]
 )
 def test_zero_vector_failure(class_spatial, point, vector):
 
@@ -22,14 +16,10 @@ def test_zero_vector_failure(class_spatial, point, vector):
 
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])
-@pytest.mark.parametrize(
-    "point, vector", [([0, 0, 1], [1, 1]), ([0, 0], [1]), ([1], [0, 1])]
-)
+@pytest.mark.parametrize("point, vector", [([0, 0, 1], [1, 1]), ([0, 0], [1]), ([1], [0, 1])])
 def test_dimension_failure(class_spatial, point, vector):
 
-    with pytest.raises(
-        ValueError, match="The point and vector must have the same dimension."
-    ):
+    with pytest.raises(ValueError, match="The point and vector must have the same dimension."):
         class_spatial(point, vector)
 
 
@@ -53,9 +43,7 @@ def test_dimension_failure(class_spatial, point, vector):
 def test_is_close(obj_1, obj_2, bool_expected):
 
     if bool_expected is None:
-        with pytest.raises(
-            TypeError, match="The input must have the same type as the object."
-        ):
+        with pytest.raises(TypeError, match="The input must have the same type as the object."):
             obj_1.is_close(obj_2)
 
     else:

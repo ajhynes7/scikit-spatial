@@ -4,14 +4,7 @@ from hypothesis import assume, given
 
 from skspatial.objects import Point, Vector
 from ..constants import ATOL
-from ..strategies import (
-    consistent_dim,
-    st_array_fixed,
-    st_array_fixed_nonzero,
-    st_arrays,
-    st_arrays_nonzero,
-    st_floats,
-)
+from ..strategies import consistent_dim, st_array_fixed, st_array_fixed_nonzero, st_arrays, st_arrays_nonzero, st_floats
 
 
 @given(consistent_dim(2 * [st_array_fixed]))

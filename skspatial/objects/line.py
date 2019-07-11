@@ -434,9 +434,7 @@ class Line(_BaseLinePlane):
             vector_ab = Vector.from_points(self.point, other.point)
             vector_perpendicular = self.direction.cross(other.direction)
 
-            distance = (
-                abs(vector_ab.dot(vector_perpendicular)) / vector_perpendicular.norm()
-            )
+            distance = abs(vector_ab.dot(vector_perpendicular)) / vector_perpendicular.norm()
 
         return distance
 
