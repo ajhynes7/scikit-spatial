@@ -680,7 +680,7 @@ class Vector(_BaseArray1D):
 
         Parameters
         ----------
-        ax_3d : Axes
+        ax_3d : Axes3D
             Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
         point : array_like, optional
             Position of the vector tail (default is origin).
