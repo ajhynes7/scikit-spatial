@@ -29,7 +29,7 @@ class _BaseLinePlane:
 
         self.dimension = self.point.dimension
 
-    def __repr__(self):
+    def __repr__(self) -> str:
 
         name_class = type(self).__name__
         name_vector = inspect.getfullargspec(type(self)).args[-1]

@@ -25,7 +25,7 @@ class _BaseSphere:
 
         self.dimension = self.point.dimension
 
-    def __repr__(self):
+    def __repr__(self) -> str:
 
         name_class = type(self).__name__
 

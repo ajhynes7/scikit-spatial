@@ -1,6 +1,6 @@
 """Spatial transformations."""
 
-from typing import Sequence
+from typing import Iterator, Sequence
 
 import numpy as np
 
@@ -50,7 +50,7 @@ def transform_coordinates(points: Sequence, point_origin: Sequence, vectors_basi
     """
     vectors_to_points = np.subtract(points, point_origin)
 
-    def yield_columns():
+    def yield_columns() -> Iterator[np.ndarray]:
         """Yield each column of points in the new coordinate system."""
         for vector_basis in vectors_basis:
             yield np.apply_along_axis(np.dot, 1, vectors_to_points, vector_basis)

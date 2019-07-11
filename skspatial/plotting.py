@@ -108,21 +108,16 @@ def _plotter(obj: Any, **kwargs: str) -> Union[Callable[[Axes], None], Callable[
         if not hasattr(obj, 'plot_2d'):
             raise ValueError("The object cannot be plotted in 2D.")
 
-        def func(ax):
-            obj.plot_2d(ax, **kwargs)
+        return lambda ax: obj.plot_2d(ax, **kwargs)
 
-    elif obj.dimension == 3:
+    if obj.dimension == 3:
 
         if not hasattr(obj, 'plot_3d'):
             raise ValueError("The object cannot be plotted in 3D.")
 
-        def func(ax):
-            obj.plot_3d(ax, **kwargs)
+        return lambda ax: obj.plot_3d(ax, **kwargs)
 
-    else:
-        raise ValueError("The dimension must be 2 or 3.")
-
-    return func
+    raise ValueError("The dimension must be 2 or 3.")
 
 
 def plot_2d(*plotters: Callable) -> Tuple:
