@@ -80,6 +80,8 @@ class Points(_BaseArray2D):
 
         Examples
         --------
+        >>> from skspatial.objects import Points
+
         >>> points = Points([[1, 2, 3], [2, 3, 4], [1, 2, 3]])
 
         >>> points.unique()
