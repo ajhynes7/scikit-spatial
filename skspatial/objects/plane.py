@@ -5,6 +5,7 @@ from typing import Sequence, Tuple
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._functions import _mesh_to_points
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
@@ -600,6 +601,99 @@ class Plane(_BaseLinePlane):
         normal = Vector(u[:, -1])
 
         return cls(centroid, normal)
+
+    def to_mesh(
+        self, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1)
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Return coordinate matrices used for plotting a 3D surface.
+
+        Parameters
+        ----------
+        lims_x, lims_y : (2,) tuple
+            x and y limits of the plane.
+            Tuple of form (min, max). The default is (-1, 1).
+            The point on the plane is used as the origin.
+
+        Returns
+        -------
+        X, Y, Z: ndarray
+            Coordinate matrices.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> X, Y, Z = Plane([0, 0, 0], [0, 0, 1]).to_mesh()
+
+        >>> X
+        array([[-1,  1],
+               [-1,  1]])
+
+        >>> Y
+        array([[-1, -1],
+               [ 1,  1]])
+
+        >>> Z
+        array([[0., 0.],
+               [0., 0.]])
+
+        """
+        a, b, c, d = self.cartesian()
+        x_center, y_center = self.point[:2]
+
+        values_x = x_center + lims_x
+        values_y = y_center + lims_y
+
+        X, Y = np.meshgrid(values_x, values_y)
+
+        if c != 0:
+            Z = -(a * X + b * Y + d) / c
+
+        elif b != 0:
+            Z = -(a * X + c * Y + d) / b
+            X, Y, Z = X, Z, Y
+
+        else:
+            Z = -(b * X + c * Y + d) / a
+            X, Y, Z = Z, X, Y
+
+        return X, Y, Z
+
+    def to_points(self, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1)) -> Points:
+        """
+        Return four points on the plane.
+
+        The coordinate matrices used for 3D plotting are converted to points.
+
+        Parameters
+        ----------
+        lims_x, lims_y : (2,) tuple
+            x and y limits of the plane.
+            Tuple of form (min, max). The default is (-1, 1).
+            The point on the plane is used as the origin.
+
+        Returns
+        -------
+        Points
+            Four points on the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> Plane([0, 0, 0], [0, 0, 1]).to_points()
+        Points([[-1., -1.,  0.],
+                [ 1., -1.,  0.],
+                [-1.,  1.,  0.],
+                [ 1.,  1.,  0.]])
+
+        """
+        X, Y, Z = self.to_mesh(lims_x, lims_y)
+
+        points = _mesh_to_points(X, Y, Z)
+
+        return Points(points)
 
     def plot_3d(self, ax_3d: Axes3D, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1), **kwargs: float) -> None:
         """
