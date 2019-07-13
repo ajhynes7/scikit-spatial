@@ -729,13 +729,6 @@ class Plane(_BaseLinePlane):
             >>> plane.point.plot_3d(ax, s=100)
 
         """
-        a, b, c, d = self.cartesian()
-        x_center, y_center = self.point[:2]
+        X, Y, Z = self.to_mesh(lims_x, lims_y)
 
-        values_x = x_center + lims_x
-        values_y = y_center + lims_y
-
-        grid_x, grid_y = np.meshgrid(values_x, values_y)
-        grid_z = -(a * grid_x + b * grid_y + d) / c
-
-        ax_3d.plot_surface(grid_x, grid_y, grid_z, **kwargs)
+        ax_3d.plot_surface(X, Y, Z, **kwargs)
