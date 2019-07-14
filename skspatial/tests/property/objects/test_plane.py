@@ -2,10 +2,10 @@ from hypothesis import assume, given
 
 from skspatial.objects import Points, Plane
 from ..constants import ATOL
-from ..strategies import consistent_dim, st_array_fixed
+from ..strategies import consistent_dim, arrays_fixed
 
 
-@given(consistent_dim(3 * [st_array_fixed], max_dim=3))
+@given(consistent_dim(3 * [arrays_fixed], max_dim=3))
 def test_from_points(arrays):
 
     points = Points(arrays)

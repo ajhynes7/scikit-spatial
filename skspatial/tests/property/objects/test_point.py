@@ -2,10 +2,10 @@ import numpy as np
 from hypothesis import given
 
 from skspatial.objects import Point, Vector
-from skspatial.tests.property.strategies import consistent_dim, st_array_fixed
+from skspatial.tests.property.strategies import consistent_dim, arrays_fixed
 
 
-@given(consistent_dim(2 * [st_array_fixed]))
+@given(consistent_dim(2 * [arrays_fixed]))
 def test_add_subtract(arrays):
 
     array_point, array_vector = arrays

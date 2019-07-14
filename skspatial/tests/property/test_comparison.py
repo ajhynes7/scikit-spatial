@@ -2,10 +2,10 @@ from hypothesis import given
 
 from skspatial.objects import Point, Points, Line
 from .constants import ATOL
-from .strategies import consistent_dim, st_array_fixed
+from .strategies import consistent_dim, arrays_fixed
 
 
-@given(consistent_dim(3 * [st_array_fixed]))
+@given(consistent_dim(3 * [arrays_fixed]))
 def test_are_collinear(arrays):
 
     array_a, array_b, array_c = arrays
