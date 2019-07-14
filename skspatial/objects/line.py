@@ -615,7 +615,7 @@ class Line(_BaseLinePlane):
 
         return column.flatten()
 
-    def plot_2d(self, ax_2d: Axes, t_1: float = -1, t_2: float = 1, **kwargs: str) -> None:
+    def plot_2d(self, ax_2d: Axes, t_1: float = 0, t_2: float = 1, **kwargs: str) -> None:
         """
         Plot a 2D line.
 
@@ -628,7 +628,7 @@ class Line(_BaseLinePlane):
         t_1, t_2 : {int, float}
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
-            Defaults are -1 and 1.
+            Defaults are 0 and 1.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~matplotlib.axes.Axes.plot`.
 
@@ -654,7 +654,7 @@ class Line(_BaseLinePlane):
 
         _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, t_1: float = -1, t_2: float = 1, **kwargs: str) -> None:
+    def plot_3d(self, ax_3d: Axes3D, t_1: float = 0, t_2: float = 1, **kwargs: str) -> None:
         """
         Plot a 3D line.
 
@@ -667,7 +667,7 @@ class Line(_BaseLinePlane):
         t_1, t_2 : {int, float}
             Parameters to determine points 1 and 2 along the line.
             These are passed to :meth:`Line.to_point`.
-            Defaults are -1 and 1.
+            Defaults are 0 and 1.
         kwargs : dict, optional
             Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
 
