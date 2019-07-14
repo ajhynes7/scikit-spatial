@@ -16,37 +16,152 @@ radii = st.floats(min_value=0, max_value=1e4).filter(lambda x: x > ATOL)
 
 @st.composite
 def arrays_fixed(draw, dim=2):
-    """Return a strategy which generates 1D arrays with a fixed length."""
+    """
+    Return a strategy which generates 1D arrays with a fixed length.
+
+    Parameters
+    ----------
+    dim : int, optional
+        Dimension (length) of the array (default is 2).
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import arrays_fixed
+
+    >>> find(arrays_fixed(2), lambda x: True)
+    [0.0, 0.0]
+
+    >>> find(arrays_fixed(5), lambda x: True)
+    [0.0, 0.0, 0.0, 0.0, 0.0]
+
+    """
     return draw(st.lists(floats, min_size=dim, max_size=dim))
 
 
 @st.composite
 def arrays_fixed_nonzero(draw, dim=2):
-    """Return a strategy which generates nonzero 1D arrays with a fixed length."""
+    """
+    Return a strategy which generates nonzero 1D arrays with a fixed length.
+
+    Parameters
+    ----------
+    dim : int, optional
+        Dimension (length) of the array (default is 2).
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    """
     return draw(arrays_fixed(dim).filter(lambda x: any(x)))
 
 
 @st.composite
 def points(draw, dim):
-    """Return a strategy which generates Point objects."""
+    """
+    Return a strategy which generates Point objects.
+
+    Parameters
+    ----------
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import points
+
+    >>> find(points(3), lambda x: True)
+    Point([0., 0., 0.])
+
+    """
     return Point(draw(arrays_fixed(dim)))
 
 
 @st.composite
 def vectors(draw, dim):
-    """Return a strategy which generates Vector objects."""
+    """
+    Return a strategy which generates Vector objects.
+
+    Parameters
+    ----------
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import vectors
+
+    >>> find(vectors(2), lambda x: True)
+    Vector([0., 0.])
+
+    """
     return Vector(draw(arrays_fixed(dim)))
 
 
 @st.composite
 def vectors_nonzero(draw, dim):
-    """Return a strategy which generates nonzero Vector objects."""
+    """
+    Return a strategy which generates nonzero Vector objects.
+
+    Parameters
+    ----------
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    """
     return Vector(draw(arrays_fixed_nonzero(dim)))
 
 
 @st.composite
 def multi_points(draw, dim):
-    """Return a strategy which generates Points objects."""
+    """
+    Return a strategy which generates Points objects.
+
+    Parameters
+    ----------
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import multi_points
+
+    >>> find(multi_points(2), lambda x: len(x) == 3)
+    Points([[0., 0.],
+            [0., 0.],
+            [0., 0.]])
+
+    """
     n_points = draw(st.integers(min_value=1, max_value=50))
     array_like_2d = [draw(arrays_fixed(dim)) for _ in range(n_points)]
 
@@ -55,7 +170,33 @@ def multi_points(draw, dim):
 
 @st.composite
 def lines_or_planes(draw, LineOrPlane, dim):
-    """Return a strategy which generates Line or Plane objects."""
+    """
+    Return a strategy which generates Line or Plane objects.
+
+    Parameters
+    ----------
+    LineOrPlane : class
+        Line or Plane class.
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import lines_or_planes
+
+    >>> find(lines_or_planes(Line, 2), lambda x: True)
+    Line(point=Point([0., 0.]), direction=Vector([0.  , 0.01]))
+
+    >>> find(lines_or_planes(Plane, 3), lambda x: True)
+    Plane(point=Point([0., 0., 0.]), normal=Vector([0.  , 0.  , 0.01]))
+
+    """
     array_point = draw(arrays_fixed(dim))
     array_vector = draw(arrays_fixed_nonzero(dim))
 
@@ -190,7 +331,7 @@ def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
 
     >>> find(consistent_dim(3 * [vectors], min_dim=3), lambda x: True)
     [Vector([0., 0., 0.]), Vector([0., 0., 0.]), Vector([0., 0., 0.])]
-    
+
     """
     dim = draw(st.integers(min_value=min_dim, max_value=max_dim))
 
