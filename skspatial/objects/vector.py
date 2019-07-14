@@ -154,11 +154,11 @@ class Vector(_BaseArray1D):
         >>> Vector([-20, 0]).unit()
         Vector([-1.,  0.])
 
-        >>> Vector([1, 1]).unit()
-        Vector([0.70710678, 0.70710678])
+        >>> Vector([1, 1]).unit().round(3)
+        Vector([0.707, 0.707])
 
-        >>> Vector([1, 1, 1]).unit()
-        Vector([0.57735027, 0.57735027, 0.57735027])
+        >>> Vector([1, 1, 1]).unit().round(3)
+        Vector([0.577, 0.577, 0.577])
 
         >>> Vector([0, 0]).unit()
         Traceback (most recent call last):
