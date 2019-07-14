@@ -4,10 +4,10 @@ from hypothesis import assume, given
 
 from skspatial.objects import Point, Vector
 from ..constants import ATOL
-from ..strategies import consistent_dim, st_array_fixed, st_array_fixed_nonzero, st_arrays, st_arrays_nonzero, st_floats
+from ..strategies import consistent_dim, arrays_fixed, arrays_fixed_nonzero, arrays, arrays_nonzero, floats
 
 
-@given(consistent_dim(2 * [st_array_fixed]))
+@given(consistent_dim(2 * [arrays_fixed]))
 def test_from_points(arrays):
 
     array_a, array_b = arrays
@@ -18,7 +18,7 @@ def test_from_points(arrays):
     assert (point_a + vector_ab).is_close(array_b)
 
 
-@given(st_arrays_nonzero)
+@given(arrays_nonzero)
 def test_unit(array):
 
     vector = Vector(array)
@@ -33,13 +33,13 @@ def test_unit(array):
     assert np.isclose(angle, 0, atol=ATOL)
 
 
-@given(st_arrays)
+@given(arrays)
 def test_add_subtract(array):
     vector = Vector(array)
     assert (vector + array - array).is_close(array)
 
 
-@given(st_arrays_nonzero, st_floats)
+@given(arrays_nonzero, floats)
 def test_scale(array, scalar):
 
     assume(abs(scalar) > ATOL)
@@ -57,7 +57,7 @@ def test_scale(array, scalar):
         assert np.isclose(angle, 180, atol=ATOL)
 
 
-@given(consistent_dim(2 * [st_array_fixed_nonzero]))
+@given(consistent_dim(2 * [arrays_fixed_nonzero]))
 def test_two_vectors(arrays):
 
     array_a, array_b = arrays

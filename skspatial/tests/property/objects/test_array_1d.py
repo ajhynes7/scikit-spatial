@@ -3,10 +3,10 @@
 from hypothesis import given
 
 from skspatial.objects import Point, Vector
-from skspatial.tests.property.strategies import consistent_dim, st_array_fixed, st_arrays
+from skspatial.tests.property.strategies import consistent_dim, arrays_fixed, arrays
 
 
-@given(consistent_dim(2 * [st_array_fixed]))
+@given(consistent_dim(2 * [arrays_fixed]))
 def test_add(arrays):
 
     array_a, array_b = arrays
@@ -15,7 +15,7 @@ def test_add(arrays):
     assert (Point(array_a) + array_b - array_b).is_close(array_a)
 
 
-@given(st_arrays)
+@given(arrays)
 def test_is_close(array):
 
     vector = Vector(array)
