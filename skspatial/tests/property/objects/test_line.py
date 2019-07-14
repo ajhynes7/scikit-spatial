@@ -3,10 +3,10 @@ from hypothesis import given
 
 from skspatial.objects import Line
 from ..constants import ATOL
-from ..strategies import consistent_dim, st_line, st_point, st_vector_nonzero
+from ..strategies import consistent_dim, lines, points, vectors_nonzero
 
 
-@given(consistent_dim([st_point, st_vector_nonzero]))
+@given(consistent_dim([points, vectors_nonzero]))
 def test_from_points(objs):
 
     point_a, vector = objs
@@ -23,7 +23,7 @@ def test_from_points(objs):
     assert line_fit.is_close(line_from_points)
 
 
-@given(consistent_dim(2 * [st_line]))
+@given(consistent_dim(2 * [lines]))
 def test_two_lines(lines):
 
     line_a, line_b = lines

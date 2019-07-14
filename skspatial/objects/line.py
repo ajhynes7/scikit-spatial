@@ -548,8 +548,8 @@ class Line(_BaseLinePlane):
 
         The line direction is a unit vector.
 
-        >>> line.direction
-        Vector([0.70710678, 0.70710678])
+        >>> line.direction.round(3)
+        Vector([0.707, 0.707])
 
         """
         points_spatial = Points(points)

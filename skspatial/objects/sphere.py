@@ -5,9 +5,11 @@ from typing import Sequence, Tuple
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._functions import _mesh_to_points
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
+from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 
 
@@ -175,7 +177,101 @@ class Sphere(_BaseSphere):
 
         return point_a, point_b
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
+    def to_mesh(self, n_angles: int = 30) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Return coordinate matrices for the 3D surface of the sphere.
+
+        Parameters
+        ----------
+        n_angles: int
+            Number of angles used to generate the coordinate matrices.
+
+        Returns
+        -------
+        X, Y, Z: (n_angles, n_angles) ndarray
+            Coordinate matrices.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Sphere
+
+        >>> X, Y, Z = Sphere([0, 0, 0], 1).to_mesh(5)
+
+        >>> X.round(3)
+        array([[ 0.   ,  0.   ,  0.   ,  0.   ,  0.   ],
+               [ 0.   ,  0.707,  0.   , -0.707, -0.   ],
+               [ 0.   ,  1.   ,  0.   , -1.   , -0.   ],
+               [ 0.   ,  0.707,  0.   , -0.707, -0.   ],
+               [ 0.   ,  0.   ,  0.   , -0.   , -0.   ]])
+
+        >>> Y.round(3)
+        array([[ 0.   ,  0.   ,  0.   ,  0.   ,  0.   ],
+               [ 0.707,  0.   , -0.707, -0.   ,  0.707],
+               [ 1.   ,  0.   , -1.   , -0.   ,  1.   ],
+               [ 0.707,  0.   , -0.707, -0.   ,  0.707],
+               [ 0.   ,  0.   , -0.   , -0.   ,  0.   ]])
+
+        >>> Z.round(3)
+        array([[ 1.   ,  1.   ,  1.   ,  1.   ,  1.   ],
+               [ 0.707,  0.707,  0.707,  0.707,  0.707],
+               [ 0.   ,  0.   ,  0.   ,  0.   ,  0.   ],
+               [-0.707, -0.707, -0.707, -0.707, -0.707],
+               [-1.   , -1.   , -1.   , -1.   , -1.   ]])
+
+        """
+        angles_a = np.linspace(0, np.pi, n_angles)
+        angles_b = np.linspace(0, 2 * np.pi, n_angles)
+
+        X = self.point[0] + self.radius * np.outer(np.sin(angles_a), np.sin(angles_b))
+        Y = self.point[1] + self.radius * np.outer(np.sin(angles_a), np.cos(angles_b))
+        Z = self.point[2] + self.radius * np.outer(np.cos(angles_a), np.ones_like(angles_b))
+
+        return X, Y, Z
+
+    def to_points(self, n_angles: int = 30) -> Points:
+        """
+        Return points on the surface of the sphere.
+
+        Parameters
+        ----------
+        n_angles: int
+            Number of angles used to generate the points.
+
+        Returns
+        -------
+        Points
+            Points on the surface of the sphere.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Sphere
+
+        >>> sphere = Sphere([0, 0, 0], 1)
+
+        >>> sphere.to_points(n_angles=3).round().unique()
+        Points([[ 0., -1.,  0.],
+                [ 0.,  0., -1.],
+                [ 0.,  0.,  1.],
+                [ 0.,  1.,  0.]])
+
+        >>> sphere.to_points(n_angles=4).round(3).unique()
+        Points([[-0.75 , -0.433, -0.5  ],
+                [-0.75 , -0.433,  0.5  ],
+                [ 0.   ,  0.   , -1.   ],
+                [ 0.   ,  0.   ,  1.   ],
+                [ 0.   ,  0.866, -0.5  ],
+                [ 0.   ,  0.866,  0.5  ],
+                [ 0.75 , -0.433, -0.5  ],
+                [ 0.75 , -0.433,  0.5  ]])
+
+        """
+        X, Y, Z = self.to_mesh(n_angles)
+
+        points = _mesh_to_points(X, Y, Z)
+
+        return Points(points)
+
+    def plot_3d(self, ax_3d: Axes3D, n_angles=30, **kwargs: str) -> None:
         """
         Plot the sphere in 3D.
 
@@ -205,11 +301,6 @@ class Sphere(_BaseSphere):
             >>> sphere.point.plot_3d(ax, s=100)
 
         """
-        angles_a = np.linspace(0, np.pi, 30)
-        angles_b = np.linspace(0, 2 * np.pi, 30)
-
-        X = self.point[0] + self.radius * np.outer(np.sin(angles_a), np.sin(angles_b))
-        Y = self.point[1] + self.radius * np.outer(np.sin(angles_a), np.cos(angles_b))
-        Z = self.point[2] + self.radius * np.outer(np.cos(angles_a), np.ones_like(angles_b))
+        X, Y, Z = self.to_mesh(n_angles)
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)

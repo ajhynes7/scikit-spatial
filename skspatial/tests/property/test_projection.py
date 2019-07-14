@@ -5,18 +5,18 @@ from hypothesis import assume, given
 
 from skspatial.objects import Vector
 from .constants import ATOL
-from .strategies import DIM_MAX, DIM_MIN, st_array_fixed, st_circle, st_line, st_plane, st_sphere
+from .strategies import DIM_MAX, DIM_MIN, arrays_fixed, circles, lines, planes, spheres
 
 
-@pytest.mark.parametrize('st_line_or_plane', [st_line, st_plane])
+@pytest.mark.parametrize('lines_or_planes', [lines, planes])
 @given(data=st.data())
-def test_project_point(st_line_or_plane, data):
+def test_project_point(lines_or_planes, data):
     """Test projecting a point onto a line or plane."""
 
     dim = data.draw(st.integers(min_value=DIM_MIN, max_value=DIM_MAX))
 
-    array = data.draw(st_array_fixed(dim))
-    line_or_plane = data.draw(st_line_or_plane(dim))
+    array = data.draw(arrays_fixed(dim))
+    line_or_plane = data.draw(lines_or_planes(dim))
 
     point_projected = line_or_plane.project_point(array)
 
@@ -39,12 +39,12 @@ def test_project_point(st_line_or_plane, data):
     assert distance_projection < distance_points or np.isclose(distance_projection, distance_points)
 
 
-@pytest.mark.parametrize('st_circle_or_sphere', [st_circle, st_sphere])
+@pytest.mark.parametrize('circles_or_spheres', [circles, spheres])
 @given(data=st.data())
-def test_project_point_circle_sphere(st_circle_or_sphere, data):
+def test_project_point_circle_sphere(circles_or_spheres, data):
 
-    circle_or_sphere = data.draw(st_circle_or_sphere())
-    array_point = data.draw(st_array_fixed(circle_or_sphere.dimension))
+    circle_or_sphere = data.draw(circles_or_spheres())
+    array_point = data.draw(arrays_fixed(circle_or_sphere.dimension))
 
     assume(not circle_or_sphere.point.is_close(array_point))
 

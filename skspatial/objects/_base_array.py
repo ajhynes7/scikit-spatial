@@ -62,6 +62,24 @@ class _BaseArray(np.ndarray):
         """
         self.dimension = getattr(obj, 'dimension', None)
 
+    def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
+        """
+        Round the array to the given number of decimals.
+
+        Refer to :func:`np.around` for the full documentation.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 1, 1]).unit().round(3)
+        Vector([0.577, 0.577, 0.577])
+
+        """
+        array_rounded = np.array(self).round(decimals, out)
+
+        return self.__class__(array_rounded)
+
     def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the array is close to another.
