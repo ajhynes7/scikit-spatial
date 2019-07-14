@@ -606,7 +606,7 @@ class Plane(_BaseLinePlane):
         self, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1)
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
-        Return coordinate matrices used for plotting a 3D surface.
+        Return coordinate matrices for the 3D surface of the plane.
 
         Parameters
         ----------
@@ -676,7 +676,7 @@ class Plane(_BaseLinePlane):
         Returns
         -------
         Points
-            Four points on the plane.
+            Four 3D points on the plane.
 
         Examples
         --------
