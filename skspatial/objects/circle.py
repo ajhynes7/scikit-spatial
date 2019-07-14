@@ -158,8 +158,13 @@ class Circle(_BaseSphere):
         >>> circle.intersect_line(Line(point=[0, 0], direction=[1, 0]))
         (Point([-1.,  0.]), Point([1., 0.]))
 
-        >>> circle.intersect_line(Line(point=[0, 0], direction=[1, 1]))
-        (Point([-0.70710678, -0.70710678]), Point([0.70710678, 0.70710678]))
+        >>> point_a, point_b = circle.intersect_line(Line(point=[0, 0], direction=[1, 1]))
+
+        >>> point_a.round(3)
+        Point([-0.707, -0.707])
+
+        >>> point_b.round(3)
+        Point([0.707, 0.707])
 
         >>> circle.intersect_line(Line(point=[1, 2], direction=[1, 1]))
         (Point([-1.,  0.]), Point([0., 1.]))
@@ -171,8 +176,13 @@ class Circle(_BaseSphere):
 
         The circle does not have to be centered on the origin.
 
-        >>> Circle([2, 3], 5).intersect_line(Line([1, 1], [2, 3]))
-        (Point([-0.53846154, -1.30769231]), Point([5., 7.]))
+        >>> point_a, point_b = Circle([2, 3], 5).intersect_line(Line([1, 1], [2, 3]))
+
+        >>> point_a.round(3)
+        Point([-0.538, -1.308])
+
+        >>> point_b.round(3)
+        Point([5., 7.])
 
         >>> circle.intersect_line(Line(point=[5, 0], direction=[1, 1]))
         Traceback (most recent call last):

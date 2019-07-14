@@ -580,8 +580,8 @@ class Plane(_BaseLinePlane):
 
         The plane normal is a unit vector.
 
-        >>> plane.normal
-        Vector([-0.57735027, -0.57735027, -0.57735027])
+        >>> plane.normal.round(3)
+        Vector([-0.577, -0.577, -0.577])
 
         >>> Plane.best_fit([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
