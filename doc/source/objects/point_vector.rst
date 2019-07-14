@@ -45,7 +45,7 @@ The unit vector can also be obtained.
 >>> vector_unit = vector.unit()
 
 >>> vector_unit.round(3)
-array([0.707, 0.707])
+Vector([0.707, 0.707])
 
 One vector can be projected onto another.
 
