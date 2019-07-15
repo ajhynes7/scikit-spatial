@@ -21,3 +21,5 @@ Methods
    ~skspatial.objects.Plane.project_point
    ~skspatial.objects.Plane.project_vector
    ~skspatial.objects.Plane.side_point
+   ~skspatial.objects.Plane.to_mesh
+   ~skspatial.objects.Plane.to_points
