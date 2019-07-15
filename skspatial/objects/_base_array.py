@@ -93,7 +93,8 @@ class _BaseArray(np.ndarray):
 
         Returns
         -------
-        True if the arrays are close; false otherwise.
+        bool
+            True if the arrays are close; false otherwise.
 
         """
         return np.allclose(self, other, **kwargs)
