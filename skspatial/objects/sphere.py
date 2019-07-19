@@ -225,9 +225,15 @@ class Sphere(_BaseSphere):
         angles_a = np.linspace(0, np.pi, n_angles)
         angles_b = np.linspace(0, 2 * np.pi, n_angles)
 
-        X = self.point[0] + self.radius * np.outer(np.sin(angles_a), np.sin(angles_b))
-        Y = self.point[1] + self.radius * np.outer(np.sin(angles_a), np.cos(angles_b))
-        Z = self.point[2] + self.radius * np.outer(np.cos(angles_a), np.ones_like(angles_b))
+        sin_angles_a = np.sin(angles_a)
+        cos_angles_a = np.cos(angles_a)
+
+        sin_angles_b = np.sin(angles_b)
+        cos_angles_b = np.cos(angles_b)
+
+        X = self.point[0] + self.radius * np.outer(sin_angles_a, sin_angles_b)
+        Y = self.point[1] + self.radius * np.outer(sin_angles_a, cos_angles_b)
+        Z = self.point[2] + self.radius * np.outer(cos_angles_a, np.ones_like(angles_b))
 
         return X, Y, Z
 
