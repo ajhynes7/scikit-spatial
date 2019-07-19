@@ -77,7 +77,7 @@ def test_two_vectors(arrays):
         assert math.isclose(angle, np.pi / 2)
 
     if is_parallel:
-        assert math.isclose(angle, 0, abs_tol=ATOL) or math.isclose(angle, np.pi)
+        assert math.isclose(angle, 0, abs_tol=ATOL) or math.isclose(angle, np.pi, rel_tol=1e-6)
 
     # The zero vector is perpendicular and parallel to any other vector.
     vector_zero = np.zeros(vector_a.size)

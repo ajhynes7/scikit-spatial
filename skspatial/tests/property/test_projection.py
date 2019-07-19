@@ -32,7 +32,7 @@ def test_project_point(lines_or_planes, data):
     # should equal the distance to the line/plane.
     distance_projection = vector_projection.norm()
     distance_to_object = abs(line_or_plane.distance_point(array))
-    assert math.isclose(distance_to_object, distance_projection)
+    assert math.isclose(distance_to_object, distance_projection, rel_tol=1e-6)
 
     # The distance of the projection should be the
     # shortest distance from the point to the object.
