@@ -1,7 +1,10 @@
 """Constants used for property tests."""
 
-# Absolute tolerance for np.isclose and np.allclose functions.
-ATOL = 0.01
+# Minimum absolute value of floats.
+FLOAT_MIN = 1e-3
+
+# Absolute tolerance for math.isclose.
+ATOL = 1e-6
 
 # Min and max dimensions of arrays.
 DIM_MIN, DIM_MAX = 2, 10

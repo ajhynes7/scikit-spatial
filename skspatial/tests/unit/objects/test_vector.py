@@ -1,4 +1,5 @@
-import numpy as np
+import math
+
 import pytest
 from numpy.testing import assert_array_equal
 
@@ -27,10 +28,10 @@ def test_from_points(array_a, array_b, vector_expected):
         ([2, 0], [1, 0]),
         ([-1, 0], [-1, 0]),
         ([0, 0, 5], [0, 0, 1]),
-        ([1, 1], [np.sqrt(2) / 2, np.sqrt(2) / 2]),
-        ([1, 1, 1], [np.sqrt(3) / 3, np.sqrt(3) / 3, np.sqrt(3) / 3]),
+        ([1, 1], [math.sqrt(2) / 2, math.sqrt(2) / 2]),
+        ([1, 1, 1], [math.sqrt(3) / 3, math.sqrt(3) / 3, math.sqrt(3) / 3]),
         ([2, 0, 0, 0], [1, 0, 0, 0]),
-        ([3, 3, 0, 0], [np.sqrt(2) / 2, np.sqrt(2) / 2, 0, 0]),
+        ([3, 3, 0, 0], [math.sqrt(2) / 2, math.sqrt(2) / 2, 0, 0]),
         ([0], None),
         ([0, 0], None),
         ([0, 0, 0], None),
@@ -54,7 +55,7 @@ def test_unit(array, array_unit_expected):
         ([0, 1], {}, False),
         # The tolerance affects the output.
         ([0, 0, 1e-4], {}, False),
-        ([0, 0, 1e-4], {'atol': 1e-3}, True),
+        ([0, 0, 1e-4], {'abs_tol': 1e-3}, True),
         ([0, 0, 0, 0], {}, True),
         ([7, 0, 2, 0], {}, False),
     ],

@@ -1,11 +1,13 @@
 """Module for the Circle class."""
 
+import math
 from typing import Sequence, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 
+from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
@@ -72,6 +74,7 @@ class Circle(_BaseSphere):
         if self.point.dimension != 2:
             raise ValueError("The point must be 2D.")
 
+    @np_float
     def circumference(self) -> np.float64:
         r"""
         Return the circumference of the circle.
@@ -96,8 +99,9 @@ class Circle(_BaseSphere):
         12.57
 
         """
-        return np.float64(2 * np.pi * self.radius)
+        return 2 * np.pi * self.radius
 
+    @np_float
     def area(self) -> np.float64:
         r"""
         Return the area of the circle.
@@ -122,7 +126,7 @@ class Circle(_BaseSphere):
         12.57
 
         """
-        return np.float64(np.pi * self.radius ** 2)
+        return np.pi * self.radius ** 2
 
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
@@ -213,7 +217,7 @@ class Circle(_BaseSphere):
         if discriminant < 0:
             raise ValueError("The line does not intersect the circle.")
 
-        root = np.sqrt(discriminant)
+        root = math.sqrt(discriminant)
 
         pm = np.array([-1, 1])  # Array to compute plus/minus.
         sign = -1 if d_y < 0 else 1

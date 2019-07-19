@@ -1,4 +1,5 @@
-import numpy as np
+import math
+
 from hypothesis import given
 
 from skspatial.measurement import area_triangle, volume_tetrahedron
@@ -12,7 +13,7 @@ def test_area_triangle(arrays):
 
     area = area_triangle(*arrays)
 
-    if np.isclose(area, 0):
+    if math.isclose(area, 0):
         assert Points(arrays).are_collinear(tol=ATOL)
 
 
@@ -21,5 +22,5 @@ def test_volume_tetrahedron(arrays):
 
     volume = volume_tetrahedron(*arrays)
 
-    if np.isclose(volume, 0):
+    if math.isclose(volume, 0):
         assert Points(arrays).are_coplanar(tol=ATOL)

@@ -3,15 +3,15 @@
 import hypothesis.strategies as st
 
 from skspatial.objects import Point, Points, Vector, Line, Plane, Circle, Sphere
-from .constants import ATOL, DIM_MIN, DIM_MAX
+from .constants import DIM_MIN, DIM_MAX, FLOAT_MIN
 
 
-floats = st.floats(min_value=-1e4, max_value=1e4).filter(lambda x: x == 0 or abs(x) > ATOL)
+floats = st.floats(min_value=-1e4, max_value=1e4).filter(lambda x: x == 0 or abs(x) > FLOAT_MIN)
 
 arrays = st.lists(floats, min_size=DIM_MIN, max_size=DIM_MAX)
 arrays_nonzero = arrays.filter(lambda array: any(array))
 
-radii = st.floats(min_value=0, max_value=1e4).filter(lambda x: x > ATOL)
+radii = floats.filter(lambda x: x > 0)
 
 
 @st.composite

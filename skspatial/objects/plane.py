@@ -121,7 +121,7 @@ class Plane(_BaseLinePlane):
         """
         vector_a = Vector(vector_a)
 
-        if vector_a.is_parallel(vector_b, rtol=0, atol=0):
+        if vector_a.is_parallel(vector_b, rel_tol=0, abs_tol=0):
             raise ValueError("The vectors must not be parallel.")
 
         # The cross product returns a 3D vector.

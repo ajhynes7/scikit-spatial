@@ -1,4 +1,5 @@
-import numpy as np
+import math
+
 from hypothesis import given
 
 from skspatial.objects import Point, Vector
@@ -14,7 +15,7 @@ def test_add_subtract(arrays):
     vector = Vector(array_vector)
 
     point_2 = point + array_vector
-    assert np.isclose(point.distance_point(point_2), vector.norm())
+    assert math.isclose(point.distance_point(point_2), vector.norm())
 
     point_3 = point_2 - array_vector
     assert point.is_close(point_3)

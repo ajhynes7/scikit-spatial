@@ -1,6 +1,6 @@
-import numpy as np
 import pytest
 
+from skspatial._functions import _allclose
 from skspatial.objects import Plane
 
 
@@ -61,4 +61,4 @@ def test_cartesian(plane, coeffs_expected):
             plane.cartesian()
 
     else:
-        assert np.allclose(plane.cartesian(), coeffs_expected)
+        assert _allclose(plane.cartesian(), coeffs_expected).all()

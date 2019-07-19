@@ -1,11 +1,13 @@
 """Module for the Vector class."""
 
+import math
 from typing import Sequence
 
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._functions import np_float
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.plotting import _connect_points_3d
 
@@ -182,7 +184,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.allclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -200,11 +202,11 @@ class Vector(_BaseArray1D):
 
         >>> Vector([0, 0, 1e-4]).is_zero()
         False
-        >>> Vector([0, 0, 1e-4]).is_zero(atol=1e-3)
+        >>> Vector([0, 0, 1e-4]).is_zero(abs_tol=1e-3)
         True
 
         """
-        return np.allclose(self, 0, **kwargs)
+        return math.isclose(self.dot(self), 0, **kwargs)
 
     def dot(self, other: Sequence) -> np.float64:
         """
@@ -330,7 +332,8 @@ class Vector(_BaseArray1D):
         # so that the angle theta is defined.
         return np.clip(cos_theta, -1, 1)
 
-    def angle_between(self, other: Sequence) -> np.float64:
+    @np_float
+    def angle_between(self, other: Sequence) -> float:
         """
         Return the angle in radians between the vector and another.
 
@@ -366,9 +369,10 @@ class Vector(_BaseArray1D):
         """
         cos_theta = self.cosine_similarity(other)
 
-        return np.arccos(cos_theta)
+        return math.acos(cos_theta)
 
-    def angle_signed(self, other: Sequence) -> np.float64:
+    @np_float
+    def angle_signed(self, other: Sequence) -> float:
         """
         Return the signed angle in radians between the vector and another.
 
@@ -415,20 +419,23 @@ class Vector(_BaseArray1D):
         dot = self.dot(other)
         det = np.linalg.det([self, other])
 
-        return np.arctan2(det, dot)
+        return math.atan2(det, dot)
 
     def is_perpendicular(self, other: Sequence, **kwargs: float) -> bool:
-        """
+        r"""
         Check if the vector is perpendicular to another.
 
-        Vectors u and v are perpendicular <==> Dot product of u and v is zero.
+        Two vectors :math:`u` and :math:`v` are perpendicular if
+
+        .. math::
+            u \cdot v = 0
 
         Parameters
         ----------
         other : array_like
             Other vector.
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.isclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -454,20 +461,25 @@ class Vector(_BaseArray1D):
         True
 
         """
-        return np.isclose(self.dot(other), 0, **kwargs)
+        return math.isclose(self.dot(other), 0, **kwargs)
 
     def is_parallel(self, other: Sequence, **kwargs: float) -> bool:
-        """
+        r"""
         Check if the vector is parallel to another.
 
-        Two vectors are parallel iff their cross product is the zero vector.
+        Two nonzero vectors :math:`u` and :math:`v` are parallel if
+
+        .. math::
+            \texttt{abs}(\texttt{cosine_similarity}(u, v)) = 1
+
+        The zero vector is parallel to all vectors.
 
         Parameters
         ----------
         other : array_like
             Other vector.
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.isclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -503,7 +515,9 @@ class Vector(_BaseArray1D):
             # The zero vector is perpendicular to all vectors.
             return True
 
-        return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
+        similarity = self.cosine_similarity(other)
+
+        return math.isclose(abs(similarity), 1, **kwargs)
 
     def side_vector(self, other: Sequence) -> np.int64:
         """

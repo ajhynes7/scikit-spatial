@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -18,7 +20,7 @@ from skspatial.objects import Line, Plane, Points
 def test_sum_squares_line(line, points, error_expected):
 
     error = line.sum_squares(points)
-    assert np.isclose(error, error_expected)
+    assert math.isclose(error, error_expected)
 
 
 @pytest.mark.parametrize(
@@ -35,7 +37,7 @@ def test_sum_squares_line(line, points, error_expected):
 def test_sum_squares_plane(plane, points, error_expected):
 
     error = plane.sum_squares(points)
-    assert np.isclose(error, error_expected)
+    assert math.isclose(error, error_expected)
 
 
 @pytest.mark.parametrize(

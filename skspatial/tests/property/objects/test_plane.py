@@ -17,9 +17,9 @@ def test_from_points(arrays):
     points = points.set_dimension(plane.dimension)
 
     for point in points:
-        assert plane.contains_point(point)
+        assert plane.contains_point(point, abs_tol=ATOL)
 
     # The plane of best fit should be the same
     # as the plane from three points.
     plane_fit = Plane.best_fit(points)
-    assert plane_fit.is_close(plane)
+    assert plane_fit.is_close(plane, abs_tol=ATOL)

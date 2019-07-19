@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -38,5 +40,5 @@ def test_surface_area_volume(radius, surface_area_expected, volume_expected):
 
     sphere = Sphere([0, 0, 0], radius)
 
-    assert np.isclose(sphere.surface_area(), surface_area_expected)
-    assert np.isclose(sphere.volume(), volume_expected)
+    assert math.isclose(sphere.surface_area(), surface_area_expected)
+    assert math.isclose(sphere.volume(), volume_expected)
