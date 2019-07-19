@@ -4,6 +4,7 @@ from typing import Callable, Sequence, TypeVar, Type
 
 import numpy as np
 
+from skspatial._functions import _allclose
 from skspatial.plotting import _plotter
 
 
@@ -80,7 +81,7 @@ class _BaseArray(np.ndarray):
 
         return self.__class__(array_rounded)
 
-    def is_close(self, other: Sequence, **kwargs: float) -> bool:
+    def is_close(self, other: Sequence, **kwargs) -> bool:
         """
         Check if the array is close to another.
 
@@ -89,7 +90,7 @@ class _BaseArray(np.ndarray):
         other : array_like
             Other array.
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.allclose`
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -97,7 +98,7 @@ class _BaseArray(np.ndarray):
             True if the arrays are close; false otherwise.
 
         """
-        return np.allclose(self, other, **kwargs)
+        return bool(_allclose(self, other, **kwargs).all())
 
     def is_equal(self, other: Sequence) -> bool:
         """
