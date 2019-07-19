@@ -1,4 +1,5 @@
-import numpy as np
+import math
+
 import pytest
 
 from skspatial.objects import Points, Vector, Line, Plane, Circle, Sphere
@@ -177,7 +178,7 @@ def test_is_coplanar(line_a, line_b, bool_expected):
         (Circle([0, 0], 1), [1, 1], False),
         (Circle([0, 0], 2), [1, 0], False),
         (Circle([1, 0], 1), [1, 0], False),
-        (Circle([0, 0], np.sqrt(2)), [1, 1], True),
+        (Circle([0, 0], math.sqrt(2)), [1, 1], True),
     ],
 )
 def test_circle_contains_point(circle, point, bool_expected):
@@ -198,7 +199,7 @@ def test_circle_contains_point(circle, point, bool_expected):
         (Sphere([1, 0, 0], 1), [1, 0, 0], False),
         (Sphere([1, 0, 0], 1), [2, 0, 0], True),
         (Sphere([0, 0, 0], 2), [0, 2, 0], True),
-        (Sphere([0, 0, 0], np.sqrt(3)), [1, 1, 1], True),
+        (Sphere([0, 0, 0], math.sqrt(3)), [1, 1, 1], True),
     ],
 )
 def test_sphere_contains_point(sphere, point, bool_expected):

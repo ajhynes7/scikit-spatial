@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -10,9 +12,9 @@ from skspatial.objects import Vector, Line, Plane, Circle, Sphere
         ([0, 5], [0, 0], [0, 1], [0, 5], 0),
         ([0, 5], [0, 0], [0, 100], [0, 5], 0),
         ([1, 5], [0, 0], [0, 100], [0, 5], 1),
-        ([0, 1], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
-        ([1, 0], [0, 0], [1, 1], [0.5, 0.5], np.sqrt(2) / 2),
-        ([0, 2], [0, 0], [1, 1], [1, 1], np.sqrt(2)),
+        ([0, 1], [0, 0], [1, 1], [0.5, 0.5], math.sqrt(2) / 2),
+        ([1, 0], [0, 0], [1, 1], [0.5, 0.5], math.sqrt(2) / 2),
+        ([0, 2], [0, 0], [1, 1], [1, 1], math.sqrt(2)),
         ([-15, 5], [0, 0], [0, 100], [0, 5], 15),
         ([50, 10], [1, -5], [0, 3], [1, 10], 49),
     ],
@@ -24,7 +26,7 @@ def test_project_point_line(point, point_line, vector_line, point_expected, dist
     distance = line.distance_point(point)
 
     assert point_projected.is_close(point_expected)
-    assert np.isclose(distance, dist_expected)
+    assert math.isclose(distance, dist_expected)
 
 
 @pytest.mark.parametrize(
@@ -48,7 +50,7 @@ def test_project_point_plane(point, point_plane, normal_plane, point_expected, d
     distance_signed = plane.distance_point_signed(point)
 
     assert point_projected.is_close(point_expected)
-    assert np.isclose(distance_signed, dist_expected)
+    assert math.isclose(distance_signed, dist_expected)
 
 
 @pytest.mark.parametrize(
@@ -116,8 +118,8 @@ def test_project_vector_plane(plane, vector, vector_expected):
         (Circle([0, 0], 1), [0, -2], [0, -1]),
         (Circle([0, 0], 5), [0, -2], [0, -5]),
         (Circle([0, 1], 5), [0, -2], [0, -4]),
-        (Circle([0, 0], 1), [1, 1], np.sqrt(2) / 2 * np.ones(2)),
-        (Circle([0, 0], 2), [1, 1], np.sqrt(2) * np.ones(2)),
+        (Circle([0, 0], 1), [1, 1], math.sqrt(2) / 2 * np.ones(2)),
+        (Circle([0, 0], 2), [1, 1], math.sqrt(2) * np.ones(2)),
     ],
 )
 def test_project_point_circle(circle, point, point_expected):
@@ -133,8 +135,8 @@ def test_project_point_circle(circle, point, point_expected):
         (Sphere([0, 0, 0], 2), [1, 0, 0], [2, 0, 0]),
         (Sphere([0, 0, 0], 0.1), [1, 0, 0], [0.1, 0, 0]),
         (Sphere([-1, 0, 0], 1), [1, 0, 0], [0, 0, 0]),
-        (Sphere([0, 0, 0], 1), [1, 1, 1], np.sqrt(3) / 3 * np.ones(3)),
-        (Sphere([0, 0, 0], 3), [1, 1, 1], np.sqrt(3) * np.ones(3)),
+        (Sphere([0, 0, 0], 1), [1, 1, 1], math.sqrt(3) / 3 * np.ones(3)),
+        (Sphere([0, 0, 0], 3), [1, 1, 1], math.sqrt(3) * np.ones(3)),
     ],
 )
 def test_project_point_sphere(sphere, point, point_expected):

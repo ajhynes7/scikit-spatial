@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -100,7 +102,7 @@ def test_intersect_planes_failure(plane_a, plane_b):
         (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),
         (Circle([0, 0], 1), Line([0, 0], [0, 1]), [0, -1], [0, 1]),
         (Circle([0, 0], 1), Line([0, 1], [1, 0]), [0, 1], [0, 1]),
-        (Circle([0, 0], 1), Line([0, 0.5], [1, 0]), [-np.sqrt(3) / 2, 0.5], [np.sqrt(3) / 2, 0.5]),
+        (Circle([0, 0], 1), Line([0, 0.5], [1, 0]), [-math.sqrt(3) / 2, 0.5], [math.sqrt(3) / 2, 0.5]),
         (Circle([1, 0], 1), Line([0, 0], [1, 0]), [0, 0], [2, 0]),
     ],
 )
@@ -136,10 +138,15 @@ def test_intersect_circle_line_failure(circle, line):
         (
             Sphere([0, 0, 0], 1),
             Line([0, 0, 0], [1, 1, 0]),
-            -np.sqrt(2) / 2 * np.array([1, 1, 0]),
-            np.sqrt(2) / 2 * np.array([1, 1, 0]),
+            -math.sqrt(2) / 2 * np.array([1, 1, 0]),
+            math.sqrt(2) / 2 * np.array([1, 1, 0]),
         ),
-        (Sphere([0, 0, 0], 1), Line([0, 0, 0], [1, 1, 1]), -np.sqrt(3) / 3 * np.ones(3), np.sqrt(3) / 3 * np.ones(3)),
+        (
+            Sphere([0, 0, 0], 1),
+            Line([0, 0, 0], [1, 1, 1]),
+            -math.sqrt(3) / 3 * np.ones(3),
+            math.sqrt(3) / 3 * np.ones(3),
+        ),
         (Sphere([1, 0, 0], 1), Line([0, 0, 0], [1, 0, 0]), [0, 0, 0], [2, 0, 0]),
         (Sphere([0, 0, 0], 1), Line([1, 0, 0], [0, 0, 1]), [1, 0, 0], [1, 0, 0]),
     ],

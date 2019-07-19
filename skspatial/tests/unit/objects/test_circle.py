@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 
@@ -38,5 +40,5 @@ def test_circumference_area(radius, circumference_expected, area_expected):
 
     circle = Circle([0, 0], radius)
 
-    assert np.isclose(circle.circumference(), circumference_expected)
-    assert np.isclose(circle.area(), area_expected)
+    assert math.isclose(circle.circumference(), circumference_expected)
+    assert math.isclose(circle.area(), area_expected)
