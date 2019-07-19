@@ -24,7 +24,7 @@ class _BaseLinePlane:
         if self.point.dimension != self.vector.dimension:
             raise ValueError("The point and vector must have the same dimension.")
 
-        if self.vector.is_zero(atol=0, rtol=0):
+        if self.vector.is_zero(rel_tol=0, abs_tol=0):
             raise ValueError("The vector must not be the zero vector.")
 
         self.dimension = self.point.dimension

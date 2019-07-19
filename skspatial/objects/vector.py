@@ -184,7 +184,7 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.allclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -202,11 +202,11 @@ class Vector(_BaseArray1D):
 
         >>> Vector([0, 0, 1e-4]).is_zero()
         False
-        >>> Vector([0, 0, 1e-4]).is_zero(atol=1e-3)
+        >>> Vector([0, 0, 1e-4]).is_zero(abs_tol=1e-3)
         True
 
         """
-        return np.allclose(self, 0, **kwargs)
+        return math.isclose(self.dot(self), 0, **kwargs)
 
     def dot(self, other: Sequence) -> np.float64:
         """
@@ -432,7 +432,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Other vector.
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.isclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -458,7 +458,7 @@ class Vector(_BaseArray1D):
         True
 
         """
-        return np.isclose(self.dot(other), 0, **kwargs)
+        return math.isclose(self.dot(other), 0, **kwargs)
 
     def is_parallel(self, other: Sequence, **kwargs: float) -> bool:
         """
@@ -471,7 +471,7 @@ class Vector(_BaseArray1D):
         other : array_like
             Other vector.
         kwargs : dict, optional
-            Additional keywords passed to :func:`numpy.isclose`.
+            Additional keywords passed to :func:`math.isclose`.
 
         Returns
         -------
@@ -507,7 +507,9 @@ class Vector(_BaseArray1D):
             # The zero vector is perpendicular to all vectors.
             return True
 
-        return np.isclose(np.abs(self.cosine_similarity(other)), 1, **kwargs)
+        similarity = self.cosine_similarity(other)
+
+        return math.isclose(abs(similarity), 1, **kwargs)
 
     def side_vector(self, other: Sequence) -> np.int64:
         """
