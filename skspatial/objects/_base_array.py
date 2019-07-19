@@ -81,7 +81,7 @@ class _BaseArray(np.ndarray):
 
         return self.__class__(array_rounded)
 
-    def is_close(self, other: Sequence, **kwargs) -> bool:
+    def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the array is close to another.
 

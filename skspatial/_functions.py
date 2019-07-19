@@ -49,7 +49,7 @@ def _mesh_to_points(X: Sequence, Y: Sequence, Z: Sequence) -> np.ndarray:
     return np.vstack([*map(np.ravel, [X, Y, Z])]).T
 
 
-def np_float(func) -> Callable[..., np.float64]:
+def np_float(func: Callable) -> Callable[..., np.float64]:
     """
     Cast the output type as np.float64.
 

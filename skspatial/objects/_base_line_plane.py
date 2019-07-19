@@ -43,7 +43,7 @@ class _BaseLinePlane:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point, **kwargs)
 
-    def is_close(self, other: Sequence, **kwargs) -> bool:
+    def is_close(self, other: Sequence, **kwargs: float) -> bool:
         """
         Check if the line/plane is almost equivalent to another line/plane.
 
