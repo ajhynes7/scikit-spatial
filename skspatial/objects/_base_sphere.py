@@ -41,7 +41,7 @@ class _BaseSphere:
 
     def contains_point(self, point: Sequence, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
-        return _contains_point(self, point)
+        return _contains_point(self, point, **kwargs)
 
     def project_point(self, point: Sequence) -> Point:
         """
