@@ -422,10 +422,13 @@ class Vector(_BaseArray1D):
         return math.atan2(det, dot)
 
     def is_perpendicular(self, other: Sequence, **kwargs: float) -> bool:
-        """
+        r"""
         Check if the vector is perpendicular to another.
 
-        Vectors u and v are perpendicular <==> Dot product of u and v is zero.
+        Two vectors :math:`u` and :math:`v` are perpendicular if
+
+        .. math::
+            u \cdot v = 0
 
         Parameters
         ----------
@@ -461,10 +464,15 @@ class Vector(_BaseArray1D):
         return math.isclose(self.dot(other), 0, **kwargs)
 
     def is_parallel(self, other: Sequence, **kwargs: float) -> bool:
-        """
+        r"""
         Check if the vector is parallel to another.
 
-        Two vectors are parallel iff their cross product is the zero vector.
+        Two nonzero vectors :math:`u` and :math:`v` are parallel if
+
+        .. math::
+            \texttt{abs}(\texttt{cosine_similarity}(u, v)) = 1
+
+        The zero vector is parallel to all vectors.
 
         Parameters
         ----------
