@@ -11,6 +11,7 @@ script:
     - tox -e docs
     - tox -e lint_code
     - tox -e lint_docs
+    - tox -e check_types
 after_success:
     - codecov
 branches:
