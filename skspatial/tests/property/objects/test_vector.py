@@ -29,7 +29,7 @@ def test_unit(array):
     assert math.isclose(vector_unit.norm(), 1)
     assert (vector.norm() * vector_unit).is_close(array)
 
-    assert vector_unit.is_parallel(vector, atol=ATOL)
+    assert vector_unit.is_parallel(vector)
 
     angle = vector.angle_between(vector_unit)
     assert math.isclose(angle, 0, abs_tol=ATOL)
@@ -49,14 +49,14 @@ def test_scale(array, scalar):
     vector = Vector(array)
     vector_scaled = scalar * vector
 
-    assert vector_scaled.is_parallel(array, atol=ATOL)
+    assert vector_scaled.is_parallel(array)
 
-    angle = np.degrees(vector_scaled.angle_between(array))
+    angle = vector_scaled.angle_between(array)
 
     if scalar > 0:
-        assert np.isclose(angle, 0, atol=ATOL)
+        assert math.isclose(angle, 0, abs_tol=ATOL)
     else:
-        assert np.isclose(angle, 180, atol=ATOL)
+        assert math.isclose(angle, np.pi, rel_tol=1e-6)
 
 
 @given(consistent_dim(2 * [arrays_fixed_nonzero]))
@@ -74,10 +74,10 @@ def test_two_vectors(arrays):
     angle = vector_a.angle_between(array_b)
 
     if is_perpendicular:
-        assert np.isclose(angle, np.pi / 2, atol=ATOL)
+        assert math.isclose(angle, np.pi / 2)
 
     if is_parallel:
-        assert np.isclose(angle, 0, atol=ATOL) or np.isclose(angle, np.pi, atol=ATOL)
+        assert math.isclose(angle, 0, abs_tol=ATOL) or math.isclose(angle, np.pi)
 
     # The zero vector is perpendicular and parallel to any other vector.
     vector_zero = np.zeros(vector_a.size)
@@ -90,8 +90,8 @@ def test_two_vectors(arrays):
 
     # The projection of vector B onto A is parallel to A.
     vector_b_projected = vector_a.project_vector(array_b)
-    assert vector_a.is_parallel(vector_b_projected, atol=ATOL)
+    assert vector_a.is_parallel(vector_b_projected)
 
     # The projection is zero if vectors A and B are perpendicular.
     if is_perpendicular:
-        assert vector_b_projected.is_zero(atol=ATOL)
+        assert vector_b_projected.is_zero(abs_tol=ATOL)
