@@ -1,11 +1,13 @@
 """Module for the Vector class."""
 
+import math
 from typing import Sequence
 
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._functions import np_float
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.plotting import _connect_points_3d
 
@@ -330,7 +332,8 @@ class Vector(_BaseArray1D):
         # so that the angle theta is defined.
         return np.clip(cos_theta, -1, 1)
 
-    def angle_between(self, other: Sequence) -> np.float64:
+    @np_float
+    def angle_between(self, other: Sequence) -> float:
         """
         Return the angle in radians between the vector and another.
 
@@ -366,9 +369,10 @@ class Vector(_BaseArray1D):
         """
         cos_theta = self.cosine_similarity(other)
 
-        return np.arccos(cos_theta)
+        return math.acos(cos_theta)
 
-    def angle_signed(self, other: Sequence) -> np.float64:
+    @np_float
+    def angle_signed(self, other: Sequence) -> float:
         """
         Return the signed angle in radians between the vector and another.
 
@@ -415,7 +419,7 @@ class Vector(_BaseArray1D):
         dot = self.dot(other)
         det = np.linalg.det([self, other])
 
-        return np.arctan2(det, dot)
+        return math.atan2(det, dot)
 
     def is_perpendicular(self, other: Sequence, **kwargs: float) -> bool:
         """

@@ -1,11 +1,12 @@
 """Module for the Sphere class."""
 
+import math
 from typing import Sequence, Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._functions import _mesh_to_points
+from skspatial._functions import _mesh_to_points, np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
@@ -74,6 +75,7 @@ class Sphere(_BaseSphere):
         if self.point.dimension != 3:
             raise ValueError("The point must be 3D.")
 
+    @np_float
     def surface_area(self) -> np.float64:
         r"""
         Return the surface area of the sphere.
@@ -98,8 +100,9 @@ class Sphere(_BaseSphere):
         50.27
 
         """
-        return np.float64(4 * np.pi * self.radius ** 2)
+        return 4 * np.pi * self.radius ** 2
 
+    @np_float
     def volume(self) -> np.float64:
         r"""
         Return the volume of the sphere.
@@ -124,7 +127,7 @@ class Sphere(_BaseSphere):
         33.51
 
         """
-        return np.float64(4 / 3 * np.pi * self.radius ** 3)
+        return 4 / 3 * np.pi * self.radius ** 3
 
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
@@ -171,7 +174,7 @@ class Sphere(_BaseSphere):
             raise ValueError("The line does not intersect the sphere.")
 
         pm = np.array([-1, 1])  # Array to compute plus/minus.
-        distances = -dot + pm * np.sqrt(discriminant)
+        distances = -dot + pm * math.sqrt(discriminant)
 
         point_a, point_b = line.point + distances.reshape(-1, 1) * vector_unit
 
