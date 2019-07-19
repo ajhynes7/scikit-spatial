@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 import pytest
 from hypothesis import assume, given
@@ -24,13 +26,13 @@ def test_unit(array):
     vector = Vector(array)
     vector_unit = vector.unit()
 
-    assert np.isclose(vector_unit.norm(), 1)
+    assert math.isclose(vector_unit.norm(), 1)
     assert (vector.norm() * vector_unit).is_close(array)
 
     assert vector_unit.is_parallel(vector, atol=ATOL)
 
     angle = vector.angle_between(vector_unit)
-    assert np.isclose(angle, 0, atol=ATOL)
+    assert math.isclose(angle, 0, abs_tol=ATOL)
 
 
 @given(arrays)

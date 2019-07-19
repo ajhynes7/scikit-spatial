@@ -1,5 +1,4 @@
 import hypothesis.strategies as st
-import numpy as np
 import pytest
 from hypothesis import assume, given
 
@@ -21,7 +20,7 @@ def test_project_point(lines_or_planes, data):
     point_projected = line_or_plane.project_point(array)
 
     # The projected point should lie on the line/plane.
-    assert line_or_plane.contains_point(point_projected, atol=ATOL)
+    assert line_or_plane.contains_point(point_projected, abs_tol=ATOL)
 
     # The vector from the point to its projection
     # should be perpendicular to the line/plane.
@@ -31,12 +30,12 @@ def test_project_point(lines_or_planes, data):
     # should equal the distance to the line/plane.
     distance_projection = vector_projection.norm()
     distance_to_object = abs(line_or_plane.distance_point(array))
-    assert np.isclose(distance_to_object, distance_projection)
+    assert math.isclose(distance_to_object, distance_projection)
 
     # The distance of the projection should be the
     # shortest distance from the point to the object.
     distance_points = line_or_plane.point.distance_point(array)
-    assert distance_projection < distance_points or np.isclose(distance_projection, distance_points)
+    assert distance_projection < distance_points or math.isclose(distance_projection, distance_points)
 
 
 @pytest.mark.parametrize('circles_or_spheres', [circles, spheres])
@@ -50,4 +49,4 @@ def test_project_point_circle_sphere(circles_or_spheres, data):
 
     point_projected = circle_or_sphere.project_point(array_point)
 
-    assert np.isclose(circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius)
+    assert math.isclose(circle_or_sphere.point.distance_point(point_projected), circle_or_sphere.radius)
