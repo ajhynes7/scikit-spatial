@@ -1,6 +1,6 @@
 """Private functions for some spatial computations."""
 
-from typing import Any, Sequence
+import math
 from functools import wraps
 from typing import Any, Callable, Sequence
 
@@ -8,14 +8,37 @@ import numpy as np
 
 
 def _contains_point(obj: Any, point: Sequence, **kwargs: float) -> bool:
-    """Check if the object contains a point."""
+    """
+    Check if the object contains a point.
+
+    Returns True if the distance from the point to the object is close to zero.
+
+    Parameters
+    ----------
+    obj: Object
+        Spatial object (e.g. Line).
+    point : array_like
+        Input point.
+    kwargs : dict, optional
+        Additional keywords passed to :func:`math.isclose`.
+
+    Returns
+    -------
+    bool
+        True if the spatial object contains the input point.
+
+    Notes
+    -----
+    Setting an absolute tolerance is useful when comparing a value to zero.
+
+    """
     distance = obj.distance_point(point)
 
-    return np.isclose(distance, 0, **kwargs)
+    return math.isclose(distance, 0, **kwargs)
 
 
 def _sum_squares(obj: Any, points: Sequence) -> np.float64:
-
+    """Return the sum of squared distances from points to a spatial object."""
     distances_squared = np.apply_along_axis(obj.distance_point, 1, points) ** 2
 
     return distances_squared.sum()
