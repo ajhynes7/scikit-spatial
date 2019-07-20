@@ -2,6 +2,20 @@
 History
 =======
 
+2.0.0 (2019-07-20)
+------------------
+* Replace some NumPy functions with ones from Python math module. The math functions are faster than NumPy when the inputs are scalars.
+  The tolerances for isclose are now rel_tol and abs_tol instead of rtol and atol. 
+  The math.isclose function is preferable to np.isclose for three main reasons:
+   - It is symmetric (isclose(a, b) == isclose(b, a)).
+   - It has a default absolute tolerance of zero.
+   - It does not correlate the absolute and relative tolerances.
+* Add type annotations to methods and run mypy in Travis CI.
+* Add round method to array objects (Point, Points and Vector). Now a Vector is returned when a Vector is rounded.
+* Add methods to return coordinates on the surface of a Plane or Sphere. The coordinates are used for 3D plotting.
+* Improve Plane plotting so that vertical planes can be plotted.
+
+
 1.5.0 (2019-07-04)
 ------------------
 * Add Circle and Sphere spatial objects.
@@ -11,12 +25,12 @@ History
 
 1.4.2 (2019-06-21)
 ------------------
-* Extra release because regex for version tags was incorrect in travis.
+* Extra release because regex for version tags was incorrect in Travis.
 
 
 1.4.1 (2019-06-21)
 ------------------
-* Extra release because travis did not deploy the last one.
+* Extra release because Travis did not deploy the last one.
 
 
 1.4.0 (2019-06-21)
