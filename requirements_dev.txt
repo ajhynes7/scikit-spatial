@@ -13,7 +13,7 @@ Jinja2==2.10.1
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.1.1
-more-itertools==7.1.0
+more-itertools==7.2.0
 numpy==1.16.4
 numpydoc==0.9.1
 packaging==19.0
@@ -21,7 +21,7 @@ Pillow==6.1.0
 pluggy==0.12.0
 py==1.8.0
 Pygments==2.4.2
-pyparsing==2.4.0
+pyparsing==2.4.1
 pytest==5.0.1
 pytest-cov==2.7.1
 python-dateutil==2.8.0
