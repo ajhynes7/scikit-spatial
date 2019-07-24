@@ -2,7 +2,7 @@
 
 import math
 from itertools import combinations
-from typing import Sequence, Tuple
+from typing import List, Sequence
 
 import numpy as np
 from matplotlib.axes import Axes
