@@ -74,8 +74,6 @@ class Triangle:
 
         self.dimension = self.point_a.dimension
 
-        self.plotter = lambda **kwargs: _plotter(self, **kwargs)
-
     def __repr__(self) -> str:
 
         repr_a = np.array_repr(self.point_a)
