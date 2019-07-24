@@ -82,6 +82,12 @@ class Triangle:
 
         return f"Triangle(point_a={repr_a}, point_b={repr_b}, point_c={repr_c})"
 
+    def multiple(self, name_method: str, inputs: Sequence) -> List:
+
+        method = getattr(self, name_method)
+
+        return [method(x) for x in inputs]
+
     def normal(self) -> Vector:
         """
         Return a vector normal to the triangle.
@@ -311,7 +317,7 @@ class Triangle:
         ValueError: The vertex must be 'A', 'B', or 'C'.
 
         """
-        a, b, c = self.side_lengths()
+        a, b, c = self.multiple('length', 'abc')
 
         if vertex == 'A':
             arg = (b ** 2 + c ** 2 - a ** 2) / (2 * b * c)
@@ -454,8 +460,9 @@ class Triangle:
         'equilateral'
 
         """
-        pairs = combinations(self.side_lengths(), 2)
+        lengths = self.multiple('length', 'abc')
 
+        pairs = combinations(lengths, 2)
         n_pairs_close = sum(math.isclose(a, b, **kwargs) for a, b in pairs)
 
         if n_pairs_close == 3:
@@ -507,7 +514,7 @@ class Triangle:
         True
 
         """
-        a, b, c = sorted(self.side_lengths())
+        a, b, c = sorted(self.multiple('length', 'abc'))
 
         return math.isclose(a ** 2 + b ** 2, c ** 2, **kwargs)
 
@@ -543,11 +550,11 @@ class Triangle:
 
         """
         if part == 'points':
-            for point in self.points():
+            for point in self.multiple('point', 'ABC'):
                 point.plot_2d(ax_2d, **kwargs)
 
         elif part == 'lines':
-            for line in self.lines():
+            for line in self.multiple('line', 'abc'):
                 line.plot_2d(ax_2d, **kwargs)
 
     def plot_3d(self, ax_3d: Axes3D, part: str = 'points', **kwargs: str) -> None:
@@ -581,13 +588,12 @@ class Triangle:
             >>> triangle.plot_2d(ax, part='lines', c='k')
 
         """
-
         if part == 'points':
-            for point in self.points():
+            for point in self.multiple('point', 'ABC'):
                 point.plot_3d(ax_3d, **kwargs)
 
         elif part == 'lines':
-            for line in self.lines():
+            for line in self.multiple('line', 'abc'):
                 line.plot_3d(ax_3d, **kwargs)
 
     def plotter(self, **kwargs):
