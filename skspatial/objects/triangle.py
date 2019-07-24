@@ -158,55 +158,111 @@ class Triangle:
         """
         return 0.5 * self.normal().norm()
 
-    def points(self) -> Tuple[Point, Point, Point]:
+    def point(self, vertex: str) -> Point:
         """
-        Return the three points (vertices) of the triangle.
+        Return a point (vertex) of the triangle.
+
+        Parameters
+        ----------
+        vertex: str
+            'A', 'B', or 'C'.
 
         Returns
         -------
-        point_a, point_b, point_c: Point
-            Points of the triangle.
+        Point
+            A vertex of the triangle.
+
+        Raises
+        ------
+        ValueError
+            If the vertex is not 'A', 'B', or 'C'.
 
         Examples
         --------
         >>> from skspatial.objects import Triangle
 
-        >>> Triangle([0, 0], [1, 0], [0, 1]).points()
-        (Point([0, 0]), Point([1, 0]), Point([0, 1]))
+        >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
+
+        >>> triangle.point('A')
+        Point([0, 0])
+
+        >>> triangle.point('B')
+        Point([1, 0])
+
+        >>> triangle.point('C')
+        Point([0, 1])
+
+        >>> triangle.point('D')
+        Traceback (most recent call last):
+        ...
+        ValueError: The vertex must be 'A', 'B', or 'C'.
 
         """
-        return self.point_a, self.point_b, self.point_c
+        if vertex == 'A':
+            return self.point_a
 
-    def lines(self) -> Tuple[Line, Line, Line]:
+        if vertex == 'B':
+            return self.point_b
+
+        if vertex == 'C':
+            return self.point_c
+
+        raise ValueError("The vertex must be 'A', 'B', or 'C'.")
+
+    def line(self, side: str) -> Line:
         """
-        Return the three lines of the triangle.
+        Return the line along a side of the triangle.
+
+        Parameters
+        ----------
+        side: str
+            'a', 'b', or 'c'.
+            Side 'a' is the side across from vertex 'A'.
 
         Returns
         -------
-        line_ab, line_bc, line_ca
-            Lines AB, BC, and CA.
+        Line
+            Line along the side.
+
+        Raises
+        ------
+        ValueError
+            If the side is not 'a', 'b', or 'c'.
 
         Examples
         --------
         >>> from skspatial.objects import Triangle
 
-        >>> line_ab, line_bc, line_ca = Triangle([0, 0], [1, 0], [0, 1]).lines()
+        >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
 
-        >>> line_ab
-        Line(point=Point([0, 0]), direction=Vector([1, 0]))
-
-        >>> line_bc
+        >>> triangle.line('a')
         Line(point=Point([1, 0]), direction=Vector([-1,  1]))
 
-        >>> line_ca
+        >>> triangle.line('b')
         Line(point=Point([0, 1]), direction=Vector([ 0, -1]))
 
-        """
-        line_ab = Line.from_points(self.point_a, self.point_b)
-        line_bc = Line.from_points(self.point_b, self.point_c)
-        line_ca = Line.from_points(self.point_c, self.point_a)
+        >>> triangle.line('c')
+        Line(point=Point([0, 0]), direction=Vector([1, 0]))
 
-        return line_ab, line_bc, line_ca
+        >>> triangle.line('d')
+        Traceback (most recent call last):
+        ...
+        ValueError: The side must be 'a', 'b', or 'c'.
+
+        """
+        if side == 'a':
+            point_1, point_2 = self.point_b, self.point_c
+
+        elif side == 'b':
+            point_1, point_2 = self.point_c, self.point_a
+
+        elif side == 'c':
+            point_1, point_2 = self.point_a, self.point_b
+
+        else:
+            raise ValueError("The side must be 'a', 'b', or 'c'.")
+
+        return Line.from_points(point_1, point_2)
 
     def length(self, side: str) -> np.float64:
         """
