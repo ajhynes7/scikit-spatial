@@ -208,7 +208,7 @@ class Triangle:
 
         return line_ab, line_bc, line_ca
 
-    def side_length(self, side: str) -> np.float64:
+    def length(self, side: str) -> np.float64:
         """
         Return a side length of the triangle.
 
@@ -236,45 +236,20 @@ class Triangle:
 
         >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
 
-        >>> triangle.side_length('a').round(3)
+        >>> triangle.length('a').round(3)
         1.414
-        >>> triangle.side_length('b')
+        >>> triangle.length('b')
         1.0
-        >>> triangle.side_length('c')
+        >>> triangle.length('c')
         1.0
 
-        >>> triangle.side_length('d')
+        >>> triangle.length('d')
         Traceback (most recent call last):
         ...
         ValueError: The side must be 'a', 'b', or 'c'.
 
         """
-        if side == 'a':
-            return self.point_b.distance_point(self.point_c)
-
-        if side == 'b':
-            return self.point_a.distance_point(self.point_c)
-
-        if side == 'c':
-            return self.point_a.distance_point(self.point_b)
-
-        raise ValueError("The side must be 'a', 'b', or 'c'.")
-
-    def side_lengths(self) -> Tuple[np.float64, np.float64, np.float64]:
-        """
-        Return the three side lengths of the triangle.
-
-        Returns
-        -------
-        a, b, c : np.float64
-            Side lengths.
-
-        """
-        a = self.side_length('a')
-        b = self.side_length('b')
-        c = self.side_length('c')
-
-        return a, b, c
+        return self.line(side).direction.norm()
 
     @np_float
     def angle(self, vertex: str) -> float:
