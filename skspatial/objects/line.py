@@ -497,7 +497,7 @@ class Line(_BaseLinePlane):
         if self.direction.is_parallel(other.direction, rel_tol=0, abs_tol=0):
             raise ValueError("The lines must not be parallel.")
 
-        if not self.is_coplanar(other, tol=0):
+        if not self.is_coplanar(other):
             raise ValueError("The lines must be coplanar.")
 
         # Vector from line A to line B.
