@@ -406,18 +406,16 @@ class Triangle:
         ValueError: The vertex must be 'A', 'B', or 'C'.
 
         """
-        line_ab, line_bc, line_ca = self.lines()
-
         if vertex == 'A':
-            point_a_proj = line_bc.project_point(self.point_a)
-            return Line.from_points(self.point_a, point_a_proj)
+            point_proj = self.line('a').project_point(self.point_a)
+            return Line.from_points(self.point_a, point_proj)
 
         if vertex == 'B':
-            point_proj = line_ca.project_point(self.point_b)
+            point_proj = self.line('b').project_point(self.point_b)
             return Line.from_points(self.point_b, point_proj)
 
         if vertex == 'C':
-            point_proj = line_ab.project_point(self.point_c)
+            point_proj = self.line('c').project_point(self.point_c)
             return Line.from_points(self.point_c, point_proj)
 
         raise ValueError("The vertex must be 'A', 'B', or 'C'.")
