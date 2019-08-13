@@ -28,7 +28,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
 
     package_data={
-        'scikit-spatial': ['py.typed'],  # Needed for distributing type annotations.
+        'skspatial': ['py.typed'],  # Needed for distributing type annotations.
     },
 
     install_requires=[
