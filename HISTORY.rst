@@ -2,6 +2,13 @@
 History
 =======
 
+2.0.1 (2019-08-15)
+------------------
+* Use installation of numpy-stubs from its GitHub repository instead of a custom numpy stubs folder.
+* Introduce 'array_like' type annotation as the union of np.ndarray and Sequence.
+* Add py.typed file so that annotations can be used when scikit-spatial is installed.
+
+
 2.0.0 (2019-07-20)
 ------------------
 * Replace some NumPy functions with ones from Python math module. The math functions are faster than NumPy when the inputs are scalars.
