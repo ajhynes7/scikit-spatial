@@ -1,7 +1,5 @@
 """Module for the Line class."""
 
-from typing import Sequence
-
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -12,6 +10,7 @@ from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.transformation import transform_coordinates
+from skspatial.typing import array_like
 
 
 class Line(_BaseLinePlane):
@@ -78,14 +77,14 @@ class Line(_BaseLinePlane):
 
     """
 
-    def __init__(self, point: Sequence, direction: Sequence):
+    def __init__(self, point: array_like, direction: array_like):
 
         super().__init__(point, direction)
 
         self.direction = self.vector
 
     @classmethod
-    def from_points(cls, point_a: Sequence, point_b: Sequence) -> 'Line':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Line':
         """
         Instantiate a line from two points.
 
@@ -262,7 +261,7 @@ class Line(_BaseLinePlane):
 
         return self.point + vector_along_line
 
-    def project_point(self, point: Sequence) -> Point:
+    def project_point(self, point: array_like) -> Point:
         """
         Project a point onto the line.
 
@@ -296,7 +295,7 @@ class Line(_BaseLinePlane):
         # Add the projected vector to the point on the line.
         return self.point + vector_projected
 
-    def project_vector(self, vector: Sequence) -> Vector:
+    def project_vector(self, vector: array_like) -> Vector:
         """
         Project a vector onto the line.
 
@@ -322,7 +321,7 @@ class Line(_BaseLinePlane):
         """
         return self.direction.project_vector(vector)
 
-    def side_point(self, point: Sequence) -> np.int64:
+    def side_point(self, point: array_like) -> np.int64:
         """
         Find the side of the line where a point lies.
 
@@ -366,7 +365,7 @@ class Line(_BaseLinePlane):
 
         return self.direction.side_vector(vector_to_point)
 
-    def distance_point(self, point: Sequence) -> np.float64:
+    def distance_point(self, point: array_like) -> np.float64:
         """Return the distance from a point to the line."""
         point_projected = self.project_point(point)
 
@@ -515,7 +514,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: Sequence) -> 'Line':
+    def best_fit(cls, points: array_like) -> 'Line':
         """
         Return the line of best fit for a set of points.
 
@@ -564,7 +563,7 @@ class Line(_BaseLinePlane):
 
         return cls(centroid, direction)
 
-    def transform_points(self, points: Sequence) -> np.ndarray:
+    def transform_points(self, points: array_like) -> np.ndarray:
         """
         Transform points to a one-dimensional coordinate system defined by the line.
 

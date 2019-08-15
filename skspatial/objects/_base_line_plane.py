@@ -1,7 +1,7 @@
 """Module for private parent class of Line and Plane."""
 
 import inspect
-from typing import Callable, Sequence, Union
+from typing import Callable, Union
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -11,12 +11,13 @@ from skspatial._functions import _contains_point, _sum_squares
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _plotter
+from skspatial.typing import array_like
 
 
 class _BaseLinePlane:
     """Private parent class for Line and Plane."""
 
-    def __init__(self, point: Sequence, vector: Sequence):
+    def __init__(self, point: array_like, vector: array_like):
 
         self.point = Point(point)
         self.vector = Vector(vector)
@@ -39,11 +40,11 @@ class _BaseLinePlane:
 
         return f"{name_class}(point={repr_point}, {name_vector}={repr_vector})"
 
-    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
+    def contains_point(self, point: array_like, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point, **kwargs)
 
-    def is_close(self, other: Sequence, **kwargs: float) -> bool:
+    def is_close(self, other: array_like, **kwargs: float) -> bool:
         """
         Check if the line/plane is almost equivalent to another line/plane.
 
@@ -102,7 +103,7 @@ class _BaseLinePlane:
 
         return contains_point and is_parallel
 
-    def sum_squares(self, points: Sequence) -> np.float64:
+    def sum_squares(self, points: array_like) -> np.float64:
 
         return _sum_squares(self, points)
 

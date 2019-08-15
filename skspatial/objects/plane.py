@@ -1,6 +1,6 @@
 """Module for the Plane class."""
 
-from typing import Sequence, Tuple
+from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -11,6 +11,7 @@ from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
+from skspatial.typing import array_like
 
 
 class Plane(_BaseLinePlane):
@@ -77,13 +78,13 @@ class Plane(_BaseLinePlane):
 
     """
 
-    def __init__(self, point: Sequence, normal: Sequence):
+    def __init__(self, point: array_like, normal: array_like):
 
         super().__init__(point, normal)
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point: Sequence, vector_a: Sequence, vector_b: Sequence) -> 'Plane':
+    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> 'Plane':
         """
         Instantiate a plane from a point and two vectors.
 
@@ -133,7 +134,7 @@ class Plane(_BaseLinePlane):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a: Sequence, point_b: Sequence, point_c: Sequence) -> 'Plane':
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> 'Plane':
         """
         Instantiate a plane from three points.
 
@@ -228,7 +229,7 @@ class Plane(_BaseLinePlane):
 
         return a, b, c, d
 
-    def project_point(self, point: Sequence) -> Point:
+    def project_point(self, point: array_like) -> Point:
         """
         Project a point onto the plane.
 
@@ -263,7 +264,7 @@ class Plane(_BaseLinePlane):
 
         return Point(point) + vector_projected
 
-    def project_vector(self, vector: Sequence) -> Vector:
+    def project_vector(self, vector: array_like) -> Vector:
         """
         Project a vector onto the plane.
 
@@ -292,7 +293,7 @@ class Plane(_BaseLinePlane):
 
         return Vector.from_points(self.point, point_on_plane)
 
-    def distance_point_signed(self, point: Sequence) -> np.float64:
+    def distance_point_signed(self, point: array_like) -> np.float64:
         """
         Return the signed distance from a point to the plane.
 
@@ -332,7 +333,7 @@ class Plane(_BaseLinePlane):
 
         return self.normal.scalar_projection(vector_to_point)
 
-    def distance_point(self, point: Sequence) -> np.float64:
+    def distance_point(self, point: array_like) -> np.float64:
         """
         Return the distance from a point to the plane.
 
@@ -368,7 +369,7 @@ class Plane(_BaseLinePlane):
         """
         return abs(self.distance_point_signed(point))
 
-    def side_point(self, point: Sequence) -> np.float64:
+    def side_point(self, point: array_like) -> np.float64:
         """
         Find the side of the plane where a point lies.
 
@@ -547,7 +548,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: Sequence) -> 'Plane':
+    def best_fit(cls, points: array_like) -> 'Plane':
         """
         Return the plane of best fit for a set of 3D points.
 
@@ -603,7 +604,7 @@ class Plane(_BaseLinePlane):
         return cls(centroid, normal)
 
     def to_mesh(
-        self, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1)
+        self, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1)
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Return coordinate matrices for the 3D surface of the plane.
@@ -660,7 +661,7 @@ class Plane(_BaseLinePlane):
 
         return X, Y, Z
 
-    def to_points(self, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1)) -> Points:
+    def to_points(self, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1)) -> Points:
         """
         Return four points on the plane.
 
@@ -695,7 +696,9 @@ class Plane(_BaseLinePlane):
 
         return Points(points)
 
-    def plot_3d(self, ax_3d: Axes3D, lims_x: Sequence = (-1, 1), lims_y: Sequence = (-1, 1), **kwargs: float) -> None:
+    def plot_3d(
+        self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs: float
+    ) -> None:
         """
         Plot a 3D plane.
 
