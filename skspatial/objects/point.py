@@ -1,7 +1,5 @@
 """Module for the Point class."""
 
-from typing import Sequence
-
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -9,6 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _scatter_2d, _scatter_3d
+from skspatial.typing import array_like
 
 
 class Point(_BaseArray1D):
@@ -66,7 +65,7 @@ class Point(_BaseArray1D):
 
     """
 
-    def distance_point(self, other: Sequence) -> np.float64:
+    def distance_point(self, other: array_like) -> np.float64:
         """
         Return the distance to another point.
 

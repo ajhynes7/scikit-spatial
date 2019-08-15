@@ -1,7 +1,7 @@
 """Module for the Circle class."""
 
 import math
-from typing import Sequence, Tuple
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,6 +11,7 @@ from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
+from skspatial.typing import array_like
 
 
 class Circle(_BaseSphere):
@@ -67,7 +68,7 @@ class Circle(_BaseSphere):
 
     """
 
-    def __init__(self, point: Sequence, radius: float):
+    def __init__(self, point: array_like, radius: float):
 
         super().__init__(point, radius)
 

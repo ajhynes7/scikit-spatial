@@ -1,11 +1,12 @@
 """Private base classes for arrays."""
 
-from typing import Callable, Sequence, TypeVar, Type
+from typing import Callable, TypeVar, Type
 
 import numpy as np
 
 from skspatial._functions import _allclose
 from skspatial.plotting import _plotter
+from skspatial.typing import array_like
 
 
 # Create generic variables that can be 'Parent' or any subclass.
@@ -19,7 +20,7 @@ Array2D = TypeVar('Array2D', bound='_BaseArray2D')
 class _BaseArray(np.ndarray):
     """Private base class for spatial objects based on a single NumPy array."""
 
-    def __new__(cls: Type[Array], array: Sequence) -> Array:
+    def __new__(cls: Type[Array], array: array_like) -> Array:
 
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")
@@ -32,7 +33,7 @@ class _BaseArray(np.ndarray):
 
         return obj
 
-    def __array_finalize__(self, obj: Sequence) -> None:
+    def __array_finalize__(self, obj: array_like) -> None:
         """
         Finalize creation of the array.
 
@@ -81,7 +82,7 @@ class _BaseArray(np.ndarray):
 
         return self.__class__(array_rounded)
 
-    def is_close(self, other: Sequence, **kwargs: float) -> bool:
+    def is_close(self, other: array_like, **kwargs: float) -> bool:
         """
         Check if the array is close to another.
 
@@ -100,7 +101,7 @@ class _BaseArray(np.ndarray):
         """
         return bool(_allclose(self, other, **kwargs).all())
 
-    def is_equal(self, other: Sequence) -> bool:
+    def is_equal(self, other: array_like) -> bool:
         """
         Check if the array is equal to another.
 
@@ -125,7 +126,7 @@ class _BaseArray(np.ndarray):
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
-    def __new__(cls: Type[Array1D], array: Sequence) -> Array1D:
+    def __new__(cls: Type[Array1D], array: array_like) -> Array1D:
 
         obj = super().__new__(cls, array)
 
@@ -184,7 +185,7 @@ class _BaseArray1D(_BaseArray):
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
-    def __new__(cls: Type[Array2D], array: Sequence) -> Array2D:
+    def __new__(cls: Type[Array2D], array: array_like) -> Array2D:
 
         obj = super().__new__(cls, array)
 

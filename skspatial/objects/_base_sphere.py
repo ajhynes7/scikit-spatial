@@ -1,6 +1,6 @@
 """Module for base class of Circle and Sphere."""
 
-from typing import Callable, Sequence, Union
+from typing import Callable, Union
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -10,12 +10,13 @@ from skspatial._functions import _contains_point
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _plotter
+from skspatial.typing import array_like
 
 
 class _BaseSphere:
     """Private parent class for Circle and Sphere."""
 
-    def __init__(self, point: Sequence, radius: float):
+    def __init__(self, point: array_like, radius: float):
 
         if radius <= 0:
             raise ValueError("The radius must be positive.")
@@ -33,17 +34,17 @@ class _BaseSphere:
 
         return f"{name_class}(point={repr_point}, radius={self.radius})"
 
-    def distance_point(self, point: Sequence) -> np.float64:
+    def distance_point(self, point: array_like) -> np.float64:
         """Return the distance from a point to the circle/sphere."""
         distance_to_center = self.point.distance_point(point)
 
         return abs(distance_to_center - self.radius)
 
-    def contains_point(self, point: Sequence, **kwargs: float) -> bool:
+    def contains_point(self, point: array_like, **kwargs: float) -> bool:
         """Check if the line/plane contains a point."""
         return _contains_point(self, point, **kwargs)
 
-    def project_point(self, point: Sequence) -> Point:
+    def project_point(self, point: array_like) -> Point:
         """
         Project a point onto the circle or sphere.
 

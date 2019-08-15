@@ -1,7 +1,7 @@
 """Module for the Sphere class."""
 
 import math
-from typing import Sequence, Tuple
+from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -12,6 +12,7 @@ from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
+from skspatial.typing import array_like
 
 
 class Sphere(_BaseSphere):
@@ -68,7 +69,7 @@ class Sphere(_BaseSphere):
 
     """
 
-    def __init__(self, point: Sequence, radius: float):
+    def __init__(self, point: array_like, radius: float):
 
         super().__init__(point, radius)
 
