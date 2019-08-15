@@ -235,7 +235,7 @@ class Circle(_BaseSphere):
 
         return point_a, point_b
 
-    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
+    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """
         Plot the circle in 2D.
 

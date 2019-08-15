@@ -93,6 +93,6 @@ class _BaseSphere:
 
         return self.point + self.radius * vector_to_point.unit()
 
-    def plotter(self, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
+    def plotter(self, **kwargs) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
 
         return _plotter(self, **kwargs)

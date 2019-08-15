@@ -144,7 +144,7 @@ class Points(_BaseArray2D):
 
         return points_centered, centroid
 
-    def affine_rank(self, **kwargs: float) -> np.int64:
+    def affine_rank(self, **kwargs) -> np.int64:
         """
         Return the affine rank of the points.
 
@@ -192,7 +192,7 @@ class Points(_BaseArray2D):
 
         return matrix_rank(points_centered, **kwargs)
 
-    def are_concurrent(self, **kwargs: float) -> bool:
+    def are_concurrent(self, **kwargs) -> bool:
         """
         Check if the points are all contained in one point.
 
@@ -219,7 +219,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) == 0
 
-    def are_collinear(self, **kwargs: float) -> bool:
+    def are_collinear(self, **kwargs) -> bool:
         """
         Check if the points are all contained in one line.
 
@@ -249,7 +249,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) <= 1
 
-    def are_coplanar(self, **kwargs: float) -> bool:
+    def are_coplanar(self, **kwargs) -> bool:
         """
         Check if the points are all contained in one plane.
 
@@ -276,7 +276,7 @@ class Points(_BaseArray2D):
         """
         return self.affine_rank(**kwargs) <= 2
 
-    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
+    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """
         Plot the points on a 2D scatter plot.
 
@@ -303,7 +303,7 @@ class Points(_BaseArray2D):
         """
         _scatter_2d(ax_2d, self, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
+    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
         """
         Plot the points on a 3D scatter plot.
 

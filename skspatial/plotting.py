@@ -10,7 +10,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from skspatial.typing import array_like
 
 
-def _scatter_2d(ax_2d: Axes, points: array_like, **kwargs: str) -> None:
+def _scatter_2d(ax_2d: Axes, points: array_like, **kwargs) -> None:
     """
     Plot points on a 2D scatter plot.
 
@@ -28,7 +28,7 @@ def _scatter_2d(ax_2d: Axes, points: array_like, **kwargs: str) -> None:
     ax_2d.scatter(array[:, 0], array[:, 1], **kwargs)
 
 
-def _scatter_3d(ax_3d: Axes3D, points: array_like, **kwargs: str) -> None:
+def _scatter_3d(ax_3d: Axes3D, points: array_like, **kwargs) -> None:
     """
     Plot points on a 3D scatter plot.
 
@@ -54,7 +54,7 @@ def _scatter_3d(ax_3d: Axes3D, points: array_like, **kwargs: str) -> None:
     ax_3d.scatter(array[:, 0], array[:, 1], array[:, 2], **kwargs)
 
 
-def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **kwargs: str) -> None:
+def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **kwargs) -> None:
     """
     Plot a line between two 2D points.
 
@@ -74,7 +74,7 @@ def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **
     ax_2d.plot(xs, ys, **kwargs)
 
 
-def _connect_points_3d(ax_3d: Axes3D, point_a: array_like, point_b: array_like, **kwargs: str) -> None:
+def _connect_points_3d(ax_3d: Axes3D, point_a: array_like, point_b: array_like, **kwargs) -> None:
     """
     Plot a line between two 3D points.
 
@@ -103,7 +103,7 @@ def _connect_points_3d(ax_3d: Axes3D, point_a: array_like, point_b: array_like, 
     ax_3d.plot(xs, ys, zs, **kwargs)
 
 
-def _plotter(obj: Any, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
+def _plotter(obj: Any, **kwargs) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
     """Return a function that plots the object when passed a matplotlib axes."""
     if obj.dimension == 2:
 

@@ -107,6 +107,6 @@ class _BaseLinePlane:
 
         return _sum_squares(self, points)
 
-    def plotter(self, **kwargs: str) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
+    def plotter(self, **kwargs) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
 
         return _plotter(self, **kwargs)

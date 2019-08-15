@@ -281,7 +281,7 @@ class Sphere(_BaseSphere):
 
         return Points(points)
 
-    def plot_3d(self, ax_3d: Axes3D, n_angles: int = 30, **kwargs: float) -> None:
+    def plot_3d(self, ax_3d: Axes3D, n_angles: int = 30, **kwargs) -> None:
         """
         Plot the sphere in 3D.
 

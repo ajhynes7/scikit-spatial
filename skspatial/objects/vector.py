@@ -98,7 +98,7 @@ class Vector(_BaseArray1D):
         """
         return cls(np.subtract(point_b, point_a))
 
-    def norm(self, **kwargs: int) -> np.float64:
+    def norm(self, **kwargs) -> np.float64:
         """
         Return the norm of the vector.
 
@@ -648,7 +648,7 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs: float) -> None:
+    def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 2D vector.
 
@@ -685,7 +685,7 @@ class Vector(_BaseArray1D):
 
         ax_2d.arrow(x, y, dx, dy, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: float = 1, **kwargs: str) -> None:
+    def plot_3d(self, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 3D vector.
 

@@ -98,7 +98,7 @@ class Point(_BaseArray1D):
 
         return vector.norm()
 
-    def plot_2d(self, ax_2d: Axes, **kwargs: str) -> None:
+    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """
         Plot the point on a 2D scatter plot.
 
@@ -124,7 +124,7 @@ class Point(_BaseArray1D):
         """
         _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs: str) -> None:
+    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
         """
         Plot the point on a 3D scatter plot.
 

@@ -118,7 +118,7 @@ class _BaseArray(np.ndarray):
         """
         return np.array_equal(self, other)
 
-    def plotter(self, **kwargs: str) -> Callable:
+    def plotter(self, **kwargs) -> Callable:
 
         return _plotter(self, **kwargs)
 
