@@ -696,9 +696,7 @@ class Plane(_BaseLinePlane):
 
         return Points(points)
 
-    def plot_3d(
-        self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs
-    ) -> None:
+    def plot_3d(self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs) -> None:
         """
         Plot a 3D plane.
 
