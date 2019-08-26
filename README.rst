@@ -142,17 +142,6 @@ Project a point onto a line.
 Point([5.5, 5.5, 0. ])
 
 
-An error is raised if the computation is undefined.
-
->>> line_a = Line([0, 0], [1, 0])
->>> line_b = Line([1, 0], [1, 0])
-
->>> line_a.intersect_line(line_b)
-Traceback (most recent call last):
-...
-ValueError: The lines must not be parallel.
-
-
 Intersection
 ~~~~~~~~~~~~
 
@@ -165,6 +154,16 @@ Find the intersection of two planes.
 
 >>> plane_a.intersect_plane(plane_b)
 Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
+
+
+An error is raised if the computation is undefined.
+
+>>> plane_b = Plane([0, 0, 1], [0, 0, 1])
+
+>>> plane_a.intersect_plane(line_b)
+Traceback (most recent call last):
+...
+ValueError: The planes must not be parallel.
 
 
 Fitting
