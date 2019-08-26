@@ -273,6 +273,9 @@ class Points(_BaseArray2D):
         >>> Points([[1, 2], [9, -18], [12, 4], [2, 2]]).are_coplanar()
         True
 
+        >>> Points([[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]).are_coplanar()
+        False
+
         """
         return self.affine_rank(**kwargs) <= 2
 
