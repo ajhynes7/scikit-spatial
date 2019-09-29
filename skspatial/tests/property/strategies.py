@@ -191,10 +191,10 @@ def lines_or_planes(draw, LineOrPlane, dim):
     >>> from .strategies import lines_or_planes
 
     >>> find(lines_or_planes(Line, 2), lambda x: True)
-    Line(point=Point([0., 0.]), direction=Vector([0.  , 0.01]))
+    Line(point=Point([0., 0.]), direction=Vector([0.   , 0.001]))
 
     >>> find(lines_or_planes(Plane, 3), lambda x: True)
-    Plane(point=Point([0., 0., 0.]), normal=Vector([0.  , 0.  , 0.01]))
+    Plane(point=Point([0., 0., 0.]), normal=Vector([0.   , 0.   , 0.001]))
 
     """
     array_point = draw(arrays_fixed(dim))
@@ -327,7 +327,7 @@ def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
     >>> from .strategies import vectors, lines, planes, consistent_dim
 
     >>> find(consistent_dim([vectors, planes], min_dim=3), lambda x: True)
-    [Vector([0., 0., 0.]), Plane(point=Point([0., 0., 0.]), normal=Vector([0.  , 0.  , 0.01]))]
+    [Vector([0., 0., 0.]), Plane(point=Point([0., 0., 0.]), normal=Vector([0.   , 0.   , 0.001]))]
 
     >>> find(consistent_dim(3 * [vectors], min_dim=3), lambda x: True)
     [Vector([0., 0., 0.]), Vector([0., 0., 0.]), Vector([0., 0., 0.])]
