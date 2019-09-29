@@ -52,11 +52,4 @@ def transform_coordinates(points: array_like, point_origin: array_like, vectors_
     """
     vectors_to_points = np.subtract(points, point_origin)
 
-    def yield_columns() -> Iterator[np.ndarray]:
-        """Yield each column of points in the new coordinate system."""
-        for vector_basis in vectors_basis:
-            yield np.apply_along_axis(np.dot, 1, vectors_to_points, vector_basis)
-
-    coordinates = np.column_stack([*yield_columns()])
-
-    return coordinates
+    return np.matmul(vectors_to_points, np.transpose(vectors_basis))
