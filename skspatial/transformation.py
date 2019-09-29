@@ -1,6 +1,6 @@
 """Spatial transformations."""
 
-from typing import Iterator, Sequence
+from typing import Sequence
 
 import numpy as np
 
