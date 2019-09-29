@@ -64,6 +64,22 @@ class _BaseArray(np.ndarray):
         """
         self.dimension = getattr(obj, 'dimension', None)
 
+    def to_array(self: Array) -> np.ndarray:
+        """
+        Convert the object to a regular NumPy ndarray.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Point
+
+        >>> point = Point([1, 2, 3])
+
+        >>> point.to_array()
+        array([1, 2, 3])
+
+        """
+        return np.array(self)
+
     def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
         """
         Round the array to the given number of decimals.

@@ -610,7 +610,7 @@ class Line(_BaseLinePlane):
         # Basis vector of the subspace (the line).
         vectors_basis = [self.direction.unit()]
 
-        column = transform_coordinates(points, self.point, vectors_basis)
+        column = transform_coordinates(points, self.point.to_array(), vectors_basis)
 
         return column.flatten()
 
