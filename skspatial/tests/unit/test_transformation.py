@@ -31,6 +31,22 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
 
 
 @pytest.mark.parametrize(
+    "array_points, array_points_expected",
+    [
+        ([[0, 0], [1, 0]], [[0, 0], [1, 0]]),
+        ([[0, 0], [1, 1]], [[0, 0], np.sqrt(2) / 2 * np.ones(2)]),
+        ([[0, 0], [5, 0], [-1, 0]], [[0, 0], [1, 0], [-0.2, 0]]),
+        (9 * np.ones((3, 3)), np.sqrt(3) / 3 * np.ones((3, 3))),
+    ],
+)
+def test_normalize_distance(array_points, array_points_expected):
+
+    points_normalized = Points(array_points).normalize_distance()
+
+    assert_array_almost_equal(points_normalized, array_points_expected)
+
+
+@pytest.mark.parametrize(
     "line, points, coords_expected",
     [
         (Line([0, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [1, 2, 3, 4]),
