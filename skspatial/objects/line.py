@@ -556,7 +556,7 @@ class Line(_BaseLinePlane):
         if points_spatial.are_concurrent(tol=0):
             raise ValueError("The points must not be concurrent.")
 
-        points_centered, centroid = points_spatial.mean_center()
+        points_centered, centroid = points_spatial.mean_center(return_centroid=True)
 
         _, _, vh = np.linalg.svd(points_centered)
         direction = vh[0, :]

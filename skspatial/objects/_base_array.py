@@ -56,7 +56,7 @@ class _BaseArray(np.ndarray):
         The same applies for 2D arrays.
 
         >>> points = Points([[1, 2, 3], [4, 5, 6]])
-        >>> points_centered, centroid = points.mean_center()
+        >>> points_centered = points.mean_center()
 
         >>> points.dimension == points_centered.dimension
         True

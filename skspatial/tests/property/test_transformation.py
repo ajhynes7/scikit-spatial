@@ -13,7 +13,7 @@ def test_mean_center(data):
     dim = data.draw(st.integers(min_value=2, max_value=4))
     points = data.draw(multi_points(dim))
 
-    points_centered, _ = points.mean_center()
+    points_centered = points.mean_center()
 
     # The centroid of the centered points should be the origin.
     centroid_new = points_centered.centroid()

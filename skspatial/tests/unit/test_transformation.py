@@ -24,7 +24,7 @@ from skspatial.objects import Points, Line
 def test_mean_center(array_points, array_centered_expected, centroid_expected):
 
     points = Points(array_points)
-    points_centered, centroid = points.mean_center()
+    points_centered, centroid = points.mean_center(return_centroid=True)
 
     assert_array_almost_equal(points_centered, array_centered_expected)
     assert_array_almost_equal(centroid, centroid_expected)

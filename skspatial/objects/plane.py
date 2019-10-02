@@ -596,7 +596,7 @@ class Plane(_BaseLinePlane):
         if points.are_collinear(tol=0):
             raise ValueError("The points must not be collinear.")
 
-        points_centered, centroid = points.mean_center()
+        points_centered, centroid = points.mean_center(return_centroid=True)
 
         u, _, _ = np.linalg.svd(points_centered.T)
         normal = Vector(u[:, -1])

@@ -1,7 +1,5 @@
 """Module for the Points class."""
 
-from typing import Tuple
-
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -110,22 +108,27 @@ class Points(_BaseArray2D):
         """
         return Point(self.mean(axis=0))
 
-    def mean_center(self) -> Tuple['Points', Point]:
+    def mean_center(self, return_centroid: bool = False):
         """
         Mean-center the points by subtracting the centroid.
+
+        Parameters
+        ----------
+        return_centroid : bool, optional
+            If True, also return the original centroid of the points.
 
         Returns
         -------
         points_centered : (N, D) Points
             Array of N mean-centered points with dimension D.
-        centroid : (D,) Point
-            Centroid of the points.
+        centroid : (D,) Point, optional
+            Original centroid of the points. Only provided if `return_centroid` is True.
 
         Examples
         --------
         >>> from skspatial.objects import Points
 
-        >>> points_centered, centroid = Points([[4, 4, 4], [2, 2, 2]]).mean_center()
+        >>> points_centered, centroid = Points([[4, 4, 4], [2, 2, 2]]).mean_center(return_centroid=True)
         >>> points_centered
         Points([[ 1.,  1.,  1.],
                 [-1., -1., -1.]])
@@ -142,7 +145,11 @@ class Points(_BaseArray2D):
         centroid = self.centroid()
         points_centered = self - centroid
 
-        return points_centered, centroid
+        if return_centroid:
+            return points_centered, centroid
+
+        return points_centered
+
 
     def affine_rank(self, **kwargs) -> np.int64:
         """
@@ -188,7 +195,7 @@ class Points(_BaseArray2D):
 
         """
         # Remove duplicate points so they do not affect the centroid.
-        points_centered, _ = self.unique().mean_center()
+        points_centered = self.unique().mean_center()
 
         return matrix_rank(points_centered, **kwargs)
 

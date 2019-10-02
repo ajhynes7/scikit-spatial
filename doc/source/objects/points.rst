@@ -18,15 +18,14 @@ Point([4., 5., 6.])
 
 
 The points can be mean-centered, meaning that the centroid is treated as the origin of a new coordinate system.
+The original centroid can also be returned by the method.
 
->>> points_centered, centroid = points.mean_center()
+>>> points_centered, centroid = points.mean_center(return_centroid=True)
 
 >>> points_centered
 Points([[-3., -3., -3.],
         [ 0.,  0.,  0.],
         [ 3.,  3.,  3.]])
-
-The original centroid is also returned by the method.
 
 >>> centroid
 Point([4., 5., 6.])
