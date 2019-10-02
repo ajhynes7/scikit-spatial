@@ -150,6 +150,39 @@ class Points(_BaseArray2D):
 
         return points_centered
 
+    def normalize_distance(self) -> 'Points':
+        """
+        Normalize the distances of the points from the origin.
+
+        The normalized points lie within a unit sphere centered on the origin.
+
+        Returns
+        -------
+        Points
+            Normalized points.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Points
+
+        >>> points = Points([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+        >>> points.normalize_distance().round(3)
+        Points([[0.072, 0.144, 0.215],
+                [0.287, 0.359, 0.431],
+                [0.503, 0.574, 0.646]])
+
+        The transformation can be chained with mean centering.
+
+        >>> points.mean_center().normalize_distance().round(3)
+        Points([[-0.577, -0.577, -0.577],
+                [ 0.   ,  0.   ,  0.   ],
+                [ 0.577,  0.577,  0.577]])
+
+        """
+        distances_to_points = np.linalg.norm(self, axis=1)
+
+        return self / distances_to_points.max()
 
     def affine_rank(self, **kwargs) -> np.int64:
         """
