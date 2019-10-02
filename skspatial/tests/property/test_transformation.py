@@ -39,10 +39,9 @@ def test_normalize_distance(data):
 @given(st.data())
 def test_transform_points_line(data):
 
-    n_points = data.draw(st.integers(min_value=2, max_value=5))
-    dim = data.draw(st.integers(min_value=2, max_value=4))
+    dim = data.draw(st.integers(min_value=2, max_value=5))
+    points = data.draw(multi_points(dim))
 
-    points = Points([data.draw(arrays_fixed(dim)) for _ in range(n_points)])
     line = data.draw(lines(dim))
 
     # Transform the points into 1D coordinates.
