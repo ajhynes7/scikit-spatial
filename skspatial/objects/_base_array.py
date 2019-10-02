@@ -64,7 +64,7 @@ class _BaseArray(np.ndarray):
         """
         self.dimension = getattr(obj, 'dimension', None)
 
-    def to_array(self: Array) -> np.ndarray:
+    def to_array(self) -> np.ndarray:
         """
         Convert the object to a regular NumPy ndarray.
 
