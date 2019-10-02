@@ -3,8 +3,8 @@ import numpy as np
 from hypothesis import assume, given
 from numpy.testing import assert_array_almost_equal
 
-from .strategies import lines, multi_points
 from .constants import ATOL
+from .strategies import lines, multi_points
 
 
 @given(st.data())
