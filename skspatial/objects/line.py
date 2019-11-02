@@ -393,7 +393,7 @@ class Line(_BaseLinePlane):
         --------
         There are three cases:
 
-        1. The lines intersect (i.e., they are coplanar and not parallel)
+        1. The lines intersect (i.e., they are coplanar and not parallel).
 
         >>> from skspatial.objects import Line
         >>> line_a = Line([1, 2], [4, 3])
