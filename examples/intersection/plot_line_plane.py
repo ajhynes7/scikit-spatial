@@ -1,5 +1,5 @@
 """
-Line-Plane Intersection
+Plane-Line Intersection
 =======================
 
 """

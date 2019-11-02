@@ -1,5 +1,5 @@
 """
-Line-Sphere Intersection
+Sphere-Line Intersection
 ========================
 
 """
