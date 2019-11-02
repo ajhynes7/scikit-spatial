@@ -16,7 +16,6 @@ Methods
    ~skspatial.objects.Line.from_slope
    ~skspatial.objects.Line.intersect_line
    ~skspatial.objects.Line.is_coplanar
-   ~skspatial.objects.Line.is_coplanar
    ~skspatial.objects.Line.plot_2d
    ~skspatial.objects.Line.plot_3d
    ~skspatial.objects.Line.project_point
