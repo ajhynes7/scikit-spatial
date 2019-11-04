@@ -2,6 +2,14 @@
 History
 =======
 
+3.0.0 (2019-11-02)
+------------------
+* Add `Points.normalize_distance` method to fit points inside a unit sphere.
+* Change `Points.mean_center` to only return the centroid of the points if specified. 
+  This allows for chaining with other transformations on points, like `normalize_distance`.
+* Add `to_array` method to convert an array based object to a regular NumPy array.
+
+
 2.0.1 (2019-08-15)
 ------------------
 * Use installation of numpy-stubs from its GitHub repository instead of a custom numpy stubs folder.
