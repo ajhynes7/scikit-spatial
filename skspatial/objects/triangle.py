@@ -158,6 +158,28 @@ class Triangle:
         """
         return 0.5 * self.normal().norm()
 
+    def perimeter(self) -> np.float64:
+        """
+        Return the perimeter of the triangle.
+
+        Returns
+        -------
+        np.float64
+            The perimeter of the triangle.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Triangle
+
+        >>> Triangle([0, 0], [0, 1], [1, 0]).perimeter().round(3)
+        3.414
+
+        >>> Triangle([0, 1], [1, 1], [2, 0]).perimeter().round(3)
+        4.828
+
+        """
+        return sum(self.multiple('length', 'abc'))
+
     def point(self, vertex: str) -> Point:
         """
         Return a point (vertex) of the triangle.
