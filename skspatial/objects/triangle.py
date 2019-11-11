@@ -86,7 +86,7 @@ class Triangle:
 
         method = getattr(self, name_method)
 
-        return [method(x) for x in inputs]
+        return tuple(method(x) for x in inputs)
 
     def normal(self) -> Vector:
         """
