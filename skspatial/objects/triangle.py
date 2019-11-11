@@ -386,6 +386,28 @@ class Triangle:
 
         return math.acos(arg)
 
+    def centroid(self) -> Point:
+        """
+        Return the centroid of the triangle.
+
+        Returns
+        -------
+        Point
+            Centroid of the triangle.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Triangle
+
+        >>> Triangle([0, 0], [0, 1], [1, 0]).centroid().round(3)
+        Point([0.333, 0.333])
+
+        >>> Triangle([0, 0, 0], [1, 2, 3], [4, 5, 6]).centroid().round(3)
+        Point([1.667, 2.333, 3.   ])
+
+        """
+        return Points([self.point_a, self.point_b, self.point_c]).centroid()
+
     def altitude(self, vertex: str) -> Line:
         """
         Return the line of an altitude of the triangle.
