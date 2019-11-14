@@ -100,14 +100,18 @@ class Triangle:
 
         Examples
         --------
+        >>> from math import degrees
         >>> from skspatial.objects import Triangle
 
         >>> triangle = Triangle([0, 0], [0, 1], [1, 0])
 
         >>> lengths = triangle.multiple('length', 'abc')
         >>> [round(x, 3) for x in lengths]
+        [1.414, 1.0, 1.0]
 
-        triangle.
+        >>> angles = triangle.multiple('angle', 'ABC')
+        >>> [round(degrees(x), 3) for x in angles]
+        [90.0, 45.0, 45.0]
 
         """
         method = getattr(self, name_method)
@@ -201,7 +205,7 @@ class Triangle:
         3.414
 
         >>> Triangle([0, 1], [1, 1], [2, 0]).perimeter().round(3)
-        4.828
+        4.65
 
         """
         return sum(self.multiple('length', 'abc'))
