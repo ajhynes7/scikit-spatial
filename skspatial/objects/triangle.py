@@ -14,6 +14,7 @@ from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _plotter
+from skspatial.typing import array_like
 
 
 class Triangle:
@@ -60,7 +61,8 @@ class Triangle:
     ValueError: The points must not be collinear.
 
     """
-    def __init__(self, point_a: Sequence, point_b: Sequence, point_c: Sequence):
+
+    def __init__(self, point_a: array_like, point_b: array_like, point_c: array_like):
 
         self.point_a = Point(point_a)
         self.point_b = Point(point_b)
