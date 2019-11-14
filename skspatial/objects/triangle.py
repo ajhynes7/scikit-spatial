@@ -119,7 +119,7 @@ class Triangle:
         return tuple(method(x) for x in inputs)
 
     def normal(self) -> Vector:
-        """
+        r"""
         Return a vector normal to the triangle.
 
         The normal vector is calculated as
