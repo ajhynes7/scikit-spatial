@@ -2,7 +2,7 @@
 
 import math
 from itertools import combinations
-from typing import List, Sequence
+from typing import Sequence
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -82,8 +82,34 @@ class Triangle:
 
         return f"Triangle(point_a={repr_a}, point_b={repr_b}, point_c={repr_c})"
 
-    def multiple(self, name_method: str, inputs: Sequence) -> List:
+    def multiple(self, name_method: str, inputs: Sequence) -> tuple:
+        """
+        Return multiple properties of the triangle.
 
+        Parameters
+        ----------
+        name_method : str
+            Name of the triangle method.
+        inputs : Sequence
+            Sequence of different inputs to the method.
+
+        Returns
+        -------
+        tuple
+            Multiple outputs from the triangle method.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Triangle
+
+        >>> triangle = Triangle([0, 0], [0, 1], [1, 0])
+
+        >>> lengths = triangle.multiple('length', 'abc')
+        >>> [round(x, 3) for x in lengths]
+
+        triangle.
+
+        """
         method = getattr(self, name_method)
 
         return tuple(method(x) for x in inputs)
