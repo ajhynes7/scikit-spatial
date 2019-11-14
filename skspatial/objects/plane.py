@@ -460,7 +460,7 @@ class Plane(_BaseLinePlane):
         ValueError: The line and plane must not be parallel.
 
         """
-        if self.normal.is_perpendicular(line.direction):
+        if self.normal.is_perpendicular(line.direction, rel_tol=0, abs_tol=0):
             raise ValueError("The line and plane must not be parallel.")
 
         vector_plane_line = Vector.from_points(self.point, line.point)
@@ -523,7 +523,7 @@ class Plane(_BaseLinePlane):
         ValueError: The planes must not be parallel.
 
         """
-        if self.normal.is_parallel(other.normal):
+        if self.normal.is_parallel(other.normal, rel_tol=0, abs_tol=0):
             raise ValueError("The planes must not be parallel.")
 
         array_normals_stacked = np.vstack((self.normal, other.normal))

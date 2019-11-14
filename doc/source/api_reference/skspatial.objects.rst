@@ -11,3 +11,4 @@ skspatial.objects
    skspatial.objects.Plane
    skspatial.objects.Circle
    skspatial.objects.Sphere
+   skspatial.objects.Triangle

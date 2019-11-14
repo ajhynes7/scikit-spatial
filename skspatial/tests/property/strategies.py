@@ -1,8 +1,9 @@
 """Custom strategies for property tests."""
 
 import hypothesis.strategies as st
+from hypothesis import assume
 
-from skspatial.objects import Point, Points, Vector, Line, Plane, Circle, Sphere
+from skspatial.objects import Point, Points, Vector, Line, Plane, Circle, Sphere, Triangle
 from .constants import DIM_MIN, DIM_MAX, FLOAT_MIN
 
 
@@ -301,6 +302,39 @@ def spheres(draw):
 
     """
     return Sphere(draw(arrays_fixed(3)), draw(radii))
+
+
+@st.composite
+def triangles(draw, dim):
+    """
+    Return a strategy which generates Triangle objects.
+
+    Parameters
+    ----------
+    dim : int
+        Dimension of the object.
+
+    Returns
+    -------
+    LazyStrategy
+        Hypothesis strategy.
+
+    Examples
+    --------
+    >>> from hypothesis import find
+    >>> from .strategies import triangles
+
+    >>> find(triangles(dim=2), lambda x: True)
+    Triangle(point_a=Point([0., 0.]), point_b=Point([0.   , 0.001]), point_c=Point([0.001, 0.   ]))
+
+    """
+    point_a = draw(arrays_fixed(dim))
+    point_b = draw(arrays_fixed(dim))
+    point_c = draw(arrays_fixed(dim))
+
+    assume(not Points([point_a, point_b, point_c]).are_collinear(tol=FLOAT_MIN))
+
+    return Triangle(point_a, point_b, point_c)
 
 
 @st.composite
