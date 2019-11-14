@@ -1,6 +1,7 @@
-import pytest
 from dataclasses import dataclass
 from math import atan, degrees, isclose, radians, sqrt
+
+import pytest
 
 from skspatial.objects import Triangle
 
