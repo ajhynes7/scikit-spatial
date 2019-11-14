@@ -1,6 +1,6 @@
 
 skspatial.objects.Triangle
-========================
+==========================
 
 .. autoclass:: skspatial.objects.Triangle
 
