@@ -599,6 +599,8 @@ class Triangle:
 
         Examples
         --------
+        >>> from skspatial.objects import Triangle
+
         >>> Triangle([0, 0], [0, 1], [1, 0]).is_right()
         True
 
@@ -702,5 +704,5 @@ class Triangle:
                 line.plot_3d(ax_3d, **kwargs)
 
     def plotter(self, **kwargs):
-
+        """Plot the object with keyword arguments."""
         return _plotter(self, **kwargs)
