@@ -9,6 +9,7 @@ from skspatial.objects import Triangle
 @dataclass
 class TriangleTester:
     """Triangle object for unit testing."""
+
     points: tuple
 
     area: float
@@ -26,7 +27,6 @@ class TriangleTester:
 
 
 list_test_cases = [
-
     TriangleTester(
         points=[[0, 0], [1, 0], [0, 1]],
         area=0.5,
@@ -39,7 +39,6 @@ list_test_cases = [
         classification='isosceles',
         is_right=True,
     ),
-
     TriangleTester(
         points=[[0, 0], [1, 1], [2, 0]],
         area=1,
@@ -52,7 +51,6 @@ list_test_cases = [
         classification='isosceles',
         is_right=True,
     ),
-
     TriangleTester(
         points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
         area=sqrt(3) / 4,
@@ -65,7 +63,6 @@ list_test_cases = [
         classification='equilateral',
         is_right=False,
     ),
-
     TriangleTester(
         points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
         area=sqrt(3) / 4,
@@ -78,7 +75,6 @@ list_test_cases = [
         classification='equilateral',
         is_right=False,
     ),
-
     TriangleTester(
         points=[[0, 0], [1, 0], [0, 2]],
         area=1,
@@ -91,7 +87,6 @@ list_test_cases = [
         classification='scalene',
         is_right=True,
     ),
-
     TriangleTester(
         points=[[0, 0], [3, 0], [0, 4]],
         area=6,
@@ -104,7 +99,6 @@ list_test_cases = [
         classification='scalene',
         is_right=True,
     ),
-
 ]
 
 
