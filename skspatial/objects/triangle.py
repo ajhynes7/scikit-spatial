@@ -210,7 +210,7 @@ class Triangle:
         4.65
 
         """
-        return sum(self.multiple('length', 'abc'))
+        return np.sum(self.multiple('length', 'abc'))
 
     def point(self, vertex: str) -> Point:
         """
