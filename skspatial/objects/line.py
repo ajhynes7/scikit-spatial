@@ -1,5 +1,7 @@
 """Module for the Line class."""
 
+from __future__ import annotations
+
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -84,7 +86,7 @@ class Line(_BaseLinePlane):
         self.direction = self.vector
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Line':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> Line:
         """
         Instantiate a line from two points.
 
@@ -116,7 +118,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @classmethod
-    def from_slope(cls, slope: float, y_intercept: float) -> 'Line':
+    def from_slope(cls, slope: float, y_intercept: float) -> Line:
         r"""
         Instantiate a 2D line from a slope and Y-intercept.
 
@@ -160,7 +162,7 @@ class Line(_BaseLinePlane):
 
         return cls(point, direction)
 
-    def is_coplanar(self, other: 'Line', **kwargs: float) -> bool:
+    def is_coplanar(self, other: Line, **kwargs: float) -> bool:
         """
         Check if the line is coplanar with another.
 
@@ -371,7 +373,7 @@ class Line(_BaseLinePlane):
 
         return point_projected.distance_point(point)
 
-    def distance_line(self, other: 'Line') -> np.float64:
+    def distance_line(self, other: Line) -> np.float64:
         """
         Return the shortest distance from the line to another.
 
@@ -437,7 +439,7 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    def intersect_line(self, other: 'Line') -> Point:
+    def intersect_line(self, other: Line) -> Point:
         """
         Intersect the line with another.
 
@@ -514,7 +516,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like) -> 'Line':
+    def best_fit(cls, points: array_like) -> Line:
         """
         Return the line of best fit for a set of points.
 

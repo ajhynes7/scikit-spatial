@@ -1,5 +1,6 @@
 """Module for the Plane class."""
 
+from __future__ import annotations
 from typing import Tuple
 
 import numpy as np
@@ -84,7 +85,7 @@ class Plane(_BaseLinePlane):
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> 'Plane':
+    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> Plane:
         """
         Instantiate a plane from a point and two vectors.
 
@@ -134,7 +135,7 @@ class Plane(_BaseLinePlane):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> 'Plane':
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> Plane:
         """
         Instantiate a plane from three points.
 
@@ -414,7 +415,7 @@ class Plane(_BaseLinePlane):
         """
         return np.sign(self.distance_point_signed(point)).astype(int)
 
-    def intersect_line(self, line: Line) -> 'Plane':
+    def intersect_line(self, line: Line) -> Plane:
         """
         Intersect the plane with a line.
 
@@ -473,7 +474,7 @@ class Plane(_BaseLinePlane):
 
         return line.point + vector_line_scaled
 
-    def intersect_plane(self, other: 'Plane') -> Line:
+    def intersect_plane(self, other: Plane) -> Line:
         """
         Intersect the plane with another.
 
@@ -548,7 +549,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like) -> 'Plane':
+    def best_fit(cls, points: array_like) -> Plane:
         """
         Return the plane of best fit for a set of 3D points.
 

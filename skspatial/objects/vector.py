@@ -1,5 +1,6 @@
 """Module for the Vector class."""
 
+from __future__ import annotations
 import math
 
 import numpy as np
@@ -68,7 +69,7 @@ class Vector(_BaseArray1D):
     """
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Vector':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> Vector:
         """
         Instantiate a vector from point A to point B.
 
@@ -130,7 +131,7 @@ class Vector(_BaseArray1D):
         """
         return np.linalg.norm(self, **kwargs)
 
-    def unit(self) -> 'Vector':
+    def unit(self) -> Vector:
         """
         Return the unit vector in the same direction as the vector.
 
@@ -241,7 +242,7 @@ class Vector(_BaseArray1D):
         """
         return np.dot(self, other)
 
-    def cross(self, other: array_like) -> 'Vector':
+    def cross(self, other: array_like) -> Vector:
         """
         Compute the cross product with another vector.
 
@@ -615,7 +616,7 @@ class Vector(_BaseArray1D):
         """
         return self.unit().dot(other)
 
-    def project_vector(self, other: array_like) -> 'Vector':
+    def project_vector(self, other: array_like) -> Vector:
         """
         Project an other vector onto the vector.
 
