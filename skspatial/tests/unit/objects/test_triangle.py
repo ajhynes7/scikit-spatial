@@ -3,8 +3,8 @@ from math import atan, degrees, isclose, radians, sqrt
 
 import pytest
 
-from skspatial.typing import array_like
 from skspatial.objects import Line, Triangle
+from skspatial.typing import array_like
 
 
 @dataclass
