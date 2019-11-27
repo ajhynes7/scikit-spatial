@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Point, Vector, Points, Line, Plane, Circle, Sphere
+from skspatial.objects import Point, Vector, Points, Line, Plane, Circle, Sphere, Triangle
 
 
 @pytest.mark.parametrize(
@@ -25,6 +25,7 @@ from skspatial.objects import Point, Vector, Points, Line, Plane, Circle, Sphere
         (Circle([0, 0], 1), "Circle(point=Point([0, 0]), radius=1)"),
         (Circle([0, 0], 2.5), "Circle(point=Point([0, 0]), radius=2.5)"),
         (Sphere([0, 0, 0], 1), "Sphere(point=Point([0, 0, 0]), radius=1)"),
+        (Triangle([0, 0], [0, 1], [1, 0]), "Triangle(point_a=Point([0, 0]), point_b=Point([0, 1]), point_c=Point([1, 0]))"),
     ],
 )
 def test_repr(obj_spatial, repr_expected):
