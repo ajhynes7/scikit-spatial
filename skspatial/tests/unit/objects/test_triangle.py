@@ -99,6 +99,10 @@ def test_triangle(test_case):
     assert triangle.area() == test_case.area
     assert triangle.perimeter() == test_case.perimeter
 
+    points_a = triangle.multiple('point', 'ABC')
+    points_b = test_case.points
+    assert all(a.is_equal(b) for a, b in zip(points_a, points_b))
+
     lengths_a = triangle.multiple('length', 'abc')
     lengths_b = test_case.lengths
     assert all([isclose(a, b) for a, b in zip(lengths_a, lengths_b)])
