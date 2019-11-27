@@ -40,11 +40,7 @@ list_test_cases = [
         normal=[0, 0, 1],
         classification='isosceles',
         is_right=True,
-        altitudes=(
-            Line([0, 0], [0.5, 0.5]),
-            Line([1, 0], [-1, 0]),
-            Line([0, 1], [0, -1]),
-        ),
+        altitudes=(Line([0, 0], [0.5, 0.5]), Line([1, 0], [-1, 0]), Line([0, 1], [0, -1])),
     ),
     TriangleTester(
         points=[[0, 0], [1, 1], [2, 0]],
@@ -57,11 +53,7 @@ list_test_cases = [
         normal=[0, 0, -2],
         classification='isosceles',
         is_right=True,
-        altitudes=(
-            Line([0, 0], [1, 1]),
-            Line([1, 1], [0, -1]),
-            Line([2, 0], [-1, 1]),
-        ),
+        altitudes=(Line([0, 0], [1, 1]), Line([1, 1], [0, -1]), Line([2, 0], [-1, 1])),
     ),
     TriangleTester(
         points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
@@ -91,11 +83,7 @@ list_test_cases = [
         normal=[0, 0, 2],
         classification='scalene',
         is_right=True,
-        altitudes=(
-            Line([0, 0], [0.8, 0.4]),
-            Line([1, 0], [-1, 0]),
-            Line([0, 2], [0, -2]),
-        ),
+        altitudes=(Line([0, 0], [0.8, 0.4]), Line([1, 0], [-1, 0]), Line([0, 2], [0, -2])),
     ),
     TriangleTester(
         points=[[0, 0], [3, 0], [0, 4]],
@@ -108,11 +96,7 @@ list_test_cases = [
         normal=[0, 0, 12],
         classification='scalene',
         is_right=True,
-        altitudes=(
-            Line([0, 0], [1.92, 1.44]),
-            Line([3, 0], [-3, 0]),
-            Line([0, 4], [0, -4]),
-        ),
+        altitudes=(Line([0, 0], [1.92, 1.44]), Line([3, 0], [-3, 0]), Line([0, 4], [0, -4])),
     ),
 ]
 
@@ -152,12 +136,7 @@ def test_triangle(test_case):
 
 @pytest.mark.parametrize(
     "array_a, array_b, array_c",
-    [
-        ([1], [1, 0], [1, 0]),
-        ([1, 0, 0], [1, 0], [1, 0]),
-        ([1, 0], [1, 0], [1, 0, 0]),
-        ([1, 0, 0], [1, 0], [1, 0, 0]),
-    ],
+    [([1], [1, 0], [1, 0]), ([1, 0, 0], [1, 0], [1, 0]), ([1, 0], [1, 0], [1, 0, 0]), ([1, 0, 0], [1, 0], [1, 0, 0])],
 )
 def test_failure_different_dimensions(array_a, array_b, array_c):
 
