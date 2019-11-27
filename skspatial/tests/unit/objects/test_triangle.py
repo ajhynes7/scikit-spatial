@@ -4,6 +4,7 @@ from math import atan, degrees, isclose, radians, sqrt
 import pytest
 
 from skspatial.typing import array_like
+from skspatial.objects import Line, Triangle
 
 
 @dataclass
@@ -17,6 +18,7 @@ class TriangleTester:
 
     lengths: tuple
     angles: tuple
+    altitudes: tuple
 
     normal: array_like
     centroid: array_like
@@ -38,6 +40,11 @@ list_test_cases = [
         normal=[0, 0, 1],
         classification='isosceles',
         is_right=True,
+        altitudes=(
+            Line([0, 0], [0.5, 0.5]),
+            Line([1, 0], [-1, 0]),
+            Line([0, 1], [0, -1]),
+        ),
     ),
     TriangleTester(
         points=[[0, 0], [1, 1], [2, 0]],
@@ -50,7 +57,11 @@ list_test_cases = [
         normal=[0, 0, -2],
         classification='isosceles',
         is_right=True,
-    ),
+        altitudes=(
+            Line([0, 0], [1, 1]),
+            Line([1, 1], [0, -1]),
+            Line([2, 0], [-1, 1]),
+        ),
     ),
     TriangleTester(
         points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
@@ -63,6 +74,11 @@ list_test_cases = [
         normal=[0, 0, sqrt(3) / 2],
         classification='equilateral',
         is_right=False,
+        altitudes=(
+            Line([0, 0], [0.75, sqrt(3) / 4]),
+            Line([1, 0], [-0.75, sqrt(3) / 4]),
+            Line([0.5, sqrt(3) / 2], [0, -sqrt(3) / 2]),
+        ),
     ),
     TriangleTester(
         points=[[0, 0], [1, 0], [0, 2]],
@@ -75,6 +91,11 @@ list_test_cases = [
         normal=[0, 0, 2],
         classification='scalene',
         is_right=True,
+        altitudes=(
+            Line([0, 0], [0.8, 0.4]),
+            Line([1, 0], [-1, 0]),
+            Line([0, 2], [0, -2]),
+        ),
     ),
     TriangleTester(
         points=[[0, 0], [3, 0], [0, 4]],
@@ -87,6 +108,11 @@ list_test_cases = [
         normal=[0, 0, 12],
         classification='scalene',
         is_right=True,
+        altitudes=(
+            Line([0, 0], [1.92, 1.44]),
+            Line([3, 0], [-3, 0]),
+            Line([0, 4], [0, -4]),
+        ),
     ),
 ]
 
@@ -114,6 +140,11 @@ def test_triangle(test_case):
     assert triangle.normal().is_close(test_case.normal)
     assert triangle.centroid().is_close(test_case.centroid)
     assert triangle.orthocenter().is_close(test_case.orthocenter)
+
+    altitudes_a = triangle.multiple('altitude', 'ABC')
+    altitudes_b = test_case.altitudes
+    print(altitudes_a, altitudes_b)
+    assert all(a.is_close(b, abs_tol=1e-3) for a, b in zip(altitudes_a, altitudes_b))
 
     assert triangle.classify() == test_case.classification
     assert triangle.is_right() == test_case.is_right
