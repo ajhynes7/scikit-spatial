@@ -3,7 +3,7 @@ from math import atan, degrees, isclose, radians, sqrt
 
 import pytest
 
-from skspatial.objects import Triangle
+from skspatial.typing import array_like
 
 
 @dataclass
@@ -18,9 +18,9 @@ class TriangleTester:
     lengths: tuple
     angles: tuple
 
-    normal: list
-    centroid: list
-    orthocenter: list
+    normal: array_like
+    centroid: array_like
+    orthocenter: array_like
 
     classification: str
     is_right: bool
