@@ -51,17 +51,6 @@ list_test_cases = [
         classification='isosceles',
         is_right=True,
     ),
-    TriangleTester(
-        points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
-        area=sqrt(3) / 4,
-        perimeter=3,
-        lengths=(1, 1, 1),
-        angles=(60, 60, 60),
-        centroid=[0.5, sqrt(3) / 6],
-        orthocenter=[0.5, sqrt(3) / 6],
-        normal=[0, 0, sqrt(3) / 2],
-        classification='equilateral',
-        is_right=False,
     ),
     TriangleTester(
         points=[[0, 0], [1, 0], [0.5, sqrt(3) / 2]],
