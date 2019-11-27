@@ -148,3 +148,68 @@ def test_triangle(test_case):
 
     assert triangle.classify() == test_case.classification
     assert triangle.is_right() == test_case.is_right
+
+
+@pytest.mark.parametrize(
+    "array_a, array_b, array_c",
+    [
+        ([1], [1, 0], [1, 0]),
+        ([1, 0, 0], [1, 0], [1, 0]),
+        ([1, 0], [1, 0], [1, 0, 0]),
+        ([1, 0, 0], [1, 0], [1, 0, 0]),
+    ],
+)
+def test_failure_different_dimensions(array_a, array_b, array_c):
+
+    with pytest.raises(ValueError, match="The points must have the same dimension."):
+        Triangle(array_a, array_b, array_c)
+
+
+@pytest.mark.parametrize(
+    "array_a, array_b, array_c",
+    [
+        ([1], [2], [3]),
+        ([1, 0], [1, 0], [1, 0]),
+        ([1, 2, 3], [1, 2, 3], [1, 2, 3]),
+        ([1, 2, 3], [1, 2, 3], [2, 3, -10]),  # Two points are the same.
+        ([1, 2, 3], [4, 5, 6], [7, 8, 9]),
+        ([1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]),
+    ],
+)
+def test_failure_collinear_points(array_a, array_b, array_c):
+
+    with pytest.raises(ValueError, match="The points must not be collinear."):
+        Triangle(array_a, array_b, array_c)
+
+
+@pytest.fixture
+def basic_triangle():
+
+    return Triangle([0, 0], [0, 1], [1, 0])
+
+
+@pytest.mark.parametrize("string", ['a', 'b', 'c', 'd', 'D'])
+def test_failure_point(basic_triangle, string):
+
+    message = "The vertex must be 'A', 'B', or 'C'."
+
+    with pytest.raises(ValueError, match=message):
+        basic_triangle.point(string)
+
+    with pytest.raises(ValueError, match=message):
+        basic_triangle.angle(string)
+
+    with pytest.raises(ValueError, match=message):
+        basic_triangle.altitude(string)
+
+
+@pytest.mark.parametrize("string", ['A', 'B', 'C', 'D'])
+def test_failure_line(basic_triangle, string):
+
+    message = "The side must be 'a', 'b', or 'c'."
+
+    with pytest.raises(ValueError, match=message):
+        basic_triangle.line(string)
+
+    with pytest.raises(ValueError, match=message):
+        basic_triangle.length(string)
