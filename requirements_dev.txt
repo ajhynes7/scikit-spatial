@@ -17,7 +17,7 @@ more-itertools==7.2.0
 numpy==1.17.4
 numpydoc==0.9.1
 packaging==19.2
-Pillow==6.2.1
+Pillow==7.0.0
 pluggy==0.13.0
 py==1.8.0
 Pygments==2.4.2
