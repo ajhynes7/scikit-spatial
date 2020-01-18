@@ -38,6 +38,7 @@ The following spatial objects are provided:
    - Plane
    - Circle
    - Sphere
+   - Triangle
 
 The computations can be grouped into the following main categories:
 
