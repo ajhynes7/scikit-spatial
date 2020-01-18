@@ -11,3 +11,4 @@ Spatial Objects
    plane
    circle
    sphere
+   triangle
