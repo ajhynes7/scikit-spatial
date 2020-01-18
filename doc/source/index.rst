@@ -21,7 +21,7 @@ Computations can be performed after instantiating a spatial object. For example,
 Point([-5.,  0.,  5.])
 
 
-The possible computations are grouped into the following categories:
+Most of the computations fall into the following categories:
 
 - Measurement
 - Comparison
