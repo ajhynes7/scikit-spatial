@@ -66,9 +66,12 @@ sphinx_gallery_conf = {
     'examples_dirs': '../../examples',   # Path to example scripts
     'gallery_dirs': 'gallery',  # Path to save generated examples
     'download_all_examples': False,
-    'subsection_order': ExplicitOrder(['../../examples/projection',
-                                       '../../examples/intersection',
-                                       '../../examples/fitting']),
+    'subsection_order': ExplicitOrder([
+        '../../examples/projection',
+       '../../examples/intersection',
+       '../../examples/fitting',
+       '../../examples/triangle',
+    ]),
 }
 
 autosummary_generate = True
