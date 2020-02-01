@@ -332,7 +332,7 @@ def triangles(draw, dim):
     point_b = draw(arrays_fixed(dim))
     point_c = draw(arrays_fixed(dim))
 
-    assume(not Points([point_a, point_b, point_c]).are_collinear(tol=FLOAT_MIN))
+    assume(not Points([point_a, point_b, point_c]).are_collinear(tol=0.1))
 
     return Triangle(point_a, point_b, point_c)
 
