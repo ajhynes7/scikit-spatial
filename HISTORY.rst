@@ -3,6 +3,11 @@ History
 =======
 
 
+4.0.1 (2020-02-01)
+------------------
+* Fix to replace Python 3.6 with 3.8 in the setup.py file.
+
+
 4.0.0 (2020-02-01)
 ------------------
 * Drop support for Python 3.6 (this allows for postponed evaluation of type annotations, introduced in Python 3.7).
