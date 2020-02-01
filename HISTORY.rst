@@ -2,6 +2,13 @@
 History
 =======
 
+
+4.0.0 (2020-02-01)
+------------------
+* Drop support for Python 3.6 (this allows for postponed evaluation of type annotations, introduced in Python 3.7).
+* Add Triangle class.
+
+
 3.0.0 (2019-11-02)
 ------------------
 * Add `Points.normalize_distance` method to fit points inside a unit sphere.
