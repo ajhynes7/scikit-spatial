@@ -32,7 +32,7 @@ snowballstemmer==2.0.0
 Sphinx==2.2.1
 sphinx-bootstrap-theme==0.7.1
 sphinx-gallery==0.4.0
-sphinxcontrib-applehelp==1.0.1
+sphinxcontrib-applehelp==1.0.2
 sphinxcontrib-devhelp==1.0.1
 sphinxcontrib-htmlhelp==1.0.2
 sphinxcontrib-jsmath==1.0.1
