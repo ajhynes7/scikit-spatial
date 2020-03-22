@@ -127,7 +127,7 @@ class Triangle:
         The normal vector is calculated as
 
         .. math::
-            v_{AB} \times v{AC}
+            v_{AB} \times v_{AC}
 
         where :math:`v_{AB}` is the vector from vertex A to vertex B.
 
