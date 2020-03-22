@@ -6,7 +6,7 @@ certifi==2019.9.11
 chardet==3.0.4
 coverage==5.0.4
 cycler==0.10.0
-docutils==0.15.2
+docutils==0.16
 idna==2.8
 imagesize==1.1.0
 Jinja2==2.10.3
