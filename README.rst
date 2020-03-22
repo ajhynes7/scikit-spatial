@@ -16,8 +16,6 @@
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
 
-.. image:: https://badgen.net/dependabot/ajhynes7/scikit-spatial?icon=dependabot
-
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
