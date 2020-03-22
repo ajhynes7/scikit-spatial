@@ -27,7 +27,7 @@ pytest-cov==2.8.1
 python-dateutil==2.8.1
 pytz==2019.3
 requests==2.22.0
-six==1.13.0
+six==1.14.0
 snowballstemmer==2.0.0
 Sphinx==2.2.1
 sphinx-bootstrap-theme==0.7.1
