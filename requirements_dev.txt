@@ -16,7 +16,7 @@ matplotlib==3.2.1
 more-itertools==7.2.0
 numpy==1.18.5
 numpydoc==0.9.1
-packaging==19.2
+packaging==20.4
 Pillow==7.0.0
 pluggy==0.13.1
 py==1.8.1
