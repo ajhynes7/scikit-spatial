@@ -14,7 +14,7 @@ kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.2.1
 more-itertools==7.2.0
-numpy==1.17.4
+numpy==1.18.5
 numpydoc==0.9.1
 packaging==19.2
 Pillow==7.0.0
