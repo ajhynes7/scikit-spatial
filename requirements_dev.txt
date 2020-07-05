@@ -8,7 +8,7 @@ coverage==5.1
 cycler==0.10.0
 docutils==0.15.2
 idna==2.9
-imagesize==1.1.0
+imagesize==1.2.0
 Jinja2==2.11.2
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
