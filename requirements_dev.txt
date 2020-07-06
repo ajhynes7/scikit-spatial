@@ -7,7 +7,7 @@ chardet==3.0.4
 coverage==5.1
 cycler==0.10.0
 docutils==0.15.2
-idna==2.9
+idna==2.10
 imagesize==1.1.0
 Jinja2==2.11.2
 kiwisolver==1.1.0
