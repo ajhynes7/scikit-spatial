@@ -98,7 +98,9 @@ class Vector(_BaseArray1D):
         Vector([ 4,  6, -1])
 
         """
-        return cls(np.subtract(point_b, point_a))
+        difference = np.array(np.subtract(point_b, point_a))
+
+        return cls(difference)
 
     def norm(self, **kwargs) -> np.float64:
         """
@@ -521,7 +523,7 @@ class Vector(_BaseArray1D):
 
         return math.isclose(abs(similarity), 1, **kwargs)
 
-    def side_vector(self, other: array_like) -> np.int64:
+    def side_vector(self, other: array_like) -> int:
         """
         Find the side of the vector where another vector is directed.
 
@@ -534,7 +536,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        np.int64
+        int
             1 if the other vector is to the right.
             0 if the other is parallel.
             -1 if the other is to the left.
@@ -582,7 +584,7 @@ class Vector(_BaseArray1D):
         if value_cross.ndim != 0:
             raise ValueError("The vectors must be 2D.")
 
-        return np.sign(value_cross).astype(int)
+        return int(np.sign(value_cross))
 
     def scalar_projection(self, other: array_like) -> np.float64:
         """
@@ -682,7 +684,7 @@ class Vector(_BaseArray1D):
             >>> limits = ax.axis([-5, 5, 0, 10])
 
         """
-        x, y = point
+        x, y = np.array(point)
         dx, dy = scalar * self
 
         ax_2d.arrow(x, y, dx, dy, **kwargs)

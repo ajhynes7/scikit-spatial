@@ -68,6 +68,9 @@ def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **
         Additional keywords passed to :meth:`~matplotlib.axes.Axes.plot`.
 
     """
+    point_a = np.array(point_a)
+    point_b = np.array(point_b)
+
     xs = [point_a[0], point_b[0]]
     ys = [point_a[1], point_b[1]]
 
@@ -95,6 +98,9 @@ def _connect_points_3d(ax_3d: Axes3D, point_a: array_like, point_b: array_like, 
     """
     if not isinstance(ax_3d, Axes3D):
         raise ValueError("Axis must be instance of class Axes3D.")
+
+    point_a = np.array(point_a)
+    point_b = np.array(point_b)
 
     xs = [point_a[0], point_b[0]]
     ys = [point_a[1], point_b[1]]

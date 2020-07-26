@@ -186,7 +186,7 @@ class Points(_BaseArray2D):
 
         return self / distances_to_points.max()
 
-    def affine_rank(self, **kwargs) -> np.int64:
+    def affine_rank(self, **kwargs) -> int:
         """
         Return the affine rank of the points.
 
@@ -200,7 +200,7 @@ class Points(_BaseArray2D):
 
         Returns
         -------
-        np.int64
+        int
             Affine rank of the points.
 
         Examples
@@ -232,7 +232,7 @@ class Points(_BaseArray2D):
         # Remove duplicate points so they do not affect the centroid.
         points_centered = self.unique().mean_center()
 
-        return matrix_rank(points_centered, **kwargs)
+        return int(matrix_rank(points_centered, **kwargs))
 
     def are_concurrent(self, **kwargs) -> bool:
         """

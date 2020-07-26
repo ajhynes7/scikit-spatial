@@ -52,4 +52,4 @@ def transform_coordinates(points: array_like, point_origin: array_like, vectors_
     """
     vectors_to_points = np.subtract(points, point_origin)
 
-    return np.matmul(vectors_to_points, np.transpose(vectors_basis))
+    return np.array(np.matmul(vectors_to_points, np.transpose(vectors_basis)))
