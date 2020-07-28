@@ -32,8 +32,8 @@ setup(
     },
 
     install_requires=[
-        'matplotlib',
-        'numpy',
+        'matplotlib>=3.0.0',
+        'numpy>=1.12.0',
     ],
 
     setup_requires=['pytest-runner', 'wheel'],
