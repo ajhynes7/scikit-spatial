@@ -1,1 +1,2 @@
+-r tests.txt
 hypothesis==5.23.1
