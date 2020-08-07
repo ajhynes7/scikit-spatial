@@ -1,22 +1,14 @@
 dist: xenial
-language: python
 python:
     - 3.7
-    - 3.8
-install: pip install tox-travis codecov
+services: docker
+install:
+    - pip install codecov
 script: 
-    - tox -e unit
-    - tox -e doctests
-    - tox -e property
-    - tox -e lint_code
-    - tox -e lint_docs
-    - tox -e check_types
+    - docker build -t skspatial .
+    - docker run skspatial
 after_success:
     - codecov
-branches:
-    only:
-        - master
-        - /v\d+\.\d+\.\d+/ # Regex required for building on tags.
 deploy:
     provider: pypi
     distributions: sdist bdist_wheel
