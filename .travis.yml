@@ -5,8 +5,7 @@ services: docker
 install:
     - pip install codecov
 script: 
-    - docker build -t skspatial .
-    - docker run skspatial
+    - bash ci/scripts/run_docker_stages.sh
 after_success:
     - codecov
 deploy:
