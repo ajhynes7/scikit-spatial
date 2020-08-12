@@ -1,6 +1,8 @@
 dist: fossa
 python:
     - 3.7
+env:
+    - DOCKER_BUILDKIT=1
 install:
     - pip install codecov
     - apt-get update && apt-get install -y docker.io
