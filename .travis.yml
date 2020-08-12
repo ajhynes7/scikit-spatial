@@ -5,7 +5,7 @@ env:
     - DOCKER_BUILDKIT=1
 install:
     - pip install codecov
-    - apt-get update && apt-get install -y docker.io
+    - sudo apt-get update && sudo apt-get install -y docker.io
 script: 
     - bash ci/scripts/run_docker_stages.sh
 after_success:
