@@ -1,9 +1,9 @@
-dist: xenial
+dist: fossa
 python:
     - 3.7
-services: docker
 install:
     - pip install codecov
+    - apt-get update && apt-get install -y docker.io
 script: 
     - bash ci/scripts/run_docker_stages.sh
 after_success:
