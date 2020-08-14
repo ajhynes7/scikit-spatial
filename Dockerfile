@@ -18,11 +18,14 @@ RUN pip install -r requirements/lint_docs.txt
 CMD ["pydocstyle", "--convention=numpy", "--add-ignore=D104,D105", "src/"]
 
 FROM base as types
+
 # Install git to get numpy-stubs package for type checking.
 RUN apt-get update &&\
     apt-get install -y --no-install-recommends git &&\
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
+
+RUN pip install -r requirements/types.txt
 CMD ["mypy", "src/"]
 
 FROM base as tests
