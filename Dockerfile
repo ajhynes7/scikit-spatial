@@ -36,4 +36,5 @@ FROM tests as unit_tests
 CMD ["pytest", "--cov=skspatial", "tests/unit/"]
 
 FROM tests as property_tests
+RUN pip install -r requirements/property_tests.txt
 CMD ["pytest", "tests/property/"]
