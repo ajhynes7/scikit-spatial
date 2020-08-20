@@ -1,2 +1,2 @@
 -r tests.txt
-hypothesis==5.23.1
+hypothesis==5.27.0
