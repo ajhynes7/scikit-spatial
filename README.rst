@@ -161,7 +161,7 @@ An error is raised if the computation is undefined.
 
 >>> plane_b = Plane([0, 0, 1], [0, 0, 1])
 
->>> plane_a.intersect_plane(line_b)
+>>> plane_a.intersect_plane(plane_b)
 Traceback (most recent call last):
 ...
 ValueError: The planes must not be parallel.
