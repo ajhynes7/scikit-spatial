@@ -1,6 +1,6 @@
 import pytest
 
-from skspatial.objects import Plane, Sphere
+from skspatial.objects import Plane, Sphere, Points
 
 
 @pytest.mark.parametrize(
@@ -35,6 +35,7 @@ def test_plane_points(plane, points_expected):
 )
 def test_sphere_points(sphere, n_angles, points_expected):
 
-    points = sphere.to_points(n_angles).round(3).unique()
+    array_rounded = sphere.to_points(n_angles).round(3)
+    points_unique = Points(array_rounded).unique()
 
-    assert points.is_close(points_expected)
+    assert points_unique.is_close(points_expected)
