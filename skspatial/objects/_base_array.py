@@ -48,7 +48,7 @@ class _BaseArray(np.ndarray):
 
         >>> vector.round(2)
         array([1.23, 2.12, 3.12])
-        
+
         """
         return array
 
