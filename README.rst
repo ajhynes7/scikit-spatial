@@ -16,9 +16,6 @@
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/ajhynes7/scikit-spatial/shield.svg
-         :target: https://pyup.io/account/repos/github/ajhynes7/scikit-spatial/
-
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
