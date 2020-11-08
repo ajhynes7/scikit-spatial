@@ -14,10 +14,6 @@ script:
     - tox -e check_types
 after_success:
     - codecov
-branches:
-    only:
-        - master
-        - /v\d+\.\d+\.\d+/ # Regex required for building on tags.
 deploy:
     provider: pypi
     distributions: sdist bdist_wheel
