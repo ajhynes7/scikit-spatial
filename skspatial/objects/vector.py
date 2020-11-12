@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from typing import cast
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -98,7 +99,9 @@ class Vector(_BaseArray1D):
         Vector([ 4,  6, -1])
 
         """
-        return cls(np.subtract(point_b, point_a))
+        array_vector_ab = cast(np.ndarray, np.subtract(point_b, point_a))
+
+        return cls(array_vector_ab)
 
     def norm(self, **kwargs) -> np.float64:
         """
