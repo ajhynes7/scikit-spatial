@@ -77,7 +77,7 @@ class Sphere(_BaseSphere):
             raise ValueError("The point must be 3D.")
 
     @np_float
-    def surface_area(self) -> np.float64:
+    def surface_area(self) -> float:
         r"""
         Return the surface area of the sphere.
 
@@ -104,7 +104,7 @@ class Sphere(_BaseSphere):
         return 4 * np.pi * self.radius ** 2
 
     @np_float
-    def volume(self) -> np.float64:
+    def volume(self) -> float:
         r"""
         Return the volume of the sphere.
 
