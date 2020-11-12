@@ -521,7 +521,7 @@ class Vector(_BaseArray1D):
 
         return math.isclose(abs(similarity), 1, **kwargs)
 
-    def side_vector(self, other: array_like) -> np.int64:
+    def side_vector(self, other: array_like) -> int:
         """
         Find the side of the vector where another vector is directed.
 
@@ -534,7 +534,7 @@ class Vector(_BaseArray1D):
 
         Returns
         -------
-        np.int64
+        int
             1 if the other vector is to the right.
             0 if the other is parallel.
             -1 if the other is to the left.
@@ -582,7 +582,7 @@ class Vector(_BaseArray1D):
         if value_cross.ndim != 0:
             raise ValueError("The vectors must be 2D.")
 
-        return np.sign(value_cross).astype(int)
+        return int(np.sign(value_cross))
 
     def scalar_projection(self, other: array_like) -> np.float64:
         """
