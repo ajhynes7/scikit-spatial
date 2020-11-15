@@ -46,7 +46,7 @@ class Points(_BaseArray2D):
     The object inherits methods from :class:`numpy.ndarray`.
 
     >>> points.mean(axis=0)
-    Points([3. , 3. , 1.5])
+    array([3. , 3. , 1.5])
 
     >>> Points([])
     Traceback (most recent call last):

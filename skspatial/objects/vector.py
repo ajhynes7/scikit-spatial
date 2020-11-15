@@ -49,7 +49,7 @@ class Vector(_BaseArray1D):
     The object inherits methods from :class:`numpy.ndarray`.
 
     >>> vector.mean()
-    Vector(2.)
+    array(2.)
 
     >>> Vector([])
     Traceback (most recent call last):
