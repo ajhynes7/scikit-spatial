@@ -46,9 +46,6 @@ class _BaseArray(np.ndarray):
         >>> vector.mean().round(2)
         2.16
 
-        >>> vector.round(2)
-        array([1.23, 2.12, 3.12])
-
         """
         return array
 
@@ -134,6 +131,24 @@ class _BaseArray(np.ndarray):
 
         """
         return np.array_equal(self, other)
+
+    def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
+        """
+        Round the array to the given number of decimals.
+
+        Refer to :func:`np.around` for the full documentation.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 1, 1]).unit().round(3)
+        Vector([0.577, 0.577, 0.577])
+
+        """
+        array_rounded = np.array(self).round(decimals, out)
+
+        return self.__class__(array_rounded)
 
     def plotter(self, **kwargs) -> Callable:
 
