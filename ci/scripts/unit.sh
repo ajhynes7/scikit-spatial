@@ -1,3 +1,5 @@
+docker build -t skspatial:unit --target unit .
+
 mkdir htmlcov
 
 docker run \
