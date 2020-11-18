@@ -5,7 +5,10 @@ services:
   - docker
 install: pip install codecov
 script: 
+    - bash ci/scripts/basic_stage.sh lint_code
+    - bash ci/scripts/basic_stage.sh lint_docs
     - bash ci/scripts/unit.sh
+    - bash ci/scripts/basic_stage.sh property
     - bash ci/scripts/docs.sh
 after_success:
     - codecov
