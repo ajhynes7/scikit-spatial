@@ -11,7 +11,7 @@
 __pycache__
 build
 dist
-doc/build
-doc/source/gallery
+docs/build
+docs/source/gallery
 htmlcov
 tags
