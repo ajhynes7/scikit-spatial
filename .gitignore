@@ -1,12 +1,7 @@
 *.egg-info
 *.ipynb
 *.pyc
-.coverage
-.eggs
-.hypothesis
-.ipynb_checkpoints
-.mypy_cache
-.tox
+.*
 __pycache__
 build
 dist
