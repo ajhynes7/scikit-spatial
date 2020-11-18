@@ -7,11 +7,9 @@
 .ipynb_checkpoints
 .mypy_cache
 .tox
-.vscode
 __pycache__
 build
 dist
 docs/build
 docs/source/gallery
 htmlcov
-tags
