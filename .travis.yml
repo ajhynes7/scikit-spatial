@@ -6,6 +6,7 @@ services:
 install: pip install codecov
 script: 
     - bash ci/scripts/unit.sh
+    - bash ci/scripts/docs.sh
 after_success:
     - codecov
 deploy:
