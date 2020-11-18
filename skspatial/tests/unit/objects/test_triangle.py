@@ -115,7 +115,7 @@ def test_triangle(test_case):
 
     lengths_a = triangle.multiple('length', 'abc')
     lengths_b = test_case.lengths
-    assert all([isclose(a, b) for a, b in zip(lengths_a, lengths_b)])
+    assert all(isclose(a, b) for a, b in zip(lengths_a, lengths_b))
 
     angles_a = triangle.multiple('angle', 'ABC')
     angles_b = tuple(map(radians, test_case.angles))
