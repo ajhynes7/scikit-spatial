@@ -16,8 +16,15 @@ FROM base as lint_docs
 RUN pip install -r requirements/lint_docs.txt
 CMD ["pydocstyle", "skspatial/", "--convention=numpy", "--add-ignore=D104,D105"]
 
+FROM base as readme
+COPY README.rst README.rst
+CMD ["python", "-m", "doctest", "README.rst"]
+
 FROM base as base_test
 RUN pip install -r requirements/base_test.txt
+
+FROM base_test as doctests
+CMD ["pytest", "skspatial/", "--doctest-modules", "--ignore=skspatial/tests"]
 
 FROM base_test as unit
 CMD ["pytest", "skspatial/tests/unit/", "--cov=skspatial/", "--cov-report=html"]
