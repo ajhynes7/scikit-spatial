@@ -33,6 +33,22 @@ class _BaseArray(np.ndarray):
 
         return obj
 
+    def __array_wrap__(self, array, context=None):
+        """
+        Return regular :class:`numpy.ndarray` when default NumPy method is called.
+
+        >>> from skspatial.objects import Vector
+        >>> vector = Vector([1.234, 2.1234, 3.1234])
+
+        >>> vector.sum().round()
+        6.0
+
+        >>> vector.mean().round(2)
+        2.16
+
+        """
+        return array
+
     def __array_finalize__(self, obj: array_like) -> None:
         """
         Finalize creation of the array.
@@ -80,24 +96,6 @@ class _BaseArray(np.ndarray):
         """
         return np.array(self)
 
-    def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
-        """
-        Round the array to the given number of decimals.
-
-        Refer to :func:`np.around` for the full documentation.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Vector
-
-        >>> Vector([1, 1, 1]).unit().round(3)
-        Vector([0.577, 0.577, 0.577])
-
-        """
-        array_rounded = np.array(self).round(decimals, out)
-
-        return self.__class__(array_rounded)
-
     def is_close(self, other: array_like, **kwargs: float) -> bool:
         """
         Check if the array is close to another.
@@ -133,6 +131,24 @@ class _BaseArray(np.ndarray):
 
         """
         return np.array_equal(self, other)
+
+    def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
+        """
+        Round the array to the given number of decimals.
+
+        Refer to :func:`np.around` for the full documentation.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1, 1, 1]).unit().round(3)
+        Vector([0.577, 0.577, 0.577])
+
+        """
+        array_rounded = np.array(self).round(decimals, out)
+
+        return self.__class__(array_rounded)
 
     def plotter(self, **kwargs) -> Callable:
 

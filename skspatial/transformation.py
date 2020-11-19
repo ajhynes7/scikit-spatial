@@ -1,13 +1,15 @@
 """Spatial transformations."""
 
-from typing import Sequence
+from typing import Sequence, cast
 
 import numpy as np
 
 from skspatial.typing import array_like
 
 
-def transform_coordinates(points: array_like, point_origin: array_like, vectors_basis: Sequence) -> np.ndarray:
+def transform_coordinates(
+    points: array_like, point_origin: array_like, vectors_basis: Sequence[array_like]
+) -> np.ndarray:
     """
     Transform points into a new coordinate system.
 
@@ -51,5 +53,6 @@ def transform_coordinates(points: array_like, point_origin: array_like, vectors_
 
     """
     vectors_to_points = np.subtract(points, point_origin)
+    array_transformed = np.matmul(vectors_to_points, np.transpose(vectors_basis))
 
-    return np.matmul(vectors_to_points, np.transpose(vectors_basis))
+    return cast(np.ndarray, array_transformed)

@@ -9,15 +9,12 @@
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
-.. image:: https://img.shields.io/travis/ajhynes7/scikit-spatial.svg
-         :target: https://travis-ci.org/ajhynes7/scikit-spatial
+.. image:: https://img.shields.io/travis/com/ajhynes7/scikit-spatial
+         :target: https://travis-ci.com/github/ajhynes7/scikit-spatial
 
 .. image:: https://readthedocs.org/projects/scikit-spatial/badge/?version=latest
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
-
-.. image:: https://pyup.io/repos/github/ajhynes7/scikit-spatial/shield.svg
-         :target: https://pyup.io/account/repos/github/ajhynes7/scikit-spatial/
 
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
@@ -161,7 +158,7 @@ An error is raised if the computation is undefined.
 
 >>> plane_b = Plane([0, 0, 1], [0, 0, 1])
 
->>> plane_a.intersect_plane(line_b)
+>>> plane_a.intersect_plane(plane_b)
 Traceback (most recent call last):
 ...
 ValueError: The planes must not be parallel.

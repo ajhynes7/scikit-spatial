@@ -323,7 +323,7 @@ class Line(_BaseLinePlane):
         """
         return self.direction.project_vector(vector)
 
-    def side_point(self, point: array_like) -> np.int64:
+    def side_point(self, point: array_like) -> int:
         """
         Find the side of the line where a point lies.
 
@@ -336,7 +336,7 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        np.int64
+        int
             -1 if the point is left of the line.
             0 if the point is on the line.
             1 if the point is right of the line.

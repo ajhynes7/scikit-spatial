@@ -1,0 +1,5 @@
+**/*.ipynb
+**/*.md5
+**/*.pickle
+**/*.pyc
+docs/source/gallery

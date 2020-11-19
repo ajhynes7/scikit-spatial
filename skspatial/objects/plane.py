@@ -371,7 +371,7 @@ class Plane(_BaseLinePlane):
         """
         return abs(self.distance_point_signed(point))
 
-    def side_point(self, point: array_like) -> np.float64:
+    def side_point(self, point: array_like) -> int:
         """
         Find the side of the plane where a point lies.
 
@@ -382,7 +382,7 @@ class Plane(_BaseLinePlane):
 
         Returns
         -------
-        np.int64
+        int
             -1 if the point is behind the plane.
             0 if the point is on the plane.
             1 if the point is in front of the plane.
@@ -414,7 +414,7 @@ class Plane(_BaseLinePlane):
         -1
 
         """
-        return np.sign(self.distance_point_signed(point)).astype(int)
+        return int(np.sign(self.distance_point_signed(point)))
 
     def intersect_line(self, line: Line) -> Plane:
         """

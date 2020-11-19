@@ -1,23 +1,20 @@
-dist: xenial
-language: python
-python:
-    - 3.7
-    - 3.8
-install: pip install tox-travis codecov
+dist: focal
+language:
+    - python
+services:
+  - docker
+install: pip install codecov
 script: 
-    - tox -e unit
-    - tox -e doctests
-    - tox -e property
-    - tox -e docs
-    - tox -e lint_code
-    - tox -e lint_docs
-    - tox -e check_types
+    - bash ci/scripts/basic_stage.sh lint_code
+    - bash ci/scripts/basic_stage.sh lint_docs
+    - bash ci/scripts/basic_stage.sh types
+    - bash ci/scripts/basic_stage.sh readme
+    - bash ci/scripts/basic_stage.sh doctests
+    - bash ci/scripts/unit.sh
+    - bash ci/scripts/basic_stage.sh property
+    - bash ci/scripts/docs.sh
 after_success:
     - codecov
-branches:
-    only:
-        - master
-        - /v\d+\.\d+\.\d+/ # Regex required for building on tags.
 deploy:
     provider: pypi
     distributions: sdist bdist_wheel

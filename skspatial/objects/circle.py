@@ -76,7 +76,7 @@ class Circle(_BaseSphere):
             raise ValueError("The point must be 2D.")
 
     @np_float
-    def circumference(self) -> np.float64:
+    def circumference(self) -> float:
         r"""
         Return the circumference of the circle.
 
@@ -103,7 +103,7 @@ class Circle(_BaseSphere):
         return 2 * np.pi * self.radius
 
     @np_float
-    def area(self) -> np.float64:
+    def area(self) -> float:
         r"""
         Return the area of the circle.
 
