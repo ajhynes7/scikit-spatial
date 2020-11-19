@@ -16,6 +16,20 @@ FROM base as lint_docs
 RUN pip install -r requirements/lint_docs.txt
 CMD ["pydocstyle", "skspatial/", "--convention=numpy", "--add-ignore=D104,D105"]
 
+
+FROM base as types
+
+# Install git to get numpy-stubs package for type checking.
+RUN apt-get update &&\
+    apt-get install -y --no-install-recommends git &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip install -r requirements/types.txt
+COPY stubs stubs
+CMD ["mypy", "skspatial/"]
+
+
 FROM base as readme
 COPY README.rst README.rst
 CMD ["python", "-m", "doctest", "README.rst"]
