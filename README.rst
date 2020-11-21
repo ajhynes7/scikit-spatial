@@ -160,8 +160,8 @@ Find the intersection of two planes.
 
 >>> from skspatial.objects import Plane
 
->>> plane_a = Plane([0, 0, 0], [0, 0, 1])
->>> plane_b = Plane([5, 16, -94], [1, 0, 0])
+>>> plane_a = Plane(point=[0, 0, 0], normal=[0, 0, 1])
+>>> plane_b = Plane(point=[5, 16, -94], normal=[1, 0, 0])
 
 >>> plane_a.intersect_plane(plane_b)
 Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
@@ -169,7 +169,7 @@ Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
 
 An error is raised if the computation is undefined.
 
->>> plane_b = Plane([0, 0, 1], [0, 0, 1])
+>>> plane_b = Plane(point=[0, 0, 1], normal=[0, 0, 1])
 
 >>> plane_a.intersect_plane(plane_b)
 Traceback (most recent call last):
