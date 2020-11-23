@@ -1,0 +1,8 @@
+[run]
+source = skspatial
+omit = 
+    skspatial/plotting.py 
+    skspatial/tests/*
+
+[report]
+exclude_lines=def *plot*
