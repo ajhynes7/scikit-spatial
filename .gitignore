@@ -1,6 +1,7 @@
 *.egg-info
 *.ipynb
 *.pyc
+*.xml
 .*/
 .coverage
 __pycache__

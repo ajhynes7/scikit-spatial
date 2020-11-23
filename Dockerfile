@@ -41,7 +41,7 @@ FROM base_test as doctests
 CMD ["pytest", "skspatial/", "--doctest-modules", "--ignore=skspatial/tests"]
 
 FROM base_test as unit
-CMD ["pytest", "skspatial/tests/unit/", "--cov=skspatial/", "--cov-report=html"]
+CMD ["pytest", "skspatial/tests/unit/", "--cov=skspatial/", "--cov-report=xml"]
 
 FROM base_test as property
 RUN pip install -r requirements/property.txt
