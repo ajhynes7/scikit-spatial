@@ -12,7 +12,7 @@ script:
     - bash ci/scripts/basic_stage.sh doctests
     - bash ci/scripts/unit.sh
     - bash ci/scripts/basic_stage.sh property
-    - bash ci/scripts/docs.sh
+    - bash ci/scripts/basic_stage.sh docs
 after_success:
     - codecov
 deploy:
