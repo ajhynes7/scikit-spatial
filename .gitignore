@@ -2,6 +2,7 @@
 *.ipynb
 *.pyc
 .*/
+.coverage
 __pycache__
 build
 dist
