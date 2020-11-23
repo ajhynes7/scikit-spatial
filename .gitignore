@@ -1,7 +1,7 @@
 *.egg-info
 *.ipynb
 *.pyc
-.*
+.*/
 __pycache__
 build
 dist
