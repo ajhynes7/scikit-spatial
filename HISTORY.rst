@@ -3,6 +3,18 @@ History
 =======
 
 
+5.0.0 (2020-11-23)
+------------------
+* Return regular ``ndarray`` from inherited NumPy functions, e.g. ``vector.sum()``
+  - This prevents getting spatial objects with disallowed dimensions, such as a 0-D vector.
+  - This fixes broken examples in the README.
+* Test README examples with doctest.
+* Replace tox with Docker.
+  - Docker multi-stage builds are a convenient feature for isolating test environments.
+* Organize requirements into multiple files.
+  - This makes it easy to install only what's needed for each test environment.
+
+
 4.0.1 (2020-02-01)
 ------------------
 * Fix to replace Python 3.6 with 3.8 in the setup.py file.
