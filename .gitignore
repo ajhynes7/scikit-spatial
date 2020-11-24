@@ -4,7 +4,6 @@
 *.xml
 .*/
 .coverage
-__pycache__
 build
 dist
 docs/build
