@@ -1,8 +1,9 @@
 *.egg-info
 *.ipynb
 *.pyc
-.*
-__pycache__
+*.xml
+.*/
+.coverage
 build
 dist
 docs/build

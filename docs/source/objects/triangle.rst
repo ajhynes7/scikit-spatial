@@ -23,7 +23,8 @@ You can also check if it's a right triangle.
 True
 
 
-## Parametrized methods
+Parametrized methods
+~~~~~~~~~~~~~~~~~~~~
 
 Several methods are parametrized to specify a side or vertex of the triangle. For example, the `angle` method is passed a character 'A', 'B', or 'C' to denote the vertex. The angle is returned in radians.
 
@@ -41,7 +42,8 @@ The following line returns the three lengths of the triangle.
 [1.414, 1.0, 1.0]
 
 
-## Other spatial objects
+Other spatial objects
+~~~~~~~~~~~~~~~~~~~~~
 
 Some triangle methods return other spatial objects.
 

@@ -76,6 +76,19 @@ Vector([1., 0., 0.])
 
 ``Point`` and ``Vector`` are based on a 1D NumPy array, and ``Points`` is based on a 2D NumPy array, where each row represents a point in space.  The ``Line`` and ``Plane`` objects have ``Point`` and ``Vector`` objects as attributes. 
 
+Note that most methods inherited from NumPy return a regular *ndarray*, instead of the spatial object class.
+
+>>> vector.sum()
+array(2)
+
+This is to avoid getting a spatial object with a forbidden shape, like a zero dimension ``Vector``. Trying to convert this back to a ``Vector`` causes an exception.
+
+>>> Vector(vector.sum())
+Traceback (most recent call last):
+...
+ValueError: The array must be 1D.
+
+
 Because the computations of ``scikit-spatial`` are also based on NumPy, keyword arguments can be passed to NumPy functions. For example, a tolerance can be specified while testing for collinearity. The ``tol`` keyword is passed to ``numpy.linalg.matrix_rank``.
 
 >>> from skspatial.objects import Points
@@ -147,8 +160,8 @@ Find the intersection of two planes.
 
 >>> from skspatial.objects import Plane
 
->>> plane_a = Plane([0, 0, 0], [0, 0, 1])
->>> plane_b = Plane([5, 16, -94], [1, 0, 0])
+>>> plane_a = Plane(point=[0, 0, 0], normal=[0, 0, 1])
+>>> plane_b = Plane(point=[5, 16, -94], normal=[1, 0, 0])
 
 >>> plane_a.intersect_plane(plane_b)
 Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
@@ -156,7 +169,7 @@ Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
 
 An error is raised if the computation is undefined.
 
->>> plane_b = Plane([0, 0, 1], [0, 0, 1])
+>>> plane_b = Plane(point=[0, 0, 1], normal=[0, 0, 1])
 
 >>> plane_a.intersect_plane(plane_b)
 Traceback (most recent call last):

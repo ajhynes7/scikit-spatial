@@ -32,8 +32,8 @@ setup(
     },
 
     install_requires=[
-        'matplotlib',
-        'numpy',
+        'matplotlib>=3.3',
+        'numpy>=1.19',
     ],
 
     setup_requires=['pytest-runner', 'wheel'],
@@ -43,6 +43,6 @@ setup(
     include_package_data=True,
     license="BSD license",
     url='https://github.com/ajhynes7/scikit-spatial',
-    version='4.0.1',
+    version='5.0.0',
     zip_safe=False,
 )

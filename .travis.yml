@@ -1,6 +1,7 @@
 dist: focal
-language:
-    - python
+language: python
+python:
+  - "3.7"
 services:
   - docker
 install: pip install codecov
@@ -12,7 +13,7 @@ script:
     - bash ci/scripts/basic_stage.sh doctests
     - bash ci/scripts/unit.sh
     - bash ci/scripts/basic_stage.sh property
-    - bash ci/scripts/docs.sh
+    - bash ci/scripts/basic_stage.sh docs
 after_success:
     - codecov
 deploy:
@@ -24,4 +25,5 @@ deploy:
     on:
         tags: true
         repo: ajhynes7/scikit-spatial
+        all_branches: true
         python: 3.7

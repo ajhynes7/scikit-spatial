@@ -1,7 +1,7 @@
 docker build -t skspatial:unit --target unit .
 
-mkdir htmlcov
+mkdir coverage
 
 docker run \
-    --mount type=bind,source=$(pwd)/htmlcov,target=/app/skspatial/htmlcov \
+    --mount type=bind,source=$(pwd)/coverage.xml,target=/app/skspatial/coverage.xml \
     skspatial:unit
