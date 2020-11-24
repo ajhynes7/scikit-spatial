@@ -25,4 +25,5 @@ deploy:
     on:
         tags: true
         repo: ajhynes7/scikit-spatial
+        all_branches: true
         python: 3.7
