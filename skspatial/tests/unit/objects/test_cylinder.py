@@ -1,6 +1,7 @@
 from math import isclose, sqrt, pi
 
 import pytest
+
 from skspatial.objects import Cylinder
 
 
