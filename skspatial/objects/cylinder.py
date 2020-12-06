@@ -1,3 +1,5 @@
+"""Module for the Cylinder class."""
+
 import numpy as np
 
 from skspatial._functions import np_float
