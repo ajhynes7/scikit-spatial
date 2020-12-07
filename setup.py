@@ -38,9 +38,7 @@ setup(
         'numpy>=1.19',
     ],
 
-    setup_requires=['pytest-runner', 'wheel'],
-    tests_require=['pytest'],
-    test_suite='tests',
+    setup_requires=['wheel'],
 
     include_package_data=True,
     license="BSD license",
