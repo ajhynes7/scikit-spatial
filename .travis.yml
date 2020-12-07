@@ -7,7 +7,10 @@ services:
   - docker
 install: pip install codecov
 script: 
-  - bash ci/scripts/run_stages.sh $stage $TRAVIS_PYTHON_VERSION
+  - |
+    for stage in "lint_code" "lint_docs" "types" "readme" "doctests" "unit" "property" "docs"; do
+        bash $(pwd)/ci/scripts/run_stage.sh $stage $TRAVIS_PYTHON_VERSION
+    done
 after_success:
     - codecov
 deploy:
