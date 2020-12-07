@@ -3,9 +3,9 @@
 *.pyc
 *.xml
 .*/
-.coverage
-build
-dist
-docs/build
-docs/source/gallery
-htmlcov
+.coverage/
+build/
+dist/
+docs/build/
+docs/source/gallery/
+htmlcov/
