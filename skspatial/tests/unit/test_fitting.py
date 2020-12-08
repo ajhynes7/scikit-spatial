@@ -125,20 +125,19 @@ def test_best_fit_line_failure(points):
 
 
 @pytest.mark.parametrize(
-    "points",
+    "points, message_expected",
     [
-        # The points are collinear.
-        [[0, 0], [1, 0]],
-        [[0, 0], [2, 5]],
-        [[0, 0], [1, 0], [1, 0]],
-        [[0, 0], [1, 1], [2, 2]],
+        ([[0, 0], [1, 0]], "The points must be 3D."),
+        ([[0, 0], [2, 5]], "The points must be 3D."),
+        ([[0, 0, 0], [1, 1, 1], [2, 2, 2]], "The points must not be collinear."),
         pytest.param(
             [[0, 0, 0], [1, 1, 1], [-10, -10, -10]],
+            "The points must not be collinear.",
             marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
         ),
     ],
 )
-def test_best_fit_plane_failure(points):
+def test_best_fit_plane_failure(points, message_expected):
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError, match=message_expected):
         Plane.best_fit(points)
