@@ -1,4 +1,5 @@
-FROM python:3.7-slim as base
+ARG PYTHON_VERSION
+FROM python:${PYTHON_VERSION}-slim as base
 
 WORKDIR /app
 
@@ -41,6 +42,8 @@ FROM base_test as doctests
 CMD ["pytest", "skspatial/", "--doctest-modules", "--ignore=skspatial/tests"]
 
 FROM base_test as unit
+COPY .coveragerc .coveragerc
+RUN pip install -r requirements/unit.txt
 CMD ["pytest", "skspatial/tests/unit/", "--cov=skspatial/", "--cov-report=xml"]
 
 FROM base_test as property

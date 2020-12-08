@@ -4,8 +4,8 @@
 *.xml
 .*/
 .coverage
-build
-dist
-docs/build
-docs/source/gallery
-htmlcov
+build/
+dist/
+docs/build/
+docs/source/gallery/
+htmlcov/

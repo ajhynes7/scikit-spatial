@@ -3,6 +3,12 @@ History
 =======
 
 
+5.1.0 (2020-12-07)
+------------------
+- Edit type annotations to support Python 3.6.
+- CI now tests Python versions 3.6-3.9.
+
+
 5.0.0 (2020-11-23)
 ------------------
 * Return regular ``ndarray`` from inherited NumPy functions, e.g. ``vector.sum()``

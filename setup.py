@@ -14,8 +14,10 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Scientific/Engineering',
     ],
 
@@ -36,13 +38,11 @@ setup(
         'numpy>=1.19',
     ],
 
-    setup_requires=['pytest-runner', 'wheel'],
-    tests_require=['pytest'],
-    test_suite='tests',
+    setup_requires=['wheel'],
 
     include_package_data=True,
     license="BSD license",
     url='https://github.com/ajhynes7/scikit-spatial',
-    version='5.0.0',
+    version='5.1.0',
     zip_safe=False,
 )
