@@ -3,6 +3,8 @@
 import numpy as np
 
 from skspatial._functions import np_float
+from skspatial.objects.line import Line
+from skspatial.objects.plane import Plane
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
@@ -166,3 +168,53 @@ class Cylinder:
 
         """
         return np.pi * self.radius ** 2 * self.length()
+
+    def contains_point(self, point: array_like) -> bool:
+        """
+        Check if a point is inside the cylinder.
+
+        A point on the surface is also considered to be inside.
+
+        Parameters
+        ----------
+        point : array_like
+            Input point
+
+        Returns
+        -------
+        bool
+            True if the point is inside of the cylinder.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
+
+        >>> cylinder.contains_point([0, 0, 0])
+        True
+        >>> cylinder.contains_point([0, 0, 1])
+        True
+        >>> cylinder.contains_point([0, 0, 2])
+        False
+        >>> cylinder.contains_point([0, 0, -1])
+        False
+        >>> cylinder.contains_point([1, 0, 0])
+        True
+        >>> cylinder.contains_point([0, 1, 0])
+        True
+        >>> cylinder.contains_point([1, 1, 0])
+        False
+
+        """
+        line_axis = Line(self.point, self.vector)
+        distance_to_axis = line_axis.distance_point(point)
+
+        within_radius = distance_to_axis <= self.radius
+
+        plane_base = Plane(self.point, self.vector)
+        distance_point_signed = plane_base.distance_point_signed(point)
+
+        within_planes = distance_point_signed <= self.length() and distance_point_signed >= 0
+
+        return within_radius and within_planes
