@@ -41,7 +41,7 @@ class _BaseSphere:
         return abs(distance_to_center - self.radius)
 
     def contains_point(self, point: array_like, **kwargs: float) -> bool:
-        """Check if the line/plane contains a point."""
+        """Check if the circle/sphere contains a point."""
         return _contains_point(self, point, **kwargs)
 
     def project_point(self, point: array_like) -> Point:
