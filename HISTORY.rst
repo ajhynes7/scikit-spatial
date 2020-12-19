@@ -2,11 +2,16 @@
 History
 =======
 
+5.2.0 (2020-12-19)
+------------------
+* Add keyword arguments to ``Plane.best_fit`` and ``Line.best_fit``.
+  These are passed to ``np.linalg.svd``.
+
 
 5.1.0 (2020-12-07)
 ------------------
-- Edit type annotations to support Python 3.6.
-- CI now tests Python versions 3.6-3.9.
+* Edit type annotations to support Python 3.6.
+* CI now tests Python versions 3.6-3.9.
 
 
 5.0.0 (2020-11-23)
@@ -35,7 +40,7 @@ History
 3.0.0 (2019-11-02)
 ------------------
 * Add `Points.normalize_distance` method to fit points inside a unit sphere.
-* Change `Points.mean_center` to only return the centroid of the points if specified. 
+* Change `Points.mean_center` to only return the centroid of the points if specified.
   This allows for chaining with other transformations on points, like `normalize_distance`.
 * Add `to_array` method to convert an array based object to a regular NumPy array.
 
@@ -50,11 +55,11 @@ History
 2.0.0 (2019-07-20)
 ------------------
 * Replace some NumPy functions with ones from Python math module. The math functions are faster than NumPy when the inputs are scalars.
-  The tolerances for isclose are now rel_tol and abs_tol instead of rtol and atol. 
+  The tolerances for isclose are now rel_tol and abs_tol instead of rtol and atol.
   The math.isclose function is preferable to np.isclose for three main reasons:
-   - It is symmetric (isclose(a, b) == isclose(b, a)).
-   - It has a default absolute tolerance of zero.
-   - It does not correlate the absolute and relative tolerances.
+    * It is symmetric (isclose(a, b) == isclose(b, a)).
+    * It has a default absolute tolerance of zero.
+    * It does not correlate the absolute and relative tolerances.
 * Add type annotations to methods and run mypy in Travis CI.
 * Add round method to array objects (Point, Points and Vector). Now a Vector is returned when a Vector is rounded.
 * Add methods to return coordinates on the surface of a Plane or Sphere. The coordinates are used for 3D plotting.
@@ -100,13 +105,13 @@ History
 
 1.1.0 (2019-05-04)
 ------------------
-* Add methods for 2D and 3D plotting. 
+* Add methods for 2D and 3D plotting.
 * Rename private modules and functions to include leading underscore.
 
 
 1.0.1 (2019-03-29)
 ------------------
-* Support Python versions 3.5-3.7. 
+* Support Python versions 3.5-3.7.
 
 
 1.0.0 (2019-03-26)
