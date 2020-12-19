@@ -43,6 +43,6 @@ setup(
     include_package_data=True,
     license="BSD license",
     url='https://github.com/ajhynes7/scikit-spatial',
-    version='5.1.0',
+    version='5.2.0',
     zip_safe=False,
 )
