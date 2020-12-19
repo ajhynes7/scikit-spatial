@@ -548,7 +548,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like) -> 'Plane':
+    def best_fit(cls, points: array_like, **kwargs) -> 'Plane':
         """
         Return the plane of best fit for a set of 3D points.
 
@@ -556,6 +556,8 @@ class Plane(_BaseLinePlane):
         ----------
         points : array_like
              Input 3D points.
+        kwargs : dict, optional
+            Additional keywords passed to :func:`numpy.linalg.svd`
 
         Returns
         -------
@@ -584,7 +586,12 @@ class Plane(_BaseLinePlane):
         >>> plane.normal.round(3)
         Vector([-0.577, -0.577, -0.577])
 
-        >>> Plane.best_fit([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
+        >>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]]
+
+        >>> Plane.best_fit(points)
+        Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
+
+        >>> Plane.best_fit(points, full_matrices=False)
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
         """
@@ -598,7 +605,7 @@ class Plane(_BaseLinePlane):
 
         points_centered, centroid = points.mean_center(return_centroid=True)
 
-        u, _, _ = np.linalg.svd(points_centered.T)
+        u, _, _ = np.linalg.svd(points_centered.T, **kwargs)
         normal = Vector(u[:, -1])
 
         return cls(centroid, normal)
