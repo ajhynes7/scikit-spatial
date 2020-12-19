@@ -514,7 +514,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like) -> 'Line':
+    def best_fit(cls, points: array_like, **kwargs) -> 'Line':
         """
         Return the line of best fit for a set of points.
 
@@ -522,6 +522,8 @@ class Line(_BaseLinePlane):
         ----------
         points : array_like
              Input points.
+        kwargs : dict, optional
+            Additional keywords passed to :func:`numpy.linalg.svd`
 
         Returns
         -------
@@ -558,7 +560,7 @@ class Line(_BaseLinePlane):
 
         points_centered, centroid = points_spatial.mean_center(return_centroid=True)
 
-        _, _, vh = np.linalg.svd(points_centered)
+        _, _, vh = np.linalg.svd(points_centered, **kwargs)
         direction = vh[0, :]
 
         return cls(centroid, direction)
