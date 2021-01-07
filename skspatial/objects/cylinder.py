@@ -1,5 +1,7 @@
 """Module for the Cylinder class."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from skspatial._functions import np_float
@@ -112,6 +114,38 @@ class Cylinder:
         repr_vector = np.array_repr(self.vector)
 
         return f"Cylinder(point={repr_point}, vector={repr_vector}," f" radius={self.radius})"
+
+    @classmethod
+    def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> Cylinder:
+        """
+        Instantiate a cylinder from two points and a radius.
+
+        Parameters
+        ----------
+        point_a, point_b : array_like
+            The centres of the two circular ends.
+        radius : float
+            The cylinder radius.
+
+        Returns
+        -------
+        Cylinder
+            The cylinder defined by the two points and the radius.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> Cylinder.from_points([0, 0, 0], [0, 0, 1], 1)
+        Cylinder(point=Point([0, 0, 0]), vector=Vector([0, 0, 1]), radius=1)
+
+        >>> Cylinder.from_points([0, 0, 0], [0, 0, 2], 1)
+        Cylinder(point=Point([0, 0, 0]), vector=Vector([0, 0, 2]), radius=1)
+
+        """
+        vector_ab = Vector.from_points(point_a, point_b)
+
+        return cls(point_a, vector_ab, radius)
 
     def length(self) -> np.float64:
         """
