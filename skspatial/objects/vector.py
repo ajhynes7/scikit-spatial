@@ -653,6 +653,36 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
+    def different_direction(self) -> Vector:
+        """
+        Return a simple vector that is in a different direction.
+
+        This is useful for finding a vector perpendicular to the original,
+        by taking the cross product of the original with the one in a different direction.
+
+        Returns
+        -------
+        Vector
+            A unit vector in a different direction from the original.
+
+        Raises
+        ------
+        ValueError
+            If the vector is the zero vector.
+
+        """
+        if self.is_zero():
+            raise ValueError("The vector must not be the zero vector.")
+
+        vector_different_direction = Vector(np.zeros(self.dimension))
+        vector_different_direction[0] = 1
+
+        if self.is_parallel(vector_different_direction):
+            vector_different_direction[0] = 0
+            vector_different_direction[1] = 1
+
+        return vector_different_direction
+
     def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 2D vector.

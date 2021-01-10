@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Tuple
+
 import numpy as np
 
 from skspatial._functions import np_float
@@ -252,3 +254,73 @@ class Cylinder:
         within_planes = distance_point_signed <= self.length() and distance_point_signed >= 0
 
         return within_radius and within_planes
+
+    def to_mesh(self, n_along_axis: int = 100, n_angles: int = 30) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Return coordinate matrices for the 3D surface of the cylinder.
+
+        Parameters
+        ----------
+        n_along_axis : int
+            Number of intervals along the axis of the cylinder.
+        n_angles : int
+            Number of angles distributed around the circle.
+
+        Returns
+        -------
+        X, Y, Z: (n_angles, n_angles) ndarray
+            Coordinate matrices.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> X, Y, Z = Cylinder([0, 0, 0], [0, 0, 1], 1).to_mesh(2, 4)
+
+        >>> X.round(3)
+        array([[-1. , -1. ],
+               [ 0.5,  0.5],
+               [ 0.5,  0.5],
+               [-1. , -1. ]])
+
+        >>> Y.round(3)
+        array([[ 0.   ,  0.   ],
+               [ 0.866,  0.866],
+               [-0.866, -0.866],
+               [-0.   , -0.   ]])
+
+        >>> Z.round(3)
+        array([[0., 1.],
+               [0., 1.],
+               [0., 1.],
+               [0., 1.]])
+
+        """
+        # Unit vector along the cylinder axis.
+        v_axis = self.vector.unit()
+
+        # Arbitrary unit vector in a direction other than the axis.
+        # This is used to get a vector perpendicular to the axis.
+        v_different_direction = v_axis.different_direction()
+
+        # Two unit vectors that are mutually perpendicular
+        # and perpendicular to the cylinder axis.
+        # These are used to define the points on the cylinder surface.
+        u_1 = v_axis.cross(v_different_direction)
+        u_2 = v_axis.cross(u_1)
+
+        # The cylinder surface ranges over t from 0 to length of axis,
+        # and over theta from 0 to 2 * pi.
+        t = np.linspace(0, self.length(), n_along_axis)
+        theta = np.linspace(0, 2 * np.pi, n_angles)
+
+        # use meshgrid to make 2d arrays
+        t, theta = np.meshgrid(t, theta)
+
+        X, Y, Z = [
+            self.point[i] + v_axis[i] * t + self.radius * np.sin(theta) * u_1[i] + self.radius * np.cos(theta) * u_2[i]
+            for i in range(3)
+        ]
+
+        return X, Y, Z
+
