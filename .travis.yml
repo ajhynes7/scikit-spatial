@@ -9,7 +9,7 @@ services:
   - docker
 install: pip install codecov
 script: 
-  - bash ci/scripts/run_stages.sh $stage $TRAVIS_PYTHON_VERSION
+  - bash ci/scripts/run_stages.sh $TRAVIS_PYTHON_VERSION
 after_success:
     - codecov
 deploy:
