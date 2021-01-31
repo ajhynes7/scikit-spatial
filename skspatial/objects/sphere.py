@@ -367,7 +367,7 @@ class Sphere(_BaseSphere):
         A = np.hstack((2 * points, np.ones((n, 1))))
         b = (points ** 2).sum(axis=1)
 
-        c, residues, rank, s = np.linalg.lstsq(A, b, rcond=None)
+        c, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
 
         center = c[:3]
         radius = float(np.sqrt(np.dot(center, center) + c[3]))
