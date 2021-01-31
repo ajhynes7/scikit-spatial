@@ -5,15 +5,12 @@ from itertools import combinations
 from typing import Sequence
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _plotter
 from skspatial.typing import array_like
 
 
@@ -624,85 +621,3 @@ class Triangle:
         a, b, c = sorted(self.multiple('length', 'abc'))
 
         return math.isclose(a ** 2 + b ** 2, c ** 2, **kwargs)
-
-    def plot_2d(self, ax_2d: Axes, part: str = 'points', **kwargs: str) -> None:
-        """
-        Plot a triangle in 2D.
-
-        Parameters
-        ----------
-        ax_2d : Axes
-            Instance of :class:`~matplotlib.axes.Axes`.
-        part : str, optional
-            Part of the triangle to plot.
-            Either 'points' or 'lines' (default 'points').
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~skspatial.objects.point.plot_2d` or
-            :meth:`~skspatial.objects.line.plot_2d`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from skspatial.objects import Triangle
-
-            >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
-
-            >>> _, ax = plt.subplots()
-
-            >>> triangle.plot_2d(ax, part='points', s=100, zorder=3)
-            >>> triangle.plot_2d(ax, part='lines', c='k')
-
-        """
-        if part == 'points':
-            for point in self.multiple('point', 'ABC'):
-                point.plot_2d(ax_2d, **kwargs)
-
-        elif part == 'lines':
-            for line in self.multiple('line', 'abc'):
-                line.plot_2d(ax_2d, **kwargs)
-
-    def plot_3d(self, ax_3d: Axes3D, part: str = 'points', **kwargs: str) -> None:
-        """
-        Plot a triangle in 3D.
-
-        Parameters
-        ----------
-        ax_3d : Axes3D
-            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        part : str, optional
-            Part of the triangle to plot.
-            Either 'points' or 'lines' (default 'points').
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~skspatial.objects.Point.plot_3d` or
-            :meth:`~skspatial.objects.Line.plot_3d`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from skspatial.objects import Triangle
-
-            >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
-
-            >>> _, ax = plt.subplots()
-
-            >>> triangle.plot_2d(ax, part='points', s=100, zorder=3)
-            >>> triangle.plot_2d(ax, part='lines', c='k')
-
-        """
-        if part == 'points':
-            for point in self.multiple('point', 'ABC'):
-                point.plot_3d(ax_3d, **kwargs)
-
-        elif part == 'lines':
-            for line in self.multiple('line', 'abc'):
-                line.plot_3d(ax_3d, **kwargs)
-
-    def plotter(self, **kwargs):
-        """Plot the object with keyword arguments."""
-        return _plotter(self, **kwargs)

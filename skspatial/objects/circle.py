@@ -3,9 +3,7 @@
 import math
 from typing import Tuple
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.axes import Axes
 
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
@@ -234,35 +232,3 @@ class Circle(_BaseSphere):
         point_b += self.point
 
         return point_a, point_b
-
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
-        """
-        Plot the circle in 2D.
-
-        Parameters
-        ----------
-        ax_2d : Axes
-            Instance of :class:`~matplotlib.axes.Axes`.
-        kwargs : dict, optional
-            Additional keywords passed to :Class:`matplotlib.patches.Circle`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-
-            >>> from skspatial.objects import Circle
-
-            >>> circle = Circle([-2, 3], 3)
-
-            >>> fig, ax = plt.subplots()
-            >>> circle.plot_2d(ax, fill=False)
-            >>> circle.point.plot_2d(ax)
-            >>> limits = plt.axis([-10, 10, -10, 10])
-
-        """
-        circle = plt.Circle(self.point, self.radius, **kwargs)
-
-        ax_2d.add_artist(circle)

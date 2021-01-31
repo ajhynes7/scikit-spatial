@@ -4,12 +4,9 @@ import math
 from typing import cast
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects._base_array import _BaseArray1D
-from skspatial.plotting import _connect_points_3d
 from skspatial.typing import array_like
 
 
@@ -650,78 +647,3 @@ class Vector(_BaseArray1D):
 
         """
         return self.dot(other) / self.dot(self) * self
-
-    def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
-        """
-        Plot a 2D vector.
-
-        The vector is plotted as an arrow.
-
-        Parameters
-        ----------
-        ax_2d : Axes
-            Instance of :class:`~matplotlib.axes.Axes`.
-        point : array_like, optional
-            Position of the vector tail (default is origin).
-        scalar : {int, float}, optional
-            Value used to scale the vector (default 1).
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~matplotlib.axes.Axes.arrow`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from skspatial.objects import Vector
-
-            >>> _, ax = plt.subplots()
-
-            >>> Vector([1, 1]).plot_2d(ax, point=(-3, 5), scalar=2, head_width=0.5)
-
-            >>> limits = ax.axis([-5, 5, 0, 10])
-
-        """
-        x, y = point
-        dx, dy = scalar * self
-
-        ax_2d.arrow(x, y, dx, dy, **kwargs)
-
-    def plot_3d(self, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: float = 1, **kwargs) -> None:
-        """
-        Plot a 3D vector.
-
-        The vector is plotted by connecting two 3D points
-        (the head and tail of the vector).
-
-        Parameters
-        ----------
-        ax_3d : Axes3D
-            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        point : array_like, optional
-            Position of the vector tail (default is origin).
-        scalar : {int, float}, optional
-            Value used to scale the vector (default 1).
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from mpl_toolkits.mplot3d import Axes3D
-
-            >>> from skspatial.objects import Vector
-
-            >>> fig = plt.figure()
-            >>> ax = fig.add_subplot(111, projection='3d')
-
-            >>> Vector([-1, 1, 1]).plot_3d(ax, point=(1, 2, 3), c='r')
-
-        """
-        point_2 = np.array(point) + scalar * self
-
-        _connect_points_3d(ax_3d, point, point_2, **kwargs)

@@ -1,15 +1,10 @@
 """Module for base class of Circle and Sphere."""
 
-from typing import Callable, Union
-
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _contains_point
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _plotter
 from skspatial.typing import array_like
 
 
@@ -92,7 +87,3 @@ class _BaseSphere:
         vector_to_point = Vector.from_points(self.point, point)
 
         return self.point + self.radius * vector_to_point.unit()
-
-    def plotter(self, **kwargs) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
-
-        return _plotter(self, **kwargs)

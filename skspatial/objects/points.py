@@ -1,13 +1,10 @@
 """Module for the Points class."""
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
 from skspatial.objects._base_array import _BaseArray2D
 from skspatial.objects.point import Point
-from skspatial.plotting import _scatter_2d, _scatter_3d
 
 
 class Points(_BaseArray2D):
@@ -318,60 +315,3 @@ class Points(_BaseArray2D):
 
         """
         return self.affine_rank(**kwargs) <= 2
-
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
-        """
-        Plot the points on a 2D scatter plot.
-
-        Parameters
-        ----------
-        ax_2d : Axes
-            Instance of :class:`~matplotlib.axes.Axes`.
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-
-            >>> from skspatial.objects import Points
-
-            >>> fig, ax = plt.subplots()
-            >>> points = Points([[1, 2], [3, 4], [-4, 2], [-2, 3]])
-            >>> points.plot_2d(ax, c='k')
-
-        """
-        _scatter_2d(ax_2d, self, **kwargs)
-
-    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
-        """
-        Plot the points on a 3D scatter plot.
-
-        Parameters
-        ----------
-        ax_3d : Axes3D
-            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.scatter`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from mpl_toolkits.mplot3d import Axes3D
-
-            >>> from skspatial.objects import Points
-
-            >>> fig = plt.figure()
-            >>> ax = fig.add_subplot(111, projection='3d')
-
-            >>> points = Points([[1, 2, 1], [3, 2, -7], [-4, 2, 2], [-2, 3, 1]])
-            >>> points.plot_3d(ax, s=75, depthshade=False)
-
-        """
-        _scatter_3d(ax_3d, self, **kwargs)
