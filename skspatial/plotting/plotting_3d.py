@@ -95,6 +95,8 @@ def plot_3d(point: Point, ax_3d: Axes3D, **kwargs) -> None:
 
     Parameters
     ----------
+    point : Point
+        Input point.
     ax_3d : Axes3D
         Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
     kwargs : dict, optional
@@ -110,10 +112,12 @@ def plot_3d(point: Point, ax_3d: Axes3D, **kwargs) -> None:
 
         >>> from skspatial.objects import Point
 
+        >>> point = Point([1, 2, 3])
+
         >>> fig = plt.figure()
         >>> ax = fig.add_subplot(111, projection='3d')
 
-        >>> Point([1, 2, 3]).plot_3d(ax, c='k', s=100)
+        >>> plot_3d(point, ax, c='k', s=100)
 
     """
     _scatter_3d(ax_3d, point.reshape(1, -1), **kwargs)
@@ -129,6 +133,8 @@ def _(vector: Vector, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: floa
 
     Parameters
     ----------
+    vector : Vector
+        Input vector.
     ax_3d : Axes3D
         Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
     point : array_like, optional
@@ -148,10 +154,12 @@ def _(vector: Vector, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: floa
 
         >>> from skspatial.objects import Vector
 
+        >>> vector = Vector([-1, 1, 1])
+
         >>> fig = plt.figure()
         >>> ax = fig.add_subplot(111, projection='3d')
 
-        >>> Vector([-1, 1, 1]).plot_3d(ax, point=(1, 2, 3), c='r')
+        >>> plot_3d(vector, ax, point=(1, 2, 3), c='r')
 
     """
     point_2 = np.array(point) + scalar * vector
@@ -160,12 +168,14 @@ def _(vector: Vector, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: floa
 
 
 @plot_3d.register  # type: ignore[no-redef]
-def _(self: Points, ax_3d: Axes3D, **kwargs) -> None:
+def _(points: Points, ax_3d: Axes3D, **kwargs) -> None:
     """
     Plot points on a 3D scatter plot.
 
     Parameters
     ----------
+    points : Points
+        Input points.
     ax_3d : Axes3D
         Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
     kwargs : dict, optional
@@ -181,14 +191,15 @@ def _(self: Points, ax_3d: Axes3D, **kwargs) -> None:
 
         >>> from skspatial.objects import Points
 
+        >>> points = Points([[1, 2, 1], [3, 2, -7], [-4, 2, 2], [-2, 3, 1]])
+
         >>> fig = plt.figure()
         >>> ax = fig.add_subplot(111, projection='3d')
 
-        >>> points = Points([[1, 2, 1], [3, 2, -7], [-4, 2, 2], [-2, 3, 1]])
-        >>> points.plot_3d(ax, s=75, depthshade=False)
+        >>> plot_3d(points, ax, s=75, depthshade=False)
 
     """
-    _scatter_3d(ax_3d, self, **kwargs)
+    _scatter_3d(ax_3d, points, **kwargs)
 
 
 @plot_3d.register  # type: ignore[no-redef]
@@ -200,6 +211,8 @@ def _(line: Line, ax_3d: Axes3D, t_1: float = 0, t_2: float = 1, **kwargs) -> No
 
     Parameters
     ----------
+    line : Line
+        Input line.
     ax_3d : Axes3D
         Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
     t_1, t_2 : {int, float}
@@ -219,13 +232,13 @@ def _(line: Line, ax_3d: Axes3D, t_1: float = 0, t_2: float = 1, **kwargs) -> No
 
         >>> from skspatial.objects import Line
 
+        >>> line = Line([1, 2, 3], [0, 1, 1])
+
         >>> fig = plt.figure()
         >>> ax = fig.add_subplot(111, projection='3d')
 
-        >>> line = Line([1, 2, 3], [0, 1, 1])
-
-        >>> line.plot_3d(ax, c='k')
-        >>> line.point.plot_3d(ax, s=100)
+        >>> plot_3d(line, ax, c='k')
+        >>> plot_3d(line.point, ax, s=100)
 
     """
     point_1 = line.to_point(t_1)
@@ -235,7 +248,7 @@ def _(line: Line, ax_3d: Axes3D, t_1: float = 0, t_2: float = 1, **kwargs) -> No
 
 
 @plot_3d.register(Plane)  # type: ignore[no-redef]
-@plot_3d.register(Sphere)  # type: ignore[no-redef]
+@plot_3d.register(Sphere)
 def _(
     obj,
     ax_3d: Axes3D,
@@ -252,6 +265,8 @@ def _(triangle: Triangle, ax_3d: Axes3D, part: str = "points", **kwargs: str) ->
 
     Parameters
     ----------
+    triangle : Triangle
+        Input triangle.
     ax_3d : Axes3D
         Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
     part : str, optional
@@ -266,21 +281,24 @@ def _(triangle: Triangle, ax_3d: Axes3D, part: str = "points", **kwargs: str) ->
     .. plot::
         :include-source:
 
+        >>> from mpl_toolkits.mplot3d import Axes3D
         >>> import matplotlib.pyplot as plt
+
         >>> from skspatial.objects import Triangle
 
-        >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
+        >>> triangle = Triangle([0, 0, 0], [1, 0, 0], [0, 1, 1])
 
-        >>> _, ax = plt.subplots()
+        >>> fig = plt.figure()
+        >>> ax = fig.add_subplot(111, projection='3d')
 
-        >>> triangle.plot_2d(ax, part='points', s=100, zorder=3)
-        >>> triangle.plot_2d(ax, part='lines', c='k')
+        >>> plot_3d(triangle, ax, part='points', s=100, zorder=3)
+        >>> plot_3d(triangle, ax, part='lines', c='k')
 
     """
     if part == "points":
         for point in triangle.multiple("point", "ABC"):
-            point.plot_3d(ax_3d, **kwargs)
+            plot_3d(point, ax_3d, **kwargs)
 
     elif part == "lines":
         for line in triangle.multiple("line", "abc"):
-            line.plot_3d(ax_3d, **kwargs)
+            plot_3d(line, ax_3d, **kwargs)

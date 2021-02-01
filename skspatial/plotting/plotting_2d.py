@@ -60,6 +60,8 @@ def plot_2d(point: Point, ax_2d: Axes, **kwargs) -> None:
 
     Parameters
     ----------
+    point : Point
+        Input point.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     kwargs : dict, optional
@@ -71,11 +73,13 @@ def plot_2d(point: Point, ax_2d: Axes, **kwargs) -> None:
         :include-source:
 
         >>> import matplotlib.pyplot as plt
+
         >>> from skspatial.objects import Point
 
-        >>> _, ax = plt.subplots()
+        >>> point = Point([1, 2])
 
-        >>> Point([1, 2]).plot_2d(ax, c='k', s=100)
+        >>> _, ax = plt.subplots()
+        >>> plot_2d(point, ax, c='k', s=100)
 
     """
     _scatter_2d(ax_2d, point.reshape(1, -1), **kwargs)
@@ -90,6 +94,8 @@ def _(vector: Vector, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1
 
     Parameters
     ----------
+    vector: Vector
+        Input vector.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     point : array_like, optional
@@ -105,12 +111,13 @@ def _(vector: Vector, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1
         :include-source:
 
         >>> import matplotlib.pyplot as plt
+
         >>> from skspatial.objects import Vector
 
+        >>> vector = Vector([1, 1])
+
         >>> _, ax = plt.subplots()
-
-        >>> Vector([1, 1]).plot_2d(ax, point=(-3, 5), scalar=2, head_width=0.5)
-
+        >>> plot_2d(vector, ax, point=(-3, 5), scalar=2, head_width=0.5)
         >>> limits = ax.axis([-5, 5, 0, 10])
 
     """
@@ -127,6 +134,8 @@ def _(points: Points, ax_2d: Axes, **kwargs) -> None:
 
     Parameters
     ----------
+    points : Points
+        Input points.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     kwargs : dict, optional
@@ -141,9 +150,10 @@ def _(points: Points, ax_2d: Axes, **kwargs) -> None:
 
         >>> from skspatial.objects import Points
 
-        >>> fig, ax = plt.subplots()
         >>> points = Points([[1, 2], [3, 4], [-4, 2], [-2, 3]])
-        >>> points.plot_2d(ax, c='k')
+
+        >>> fig, ax = plt.subplots()
+        >>> plot_2d(points, ax, c='k')
 
     """
     _scatter_2d(ax_2d, points, **kwargs)
@@ -158,6 +168,8 @@ def _(line: Line, ax_2d: Axes, t_1: float = 0, t_2: float = 1, **kwargs) -> None
 
     Parameters
     ----------
+    line : Line
+        Input line.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     t_1, t_2 : {int, float}
@@ -175,12 +187,11 @@ def _(line: Line, ax_2d: Axes, t_1: float = 0, t_2: float = 1, **kwargs) -> None
         >>> import matplotlib.pyplot as plt
         >>> from skspatial.objects import Line
 
-        >>> _, ax = plt.subplots()
-
         >>> line = Line([1, 2], [3, 4])
 
-        >>> line.plot_2d(ax, t_1=-2, t_2=3, c='k')
-        >>> line.point.plot_2d(ax, c='r', s=100, zorder=3)
+        >>> _, ax = plt.subplots()
+        >>> plot_2d(line, ax, t_1=-2, t_2=3, c='k')
+        >>> plot_2d(line.point, ax, c='r', s=100, zorder=3)
         >>> grid = ax.grid()
 
     """
@@ -197,6 +208,8 @@ def _(circle: Circle, ax_2d: Axes, **kwargs) -> None:
 
     Parameters
     ----------
+    circle : Circle
+        Input circle.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     kwargs : dict, optional
@@ -214,8 +227,8 @@ def _(circle: Circle, ax_2d: Axes, **kwargs) -> None:
         >>> circle = Circle([-2, 3], 3)
 
         >>> fig, ax = plt.subplots()
-        >>> circle.plot_2d(ax, fill=False)
-        >>> circle.point.plot_2d(ax)
+        >>> plot_2d(circle, ax, fill=False)
+        >>> plot_2d(circle.point, ax)
         >>> limits = plt.axis([-10, 10, -10, 10])
 
     """
@@ -224,13 +237,15 @@ def _(circle: Circle, ax_2d: Axes, **kwargs) -> None:
     ax_2d.add_artist(artist_circle)
 
 
-# @plot_2d.register  # type: ignore[no-redef]
-def hey(triangle: Triangle, ax_2d: Axes, part: str = 'points', **kwargs: str) -> None:
+@plot_2d.register  # type: ignore[no-redef]
+def _(triangle: Triangle, ax_2d: Axes, part: str = "points", **kwargs: str) -> None:
     """
     Plot a triangle in 2D.
 
     Parameters
     ----------
+    triangle : Triangle
+        Input triangle.
     ax_2d : Axes
         Instance of :class:`~matplotlib.axes.Axes`.
     part : str, optional
@@ -246,26 +261,22 @@ def hey(triangle: Triangle, ax_2d: Axes, part: str = 'points', **kwargs: str) ->
         :include-source:
 
         >>> import matplotlib.pyplot as plt
+
         >>> from skspatial.objects import Triangle
 
         >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
 
         >>> _, ax = plt.subplots()
-
-        >>> triangle.plot_2d(ax, part='points', s=100, zorder=3)
-        >>> triangle.plot_2d(ax, part='lines', c='k')
+        >>> plot_2d(triangle, ax, part='points', s=100, zorder=3)
+        >>> plot_2d(triangle, ax, part='lines', c='k')
 
     """
-    if part == 'points':
+    if part == "points":
 
-        point: Point
-
-        for point in triangle.multiple('point', 'ABC'):
+        for point in triangle.multiple("point", "ABC"):
             plot_2d(point, ax_2d, **kwargs)
 
-    elif part == 'lines':
+    elif part == "lines":
 
-        line: Line
-
-        for line in triangle.multiple('line', 'abc'):
+        for line in triangle.multiple("line", "abc"):
             plot_2d(line, ax_2d, **kwargs)
