@@ -1,7 +1,7 @@
 import pytest
 
 from skspatial._functions import _allclose
-from skspatial.objects import Plane
+from skspatial.objects.plane import Plane
 
 
 @pytest.mark.parametrize(
