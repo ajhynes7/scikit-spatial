@@ -160,8 +160,8 @@ def test_best_fit_sphere(points, sphere_expected):
     points = Points(points)
     sphere_fit = Sphere.best_fit(points)
 
-    assert np.allclose(sphere_fit.point, sphere_expected.point)
-    assert np.isclose(sphere_fit.radius, sphere_expected.radius)
+    assert sphere_fit.point.is_close(sphere_expected.point, abs_tol=1e-9)
+    assert math.isclose(sphere_fit.radius, sphere_expected.radius)
 
 
 @pytest.mark.parametrize(
