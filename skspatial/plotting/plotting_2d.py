@@ -15,6 +15,24 @@ from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
+def _scatter_2d(ax_2d: Axes, points: array_like, **kwargs) -> None:
+    """
+    Plot points on a 2D scatter plot.
+
+    Parameters
+    ----------
+    ax_2d : Axes
+        Instance of :class:`~matplotlib.axes.Axes`.
+    points : array_like
+        2D points.
+    kwargs : dict, optional
+        Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
+
+    """
+    array = np.array(points)
+    ax_2d.scatter(array[:, 0], array[:, 1], **kwargs)
+
+
 def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **kwargs) -> None:
     """
     Plot a line between two 2D points.
@@ -33,24 +51,6 @@ def _connect_points_2d(ax_2d: Axes, point_a: array_like, point_b: array_like, **
     ys = [point_a[1], point_b[1]]
 
     ax_2d.plot(xs, ys, **kwargs)
-
-
-def _scatter_2d(ax_2d: Axes, points: array_like, **kwargs) -> None:
-    """
-    Plot points on a 2D scatter plot.
-
-    Parameters
-    ----------
-    ax_2d : Axes
-        Instance of :class:`~matplotlib.axes.Axes`.
-    points : array_like
-        2D points.
-    kwargs : dict, optional
-        Additional keywords passed to :meth:`~matplotlib.axes.Axes.scatter`.
-
-    """
-    array = np.array(points)
-    ax_2d.scatter(array[:, 0], array[:, 1], **kwargs)
 
 
 @singledispatch
