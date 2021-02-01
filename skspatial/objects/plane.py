@@ -3,7 +3,6 @@
 from typing import Tuple
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _mesh_to_points
 from skspatial.objects._base_line_plane import _BaseLinePlane
@@ -702,41 +701,3 @@ class Plane(_BaseLinePlane):
         points = _mesh_to_points(X, Y, Z)
 
         return Points(points)
-
-    def plot_3d(self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs) -> None:
-        """
-        Plot a 3D plane.
-
-        Parameters
-        ----------
-        ax_3d : Axes3D
-            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        lims_x, lims_y : (2,) tuple
-            x and y limits of the plane.
-            Tuple of form (min, max). The default is (-1, 1).
-            The point on the plane is used as the origin.
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from mpl_toolkits.mplot3d import Axes3D
-
-            >>> from skspatial.objects import Plane
-
-            >>> fig = plt.figure()
-            >>> ax = fig.add_subplot(111, projection='3d')
-
-            >>> plane = Plane([5, 3, 1], [1, 0, 1])
-
-            >>> plane.plot_3d(ax, alpha=0.2)
-            >>> plane.point.plot_3d(ax, s=100)
-
-        """
-        X, Y, Z = self.to_mesh(lims_x, lims_y)
-
-        ax_3d.plot_surface(X, Y, Z, **kwargs)

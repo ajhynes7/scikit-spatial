@@ -4,7 +4,6 @@ import math
 from typing import Tuple
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import _mesh_to_points, np_float
 from skspatial.objects._base_sphere import _BaseSphere
@@ -280,37 +279,3 @@ class Sphere(_BaseSphere):
         points = _mesh_to_points(X, Y, Z)
 
         return Points(points)
-
-    def plot_3d(self, ax_3d: Axes3D, n_angles: int = 30, **kwargs) -> None:
-        """
-        Plot the sphere in 3D.
-
-        Parameters
-        ----------
-        ax_3d : Axes3D
-            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
-        kwargs : dict, optional
-            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
-
-        Examples
-        --------
-        .. plot::
-            :include-source:
-
-            >>> import matplotlib.pyplot as plt
-            >>> from mpl_toolkits.mplot3d import Axes3D
-
-            >>> from skspatial.objects import Sphere
-
-            >>> fig = plt.figure()
-            >>> ax = fig.add_subplot(111, projection='3d')
-
-            >>> sphere = Sphere([1, 2, 3], 2)
-
-            >>> sphere.plot_3d(ax, alpha=0.2)
-            >>> sphere.point.plot_3d(ax, s=100)
-
-        """
-        X, Y, Z = self.to_mesh(n_angles)
-
-        ax_3d.plot_surface(X, Y, Z, **kwargs)
