@@ -20,24 +20,17 @@ from sphinx_gallery.sorting import ExplicitOrder
 
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
 
-import skspatial
+import skspatial  # noqa
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'scikit-spatial'
-copyright = '2019, Andrew Hynes'
+copyright = '2019, Andrew Hynes'  # noqa
 author = 'Andrew Hynes'
 
 # The short X.Y version
 version = skspatial.__version__
-
-
-# -- General configuration ---------------------------------------------------
-
-# If your documentation needs a minimal Sphinx version, state it here.
-#
-# needs_sphinx = '1.0'
 
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -63,15 +56,17 @@ intersphinx_mapping = {
 }
 
 sphinx_gallery_conf = {
-    'examples_dirs': '../../examples',   # Path to example scripts
+    'examples_dirs': '../../examples',  # Path to example scripts
     'gallery_dirs': 'gallery',  # Path to save generated examples
     'download_all_examples': False,
-    'subsection_order': ExplicitOrder([
-        '../../examples/projection',
-       '../../examples/intersection',
-       '../../examples/fitting',
-       '../../examples/triangle',
-    ]),
+    'subsection_order': ExplicitOrder(
+        [
+            '../../examples/projection',
+            '../../examples/intersection',
+            '../../examples/fitting',
+            '../../examples/triangle',
+        ]
+    ),
 }
 
 autosummary_generate = True
@@ -84,8 +79,6 @@ templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
 # The master toctree document.
@@ -148,7 +141,6 @@ html_static_path = []
 # default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
 # 'searchbox.html']``.
 #
-# html_sidebars = {}
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
@@ -159,30 +151,11 @@ htmlhelp_basename = 'scikit-spatialdoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 
-latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-    # 'papersize': 'letterpaper',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-    # 'pointsize': '10pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-}
-
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'scikit-spatial.tex', 'scikit-spatial Documentation',
-     'Andrew Hynes', 'manual'),
+    (master_doc, 'scikit-spatial.tex', 'scikit-spatial Documentation', 'Andrew Hynes', 'manual'),
 ]
 
 
@@ -190,10 +163,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'scikit-spatial', 'scikit-spatial Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'scikit-spatial', 'scikit-spatial Documentation', [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -202,9 +172,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'scikit-spatial', 'scikit-spatial Documentation',
-     author, 'scikit-spatial', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        'scikit-spatial',
+        'scikit-spatial Documentation',
+        author,
+        'scikit-spatial',
+        'One line description of project.',
+        'Miscellaneous',
+    ),
 ]
 
 
@@ -213,17 +189,5 @@ texinfo_documents = [
 # Bibliographic Dublin Core info.
 epub_title = project
 
-# The unique identifier of the text. This can be a ISBN number
-# or the project homepage.
-#
-# epub_identifier = ''
-
-# A unique identification for the text.
-#
-# epub_uid = ''
-
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
-
-# -- Extension configuration -------------------------------------------------

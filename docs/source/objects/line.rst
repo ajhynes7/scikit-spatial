@@ -39,4 +39,3 @@ A point can be projected onto a line, returning a new :class:`~skspatial.objects
 
 >>> line_1.project_point([50, 20])
 Point([50.,  0.])
-

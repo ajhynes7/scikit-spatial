@@ -20,26 +20,19 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Topic :: Scientific/Engineering',
     ],
-
     description="Spatial objects and computations based on NumPy arrays.",
     long_description=readme,
-
     name='scikit-spatial',
     keywords='scikit-spatial',
-
     packages=find_packages(exclude=['tests*']),
-
     package_data={
         'skspatial': ['py.typed'],  # Needed for distributing type annotations.
     },
-
     install_requires=[
         'matplotlib>=3.3',
         'numpy==1.19.*',
     ],
-
     setup_requires=['wheel'],
-
     include_package_data=True,
     license="BSD license",
     url='https://github.com/ajhynes7/scikit-spatial',
