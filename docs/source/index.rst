@@ -8,7 +8,7 @@
 Introduction
 ~~~~~~~~~~~~
 
-``scikit-spatial`` is a Python library that provides spatial objects and computations between them. The basic objects -- points and vectors -- are subclasses of the NumPy :class:`~numpy.ndarray`. Other objects such as lines, planes, and circles have points and/or vectors as attributes. 
+``scikit-spatial`` is a Python library that provides spatial objects and computations between them. The basic objects -- points and vectors -- are subclasses of the NumPy :class:`~numpy.ndarray`. Other objects such as lines, planes, and circles have points and/or vectors as attributes.
 
 
 Computations can be performed after instantiating a spatial object. For example, a point can be projected onto a plane.

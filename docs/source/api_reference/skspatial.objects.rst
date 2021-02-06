@@ -1,4 +1,4 @@
-skspatial.objects 
+skspatial.objects
 =================
 
 .. toctree::

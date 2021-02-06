@@ -1,7 +1,7 @@
 [run]
 source = skspatial
-omit = 
-    skspatial/plotting.py 
+omit =
+    skspatial/plotting.py
     skspatial/tests/*
 
 [report]
