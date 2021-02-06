@@ -63,15 +63,17 @@ intersphinx_mapping = {
 }
 
 sphinx_gallery_conf = {
-    'examples_dirs': '../../examples',   # Path to example scripts
+    'examples_dirs': '../../examples',  # Path to example scripts
     'gallery_dirs': 'gallery',  # Path to save generated examples
     'download_all_examples': False,
-    'subsection_order': ExplicitOrder([
-        '../../examples/projection',
-       '../../examples/intersection',
-       '../../examples/fitting',
-       '../../examples/triangle',
-    ]),
+    'subsection_order': ExplicitOrder(
+        [
+            '../../examples/projection',
+            '../../examples/intersection',
+            '../../examples/fitting',
+            '../../examples/triangle',
+        ]
+    ),
 }
 
 autosummary_generate = True
@@ -163,15 +165,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -181,8 +180,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'scikit-spatial.tex', 'scikit-spatial Documentation',
-     'Andrew Hynes', 'manual'),
+    (master_doc, 'scikit-spatial.tex', 'scikit-spatial Documentation', 'Andrew Hynes', 'manual'),
 ]
 
 
@@ -190,10 +188,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'scikit-spatial', 'scikit-spatial Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'scikit-spatial', 'scikit-spatial Documentation', [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -202,9 +197,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'scikit-spatial', 'scikit-spatial Documentation',
-     author, 'scikit-spatial', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        'scikit-spatial',
+        'scikit-spatial Documentation',
+        author,
+        'scikit-spatial',
+        'One line description of project.',
+        'Miscellaneous',
+    ),
 ]
 
 

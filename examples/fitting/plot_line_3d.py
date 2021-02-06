@@ -9,16 +9,18 @@ from skspatial.objects import Points, Line
 from skspatial.plotting import plot_3d
 
 
-points = Points([
-    [0, 0, 0],
-    [1, 1, 0],
-    [2, 3, 2],
-    [3, 2, 3],
-    [4, 5, 4],
-    [6, 5, 5],
-    [6, 6, 5],
-    [7, 6, 7],
-])
+points = Points(
+    [
+        [0, 0, 0],
+        [1, 1, 0],
+        [2, 3, 2],
+        [3, 2, 3],
+        [4, 5, 4],
+        [6, 5, 5],
+        [6, 6, 5],
+        [7, 6, 7],
+    ]
+)
 
 line_fit = Line.best_fit(points)
 
