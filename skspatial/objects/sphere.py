@@ -314,3 +314,62 @@ class Sphere(_BaseSphere):
         X, Y, Z = self.to_mesh(n_angles)
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)
+
+    @classmethod
+    def best_fit(cls, points: array_like) -> 'Sphere':
+        """
+        Return the sphere of best fit for a set of 3D points.
+
+        Parameters
+        ----------
+        points : array_like
+             Input 3D points.
+
+        Returns
+        -------
+        Sphere
+            The sphere of best fit.
+
+        Raises
+        ------
+        ValueError
+            If the points are in a plane, or are not 3D or are fewer than four.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Sphere
+
+        >>> points = [[1, 0, 1], [0, 1, 1], [1, 2, 1], [1, 1, 2]]
+        >>> sphere = Sphere.best_fit(points)
+
+        The point in the sphere is the center.
+
+        >>> sphere.point.round(3)
+        Point([1., 1., 1.])
+
+        The radius of the sphere is calculated.
+
+        >>> np.round(sphere.radius, 3)
+        1.0
+        """
+        points = Points(points)
+
+        if points.dimension != 3:
+            raise ValueError("The points must be 3D.")
+
+        if points.shape[0] < 4:
+            raise ValueError("There must be at least 4 points.")
+
+        if points.affine_rank() != 3:
+            raise ValueError("The points must not be in a plane.")
+
+        n = points.shape[0]
+        A = np.hstack((2 * points, np.ones((n, 1))))
+        b = (points ** 2).sum(axis=1)
+
+        c, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
+
+        center = c[:3]
+        radius = float(np.sqrt(np.dot(center, center) + c[3]))
+
+        return cls(center, radius)
