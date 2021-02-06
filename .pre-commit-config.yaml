@@ -21,3 +21,9 @@ repos:
                 - flake8-eradicate==1.0.0
                 - flake8-import-order==0.18.1
                 - flake8==3.8.4
+    - repo: https://github.com/PyCQA/pydocstyle
+      rev: 5.1.1
+      hooks:
+          - id: pydocstyle
+            args: [--convention=numpy, "--add-ignore=D104,D105"]
+            exclude: skspatial/tests|examples|conf.py
