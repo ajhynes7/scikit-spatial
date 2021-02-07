@@ -9,8 +9,8 @@
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
-.. image:: https://img.shields.io/travis/com/ajhynes7/scikit-spatial
-         :target: https://api.travis-ci.com/ajhynes7/scikit-spatial.svg?branch=master
+.. image:: https://api.travis-ci.com/ajhynes7/scikit-spatial.svg?branch=master
+         :target: https://travis-ci.com/github/ajhynes7/scikit-spatial/branches
 
 .. image:: https://readthedocs.org/projects/scikit-spatial/badge/?version=latest
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
