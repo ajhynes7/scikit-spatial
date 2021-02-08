@@ -9,3 +9,4 @@ dist/
 docs/build/
 docs/source/gallery/
 htmlcov/
+docs/source/api_reference/*/
