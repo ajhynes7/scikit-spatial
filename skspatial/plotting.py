@@ -1,6 +1,6 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
 
-from typing import Any, Callable, Tuple, Union
+from typing import Callable, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -103,25 +103,6 @@ def _connect_points_3d(ax_3d: Axes3D, point_a: array_like, point_b: array_like, 
     ax_3d.plot(xs, ys, zs, **kwargs)
 
 
-def _plotter(obj: Any, **kwargs) -> Union[Callable[[Axes], None], Callable[[Axes3D], None]]:
-    """Return a function that plots the object when passed a matplotlib axes."""
-    if obj.dimension == 2:
-
-        if not hasattr(obj, 'plot_2d'):
-            raise ValueError("The object cannot be plotted in 2D.")
-
-        return lambda ax: obj.plot_2d(ax, **kwargs)
-
-    if obj.dimension == 3:
-
-        if not hasattr(obj, 'plot_3d'):
-            raise ValueError("The object cannot be plotted in 3D.")
-
-        return lambda ax: obj.plot_3d(ax, **kwargs)
-
-    raise ValueError("The dimension must be 2 or 3.")
-
-
 def plot_2d(*plotters: Callable) -> Tuple:
     """Plot multiple spatial objects in 2D."""
     fig, ax = plt.subplots()
@@ -135,7 +116,7 @@ def plot_2d(*plotters: Callable) -> Tuple:
 def plot_3d(*plotters: Callable) -> Tuple:
     """Plot multiple spatial objects in 3D."""
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = fig.add_subplot(111, projection="3d")
 
     for plotter in plotters:
         plotter(ax)
