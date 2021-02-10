@@ -199,7 +199,8 @@ class Sphere(_BaseSphere):
         Raises
         ------
         ValueError
-            If the points are in a plane, or are not 3D or are fewer than four.
+            If the points are not 3D, if they lie in a plane,
+            or if there are fewer than four points.
 
         Examples
         --------
