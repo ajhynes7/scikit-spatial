@@ -1,11 +1,11 @@
 """Private base classes for arrays."""
 
-from typing import Callable, TypeVar, Type
+from typing import TypeVar, Type
 
 import numpy as np
 
+from skspatial._base_spatial import _BaseSpatial
 from skspatial._functions import _allclose
-from skspatial.plotting import _plotter
 from skspatial.typing import array_like
 
 
@@ -17,7 +17,7 @@ Array1D = TypeVar('Array1D', bound='_BaseArray1D')
 Array2D = TypeVar('Array2D', bound='_BaseArray2D')
 
 
-class _BaseArray(np.ndarray):
+class _BaseArray(np.ndarray, _BaseSpatial):
     """Private base class for spatial objects based on a single NumPy array."""
 
     def __new__(cls: Type[Array], array: array_like) -> Array:
@@ -149,10 +149,6 @@ class _BaseArray(np.ndarray):
         array_rounded = np.array(self).round(decimals, out)
 
         return self.__class__(array_rounded)
-
-    def plotter(self, **kwargs) -> Callable:
-
-        return _plotter(self, **kwargs)
 
 
 class _BaseArray1D(_BaseArray):
