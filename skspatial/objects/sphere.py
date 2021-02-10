@@ -204,20 +204,19 @@ class Sphere(_BaseSphere):
 
         Examples
         --------
+        >>> import numpy as np
+
         >>> from skspatial.objects import Sphere
 
         >>> points = [[1, 0, 1], [0, 1, 1], [1, 2, 1], [1, 1, 2]]
         >>> sphere = Sphere.best_fit(points)
 
-        The point in the sphere is the center.
-
-        >>> sphere.point.round(3)
+        >>> sphere.point
         Point([1., 1., 1.])
 
-        The radius of the sphere is calculated.
-
-        >>> np.round(sphere.radius, 3)
+        >>> np.round(sphere.radius, 2)
         1.0
+
         """
         points = Points(points)
 
