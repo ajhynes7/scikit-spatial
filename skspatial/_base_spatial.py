@@ -1,10 +1,5 @@
-from typing import Callable
-
-
-class _BaseSpatial:
-    """Private base class for all spatial objects."""
-
-    def plotter(self, **kwargs) -> Callable:
+class _PlotterMixin:
+    def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:
 
@@ -21,3 +16,9 @@ class _BaseSpatial:
             return lambda ax: self.plot_3d(ax, **kwargs)
 
         raise ValueError("The dimension must be 2 or 3.")
+
+
+class _BaseSpatial(_PlotterMixin):
+    """Private base class for all spatial objects."""
+
+    ...
