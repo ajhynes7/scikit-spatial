@@ -5,9 +5,10 @@ Credits
 Development Lead
 ----------------
 
-* Andrew Hynes <andrewjhynes@gmail.com>
+* Andrew Hynes (https://github.com/ajhynes7)
+
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Marcelo Moreno (https://github.com/martxelo)

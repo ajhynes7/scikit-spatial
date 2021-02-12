@@ -4,8 +4,10 @@
 *.xml
 .*/
 .coverage
-build
-dist
-docs/build
-docs/source/gallery
-htmlcov
+build/
+dist/
+docs/build/
+docs/source/api_reference/*/
+docs/source/computations/*/
+docs/source/gallery/
+htmlcov/

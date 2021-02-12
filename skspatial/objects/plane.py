@@ -1,7 +1,5 @@
 """Module for the Plane class."""
 
-from __future__ import annotations
-
 from typing import Tuple
 
 import numpy as np
@@ -86,7 +84,7 @@ class Plane(_BaseLinePlane):
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> Plane:
+    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> 'Plane':
         """
         Instantiate a plane from a point and two vectors.
 
@@ -136,7 +134,7 @@ class Plane(_BaseLinePlane):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> Plane:
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> 'Plane':
         """
         Instantiate a plane from three points.
 
@@ -416,7 +414,7 @@ class Plane(_BaseLinePlane):
         """
         return int(np.sign(self.distance_point_signed(point)))
 
-    def intersect_line(self, line: Line) -> Plane:
+    def intersect_line(self, line: Line) -> 'Plane':
         """
         Intersect the plane with a line.
 
@@ -475,7 +473,7 @@ class Plane(_BaseLinePlane):
 
         return line.point + vector_line_scaled
 
-    def intersect_plane(self, other: Plane) -> Line:
+    def intersect_plane(self, other: 'Plane') -> Line:
         """
         Intersect the plane with another.
 
@@ -550,7 +548,7 @@ class Plane(_BaseLinePlane):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like) -> Plane:
+    def best_fit(cls, points: array_like, **kwargs) -> 'Plane':
         """
         Return the plane of best fit for a set of 3D points.
 
@@ -558,6 +556,8 @@ class Plane(_BaseLinePlane):
         ----------
         points : array_like
              Input 3D points.
+        kwargs : dict, optional
+            Additional keywords passed to :func:`numpy.linalg.svd`
 
         Returns
         -------
@@ -586,7 +586,12 @@ class Plane(_BaseLinePlane):
         >>> plane.normal.round(3)
         Vector([-0.577, -0.577, -0.577])
 
-        >>> Plane.best_fit([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]])
+        >>> points = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0]]
+
+        >>> Plane.best_fit(points)
+        Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
+
+        >>> Plane.best_fit(points, full_matrices=False)
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
         """
@@ -600,7 +605,7 @@ class Plane(_BaseLinePlane):
 
         points_centered, centroid = points.mean_center(return_centroid=True)
 
-        u, _, _ = np.linalg.svd(points_centered.T)
+        u, _, _ = np.linalg.svd(points_centered.T, **kwargs)
         normal = Vector(u[:, -1])
 
         return cls(centroid, normal)

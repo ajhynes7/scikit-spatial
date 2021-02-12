@@ -9,8 +9,8 @@
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
-.. image:: https://img.shields.io/travis/com/ajhynes7/scikit-spatial
-         :target: https://travis-ci.com/github/ajhynes7/scikit-spatial
+.. image:: https://api.travis-ci.com/ajhynes7/scikit-spatial.svg?branch=master
+         :target: https://travis-ci.com/github/ajhynes7/scikit-spatial/branches
 
 .. image:: https://readthedocs.org/projects/scikit-spatial/badge/?version=latest
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
@@ -19,7 +19,7 @@
 .. image:: https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg
          :target: https://codecov.io/gh/ajhynes7/scikit-spatial
 
-| 
+|
 
 Introduction
 ------------
@@ -75,7 +75,7 @@ Additional methods from ``scikit-spatial``:
 >>> vector.unit()
 Vector([1., 0., 0.])
 
-``Point`` and ``Vector`` are based on a 1D NumPy array, and ``Points`` is based on a 2D NumPy array, where each row represents a point in space.  The ``Line`` and ``Plane`` objects have ``Point`` and ``Vector`` objects as attributes. 
+``Point`` and ``Vector`` are based on a 1D NumPy array, and ``Points`` is based on a 2D NumPy array, where each row represents a point in space.  The ``Line`` and ``Plane`` objects have ``Point`` and ``Vector`` objects as attributes.
 
 Note that most methods inherited from NumPy return a regular *ndarray*, instead of the spatial object class.
 

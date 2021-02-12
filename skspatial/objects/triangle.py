@@ -8,16 +8,16 @@ import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._base_spatial import _BaseSpatial
 from skspatial._functions import np_float
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _plotter
 from skspatial.typing import array_like
 
 
-class Triangle:
+class Triangle(_BaseSpatial):
     """
     A triangle represented by three points in space.
 
@@ -702,7 +702,3 @@ class Triangle:
         elif part == 'lines':
             for line in self.multiple('line', 'abc'):
                 line.plot_3d(ax_3d, **kwargs)
-
-    def plotter(self, **kwargs):
-        """Plot the object with keyword arguments."""
-        return _plotter(self, **kwargs)

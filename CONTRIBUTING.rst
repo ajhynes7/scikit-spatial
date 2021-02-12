@@ -49,7 +49,7 @@ Ready to contribute? Here's how to set up `scikit-spatial` for local development
 
    Now you can make your changes locally.
 
-3. When you're done making changes, check that your changes pass linting and tests. 
+3. When you're done making changes, check that your changes pass linting and tests.
    See ``.travis.yml`` for test commands.
 
 4. Commit your changes and push your branch to GitHub::

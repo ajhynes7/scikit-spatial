@@ -1,2 +1,2 @@
 git+https://github.com/numpy/numpy-stubs
-mypy==0.790
+mypy==0.800
