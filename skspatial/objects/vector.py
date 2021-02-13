@@ -651,7 +651,7 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def different_direction(self) -> Vector:
+    def different_direction(self) -> 'Vector':
         """
         Return a simple vector that is in a different direction.
 
