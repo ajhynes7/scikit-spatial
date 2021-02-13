@@ -115,7 +115,7 @@ class Cylinder(_BaseSpatial):
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
-        return f"Cylinder(point={repr_point}, vector={repr_vector}," f" radius={self.radius})"
+        return f"Cylinder(point={repr_point}, vector={repr_vector}, radius={self.radius})"
 
     @classmethod
     def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> 'Cylinder':
