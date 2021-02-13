@@ -675,6 +675,23 @@ class Vector(_BaseArray1D):
         ValueError
             If the vector is the zero vector.
 
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1]).different_direction()
+        Vector([-1])
+        >>> Vector([100]).different_direction()
+        Vector([-1])
+        >>> Vector([-100]).different_direction()
+        Vector([1])
+        >>> Vector([1, 0]).different_direction()
+        Vector([0., 1.])
+        >>> Vector([1, 1]).different_direction()
+        Vector([1., 0.])
+        >>> Vector([1, 1, 1, 1]).different_direction()
+        Vector([1., 0., 0., 0.])
+
         """
         if self.is_zero(**kwargs):
             raise ValueError("The vector must not be the zero vector.")
