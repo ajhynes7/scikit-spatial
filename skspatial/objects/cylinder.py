@@ -1,7 +1,5 @@
 """Module for the Cylinder class."""
 
-from __future__ import annotations
-
 from typing import Tuple
 
 import numpy as np
@@ -120,7 +118,7 @@ class Cylinder(_BaseSpatial):
         return f"Cylinder(point={repr_point}, vector={repr_vector}," f" radius={self.radius})"
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> Cylinder:
+    def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> 'Cylinder':
         """
         Instantiate a cylinder from two points and a radius.
 
