@@ -5,7 +5,9 @@ from __future__ import annotations
 from typing import Tuple
 
 import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
 
+from skspatial._base_spatial import _BaseSpatial
 from skspatial._functions import np_float
 from skspatial.objects.line import Line
 from skspatial.objects.plane import Plane
@@ -14,7 +16,7 @@ from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
-class Cylinder:
+class Cylinder(_BaseSpatial):
     """
     A cylinder in space.
 
@@ -324,3 +326,40 @@ class Cylinder:
 
         return X, Y, Z
 
+    def plot_3d(self, ax_3d: Axes3D, n_along_axis: int = 100, n_angles: int = 30, **kwargs) -> None:
+        """
+        Plot a 3D cylinder.
+
+        Parameters
+        ----------
+        ax_3d : Axes3D
+            Instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`.
+        n_along_axis : int
+            Number of intervals along the axis of the cylinder.
+        n_angles : int
+            Number of angles distributed around the circle.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`~mpl_toolkits.mplot3d.axes3d.Axes3D.plot_surface`.
+
+        Examples
+        --------
+        .. plot::
+            :include-source:
+
+            >>> import matplotlib.pyplot as plt
+            >>> from mpl_toolkits.mplot3d import Axes3D
+
+            >>> from skspatial.objects import Cylinder
+
+            >>> fig = plt.figure()
+            >>> ax = fig.add_subplot(111, projection='3d')
+
+            >>> cylinder = Cylinder([5, 3, 1], [1, 0, 1], 2)
+
+            >>> cylinder.plot_3d(ax, alpha=0.2)
+            >>> cylinder.point.plot_3d(ax, s=100)
+
+        """
+        X, Y, Z = self.to_mesh(n_along_axis, n_angles)
+
+        ax_3d.plot_surface(X, Y, Z, **kwargs)
