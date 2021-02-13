@@ -679,6 +679,9 @@ class Vector(_BaseArray1D):
         if self.is_zero(**kwargs):
             raise ValueError("The vector must not be the zero vector.")
 
+        if self.dimension == 1:
+            return Vector([-np.sign(self[0])])
+
         vector_different_direction = Vector(np.zeros(self.dimension))
         vector_different_direction[0] = 1
 
