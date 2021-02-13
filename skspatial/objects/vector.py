@@ -651,12 +651,19 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def different_direction(self) -> 'Vector':
+    def different_direction(self, **kwargs: float) -> 'Vector':
         """
         Return a simple vector that is in a different direction.
 
         This is useful for finding a vector perpendicular to the original,
         by taking the cross product of the original with the one in a different direction.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_zero` and :meth:`Vector.is_parallel`.
+            :meth:`Vector.is_zero` is used to ensure the input vector is not the zero vector,
+            and :meth:`Vector.is_parallel` is used to ensure the new vector is not parallel to the input.
 
         Returns
         -------
@@ -669,13 +676,13 @@ class Vector(_BaseArray1D):
             If the vector is the zero vector.
 
         """
-        if self.is_zero():
+        if self.is_zero(**kwargs):
             raise ValueError("The vector must not be the zero vector.")
 
         vector_different_direction = Vector(np.zeros(self.dimension))
         vector_different_direction[0] = 1
 
-        if self.is_parallel(vector_different_direction):
+        if self.is_parallel(vector_different_direction, **kwargs):
             vector_different_direction[0] = 0
             vector_different_direction[1] = 1
 
