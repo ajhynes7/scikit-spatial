@@ -205,11 +205,11 @@ class Cylinder(_BaseSpatial):
         """
         return np.pi * self.radius ** 2 * self.length()
 
-    def contains_point(self, point: array_like) -> bool:
+    def is_point_within(self, point: array_like) -> bool:
         """
-        Check if a point is inside the cylinder.
+        Check if a point is within the cylinder.
 
-        A point on the surface is also considered to be inside.
+        This also includes a point on the surface.
 
         Parameters
         ----------
@@ -219,7 +219,7 @@ class Cylinder(_BaseSpatial):
         Returns
         -------
         bool
-            True if the point is inside of the cylinder.
+            True if the point is within the cylinder.
 
         Examples
         --------
@@ -227,19 +227,19 @@ class Cylinder(_BaseSpatial):
 
         >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
 
-        >>> cylinder.contains_point([0, 0, 0])
+        >>> cylinder.is_point_within([0, 0, 0])
         True
-        >>> cylinder.contains_point([0, 0, 1])
+        >>> cylinder.is_point_within([0, 0, 1])
         True
-        >>> cylinder.contains_point([0, 0, 2])
+        >>> cylinder.is_point_within([0, 0, 2])
         False
-        >>> cylinder.contains_point([0, 0, -1])
+        >>> cylinder.is_point_within([0, 0, -1])
         False
-        >>> cylinder.contains_point([1, 0, 0])
+        >>> cylinder.is_point_within([1, 0, 0])
         True
-        >>> cylinder.contains_point([0, 1, 0])
+        >>> cylinder.is_point_within([0, 1, 0])
         True
-        >>> cylinder.contains_point([1, 1, 0])
+        >>> cylinder.is_point_within([1, 1, 0])
         False
 
         """

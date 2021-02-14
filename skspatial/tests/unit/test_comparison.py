@@ -227,6 +227,6 @@ def test_sphere_contains_point(sphere, point, bool_expected):
         ),
     ],
 )
-def test_cylinder_contains_point(cylinder, point, bool_expected):
+def test_cylinder_is_point_within(cylinder, point, bool_expected):
 
-    assert cylinder.contains_point(point) == bool_expected
+    assert cylinder.is_point_within(point) == bool_expected
