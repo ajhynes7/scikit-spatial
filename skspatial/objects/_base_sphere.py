@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from skspatial._base_spatial import _BaseSpatial
 from skspatial._functions import _contains_point
+from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
 from skspatial.typing import array_like

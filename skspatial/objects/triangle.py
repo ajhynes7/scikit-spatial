@@ -8,8 +8,8 @@ import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._base_spatial import _BaseSpatial
 from skspatial._functions import np_float
+from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
