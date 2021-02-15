@@ -1,5 +1,6 @@
 import pytest
 
+from skspatial.objects.cylinder import Cylinder
 from skspatial.objects.plane import Plane
 from skspatial.objects.points import Points
 from skspatial.objects.sphere import Sphere
@@ -10,11 +11,17 @@ from skspatial.objects.sphere import Sphere
     [
         (Plane([0, 0, 0], [0, 0, 1]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
         (Plane([1, 0, 0], [0, 0, 1]), [[0, -1, 0], [2, -1, 0], [0, 1, 0], [2, 1, 0]]),
-        (Plane([0, 0, 0], [0, 0, -1]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
+        (
+            Plane([0, 0, 0], [0, 0, -1]),
+            [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]],
+        ),
         (Plane([0, 0, 0], [0, 0, 5]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
         (Plane([0, 0, 0], [0, 1, 0]), [[-1, 0, -1], [1, 0, -1], [-1, 0, 1], [1, 0, 1]]),
         (Plane([0, 0, 0], [1, 0, 0]), [[0, -1, -1], [0, 1, -1], [0, -1, 1], [0, 1, 1]]),
-        (Plane([0, 0, 0], [1, 1, 0]), [[-1, 1, -1], [1, -1, -1], [-1, 1, 1], [1, -1, 1]]),
+        (
+            Plane([0, 0, 0], [1, 1, 0]),
+            [[-1, 1, -1], [1, -1, -1], [-1, 1, 1], [1, -1, 1]],
+        ),
     ],
 )
 def test_plane_points(plane, points_expected):
@@ -37,7 +44,27 @@ def test_plane_points(plane, points_expected):
 )
 def test_sphere_points(sphere, n_angles, points_expected):
 
-    array_rounded = sphere.to_points(n_angles).round(3)
+    array_rounded = sphere.to_points(n_angles=n_angles).round(3)
+    points_unique = Points(array_rounded).unique()
+
+    assert points_unique.is_close(points_expected)
+
+
+@pytest.mark.parametrize(
+    "cylinder, n_along_axis, n_angles, points_expected",
+    [
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, 1, [[-1, 0, 0]]),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            3,
+            2,
+            [[-1, 0, 0], [-1, 0, 0.5], [-1, 0, 1]],
+        ),
+    ],
+)
+def test_cylinder_points(cylinder, n_along_axis, n_angles, points_expected):
+
+    array_rounded = cylinder.to_points(n_along_axis=n_along_axis, n_angles=n_angles).round(3)
     points_unique = Points(array_rounded).unique()
 
     assert points_unique.is_close(points_expected)
