@@ -15,4 +15,5 @@ Methods
    ~skspatial.objects.Cylinder.length
    ~skspatial.objects.Cylinder.plot_3d
    ~skspatial.objects.Cylinder.to_mesh
+   ~skspatial.objects.Cylinder.to_points
    ~skspatial.objects.Cylinder.volume

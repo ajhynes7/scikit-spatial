@@ -12,3 +12,4 @@ Spatial Objects
    circle
    sphere
    triangle
+   cylinder

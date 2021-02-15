@@ -118,7 +118,6 @@ html_theme_options = {
     'globaltoc_depth': -1,
     'navbar_links': [
         ('Objects', 'objects/toc'),
-        ('Computations', 'computations/toc'),
         ('Plotting', 'plotting'),
         ('Gallery', 'gallery/index'),
         ('API', 'api_reference/toc'),
