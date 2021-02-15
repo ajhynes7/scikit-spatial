@@ -7,6 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects._base_spatial import _BaseSpatial
+from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
 from skspatial.objects.plane import Plane
 from skspatial.objects.point import Point
@@ -14,7 +15,7 @@ from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
-class Cylinder(_BaseSpatial):
+class Cylinder(_BaseSpatial, _ToPointsMixin):
     """
     A cylinder in space.
 
