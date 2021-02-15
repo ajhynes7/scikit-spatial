@@ -36,6 +36,7 @@ The following spatial objects are provided:
    - Circle
    - Sphere
    - Triangle
+   - Cylinder
 
 Most of the computations fall into the following categories:
 

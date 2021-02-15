@@ -5,8 +5,8 @@ from typing import Tuple
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._functions import _mesh_to_points
 from skspatial.objects._base_line_plane import _BaseLinePlane
+from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
@@ -14,7 +14,7 @@ from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
-class Plane(_BaseLinePlane):
+class Plane(_BaseLinePlane, _ToPointsMixin):
     """
     A plane in space.
 
@@ -667,41 +667,6 @@ class Plane(_BaseLinePlane):
             X, Y, Z = Z, X, Y
 
         return X, Y, Z
-
-    def to_points(self, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1)) -> Points:
-        """
-        Return four points on the plane.
-
-        The coordinate matrices used for 3D plotting are converted to points.
-
-        Parameters
-        ----------
-        lims_x, lims_y : (2,) tuple
-            x and y limits of the plane.
-            Tuple of form (min, max). The default is (-1, 1).
-            The point on the plane is used as the origin.
-
-        Returns
-        -------
-        Points
-            Four 3D points on the plane.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Plane
-
-        >>> Plane([0, 0, 0], [0, 0, 1]).to_points()
-        Points([[-1., -1.,  0.],
-                [ 1., -1.,  0.],
-                [-1.,  1.,  0.],
-                [ 1.,  1.,  0.]])
-
-        """
-        X, Y, Z = self.to_mesh(lims_x, lims_y)
-
-        points = _mesh_to_points(X, Y, Z)
-
-        return Points(points)
 
     def plot_3d(self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs) -> None:
         """

@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from skspatial.objects import Points, Vector, Line, Plane, Circle, Sphere
+from skspatial.objects import Points, Vector, Line, Plane, Circle, Sphere, Cylinder
 
 
 @pytest.mark.parametrize(
@@ -205,3 +205,28 @@ def test_circle_contains_point(circle, point, bool_expected):
 def test_sphere_contains_point(sphere, point, bool_expected):
 
     assert sphere.contains_point(point) == bool_expected
+
+
+@pytest.mark.parametrize(
+    "cylinder, point, bool_expected",
+    [
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 0], True),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 1], True),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 0.9], True),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 1.1], False),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, -0.1], False),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [1, 0, 0], True),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [2, 0, 0], False),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [-1, 0, 0], True),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [-2, 0, 0], False),
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), [1, 1, 0], False),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            [math.sqrt(2) / 2, math.sqrt(2) / 2, 0],
+            True,
+        ),
+    ],
+)
+def test_cylinder_is_point_within(cylinder, point, bool_expected):
+
+    assert cylinder.is_point_within(point) == bool_expected

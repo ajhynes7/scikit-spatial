@@ -6,8 +6,9 @@ from typing import Tuple
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._functions import _mesh_to_points, np_float
+from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
+from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
@@ -15,7 +16,7 @@ from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
-class Sphere(_BaseSphere):
+class Sphere(_BaseSphere, _ToPointsMixin):
     """
     A sphere in 3D space.
 
@@ -296,49 +297,6 @@ class Sphere(_BaseSphere):
         Z = self.point[2] + self.radius * np.outer(cos_angles_a, np.ones_like(angles_b))
 
         return X, Y, Z
-
-    def to_points(self, n_angles: int = 30) -> Points:
-        """
-        Return points on the surface of the sphere.
-
-        Parameters
-        ----------
-        n_angles: int
-            Number of angles used to generate the points.
-
-        Returns
-        -------
-        Points
-            Points on the surface of the sphere.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Sphere
-
-        >>> sphere = Sphere([0, 0, 0], 1)
-
-        >>> sphere.to_points(n_angles=3).round().unique()
-        Points([[ 0., -1.,  0.],
-                [ 0.,  0., -1.],
-                [ 0.,  0.,  1.],
-                [ 0.,  1.,  0.]])
-
-        >>> sphere.to_points(n_angles=4).round(3).unique()
-        Points([[-0.75 , -0.433, -0.5  ],
-                [-0.75 , -0.433,  0.5  ],
-                [ 0.   ,  0.   , -1.   ],
-                [ 0.   ,  0.   ,  1.   ],
-                [ 0.   ,  0.866, -0.5  ],
-                [ 0.   ,  0.866,  0.5  ],
-                [ 0.75 , -0.433, -0.5  ],
-                [ 0.75 , -0.433,  0.5  ]])
-
-        """
-        X, Y, Z = self.to_mesh(n_angles)
-
-        points = _mesh_to_points(X, Y, Z)
-
-        return Points(points)
 
     def plot_3d(self, ax_3d: Axes3D, n_angles: int = 30, **kwargs) -> None:
         """

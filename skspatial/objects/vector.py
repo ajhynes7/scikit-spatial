@@ -651,6 +651,63 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
+    def different_direction(self, **kwargs: float) -> 'Vector':
+        """
+        Return a simple vector that is in a different direction.
+
+        This is useful for finding a vector perpendicular to the original,
+        by taking the cross product of the original with the one in a different direction.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_zero` and :meth:`Vector.is_parallel`.
+            :meth:`Vector.is_zero` is used to ensure the input vector is not the zero vector,
+            and :meth:`Vector.is_parallel` is used to ensure the new vector is not parallel to the input.
+
+        Returns
+        -------
+        Vector
+            A unit vector in a different direction from the original.
+
+        Raises
+        ------
+        ValueError
+            If the vector is the zero vector.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Vector
+
+        >>> Vector([1]).different_direction()
+        Vector([-1])
+        >>> Vector([100]).different_direction()
+        Vector([-1])
+        >>> Vector([-100]).different_direction()
+        Vector([1])
+        >>> Vector([1, 0]).different_direction()
+        Vector([0., 1.])
+        >>> Vector([1, 1]).different_direction()
+        Vector([1., 0.])
+        >>> Vector([1, 1, 1, 1]).different_direction()
+        Vector([1., 0., 0., 0.])
+
+        """
+        if self.is_zero(**kwargs):
+            raise ValueError("The vector must not be the zero vector.")
+
+        if self.dimension == 1:
+            return Vector([-np.sign(self[0])])
+
+        vector_different_direction = Vector(np.zeros(self.dimension))
+        vector_different_direction[0] = 1
+
+        if self.is_parallel(vector_different_direction, **kwargs):
+            vector_different_direction[0] = 0
+            vector_different_direction[1] = 1
+
+        return vector_different_direction
+
     def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 2D vector.

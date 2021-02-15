@@ -63,3 +63,48 @@ def test_unit(array, array_unit_expected):
 def test_is_zero(array, kwargs, bool_expected):
 
     assert Vector(array).is_zero(**kwargs) == bool_expected
+
+
+@pytest.mark.parametrize(
+    "array, array_expected",
+    [
+        ([1], [-1]),
+        ([5], [-1]),
+        ([-5], [1]),
+        ([0, 1], [1, 0]),
+        ([1, 0], [0, 1]),
+        ([2, 0], [0, 1]),
+        ([5, 0], [0, 1]),
+        ([0, 2], [1, 0]),
+        ([0, 5], [1, 0]),
+        ([0, 0, 1], [1, 0, 0]),
+        ([1, 0, 0], [0, 1, 0]),
+        ([1, 0, 1], [1, 0, 0]),
+        ([1, 1, 0], [1, 0, 0]),
+        ([0, 0, 1, 1], [1, 0, 0, 0]),
+        ([5, 0, 1, 1], [1, 0, 0, 0]),
+    ],
+)
+def test_different_direction(array, array_expected):
+
+    vector = Vector(array)
+    vector_expected = Vector(array_expected)
+
+    assert vector.different_direction().is_equal(vector_expected)
+
+
+@pytest.mark.parametrize(
+    "array",
+    [
+        ([0]),
+        ([0] * 2),
+        ([0] * 3),
+        ([0] * 4),
+    ],
+)
+def test_different_direction_failure(array):
+
+    message_expected = "The vector must not be the zero vector."
+
+    with pytest.raises(ValueError, match=message_expected):
+        Vector(array).different_direction()
