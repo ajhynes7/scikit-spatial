@@ -21,6 +21,24 @@ def test_failure(point, vector, radius, message_expected):
 
 
 @pytest.mark.parametrize(
+    "array_a, array_b, radius, cylinder_expected",
+    [
+        ([0, 0, 0], [0, 0, 1], 1, Cylinder([0, 0, 0], [0, 0, 1], 1)),
+        ([0, 0, 1], [0, 0, 2], 1, Cylinder([0, 0, 1], [0, 0, 1], 1)),
+        ([0, 0, 0], [1, 1, 1], 1, Cylinder([0, 0, 0], [1, 1, 1], 1)),
+        ([2, 2, 2], [1, 1, 1], 5, Cylinder([2, 2, 2], [-1, -1, -1], 5)),
+    ],
+)
+def test_from_points(array_a, array_b, radius, cylinder_expected):
+
+    cylinder_from_points = Cylinder.from_points(array_a, array_b, radius)
+
+    assert cylinder_from_points.vector.is_close(cylinder_expected.vector)
+    assert cylinder_from_points.point.is_close(cylinder_expected.point)
+    assert cylinder_from_points.radius == cylinder_expected.radius
+
+
+@pytest.mark.parametrize(
     "cylinder, length_expected, volume_expected",
     [
         (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, pi),
