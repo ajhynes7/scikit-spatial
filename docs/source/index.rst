@@ -58,7 +58,6 @@ Contents
    :maxdepth: 1
 
    objects/toc
-   computations/toc
    plotting
    gallery/index
    api_reference/toc
