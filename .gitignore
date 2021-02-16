@@ -11,3 +11,5 @@ docs/source/api_reference/*/
 docs/source/computations/*/
 docs/source/gallery/
 htmlcov/
+
+!.github/
