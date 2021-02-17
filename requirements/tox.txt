@@ -1,0 +1,2 @@
+tox==3.22.0
+tox-gh-actions==2.4.0
