@@ -1,10 +1,10 @@
 """Test functionality of objects based on a single 1D NumPy array (Point and Vector)."""
-
 import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-from skspatial.objects import Point, Vector
+from skspatial.objects import Point
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize("array", [[1, 0], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]])

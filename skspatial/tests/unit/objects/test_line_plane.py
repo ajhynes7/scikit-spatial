@@ -1,8 +1,8 @@
 """Test features related to both the Line and Plane."""
-
 import pytest
 
-from skspatial.objects import Line, Plane
+from skspatial.objects import Line
+from skspatial.objects import Plane
 
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])

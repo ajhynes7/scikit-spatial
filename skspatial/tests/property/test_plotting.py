@@ -1,8 +1,10 @@
 from hypothesis import given
-from hypothesis.strategies import integers, tuples
+from hypothesis.strategies import integers
+from hypothesis.strategies import tuples
 
 from .constants import ATOL
-from .strategies import planes, spheres
+from .strategies import planes
+from .strategies import spheres
 
 
 limits = tuples(integers(-10, 10), integers(-10, 10))

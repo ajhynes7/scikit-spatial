@@ -5,7 +5,8 @@
 Fit a line to multiple 2D points.
 
 """
-from skspatial.objects import Points, Line
+from skspatial.objects import Line
+from skspatial.objects import Points
 from skspatial.plotting import plot_2d
 
 

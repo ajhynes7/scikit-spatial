@@ -1,10 +1,10 @@
 """Module for private parent class of Line and Plane."""
-
 import inspect
 
 import numpy as np
 
-from skspatial._functions import _contains_point, _sum_squares
+from skspatial._functions import _contains_point
+from skspatial._functions import _sum_squares
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector

@@ -3,8 +3,14 @@ import math
 import numpy as np
 import pytest
 
-from skspatial.measurement import area_triangle, volume_tetrahedron
-from skspatial.objects import Point, Vector, Line, Plane, Circle, Sphere
+from skspatial.measurement import area_triangle
+from skspatial.measurement import volume_tetrahedron
+from skspatial.objects import Circle
+from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Point
+from skspatial.objects import Sphere
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(

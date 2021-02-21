@@ -1,10 +1,12 @@
 import hypothesis.strategies as st
 import numpy as np
-from hypothesis import assume, given
+from hypothesis import assume
+from hypothesis import given
 from numpy.testing import assert_array_almost_equal
 
 from .constants import ATOL
-from .strategies import lines, multi_points
+from .strategies import lines
+from .strategies import multi_points
 
 
 @given(st.data())

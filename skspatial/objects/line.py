@@ -1,5 +1,4 @@
 """Module for the Line class."""
-
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -8,7 +7,8 @@ from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _connect_points_2d, _connect_points_3d
+from skspatial.plotting import _connect_points_2d
+from skspatial.plotting import _connect_points_3d
 from skspatial.transformation import transform_coordinates
 from skspatial.typing import array_like
 

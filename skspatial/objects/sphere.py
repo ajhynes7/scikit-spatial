@@ -1,5 +1,4 @@
 """Module for the Sphere class."""
-
 import math
 from typing import Tuple
 

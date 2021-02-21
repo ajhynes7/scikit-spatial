@@ -1,5 +1,4 @@
 """Module for the Cylinder class."""
-
 from typing import Tuple
 
 import numpy as np

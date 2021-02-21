@@ -1,5 +1,4 @@
 """Package containing spatial objects."""
-
 from skspatial.objects.circle import Circle
 from skspatial.objects.cylinder import Cylinder
 from skspatial.objects.line import Line

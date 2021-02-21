@@ -1,7 +1,15 @@
 import numpy as np
 import pytest
 
-from skspatial.objects import Point, Vector, Points, Line, Plane, Circle, Sphere, Triangle, Cylinder
+from skspatial.objects import Circle
+from skspatial.objects import Cylinder
+from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Point
+from skspatial.objects import Points
+from skspatial.objects import Sphere
+from skspatial.objects import Triangle
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(

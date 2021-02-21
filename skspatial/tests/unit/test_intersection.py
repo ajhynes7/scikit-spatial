@@ -3,7 +3,10 @@ import math
 import numpy as np
 import pytest
 
-from skspatial.objects import Line, Plane, Circle, Sphere
+from skspatial.objects import Circle
+from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Sphere
 
 
 @pytest.mark.parametrize(

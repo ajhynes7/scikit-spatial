@@ -2,11 +2,18 @@ import math
 
 import hypothesis.strategies as st
 import pytest
-from hypothesis import assume, given
+from hypothesis import assume
+from hypothesis import given
 
+from .constants import ATOL
+from .constants import DIM_MAX
+from .constants import DIM_MIN
+from .strategies import arrays_fixed
+from .strategies import circles
+from .strategies import lines
+from .strategies import planes
+from .strategies import spheres
 from skspatial.objects import Vector
-from .constants import ATOL, DIM_MIN, DIM_MAX
-from .strategies import arrays_fixed, circles, lines, planes, spheres
 
 
 @pytest.mark.parametrize('lines_or_planes', [lines, planes])

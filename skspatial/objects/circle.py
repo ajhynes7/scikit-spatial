@@ -1,5 +1,4 @@
 """Module for the Circle class."""
-
 import math
 from typing import Tuple
 

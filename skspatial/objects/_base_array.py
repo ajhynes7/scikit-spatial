@@ -1,6 +1,7 @@
 """Private base classes for arrays."""
-
-from typing import TypeVar, Type, cast
+from typing import cast
+from typing import Type
+from typing import TypeVar
 
 import numpy as np
 

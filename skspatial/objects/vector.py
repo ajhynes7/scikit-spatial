@@ -1,5 +1,4 @@
 """Module for the Vector class."""
-
 import math
 from typing import cast
 

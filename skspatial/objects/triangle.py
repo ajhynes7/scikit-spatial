@@ -1,5 +1,4 @@
 """Module for the Triangle class."""
-
 import math
 from itertools import combinations
 from typing import Sequence

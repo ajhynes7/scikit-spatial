@@ -1,6 +1,6 @@
 """Mixin classes."""
-
-from typing import Callable, Tuple
+from typing import Callable
+from typing import Tuple
 
 import numpy as np
 

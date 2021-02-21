@@ -1,8 +1,8 @@
 """Private functions for some spatial computations."""
-
 import math
 from functools import wraps
-from typing import Any, Callable
+from typing import Any
+from typing import Callable
 
 import numpy as np
 

@@ -1,9 +1,14 @@
 from dataclasses import dataclass
-from math import atan, degrees, isclose, radians, sqrt
+from math import atan
+from math import degrees
+from math import isclose
+from math import radians
+from math import sqrt
 
 import pytest
 
-from skspatial.objects import Line, Triangle
+from skspatial.objects import Line
+from skspatial.objects import Triangle
 from skspatial.typing import array_like
 
 

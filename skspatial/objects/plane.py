@@ -1,6 +1,6 @@
 """Module for the Plane class."""
-
-from typing import Tuple, cast
+from typing import cast
+from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D

@@ -1,5 +1,4 @@
 """Measurements using spatial objects."""
-
 import numpy as np
 
 from skspatial.objects import Vector

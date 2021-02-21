@@ -2,11 +2,18 @@ import math
 
 import numpy as np
 import pytest
-from hypothesis import assume, given
+from hypothesis import assume
+from hypothesis import given
 
-from skspatial.objects import Point, Vector
 from ..constants import ATOL
-from ..strategies import consistent_dim, arrays_fixed, arrays_fixed_nonzero, arrays, arrays_nonzero, floats
+from ..strategies import arrays
+from ..strategies import arrays_fixed
+from ..strategies import arrays_fixed_nonzero
+from ..strategies import arrays_nonzero
+from ..strategies import consistent_dim
+from ..strategies import floats
+from skspatial.objects import Point
+from skspatial.objects import Vector
 
 
 @given(consistent_dim(2 * [arrays_fixed]))

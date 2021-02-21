@@ -1,9 +1,14 @@
 import hypothesis.strategies as st
-from hypothesis import assume, given
+from hypothesis import assume
+from hypothesis import given
 
-from skspatial.objects import Points, Line, Plane
 from .constants import ATOL
-from .strategies import arrays_fixed, lines, planes
+from .strategies import arrays_fixed
+from .strategies import lines
+from .strategies import planes
+from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Points
 
 
 @given(st.data())

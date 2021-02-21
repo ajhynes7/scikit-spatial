@@ -1,4 +1,6 @@
-from math import isclose, sqrt, pi
+from math import isclose
+from math import pi
+from math import sqrt
 
 import pytest
 

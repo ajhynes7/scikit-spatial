@@ -1,6 +1,6 @@
 """Private functions used for plotting spatial objects with Matplotlib."""
-
-from typing import Callable, Tuple
+from typing import Callable
+from typing import Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np

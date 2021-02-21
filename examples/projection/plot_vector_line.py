@@ -5,7 +5,8 @@
 Project a vector onto a line.
 
 """
-from skspatial.objects import Vector, Line
+from skspatial.objects import Line
+from skspatial.objects import Vector
 from skspatial.plotting import plot_3d
 
 
