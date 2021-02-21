@@ -1,6 +1,6 @@
 """The setup script."""
-
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 with open('README.rst') as file_readme:
     readme = file_readme.read()
@@ -14,7 +14,6 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -24,13 +23,15 @@ setup(
     long_description=readme,
     name='scikit-spatial',
     keywords='scikit-spatial',
-    packages=find_packages(exclude=['tests*']),
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     package_data={
         'skspatial': ['py.typed'],  # Needed for distributing type annotations.
     },
+    python_requires='>3.7',
     install_requires=[
-        'matplotlib>=3.3',
-        'numpy==1.19.*',
+        'matplotlib>=3,<4',
+        'numpy>=1.20,<2',
     ],
     setup_requires=['wheel'],
     include_package_data=True,
