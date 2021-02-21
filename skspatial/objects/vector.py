@@ -211,39 +211,6 @@ class Vector(_BaseArray1D):
         """
         return math.isclose(self.dot(self), 0, **kwargs)
 
-    def dot(self, other: array_like) -> np.float64:
-        """
-        Return the dot product with another vector.
-
-        Parameters
-        ----------
-        other : array_like
-             Other vector.
-
-        Returns
-        -------
-        {int, float}
-            Dot product of the vectors.
-
-        Examples
-        --------
-        >>> from skspatial.objects import Vector
-
-        >>> Vector([1, 0]).dot([0, 1])
-        0
-
-        >>> Vector([1, 0]).dot([1, 1])
-        1
-
-        >>> Vector([1.5, 5.3, 3]).dot([-10, 8, 2])
-        33.4
-
-        >>> Vector([1, 2, 3, 4, 5]).dot([-1, -2, -3, -4, -5])
-        -55
-
-        """
-        return np.dot(self, other)
-
     def cross(self, other: array_like) -> 'Vector':
         """
         Compute the cross product with another vector.
@@ -333,7 +300,9 @@ class Vector(_BaseArray1D):
 
         # Ensure that the output is in the range [-1, 1],
         # so that the angle theta is defined.
-        return np.clip(cos_theta, -1, 1)
+        clipped = np.clip(cos_theta, -1, 1)
+
+        return np.float64(clipped)
 
     @np_float
     def angle_between(self, other: array_like) -> float:
@@ -616,7 +585,9 @@ class Vector(_BaseArray1D):
         -10.0
 
         """
-        return self.unit().dot(other)
+        result = self.unit().dot(other)
+
+        return np.float64(result)
 
     def project_vector(self, other: array_like) -> 'Vector':
         """

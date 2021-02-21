@@ -14,7 +14,6 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
@@ -28,14 +27,15 @@ setup(
     package_data={
         'skspatial': ['py.typed'],  # Needed for distributing type annotations.
     },
+    python_requires='>3.7',
     install_requires=[
-        'matplotlib>=3.3',
-        'numpy==1.19.*',
+        'matplotlib>=3,<4',
+        'numpy>=1.20,<2',
     ],
     setup_requires=['wheel'],
     include_package_data=True,
     license="BSD license",
     url='https://github.com/ajhynes7/scikit-spatial',
-    version='5.2.0',
+    version='6.0.0',
     zip_safe=False,
 )

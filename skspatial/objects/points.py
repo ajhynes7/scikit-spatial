@@ -1,5 +1,7 @@
 """Module for the Points class."""
 
+from typing import cast
+
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -106,7 +108,9 @@ class Points(_BaseArray2D):
         Point([1.5, 2. , 3. ])
 
         """
-        return Point(self.mean(axis=0))
+        centroid_ = cast(np.ndarray, self.mean(axis=0))
+
+        return Point(centroid_)
 
     def mean_center(self, return_centroid: bool = False):
         """

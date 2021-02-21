@@ -5,7 +5,6 @@ from typing import Tuple
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
-from skspatial._functions import np_float
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
@@ -177,8 +176,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         """
         return self.vector.norm()
 
-    @np_float
-    def volume(self) -> float:
+    def volume(self) -> np.float64:
         r"""
         Return the volume of the cylinder.
 

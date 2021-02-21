@@ -1,6 +1,6 @@
 """Module for the Plane class."""
 
-from typing import Tuple
+from typing import Tuple, cast
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -226,6 +226,12 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         a, b, c = self.normal.set_dimension(3)
 
         d = -self.normal.dot(self.point)
+
+        # Type casting to satisfy mypy.
+        a = cast(np.number, a)
+        b = cast(np.number, b)
+        c = cast(np.number, c)
+        d = cast(np.number, d)
 
         return a, b, c, d
 

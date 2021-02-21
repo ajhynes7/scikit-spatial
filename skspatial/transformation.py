@@ -7,9 +7,7 @@ import numpy as np
 from skspatial.typing import array_like
 
 
-def transform_coordinates(
-    points: array_like, point_origin: array_like, vectors_basis: Sequence[array_like]
-) -> np.ndarray:
+def transform_coordinates(points: array_like, point_origin: array_like, vectors_basis: Sequence) -> np.ndarray:
     """
     Transform points into a new coordinate system.
 

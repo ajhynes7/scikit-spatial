@@ -1,6 +1,6 @@
 """Private base classes for arrays."""
 
-from typing import TypeVar, Type
+from typing import TypeVar, Type, cast
 
 import numpy as np
 
@@ -132,7 +132,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         """
         return np.array_equal(self, other)
 
-    def round(self: Array, decimals: int = 0, out: np.ndarray = None) -> Array:  # noqa A003
+    def round(self, decimals: int = 0) -> Array:  # type: ignore[override]  # noqa: A003
         """
         Round the array to the given number of decimals.
 
@@ -140,15 +140,19 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
         Examples
         --------
-        >>> from skspatial.objects import Vector
+        >>> from skspatial.objects import Point, Vector
 
         >>> Vector([1, 1, 1]).unit().round(3)
         Vector([0.577, 0.577, 0.577])
 
-        """
-        array_rounded = np.array(self).round(decimals, out)
+        >>> Point([1, 2, 3.532]).round(2)
+        Point([1.  , 2.  , 3.53])
 
-        return self.__class__(array_rounded)
+        """
+        result = np.around(self, decimals=decimals, out=self)
+        result = cast(Array, result)
+
+        return result
 
 
 class _BaseArray1D(_BaseArray):
