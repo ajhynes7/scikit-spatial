@@ -23,7 +23,8 @@ setup(
     long_description=readme,
     name='scikit-spatial',
     keywords='scikit-spatial',
-    packages=find_packages(exclude=['tests*']),
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     package_data={
         'skspatial': ['py.typed'],  # Needed for distributing type annotations.
     },

@@ -35,4 +35,4 @@ repos:
       hooks:
           - id: pydocstyle
             args: [--convention=numpy, "--add-ignore=D104,D105"]
-            exclude: skspatial/tests|examples|conf.py
+            exclude: tests|examples|conf.py
