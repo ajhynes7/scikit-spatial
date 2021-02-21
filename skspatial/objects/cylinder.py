@@ -103,10 +103,10 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         if self.vector.is_zero():
             raise ValueError("The vector must not be the zero vector.")
 
-        self.radius = radius
-
-        if not self.radius > 0:
+        if not radius > 0:
             raise ValueError("The radius must be positive.")
+
+        self.radius = radius
 
         self.dimension = self.point.dimension
 
