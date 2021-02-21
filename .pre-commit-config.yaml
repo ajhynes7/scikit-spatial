@@ -30,6 +30,7 @@ repos:
                 - flake8-comprehensions==3.3.0
                 - flake8-eradicate==1.0.0
                 - flake8-rst-docstrings==0.0.14
+                - flake8-unused-arguments==0.0.6
     - repo: https://github.com/PyCQA/pydocstyle
       rev: 5.1.1
       hooks:
