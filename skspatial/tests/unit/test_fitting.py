@@ -84,7 +84,7 @@ def test_best_fit_line(points, line_expected):
             [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
             Plane([0.25, 0.25, 0.25], [1, 1, 1]),
         ),
-        pytest.param(
+        (
             [
                 [0, 0, 0],
                 [0, 0, 1],
@@ -96,7 +96,6 @@ def test_best_fit_line(points, line_expected):
                 [1, 1, 1],
             ],
             Plane([0.5, 0.5, 0.5], [0, 1, 0]),
-            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
         ),
     ],
 )
@@ -129,15 +128,13 @@ def test_best_fit_line_failure(points):
     [
         ([[0, 0], [1, 0]], "The points must be 3D."),
         ([[0, 0], [2, 5]], "The points must be 3D."),
-        pytest.param(
+        (
             [[0, 0, 0], [1, 1, 1], [2, 2, 2]],
             "The points must not be collinear.",
-            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
         ),
-        pytest.param(
+        (
             [[0, 0, 0], [1, 1, 1], [-10, -10, -10]],
             "The points must not be collinear.",
-            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
         ),
     ],
 )
