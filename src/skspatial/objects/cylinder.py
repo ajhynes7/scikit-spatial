@@ -1,8 +1,11 @@
 """Module for the Cylinder class."""
+from __future__ import annotations
+
 from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+from skspatial._functions import _solve_quadratic
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
@@ -251,6 +254,98 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         within_planes = distance_point_signed <= self.length() and distance_point_signed >= 0
 
         return within_radius and within_planes
+
+    def intersect_line(self, line: Line, n_digits: int | None = None) -> Tuple[Point, Point]:
+        """
+        Intersect the cylinder with a 3D line.
+
+        This method treats the cylinder as infinite along its axis (i.e., without caps).
+
+        Parameters
+        ----------
+        line : Line
+            Input 3D line.
+        n_digits : int, optional
+            Additional keywords passed to :func:`round`.
+            This is used to round the coefficients of the quadratic equation.
+
+        Returns
+        -------
+        point_a, point_b: Point
+            The two intersection points of the line
+            with the infinite cylinder, if they exist.
+
+        Raises
+        ------
+        ValueError
+            If the line is not 3D,
+            or if it does not intersect the cylinder at one or two points.
+
+        References
+        ----------
+        https://mrl.cs.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3.pdf
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line, Cylinder
+
+        >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
+        >>> line = Line([0, 0, 0], [1, 0, 0])
+
+        >>> cylinder.intersect_line(line)
+        (Point([-1.,  0.,  0.]), Point([1., 0., 0.]))
+
+        >>> line = Line([1, 2, 3], [1, 2, 3])
+
+        >>> point_a, point_b = cylinder.intersect_line(line)
+
+        >>> point_a.round(3)
+        Point([-0.447, -0.894, -1.342])
+        >>> point_b.round(3)
+        Point([0.447, 0.894, 1.342])
+
+        >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
+
+        >>> cylinder.intersect_line(Line([0, 0], [1, 2]))
+        Traceback (most recent call last):
+        ...
+        ValueError: The line must be 3D.
+
+        >>> cylinder.intersect_line(Line([0, 0, 2], [0, 0, 1]))
+        Traceback (most recent call last):
+        ...
+        ValueError: The line does not intersect the cylinder.
+
+        >>> cylinder.intersect_line(Line([2, 0, 0], [0, 1, 1]))
+        Traceback (most recent call last):
+        ...
+        ValueError: The line does not intersect the cylinder.
+
+        """
+        if line.dimension != 3:
+            raise ValueError("The line must be 3D.")
+
+        p_c = self.point
+        v_c = self.vector.unit()
+        r = self.radius
+
+        p_l = line.point
+        v_l = line.vector.unit()
+
+        delta_p = Vector.from_points(p_c, p_l)
+
+        a = (v_l - v_l.dot(v_c) * v_c).norm() ** 2
+        b = 2 * (v_l - v_l.dot(v_c) * v_c).dot(delta_p - delta_p.dot(v_c) * v_c)
+        c = (delta_p - delta_p.dot(v_c) * v_c).norm() ** 2 - r ** 2
+
+        try:
+            X = _solve_quadratic(a, b, c, n_digits=n_digits)
+        except ValueError:
+            raise ValueError("The line does not intersect the cylinder.")
+
+        point_a, point_b = p_l + X.reshape(-1, 1) * v_l
+
+        return point_a, point_b
 
     def to_mesh(self, n_along_axis: int = 100, n_angles: int = 30) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """

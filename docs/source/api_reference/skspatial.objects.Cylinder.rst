@@ -11,6 +11,7 @@ Methods
    :toctree: Cylinder/methods
 
    ~skspatial.objects.Cylinder.from_points
+   ~skspatial.objects.Cylinder.intersect_line
    ~skspatial.objects.Cylinder.is_point_within
    ~skspatial.objects.Cylinder.length
    ~skspatial.objects.Cylinder.plot_3d
