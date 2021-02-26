@@ -17,7 +17,6 @@ from skspatial.objects import Vector
     [
         (Point([0]), "Point([0])"),
         (Point([0, 0]), "Point([0, 0])"),
-        (Point([0, 0]), "Point([0, 0])"),
         (Point([0.5, 0]), "Point([0.5, 0. ])"),
         (Point([-11, 0]), "Point([-11,   0])"),
         (Vector([-11, 0]), "Vector([-11,   0])"),
