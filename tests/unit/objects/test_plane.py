@@ -5,7 +5,7 @@ from skspatial.objects.plane import Plane
 
 
 @pytest.mark.parametrize(
-    "point_a, point_b, point_c, plane_expected",
+    ("point_a", "point_b", "point_c", "plane_expected"),
     [
         ([0, 0], [1, 0], [0, 1], Plane([0, 0, 0], [0, 0, 1])),
         # The spacing between the points is irrelevant.
@@ -25,7 +25,7 @@ def test_from_points(point_a, point_b, point_c, plane_expected):
 
 
 @pytest.mark.parametrize(
-    "point_a, point_b, point_c",
+    ("point_a", "point_b", "point_c"),
     [
         # The points cannot be collinear.
         ([0, 0], [0, 0], [0, 0]),
@@ -42,7 +42,7 @@ def test_from_points_failure(point_a, point_b, point_c):
 
 
 @pytest.mark.parametrize(
-    "plane, coeffs_expected",
+    ("plane", "coeffs_expected"),
     [
         (Plane([-1, 2], [22, -3]), [22, -3, 0, 28]),
         (Plane([0, 0, 0], [0, 0, 1]), [0, 0, 1, 0]),

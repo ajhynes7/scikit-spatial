@@ -13,7 +13,7 @@ from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(
-    "obj_spatial, repr_expected",
+    ("obj_spatial", "repr_expected"),
     [
         (Point([0]), "Point([0])"),
         (Point([0, 0]), "Point([0, 0])"),

@@ -12,7 +12,7 @@ from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(
-    "array_u, array_v, bool_expected",
+    ("array_u", "array_v", "bool_expected"),
     [
         ([1, 0], [0, 1], True),
         ([0, 1], [-1, 0], True),
@@ -33,7 +33,7 @@ def test_is_perpendicular(array_u, array_v, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "array_u, array_v, bool_expected",
+    ("array_u", "array_v", "bool_expected"),
     [
         ([0, 1], [0, 1], True),
         ([1, 0], [0, 1], False),
@@ -61,7 +61,7 @@ def test_is_parallel(array_u, array_v, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, value_expected",
+    ("array_a", "array_b", "value_expected"),
     [
         ([0, 1], [0, 1], 0),
         ([0, 1], [0, 9], 0),
@@ -91,7 +91,7 @@ def test_side_vector(array_a, array_b, value_expected):
 
 
 @pytest.mark.parametrize(
-    "line, point, value_expected",
+    ("line", "point", "value_expected"),
     [
         (Line([0, 0], [0, 1]), [0, 0], 0),
         (Line([0, 0], [0, 1]), [1, 0], 1),
@@ -109,7 +109,7 @@ def test_side_point_line(line, point, value_expected):
 
 
 @pytest.mark.parametrize(
-    "plane, point, value_expected",
+    ("plane", "point", "value_expected"),
     [
         (Plane([0, 0], [1, 1]), [2, 2], 1),
         (Plane([0, 0], [1, 1]), [0, 0], 0),
@@ -131,7 +131,7 @@ def test_side_point_plane(plane, point, value_expected):
 
 
 @pytest.mark.parametrize(
-    "points, bool_expected",
+    ("points", "bool_expected"),
     [
         ([[0, 0], [0, 0], [0, 0]], True),
         ([[1, 0], [1, 0], [1, 0]], True),
@@ -152,7 +152,7 @@ def test_are_collinear(points, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "line_a, line_b, bool_expected",
+    ("line_a", "line_b", "bool_expected"),
     [
         (Line([0, 0], [1, 1]), Line([0, 0], [0, 1]), True),
         (Line([-6, 7], [5, 90]), Line([1, 4], [-4, 5]), True),
@@ -174,7 +174,7 @@ def test_is_coplanar(line_a, line_b, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "circle, point, bool_expected",
+    ("circle", "point", "bool_expected"),
     [
         (Circle([0, 0], 1), [1, 0], True),
         (Circle([0, 0], 1), [0, 1], True),
@@ -193,7 +193,7 @@ def test_circle_contains_point(circle, point, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "sphere, point, bool_expected",
+    ("sphere", "point", "bool_expected"),
     [
         (Sphere([0, 0, 0], 1), [1, 0, 0], True),
         (Sphere([0, 0, 0], 1), [0, 1, 0], True),
@@ -214,7 +214,7 @@ def test_sphere_contains_point(sphere, point, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "cylinder, point, bool_expected",
+    ("cylinder", "point", "bool_expected"),
     [
         (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 0], True),
         (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 1], True),

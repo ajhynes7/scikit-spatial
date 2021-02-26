@@ -7,7 +7,7 @@ from skspatial.objects import Plane
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])
 @pytest.mark.parametrize(
-    "point, vector", [([0, 0], [0, 0]), ([1, 1], [0, 0]), ([1, 1, 1], [0, 0, 0]), ([4, 5, 2, 3], [0, 0, 0, 0])]
+    ("point", "vector"), [([0, 0], [0, 0]), ([1, 1], [0, 0]), ([1, 1, 1], [0, 0, 0]), ([4, 5, 2, 3], [0, 0, 0, 0])]
 )
 def test_zero_vector_failure(class_spatial, point, vector):
 
@@ -16,7 +16,7 @@ def test_zero_vector_failure(class_spatial, point, vector):
 
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])
-@pytest.mark.parametrize("point, vector", [([0, 0, 1], [1, 1]), ([0, 0], [1]), ([1], [0, 1])])
+@pytest.mark.parametrize(("point", "vector"), [([0, 0, 1], [1, 1]), ([0, 0], [1]), ([1], [0, 1])])
 def test_dimension_failure(class_spatial, point, vector):
 
     with pytest.raises(ValueError, match="The point and vector must have the same dimension."):
@@ -24,7 +24,7 @@ def test_dimension_failure(class_spatial, point, vector):
 
 
 @pytest.mark.parametrize(
-    "obj_1, obj_2, bool_expected",
+    ("obj_1", "obj_2", "bool_expected"),
     [
         (Line([0, 0], [1, 0]), Line([0, 0], [1, 0]), True),
         (Line([0, 0], [1, 0]), Line([1, 0], [1, 0]), True),

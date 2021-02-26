@@ -5,7 +5,7 @@ from skspatial.objects import Line
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, line_expected",
+    ("array_a", "array_b", "line_expected"),
     [
         ([0, 0], [1, 0], Line([0, 0], [1, 0])),
         ([0, 0], [1, 1], Line([0, 0], [1, 1])),
@@ -21,7 +21,7 @@ def test_from_points(array_a, array_b, line_expected):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b",
+    ("array_a", "array_b"),
     [
         # The zero vector cannot be used.
         ([0, 0], [0, 0]),
@@ -37,7 +37,7 @@ def test_from_points_failure(array_a, array_b):
 
 
 @pytest.mark.parametrize(
-    "slope, y_intercept, line_expected",
+    ("slope", "y_intercept", "line_expected"),
     [
         (0, 0, Line([0, 0], [1, 0])),
         (0, 1, Line([0, 1], [1, 0])),
@@ -56,7 +56,7 @@ def test_from_slope(slope, y_intercept, line_expected):
 
 
 @pytest.mark.parametrize(
-    "line, param, array_expected",
+    ("line", "param", "array_expected"),
     [
         (Line([0, 0], [1, 0]), 0, [0, 0]),
         (Line([0, 0], [1, 0]), 1, [1, 0]),

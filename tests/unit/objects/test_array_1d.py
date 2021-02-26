@@ -24,7 +24,9 @@ def test_failure(class_spatial, array):
 
 
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
-@pytest.mark.parametrize("array, dim_expected", [([0, 0], 2), ([0, 0, 0], 3), ([0, 0, 0, 0], 4), ([-6, 3, 8, 9], 4)])
+@pytest.mark.parametrize(
+    ("array", "dim_expected"), [([0, 0], 2), ([0, 0, 0], 3), ([0, 0, 0, 0], 4), ([-6, 3, 8, 9], 4)]
+)
 def test_dimension(class_spatial, array, dim_expected):
 
     object_spatial = class_spatial(array)
@@ -33,7 +35,7 @@ def test_dimension(class_spatial, array, dim_expected):
 
 @pytest.mark.parametrize("class_spatial", [Point, Vector])
 @pytest.mark.parametrize(
-    "array, dim, array_expected",
+    ("array", "dim", "array_expected"),
     [
         ([0, 0], 2, [0, 0]),
         ([0, 0], 3, [0, 0, 0]),

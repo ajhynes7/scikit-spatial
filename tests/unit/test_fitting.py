@@ -10,7 +10,7 @@ from skspatial.objects import Sphere
 
 
 @pytest.mark.parametrize(
-    "line, points, error_expected",
+    ("line", "points", "error_expected"),
     [
         (Line([0, 0], [1, 0]), [[0, 0], [10, 0]], 0),
         (Line([0, 0], [5, 0]), [[0, 0], [0, 1]], 1),
@@ -27,7 +27,7 @@ def test_sum_squares_line(line, points, error_expected):
 
 
 @pytest.mark.parametrize(
-    "plane, points, error_expected",
+    ("plane", "points", "error_expected"),
     [
         (Plane([0, 0, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
         (Plane([25, 9, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
@@ -44,7 +44,7 @@ def test_sum_squares_plane(plane, points, error_expected):
 
 
 @pytest.mark.parametrize(
-    "points, line_expected",
+    ("points", "line_expected"),
     [
         ([[0, 0], [1, 0]], Line([0.5, 0], [1, 0])),
         ([[1, 0], [0, 0]], Line([0.5, 0], [-1, 0])),
@@ -64,7 +64,7 @@ def test_best_fit_line(points, line_expected):
 
 
 @pytest.mark.parametrize(
-    "points, plane_expected",
+    ("points", "plane_expected"),
     [
         # The points are coplanar.
         ([[0, 0], [1, 1], [0, 2]], Plane([1 / 3, 1, 0], [0, 0, 1])),
@@ -128,7 +128,7 @@ def test_best_fit_line_failure(points):
 
 
 @pytest.mark.parametrize(
-    "points, message_expected",
+    ("points", "message_expected"),
     [
         ([[0, 0], [1, 0]], "The points must be 3D."),
         ([[0, 0], [2, 5]], "The points must be 3D."),
@@ -151,7 +151,7 @@ def test_best_fit_plane_failure(points, message_expected):
 
 
 @pytest.mark.parametrize(
-    "points, sphere_expected",
+    ("points", "sphere_expected"),
     [
         ([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, 0, 1]], Sphere(point=[0, 0, 0], radius=1)),
         ([[2, 0, 0], [-2, 0, 0], [0, 2, 0], [0, 0, 2]], Sphere(point=[0, 0, 0], radius=2)),
@@ -168,7 +168,7 @@ def test_best_fit_sphere(points, sphere_expected):
 
 
 @pytest.mark.parametrize(
-    "points, message_expected",
+    ("points", "message_expected"),
     [
         ([[1, 0], [-1, 0], [0, 1], [0, 0]], "The points must be 3D."),
         ([[2, 0, 0], [-2, 0, 0], [0, 2, 0]], "There must be at least 4 points."),

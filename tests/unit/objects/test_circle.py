@@ -7,27 +7,24 @@ from skspatial.objects import Circle
 
 
 @pytest.mark.parametrize(
-    "point, radius",
+    ("point", "radius"),
     [
         # The point must be 2D.
-        ([0], 1),
-        ([0, 0, 0], 1),
-        ([1, 2, 3], 1),
-        ([0, 0, 0, 0], 1),
-        # The radius must be positive.
-        ([0, 0], 0),
-        ([0, 0], -1),
-        ([0, 0], -5),
+        ([0, 0, 0], 1, "The point must be 2D"),
+        ([1, 2, 3], 1, "The point must be 2D"),
+        ([0, 0], 0, "The radius must be positive"),
+        ([0, 0], -1, "The radius must be positive"),
+        ([0, 0], -5, "The radius must be positive"),
     ],
 )
-def test_failure(point, radius):
+def test_failure(point, radius, message_expected):
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError, match=message_expected):
         Circle(point, radius)
 
 
 @pytest.mark.parametrize(
-    "radius, circumference_expected, area_expected",
+    ("radius", "circumference_expected", "area_expected"),
     [
         (1, 2 * np.pi, np.pi),
         (2, 4 * np.pi, 4 * np.pi),

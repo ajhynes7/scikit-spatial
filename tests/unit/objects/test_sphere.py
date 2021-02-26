@@ -7,7 +7,7 @@ from skspatial.objects import Sphere
 
 
 @pytest.mark.parametrize(
-    "point, radius",
+    ("point", "radius"),
     [
         # The point must be 3D.
         ([0], 1),
@@ -27,7 +27,7 @@ def test_failure(point, radius):
 
 
 @pytest.mark.parametrize(
-    "radius, surface_area_expected, volume_expected",
+    ("radius", "surface_area_expected", "volume_expected"),
     [
         (1, 4 * np.pi, 4 / 3 * np.pi),
         (2, 16 * np.pi, 32 / 3 * np.pi),

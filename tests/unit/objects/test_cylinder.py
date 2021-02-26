@@ -8,7 +8,7 @@ from skspatial.objects import Cylinder
 
 
 @pytest.mark.parametrize(
-    "point, vector, radius, message_expected",
+    ("point", "vector", "radius", "message_expected"),
     [
         ([0, 0], [1, 0, 0], 1, "The point must be 3D."),
         ([0, 0, 0], [1, 0], 1, "The vector must be 3D."),
@@ -23,7 +23,7 @@ def test_failure(point, vector, radius, message_expected):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, radius, cylinder_expected",
+    ("array_a", "array_b", "radius", "cylinder_expected"),
     [
         ([0, 0, 0], [0, 0, 1], 1, Cylinder([0, 0, 0], [0, 0, 1], 1)),
         ([0, 0, 1], [0, 0, 2], 1, Cylinder([0, 0, 1], [0, 0, 1], 1)),
@@ -41,7 +41,7 @@ def test_from_points(array_a, array_b, radius, cylinder_expected):
 
 
 @pytest.mark.parametrize(
-    "cylinder, length_expected, volume_expected",
+    ("cylinder", "length_expected", "volume_expected"),
     [
         (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, pi),
         (Cylinder([0, 0, 0], [0, 0, 1], 2), 1, 4 * pi),

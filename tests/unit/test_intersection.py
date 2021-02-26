@@ -12,7 +12,7 @@ from skspatial.objects import Sphere
 
 
 @pytest.mark.parametrize(
-    "line_a, line_b, array_expected",
+    ("line_a", "line_b", "array_expected"),
     [
         (Line([0, 0], [1, 0]), Line([0, 0], [1, 1]), [0, 0]),
         (Line([0, 0], [1, 0]), Line([5, 5], [1, 1]), [0, 0]),
@@ -28,7 +28,7 @@ def test_intersect_lines(line_a, line_b, array_expected):
 
 
 @pytest.mark.parametrize(
-    "line_a, line_b",
+    ("line_a", "line_b"),
     [
         (Line([0, 0], [1, 0]), Line([0, 0], [1, 0])),
         (Line([0, 0], [1, 0]), Line([5, 5], [1, 0])),
@@ -45,7 +45,7 @@ def test_intersect_lines_failure(line_a, line_b):
 
 
 @pytest.mark.parametrize(
-    "line, plane, array_expected",
+    ("line", "plane", "array_expected"),
     [
         (Line([0, 0, 0], [1, 0, 0]), Plane([0, 0, 0], [1, 0, 0]), [0, 0, 0]),
         (Line([0, 0, 0], [0, 0, 1]), Plane([0, 0, 0], [0, 0, 1]), [0, 0, 0]),
@@ -59,7 +59,7 @@ def test_intersect_line_plane(line, plane, array_expected):
 
 
 @pytest.mark.parametrize(
-    "line, plane",
+    ("line", "plane"),
     [
         (Line([0, 0, 0], [1, 0, 0]), Plane([0, 0, 0], [0, 0, 1])),
         (Line([0, 0, 0], [0, 0, 1]), Plane([0, 0, 0], [1, 0, 0])),
@@ -73,7 +73,7 @@ def test_intersect_line_plane_failure(line, plane):
 
 
 @pytest.mark.parametrize(
-    "plane_a, plane_b, line_expected",
+    ("plane_a", "plane_b", "line_expected"),
     [
         (
             Plane([0, 0, 0], [0, 0, 1]),
@@ -99,7 +99,7 @@ def test_intersect_planes(plane_a, plane_b, line_expected):
 
 
 @pytest.mark.parametrize(
-    "plane_a, plane_b",
+    ("plane_a", "plane_b"),
     [
         (Plane([0, 0, 0], [1, 0, 0]), Plane([0, 0, 0], [1, 0, 0])),
         (Plane([1, 0, 0], [1, 0, 0]), Plane([0, 0, 0], [1, 0, 0])),
@@ -114,7 +114,7 @@ def test_intersect_planes_failure(plane_a, plane_b):
 
 
 @pytest.mark.parametrize(
-    "circle, line, point_a_expected, point_b_expected",
+    ("circle", "line", "point_a_expected", "point_b_expected"),
     [
         (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),
         (Circle([0, 0], 1), Line([0, 0], [0, 1]), [0, -1], [0, 1]),
@@ -137,7 +137,7 @@ def test_intersect_circle_line(circle, line, point_a_expected, point_b_expected)
 
 
 @pytest.mark.parametrize(
-    "circle, line",
+    ("circle", "line"),
     [
         # The circle does not intersect the line.
         (Circle([0, 0], 1), Line([0, 2], [1, 0])),
@@ -154,7 +154,7 @@ def test_intersect_circle_line_failure(circle, line):
 
 
 @pytest.mark.parametrize(
-    "sphere, line, point_a_expected, point_b_expected",
+    ("sphere", "line", "point_a_expected", "point_b_expected"),
     [
         (Sphere([0, 0, 0], 1), Line([0, 0, 0], [1, 0, 0]), [-1, 0, 0], [1, 0, 0]),
         (
@@ -182,7 +182,7 @@ def test_intersect_sphere_line(sphere, line, point_a_expected, point_b_expected)
 
 
 @pytest.mark.parametrize(
-    "sphere, line",
+    ("sphere", "line"),
     [
         (Sphere([0, 0, 0], 1), Line([0, 0, 2], [1, 0, 0])),
         (Sphere([0, 0, 0], 1), Line([0, 0, -2], [1, 0, 0])),
@@ -198,7 +198,7 @@ def test_intersect_sphere_line_failure(sphere, line):
 
 
 @pytest.mark.parametrize(
-    "cylinder, line, array_expected_a, array_expected_b",
+    ("cylinder", "line", "array_expected_a", "array_expected_b"),
     [
         (
             Cylinder([0, 0, 0], [0, 0, 1], 1),
@@ -268,7 +268,7 @@ def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expecte
 
 
 @pytest.mark.parametrize(
-    "cylinder, line",
+    ("cylinder", "line"),
     [
         (
             Cylinder([0, 0, 0], [0, 0, 1], 1),

@@ -28,7 +28,7 @@ def test_failure(array):
 
 
 @pytest.mark.parametrize(
-    "points, dim_expected",
+    ("points", "dim_expected"),
     [
         (Points([[0, 0], [1, 1]]), 2),
         (Points([[0, 0], [0, 0], [0, 0]]), 2),
@@ -42,7 +42,7 @@ def test_dimension(points, dim_expected):
 
 
 @pytest.mark.parametrize(
-    "points, dim, points_expected",
+    ("points", "dim", "points_expected"),
     [
         (Points([[0, 0], [1, 1]]), 3, Points([[0, 0, 0], [1, 1, 0]])),
         (Points([[0, 0], [1, 1]]), 4, Points([[0, 0, 0, 0], [1, 1, 0, 0]])),

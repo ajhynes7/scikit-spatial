@@ -7,7 +7,7 @@ from skspatial.objects.sphere import Sphere
 
 
 @pytest.mark.parametrize(
-    "plane, points_expected",
+    ("plane", "points_expected"),
     [
         (Plane([0, 0, 0], [0, 0, 1]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
         (Plane([1, 0, 0], [0, 0, 1]), [[0, -1, 0], [2, -1, 0], [0, 1, 0], [2, 1, 0]]),
@@ -32,7 +32,7 @@ def test_plane_points(plane, points_expected):
 
 
 @pytest.mark.parametrize(
-    "sphere, n_angles, points_expected",
+    ("sphere", "n_angles", "points_expected"),
     [
         (Sphere([0, 0, 0], 1), 1, [[0, 0, 1]]),
         (Sphere([0, 0, 0], 1), 2, [[0, 0, -1], [0, 0, 1]]),
@@ -51,7 +51,7 @@ def test_sphere_points(sphere, n_angles, points_expected):
 
 
 @pytest.mark.parametrize(
-    "cylinder, n_along_axis, n_angles, points_expected",
+    ("cylinder", "n_along_axis", "n_angles", "points_expected"),
     [
         (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, 1, [[-1, 0, 0]]),
         (

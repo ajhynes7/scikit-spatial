@@ -9,7 +9,7 @@ from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(
-    "array_points, array_centered_expected, centroid_expected",
+    ("array_points", "array_centered_expected", "centroid_expected"),
     [
         ([[0, 1]], [[0, 0]], [0, 1]),
         ([[1, 1], [2, 2]], [[-0.5, -0.5], [0.5, 0.5]], [1.5, 1.5]),
@@ -32,7 +32,7 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
 
 
 @pytest.mark.parametrize(
-    "array_points, array_points_expected",
+    ("array_points", "array_points_expected"),
     [
         ([[0, 0], [1, 0]], [[0, 0], [1, 0]]),
         ([[0, 0], [1, 1]], [[0, 0], np.sqrt(2) / 2 * np.ones(2)]),
@@ -48,7 +48,7 @@ def test_normalize_distance(array_points, array_points_expected):
 
 
 @pytest.mark.parametrize(
-    "line, points, coords_expected",
+    ("line", "points", "coords_expected"),
     [
         (Line([0, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [1, 2, 3, 4]),
         # The point on the line acts as the origin.

@@ -7,7 +7,7 @@ from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, vector_expected",
+    ("array_a", "array_b", "vector_expected"),
     [
         ([0, 0], [1, 0], Vector([1, 0])),
         ([1, 0], [1, 0], Vector([0, 0])),
@@ -22,7 +22,7 @@ def test_from_points(array_a, array_b, vector_expected):
 
 
 @pytest.mark.parametrize(
-    "array, array_unit_expected",
+    ("array", "array_unit_expected"),
     [
         ([1, 0], [1, 0]),
         ([2, 0], [1, 0]),
@@ -48,7 +48,7 @@ def test_unit(array, array_unit_expected):
 
 
 @pytest.mark.parametrize(
-    "array, kwargs, bool_expected",
+    ("array", "kwargs", "bool_expected"),
     [
         ([0, 0], {}, True),
         ([0, 0, 0], {}, True),
@@ -66,7 +66,7 @@ def test_is_zero(array, kwargs, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "array, array_expected",
+    ("array", "array_expected"),
     [
         ([1], [-1]),
         ([5], [-1]),
