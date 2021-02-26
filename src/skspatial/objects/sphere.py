@@ -173,7 +173,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         if discriminant < 0:
             raise ValueError("The line does not intersect the sphere.")
 
-        pm = np.array([-1, 1])  # Array to compute plus/minus.
+        pm = np.array([-1, 1])  # Array to compute minus/plus.
         distances = -dot + pm * math.sqrt(discriminant)
 
         point_a, point_b = line.point + distances.reshape(-1, 1) * vector_unit

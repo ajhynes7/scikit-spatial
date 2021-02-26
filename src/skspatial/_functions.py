@@ -1,4 +1,6 @@
 """Private functions for some spatial computations."""
+from __future__ import annotations
+
 import math
 from functools import wraps
 from typing import Any
@@ -64,6 +66,69 @@ def np_float(func: Callable) -> Callable[..., np.float64]:
         return np.float64(func(*args))
 
     return wrapper
+
+
+def _solve_quadratic(a: float, b: float, c: float, n_digits: int | None = None) -> np.ndarray:
+    """
+    Solve a quadratic equation.
+
+    The equation has the form
+
+    .. math:: ax^2 + bx + c = 0
+
+    Parameters
+    ----------
+    a, b, c : float
+        Coefficients of the quadratic equation.
+    n_digits : int, optional
+        Additional keyword passed to :func:`round` (default None).
+
+    Returns
+    -------
+    np.ndarray
+        Array containing the two solutions to the quadratic.
+
+    Raises
+    ------
+    ValueError
+        If the discriminant is negative.
+
+    Examples
+    --------
+    >>> from skspatial._functions import _solve_quadratic
+
+    >>> _solve_quadratic(-1, 1, 1).round(3)
+    array([ 1.618, -0.618])
+
+    >>> _solve_quadratic(0, 1, 1)
+    Traceback (most recent call last):
+    ...
+    ValueError: The coefficient `a` must be non-zero.
+
+    >>> _solve_quadratic(1, 1, 1)
+    Traceback (most recent call last):
+    ...
+    ValueError: The discriminant must not be negative.
+
+    """
+    if n_digits:
+        a = round(a, n_digits)
+        b = round(b, n_digits)
+        c = round(c, n_digits)
+
+    if a == 0:
+        raise ValueError("The coefficient `a` must be non-zero.")
+
+    discriminant = b ** 2 - 4 * a * c
+
+    if discriminant < 0:
+        raise ValueError("The discriminant must not be negative.")
+
+    pm = np.array([-1, 1])  # Array to compute minus/plus.
+
+    X = (-b + pm * math.sqrt(discriminant)) / (2 * a)
+
+    return X
 
 
 _allclose = np.vectorize(math.isclose)

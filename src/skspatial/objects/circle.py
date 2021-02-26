@@ -218,7 +218,7 @@ class Circle(_BaseSphere):
 
         root = math.sqrt(discriminant)
 
-        pm = np.array([-1, 1])  # Array to compute plus/minus.
+        pm = np.array([-1, 1])  # Array to compute minus/plus.
         sign = -1 if d_y < 0 else 1
 
         coords_x = (determinant * d_y + pm * sign * d_x * root) / d_r_squared
