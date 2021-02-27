@@ -5,15 +5,15 @@ import pytest
 from hypothesis import assume
 from hypothesis import given
 
-from .constants import ATOL
-from .constants import DIM_MAX
-from .constants import DIM_MIN
-from .strategies import arrays_fixed
-from .strategies import circles
-from .strategies import lines
-from .strategies import planes
-from .strategies import spheres
 from skspatial.objects import Vector
+from tests.property.constants import ATOL
+from tests.property.constants import DIM_MAX
+from tests.property.constants import DIM_MIN
+from tests.property.strategies import arrays_fixed
+from tests.property.strategies import circles
+from tests.property.strategies import lines
+from tests.property.strategies import planes
+from tests.property.strategies import spheres
 
 
 @pytest.mark.parametrize('lines_or_planes', [lines, planes])

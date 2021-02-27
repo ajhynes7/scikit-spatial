@@ -2,13 +2,13 @@ import hypothesis.strategies as st
 from hypothesis import assume
 from hypothesis import given
 
-from .constants import ATOL
-from .strategies import arrays_fixed
-from .strategies import lines
-from .strategies import planes
 from skspatial.objects import Line
 from skspatial.objects import Plane
 from skspatial.objects import Points
+from tests.property.constants import ATOL
+from tests.property.strategies import arrays_fixed
+from tests.property.strategies import lines
+from tests.property.strategies import planes
 
 
 @given(st.data())

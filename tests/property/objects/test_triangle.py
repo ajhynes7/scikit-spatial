@@ -1,6 +1,6 @@
 from hypothesis import given
 
-from ..strategies import triangles
+from tests.property.strategies import triangles
 
 
 @given(triangles(2))

@@ -5,15 +5,15 @@ import pytest
 from hypothesis import assume
 from hypothesis import given
 
-from ..constants import ATOL
-from ..strategies import arrays
-from ..strategies import arrays_fixed
-from ..strategies import arrays_fixed_nonzero
-from ..strategies import arrays_nonzero
-from ..strategies import consistent_dim
-from ..strategies import floats
 from skspatial.objects import Point
 from skspatial.objects import Vector
+from tests.property.constants import ATOL
+from tests.property.strategies import arrays
+from tests.property.strategies import arrays_fixed
+from tests.property.strategies import arrays_fixed_nonzero
+from tests.property.strategies import arrays_nonzero
+from tests.property.strategies import consistent_dim
+from tests.property.strategies import floats
 
 
 @given(consistent_dim(2 * [arrays_fixed]))

@@ -2,10 +2,10 @@ import math
 
 from hypothesis import given
 
-from ..strategies import arrays_fixed
-from ..strategies import consistent_dim
 from skspatial.objects import Point
 from skspatial.objects import Vector
+from tests.property.strategies import arrays_fixed
+from tests.property.strategies import consistent_dim
 
 
 @given(consistent_dim(2 * [arrays_fixed]))
