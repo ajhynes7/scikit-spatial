@@ -1,6 +1,10 @@
 """Custom strategies for property tests."""
 import hypothesis.strategies as st
 from hypothesis import assume
+
+from .constants import DIM_MAX
+from .constants import DIM_MIN
+from .constants import FLOAT_MIN
 from skspatial.objects import Circle
 from skspatial.objects import Line
 from skspatial.objects import Plane
@@ -9,10 +13,6 @@ from skspatial.objects import Points
 from skspatial.objects import Sphere
 from skspatial.objects import Triangle
 from skspatial.objects import Vector
-
-from .constants import DIM_MAX
-from .constants import DIM_MIN
-from .constants import FLOAT_MIN
 
 
 floats = st.floats(min_value=-1e4, max_value=1e4).filter(lambda x: x == 0 or abs(x) > FLOAT_MIN)

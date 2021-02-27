@@ -2,6 +2,7 @@
 import inspect
 
 import numpy as np
+
 from skspatial._functions import _contains_point
 from skspatial._functions import _sum_squares
 from skspatial.objects._base_spatial import _BaseSpatial

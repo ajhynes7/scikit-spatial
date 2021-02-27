@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pytest
+
 from skspatial.objects import Circle
 from skspatial.objects import Line
 from skspatial.objects import Plane

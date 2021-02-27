@@ -1,11 +1,11 @@
 from hypothesis import assume
 from hypothesis import given
-from skspatial.objects import Plane
-from skspatial.objects import Points
 
 from ..constants import ATOL
 from ..strategies import arrays_fixed
 from ..strategies import consistent_dim
+from skspatial.objects import Plane
+from skspatial.objects import Points
 
 
 @given(consistent_dim(3 * [arrays_fixed], max_dim=3))

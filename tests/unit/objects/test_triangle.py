@@ -6,6 +6,7 @@ from math import radians
 from math import sqrt
 
 import pytest
+
 from skspatial.objects import Line
 from skspatial.objects import Triangle
 from skspatial.typing import array_like

@@ -2,6 +2,7 @@
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
+
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
 from skspatial.plotting import _scatter_2d

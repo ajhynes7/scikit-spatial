@@ -4,7 +4,6 @@ import hypothesis.strategies as st
 import pytest
 from hypothesis import assume
 from hypothesis import given
-from skspatial.objects import Vector
 
 from .constants import ATOL
 from .constants import DIM_MAX
@@ -14,6 +13,7 @@ from .strategies import circles
 from .strategies import lines
 from .strategies import planes
 from .strategies import spheres
+from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize('lines_or_planes', [lines, planes])

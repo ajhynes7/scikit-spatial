@@ -1,4 +1,5 @@
 import pytest
+
 from skspatial._functions import _allclose
 from skspatial.objects.plane import Plane
 

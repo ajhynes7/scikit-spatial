@@ -2,6 +2,7 @@
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
+
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points

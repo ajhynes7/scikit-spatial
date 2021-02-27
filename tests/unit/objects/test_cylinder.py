@@ -3,6 +3,7 @@ from math import pi
 from math import sqrt
 
 import pytest
+
 from skspatial.objects import Cylinder
 
 

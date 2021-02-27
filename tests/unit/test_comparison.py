@@ -1,6 +1,7 @@
 import math
 
 import pytest
+
 from skspatial.objects import Circle
 from skspatial.objects import Cylinder
 from skspatial.objects import Line

@@ -2,6 +2,7 @@
 import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
+
 from skspatial.objects import Point
 from skspatial.objects import Vector
 

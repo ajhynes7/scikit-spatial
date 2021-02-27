@@ -5,6 +5,7 @@ from typing import cast
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
+
 from skspatial._functions import np_float
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.plotting import _connect_points_3d

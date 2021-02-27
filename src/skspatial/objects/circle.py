@@ -5,6 +5,7 @@ from typing import Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
+
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
