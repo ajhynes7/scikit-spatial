@@ -2,9 +2,9 @@ from hypothesis import given
 from hypothesis.strategies import integers
 from hypothesis.strategies import tuples
 
-from .constants import ATOL
-from .strategies import planes
-from .strategies import spheres
+from tests.property.constants import ATOL
+from tests.property.strategies import planes
+from tests.property.strategies import spheres
 
 
 limits = tuples(integers(-10, 10), integers(-10, 10))

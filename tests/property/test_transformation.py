@@ -4,9 +4,9 @@ from hypothesis import assume
 from hypothesis import given
 from numpy.testing import assert_array_almost_equal
 
-from .constants import ATOL
-from .strategies import lines
-from .strategies import multi_points
+from tests.property.constants import ATOL
+from tests.property.strategies import lines
+from tests.property.strategies import multi_points
 
 
 @given(st.data())

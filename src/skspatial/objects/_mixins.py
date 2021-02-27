@@ -3,6 +3,7 @@ from typing import Callable
 from typing import Tuple
 
 import numpy as np
+
 from skspatial._functions import _mesh_to_points
 from skspatial.objects.points import Points
 

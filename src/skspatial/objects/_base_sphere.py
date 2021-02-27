@@ -1,5 +1,6 @@
 """Module for base class of Circle and Sphere."""
 import numpy as np
+
 from skspatial._functions import _contains_point
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.point import Point

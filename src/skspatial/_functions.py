@@ -7,6 +7,7 @@ from typing import Any
 from typing import Callable
 
 import numpy as np
+
 from skspatial.typing import array_like
 
 

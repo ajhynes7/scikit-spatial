@@ -4,6 +4,7 @@ from typing import Type
 from typing import TypeVar
 
 import numpy as np
+
 from skspatial._functions import _allclose
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.typing import array_like

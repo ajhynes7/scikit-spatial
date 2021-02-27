@@ -1,13 +1,13 @@
 import math
 
 from hypothesis import given
-from skspatial.objects import Line
 
-from ..constants import ATOL
-from ..strategies import consistent_dim
-from ..strategies import lines
-from ..strategies import points
-from ..strategies import vectors_nonzero
+from skspatial.objects import Line
+from tests.property.constants import ATOL
+from tests.property.strategies import consistent_dim
+from tests.property.strategies import lines
+from tests.property.strategies import points
+from tests.property.strategies import vectors_nonzero
 
 
 @given(consistent_dim([points, vectors_nonzero]))

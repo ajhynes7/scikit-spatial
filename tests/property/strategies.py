@@ -1,6 +1,7 @@
 """Custom strategies for property tests."""
 import hypothesis.strategies as st
 from hypothesis import assume
+
 from skspatial.objects import Circle
 from skspatial.objects import Line
 from skspatial.objects import Plane
@@ -9,10 +10,9 @@ from skspatial.objects import Points
 from skspatial.objects import Sphere
 from skspatial.objects import Triangle
 from skspatial.objects import Vector
-
-from .constants import DIM_MAX
-from .constants import DIM_MIN
-from .constants import FLOAT_MIN
+from tests.property.constants import DIM_MAX
+from tests.property.constants import DIM_MIN
+from tests.property.constants import FLOAT_MIN
 
 
 floats = st.floats(min_value=-1e4, max_value=1e4).filter(lambda x: x == 0 or abs(x) > FLOAT_MIN)
@@ -41,7 +41,7 @@ def arrays_fixed(draw, dim=2):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import arrays_fixed
+    >>> from tests.property.strategies import arrays_fixed
 
     >>> find(arrays_fixed(2), lambda x: True)
     [0.0, 0.0]
@@ -90,7 +90,7 @@ def points(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import points
+    >>> from tests.property.strategies import points
 
     >>> find(points(3), lambda x: True)
     Point([0., 0., 0.])
@@ -117,7 +117,7 @@ def vectors(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import vectors
+    >>> from tests.property.strategies import vectors
 
     >>> find(vectors(2), lambda x: True)
     Vector([0., 0.])
@@ -163,7 +163,7 @@ def multi_points(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import multi_points
+    >>> from tests.property.strategies import multi_points
 
     >>> find(multi_points(2), lambda x: len(x) == 3)
     Points([[0., 0.],
@@ -197,7 +197,7 @@ def lines_or_planes(draw, LineOrPlane, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import lines_or_planes
+    >>> from tests.property.strategies import lines_or_planes
 
     >>> find(lines_or_planes(Line, 2), lambda x: True)
     Line(point=Point([0., 0.]), direction=Vector([0.   , 0.001]))
@@ -230,7 +230,7 @@ def lines(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import lines
+    >>> from tests.property.strategies import lines
 
     >>> find(lines(dim=4), lambda x: x.direction.min() <= -1)
     Line(point=Point([0., 0., 0., 0.]), direction=Vector([ 0.,  0.,  0., -1.]))
@@ -257,7 +257,7 @@ def planes(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import planes
+    >>> from tests.property.strategies import planes
 
     >>> find(planes(dim=3), lambda x: x.normal.norm() >= 5)
     Plane(point=Point([0., 0., 0.]), normal=Vector([0., 0., 5.]))
@@ -279,7 +279,7 @@ def circles(draw):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import circles
+    >>> from tests.property.strategies import circles
 
     >>> circle = find(circles(), lambda x: x.radius >= 1)
     >>> round(circle.radius)
@@ -302,7 +302,7 @@ def spheres(draw):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import spheres
+    >>> from tests.property.strategies import spheres
 
     >>> sphere = find(spheres(), lambda x: x.radius >= 1)
     >>> round(sphere.radius)
@@ -330,7 +330,7 @@ def triangles(draw, dim):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import triangles
+    >>> from tests.property.strategies import triangles
 
     >>> find(triangles(dim=2), lambda x: True)
     Triangle(point_a=Point([0., 0.]), point_b=Point([0.   , 0.001]), point_c=Point([0.001, 0.   ]))
@@ -366,7 +366,7 @@ def consistent_dim(draw, strategies, min_dim=DIM_MIN, max_dim=DIM_MAX):
     Examples
     --------
     >>> from hypothesis import find
-    >>> from .strategies import vectors, lines, planes, consistent_dim
+    >>> from tests.property.strategies import vectors, lines, planes, consistent_dim
 
     >>> find(consistent_dim([vectors, planes], min_dim=3), lambda x: True)
     [Vector([0., 0., 0.]), Plane(point=Point([0., 0., 0.]), normal=Vector([0.   , 0.   , 0.001]))]

@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pytest
+
 from skspatial.objects import Line
 from skspatial.objects import Plane
 from skspatial.objects import Points

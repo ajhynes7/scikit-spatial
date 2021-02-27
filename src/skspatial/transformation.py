@@ -3,6 +3,7 @@ from typing import cast
 from typing import Sequence
 
 import numpy as np
+
 from skspatial.typing import array_like
 
 

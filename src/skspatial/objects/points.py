@@ -5,6 +5,7 @@ import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
+
 from skspatial.objects._base_array import _BaseArray2D
 from skspatial.objects.point import Point
 from skspatial.plotting import _scatter_2d

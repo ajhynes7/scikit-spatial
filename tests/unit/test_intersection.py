@@ -2,6 +2,7 @@ from math import sqrt
 
 import numpy as np
 import pytest
+
 from skspatial.objects import Circle
 from skspatial.objects import Cylinder
 from skspatial.objects import Line

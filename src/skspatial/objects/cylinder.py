@@ -5,6 +5,7 @@ from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+
 from skspatial._functions import _solve_quadratic
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects._mixins import _ToPointsMixin
