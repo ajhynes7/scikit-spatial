@@ -4,6 +4,7 @@ import pytest
 
 from skspatial._functions import _allclose
 from skspatial.objects.plane import Plane
+from skspatial.objects.points import Points
 
 
 @pytest.mark.parametrize(
@@ -80,3 +81,92 @@ def test_distance_point_plane(point, plane, dist_signed_expected):
 
     assert math.isclose(plane.distance_point_signed(point), dist_signed_expected)
     assert math.isclose(plane.distance_point(point), abs(dist_signed_expected))
+
+
+@pytest.mark.parametrize(
+    ("plane", "points", "error_expected"),
+    [
+        (Plane([0, 0, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
+        (Plane([25, 9, 0], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 0),
+        (Plane([25, 9, -2], [0, 0, 1]), [[25, 3, 0], [-6, 5, 0]], 8),
+        (Plane([0, 0, 0], [0, 0, 1]), [[25, 3, 2], [-6, 5, 0]], 4),
+        (Plane([0, 0, 0], [0, 0, 5]), [[25, 3, 2], [-6, 5, 0]], 4),
+        (Plane([0, 0, 0], [0, 0, -5]), [[25, 3, 2], [-6, 5, 0]], 4),
+    ],
+)
+def test_sum_squares_plane(plane, points, error_expected):
+
+    error = plane.sum_squares(points)
+    assert math.isclose(error, error_expected)
+
+
+@pytest.mark.parametrize(
+    ("points", "plane_expected"),
+    [
+        # The points are coplanar.
+        ([[0, 0], [1, 1], [0, 2]], Plane([1 / 3, 1, 0], [0, 0, 1])),
+        ([[0, 0], [0, 1], [1, 0], [1, 1]], Plane([0.5, 0.5, 0], [0, 0, 1])),
+        ([[0, 0, 0], [1, 0, 0], [0, 0, 1]], Plane([1 / 3, 0, 1 / 3], [0, 1, 0])),
+        (
+            [[1, 0, 0], [-1, 0, 0], [1, 1, 1], [-1, 1, 1]],
+            Plane([0, 0.5, 0.5], [0, 1, -1]),
+        ),
+        (
+            [[1, 0, 1], [1, 1, 1], [-1, 0, -1], [-1, 1, -1]],
+            Plane([0, 0.5, 0], [1, 0, -1]),
+        ),
+        (
+            [[1, 0, 1], [1, 1, 1], [-1, 0, -1], [-1, 1, -1], [0, 0, 0]],
+            Plane([0, 0.4, 0], [1, 0, -1]),
+        ),
+        # The points are not coplanar.
+        (
+            [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            Plane([0.25, 0.25, 0.25], [1, 1, 1]),
+        ),
+        pytest.param(
+            [
+                [0, 0, 0],
+                [0, 0, 1],
+                [0, 1, 0],
+                [0, 1, 1],
+                [1, 0, 0],
+                [1, 0, 1],
+                [1, 1, 0],
+                [1, 1, 1],
+            ],
+            Plane([0.5, 0.5, 0.5], [0, 1, 0]),
+            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
+        ),
+    ],
+)
+def test_best_fit(points, plane_expected):
+
+    points = Points(points).set_dimension(3)
+    plane_fit = Plane.best_fit(points)
+
+    assert plane_fit.is_close(plane_expected)
+    assert plane_fit.point.is_close(plane_expected.point)
+
+
+@pytest.mark.parametrize(
+    ("points", "message_expected"),
+    [
+        ([[0, 0], [1, 0]], "The points must be 3D."),
+        ([[0, 0], [2, 5]], "The points must be 3D."),
+        pytest.param(
+            [[0, 0, 0], [1, 1, 1], [2, 2, 2]],
+            "The points must not be collinear.",
+            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
+        ),
+        pytest.param(
+            [[0, 0, 0], [1, 1, 1], [-10, -10, -10]],
+            "The points must not be collinear.",
+            marks=pytest.mark.xfail(reason="Fails on Travis CI for unknown reason."),
+        ),
+    ],
+)
+def test_best_fit_failure(points, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Plane.best_fit(points)
