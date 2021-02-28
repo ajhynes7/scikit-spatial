@@ -189,3 +189,22 @@ def test_intersect_line_failure(sphere, line):
 
     with pytest.raises(Exception):
         sphere.intersect_line(line)
+
+
+@pytest.mark.parametrize(
+    ("sphere", "n_angles", "points_expected"),
+    [
+        (Sphere([0, 0, 0], 1), 1, [[0, 0, 1]]),
+        (Sphere([0, 0, 0], 1), 2, [[0, 0, -1], [0, 0, 1]]),
+        (Sphere([0, 0, 0], 1), 3, [[0, -1, 0], [0, 0, -1], [0, 0, 1], [0, 1, 0]]),
+        (Sphere([0, 0, 0], 2), 3, [[0, -2, 0], [0, 0, -2], [0, 0, 2], [0, 2, 0]]),
+        (Sphere([1, 0, 0], 1), 3, [[1, -1, 0], [1, 0, -1], [1, 0, 1], [1, 1, 0]]),
+        (Sphere([1, 1, 1], 1), 3, [[1, 0, 1], [1, 1, 0], [1, 1, 2], [1, 2, 1]]),
+    ],
+)
+def test_to_points(sphere, n_angles, points_expected):
+
+    array_rounded = sphere.to_points(n_angles=n_angles).round(3)
+    points_unique = Points(array_rounded).unique()
+
+    assert points_unique.is_close(points_expected)

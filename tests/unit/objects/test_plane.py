@@ -301,3 +301,28 @@ def test_best_fit_failure(points, message_expected):
 
     with pytest.raises(ValueError, match=message_expected):
         Plane.best_fit(points)
+
+
+@pytest.mark.parametrize(
+    ("plane", "points_expected"),
+    [
+        (Plane([0, 0, 0], [0, 0, 1]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
+        (Plane([1, 0, 0], [0, 0, 1]), [[0, -1, 0], [2, -1, 0], [0, 1, 0], [2, 1, 0]]),
+        (
+            Plane([0, 0, 0], [0, 0, -1]),
+            [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]],
+        ),
+        (Plane([0, 0, 0], [0, 0, 5]), [[-1, -1, 0], [1, -1, 0], [-1, 1, 0], [1, 1, 0]]),
+        (Plane([0, 0, 0], [0, 1, 0]), [[-1, 0, -1], [1, 0, -1], [-1, 0, 1], [1, 0, 1]]),
+        (Plane([0, 0, 0], [1, 0, 0]), [[0, -1, -1], [0, 1, -1], [0, -1, 1], [0, 1, 1]]),
+        (
+            Plane([0, 0, 0], [1, 1, 0]),
+            [[-1, 1, -1], [1, -1, -1], [-1, 1, 1], [1, -1, 1]],
+        ),
+    ],
+)
+def test_to_points(plane, points_expected):
+
+    points = plane.to_points()
+
+    assert points.is_close(points_expected)

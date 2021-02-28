@@ -7,6 +7,7 @@ import pytest
 from skspatial.objects import Cylinder
 from skspatial.objects import Line
 from skspatial.objects import Point
+from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(
@@ -179,3 +180,23 @@ def test_intersect_cylinder_line_failure(cylinder, line):
 
     with pytest.raises(ValueError, match=message_expected):
         cylinder.intersect_line(line)
+
+
+@pytest.mark.parametrize(
+    ("cylinder", "n_along_axis", "n_angles", "points_expected"),
+    [
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, 1, [[-1, 0, 0]]),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            3,
+            2,
+            [[-1, 0, 0], [-1, 0, 0.5], [-1, 0, 1]],
+        ),
+    ],
+)
+def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
+
+    array_rounded = cylinder.to_points(n_along_axis=n_along_axis, n_angles=n_angles).round(3)
+    points_unique = Points(array_rounded).unique()
+
+    assert points_unique.is_close(points_expected)
