@@ -110,10 +110,10 @@ def test_project_point(sphere, point, point_expected):
         (Sphere([5, 2, -6], 5), [5, 2, -6]),
     ],
 )
-def test_project_point_failure(circle, point):
+def test_project_point_failure(sphere, point):
 
     with pytest.raises(Exception):
-        circle.project_point(point)
+        sphere.project_point(point)
 
 
 @pytest.mark.parametrize(
