@@ -8,7 +8,7 @@ from skspatial.objects import Line
 
 
 @pytest.mark.parametrize(
-    ("point", "radius"),
+    ("point", "radius", "message_expected"),
     [
         # The point must be 2D.
         ([0, 0, 0], 1, "The point must be 2D"),
