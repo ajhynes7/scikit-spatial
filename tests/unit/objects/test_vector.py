@@ -204,19 +204,27 @@ def test_is_parallel(array_u, array_v, bool_expected):
         ([0, 1], [-1, 20], -1),
         ([0, 1], [-1, -20], -1),
         ([0, 1], [-5, 50], -1),
-        ([0], [1], None),
-        ([0, 0, 0], [1, 1, 1], None),
-        ([0, 0, 0, 0], [1, 1, 1, 1], None),
     ],
 )
 def test_side_vector(array_a, array_b, value_expected):
 
-    if value_expected is None:
-        with pytest.raises(ValueError):
-            Vector(array_a).side_vector(array_b)
+    assert Vector(array_a).side_vector(array_b) == value_expected
 
-    else:
-        assert Vector(array_a).side_vector(array_b) == value_expected
+
+@pytest.mark.parametrize(
+    ("array_a", "array_b"),
+    [
+        ([0], [1]),
+        ([0, 0, 0], [1, 1, 1]),
+        ([0, 0, 0, 0], [1, 1, 1, 1]),
+    ],
+)
+def test_side_vector_failure(array_a, array_b):
+
+    message_expected = "The vectors must be 2D."
+
+    with pytest.raises(ValueError, match=message_expected):
+        Vector(array_a).side_vector(array_b)
 
 
 @pytest.mark.parametrize(

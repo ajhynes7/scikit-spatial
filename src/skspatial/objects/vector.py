@@ -540,16 +540,21 @@ class Vector(_BaseArray1D):
 
         The vectors are not 2D.
 
+        >>> Vector([1]).side_vector([2])
+        Traceback (most recent call last):
+        ...
+        ValueError: The vectors must be 2D.
+
         >>> Vector([1, 0, 0]).side_vector([1, 2, 3])
         Traceback (most recent call last):
         ...
         ValueError: The vectors must be 2D.
 
         """
-        value_cross = np.cross(other, self)
-
-        if value_cross.ndim != 0:
+        if self.dimension != 2 or Vector(other).dimension != 2:
             raise ValueError("The vectors must be 2D.")
+
+        value_cross = np.cross(other, self)
 
         return int(np.sign(value_cross))
 
