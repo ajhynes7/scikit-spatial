@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pytest
+from numpy.testing import assert_array_almost_equal
 from numpy.testing import assert_array_equal
 
 from skspatial.objects import Line
@@ -274,3 +275,30 @@ def test_best_fit_failure(points):
 
     with pytest.raises(Exception):
         Line.best_fit(points)
+
+
+@pytest.mark.parametrize(
+    ("line", "points", "coords_expected"),
+    [
+        (Line([0, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [1, 2, 3, 4]),
+        # The point on the line acts as the origin.
+        (Line([3, 0], [1, 0]), [[1, 0], [2, 0], [3, 0], [4, 0]], [-2, -1, 0, 1]),
+        (
+            Line([0, 0], [1, 1]),
+            [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
+            math.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
+        ),
+        # The magnitude of the direction vector is irrelevant.
+        (
+            Line([0, 0], [3, 3]),
+            [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
+            math.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
+        ),
+        (Line([0, 0, 0], [1, 0, 0]), [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]], [1, 2, 3, 4]),
+        (Line([0, 0, 0], [0, 1, 0]), [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]], [20, -5, 59, 0]),
+    ],
+)
+def test_transform_points(line, points, coords_expected):
+
+    coordinates = line.transform_points(points)
+    assert_array_almost_equal(coordinates, coords_expected)
