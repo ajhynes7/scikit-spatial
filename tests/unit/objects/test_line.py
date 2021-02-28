@@ -80,6 +80,45 @@ def test_to_point(line, param, array_expected):
 
 
 @pytest.mark.parametrize(
+    ("point", "point_line", "vector_line", "point_expected", "dist_expected"),
+    [
+        ([0, 5], [0, 0], [0, 1], [0, 5], 0),
+        ([0, 5], [0, 0], [0, 100], [0, 5], 0),
+        ([1, 5], [0, 0], [0, 100], [0, 5], 1),
+        ([0, 1], [0, 0], [1, 1], [0.5, 0.5], math.sqrt(2) / 2),
+        ([1, 0], [0, 0], [1, 1], [0.5, 0.5], math.sqrt(2) / 2),
+        ([0, 2], [0, 0], [1, 1], [1, 1], math.sqrt(2)),
+        ([-15, 5], [0, 0], [0, 100], [0, 5], 15),
+        ([50, 10], [1, -5], [0, 3], [1, 10], 49),
+    ],
+)
+def test_project_point(point, point_line, vector_line, point_expected, dist_expected):
+
+    line = Line(point_line, vector_line)
+
+    point_projected = line.project_point(point)
+    distance = line.distance_point(point)
+
+    assert point_projected.is_close(point_expected)
+    assert math.isclose(distance, dist_expected)
+
+
+@pytest.mark.parametrize(
+    ("line", "vector", "vector_expected"),
+    [
+        (Line([0, 0], [1, 0]), [1, 1], [1, 0]),
+        (Line([-56, 72], [1, 0]), [1, 1], [1, 0]),
+        (Line([-56, 72], [200, 0]), [5, 9], [5, 0]),
+        (Line([-56, 72], [200, 0]), [-5, 9], [-5, 0]),
+    ],
+)
+def test_project_vector(line, vector, vector_expected):
+
+    vector_projected = line.project_vector(vector)
+    assert vector_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
     ("array_point", "line", "dist_expected"),
     [
         ([0, 0], Line([0, 0], [1, 0]), 0),

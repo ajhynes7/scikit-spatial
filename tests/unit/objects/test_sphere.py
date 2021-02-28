@@ -65,6 +65,37 @@ def test_distance_point(sphere, point, dist_expected):
 
 
 @pytest.mark.parametrize(
+    ("sphere", "point", "point_expected"),
+    [
+        (Sphere([0, 0, 0], 1), [1, 0, 0], [1, 0, 0]),
+        (Sphere([0, 0, 0], 2), [1, 0, 0], [2, 0, 0]),
+        (Sphere([0, 0, 0], 0.1), [1, 0, 0], [0.1, 0, 0]),
+        (Sphere([-1, 0, 0], 1), [1, 0, 0], [0, 0, 0]),
+        (Sphere([0, 0, 0], 1), [1, 1, 1], math.sqrt(3) / 3 * np.ones(3)),
+        (Sphere([0, 0, 0], 3), [1, 1, 1], math.sqrt(3) * np.ones(3)),
+    ],
+)
+def test_project_point(sphere, point, point_expected):
+
+    point_projected = sphere.project_point(point)
+    assert point_projected.is_close(point_expected)
+
+
+@pytest.mark.parametrize(
+    ("sphere", "point"),
+    [
+        (Sphere([0, 0, 0], 1), [0, 0, 0]),
+        (Sphere([0, 0, 0], 5), [0, 0, 0]),
+        (Sphere([5, 2, -6], 5), [5, 2, -6]),
+    ],
+)
+def test_project_point_failure(circle, point):
+
+    with pytest.raises(Exception):
+        circle.project_point(point)
+
+
+@pytest.mark.parametrize(
     ("points", "sphere_expected"),
     [
         ([[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, 0, 1]], Sphere(point=[0, 0, 0], radius=1)),

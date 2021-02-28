@@ -63,6 +63,40 @@ def test_distance_point(circle, point, dist_expected):
 
 
 @pytest.mark.parametrize(
+    ("circle", "point", "point_expected"),
+    [
+        (Circle([0, 0], 1), [1, 0], [1, 0]),
+        (Circle([0, 0], 1), [2, 0], [1, 0]),
+        (Circle([0, 0], 1), [-2, 0], [-1, 0]),
+        (Circle([0, 0], 1), [0, 2], [0, 1]),
+        (Circle([0, 0], 1), [0, -2], [0, -1]),
+        (Circle([0, 0], 5), [0, -2], [0, -5]),
+        (Circle([0, 1], 5), [0, -2], [0, -4]),
+        (Circle([0, 0], 1), [1, 1], math.sqrt(2) / 2 * np.ones(2)),
+        (Circle([0, 0], 2), [1, 1], math.sqrt(2) * np.ones(2)),
+    ],
+)
+def test_project_point(circle, point, point_expected):
+
+    point_projected = circle.project_point(point)
+    assert point_projected.is_close(point_expected)
+
+
+@pytest.mark.parametrize(
+    ("circle", "point"),
+    [
+        (Circle([0, 0], 1), [0, 0]),
+        (Circle([0, 0], 5), [0, 0]),
+        (Circle([7, -1], 5), [7, -1]),
+    ],
+)
+def test_project_point_failure(circle, point):
+
+    with pytest.raises(Exception):
+        circle.project_point(point)
+
+
+@pytest.mark.parametrize(
     ("circle", "line", "point_a_expected", "point_b_expected"),
     [
         (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),

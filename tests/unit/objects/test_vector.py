@@ -143,6 +143,31 @@ def test_angle_signed(array_u, array_v, angle_expected):
 
 
 @pytest.mark.parametrize(
+    ("vector_u", "vector_v", "vector_expected"),
+    [
+        ([1, 1], [1, 0], [1, 0]),
+        ([1, 5], [1, 0], [1, 0]),
+        ([5, 5], [1, 0], [5, 0]),
+        # Scaling v by a non-zero scalar doesn't change the projection.
+        ([0, 1], [0, 1], [0, 1]),
+        ([0, 1], [0, -5], [0, 1]),
+        ([0, 1], [0, 15], [0, 1]),
+        # The projection is the zero vector if u and v are perpendicular.
+        ([1, 0], [0, 1], [0, 0]),
+        ([5, 0], [0, 9], [0, 0]),
+        # The projection of the zero vector onto v is the zero vector.
+        ([0, 0], [0, 1], [0, 0]),
+    ],
+)
+def test_project_vector(vector_u, vector_v, vector_expected):
+    """Test projecting vector u onto vector v."""
+
+    vector_u_projected = Vector(vector_v).project_vector(vector_u)
+
+    assert vector_u_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
     ("array", "array_expected"),
     [
         ([1], [-1]),

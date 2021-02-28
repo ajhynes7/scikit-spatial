@@ -68,6 +68,45 @@ def test_cartesian(plane, coeffs_expected):
 
 
 @pytest.mark.parametrize(
+    ("point", "point_plane", "normal_plane", "point_expected", "dist_expected"),
+    [
+        ([0, 0, 0], [0, 0, 0], [0, 0, 1], [0, 0, 0], 0),
+        ([0, 0, 0], [0, 0, 0], [0, 0, -1], [0, 0, 0], 0),
+        ([0, 0, 1], [0, 0, 0], [0, 0, 1], [0, 0, 0], 1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, -1], [0, 0, 0], -1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, 50], [0, 0, 0], 1),
+        ([0, 0, 1], [0, 0, 0], [0, 0, -50], [0, 0, 0], -1),
+        ([0, 0, 5], [0, 0, 0], [0, 0, 50], [0, 0, 0], 5),
+        ([0, 0, 5], [0, 0, 0], [0, 0, -50], [0, 0, 0], -5),
+        ([5, -4, 1], [0, 0, 0], [0, 0, 1], [5, -4, 0], 1),
+    ],
+)
+def test_project_point(point, point_plane, normal_plane, point_expected, dist_expected):
+    plane = Plane(point_plane, normal_plane)
+
+    point_projected = plane.project_point(point)
+    distance_signed = plane.distance_point_signed(point)
+
+    assert point_projected.is_close(point_expected)
+    assert math.isclose(distance_signed, dist_expected)
+
+
+@pytest.mark.parametrize(
+    ("plane", "vector", "vector_expected"),
+    [
+        (Plane([0, 0, 0], [0, 0, 1]), [1, 1, 0], [1, 1, 0]),
+        (Plane([0, 0, 0], [0, 0, 1]), [1, 1, 1], [1, 1, 0]),
+        (Plane([0, 0, 0], [0, 0, 1]), [7, -5, 20], [7, -5, 0]),
+        (Plane([0, 0, 0], [0, 0, -10]), [7, -5, 20], [7, -5, 0]),
+    ],
+)
+def test_project_vector(plane, vector, vector_expected):
+
+    vector_projected = plane.project_vector(vector)
+    assert vector_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
     ("point", "plane", "dist_signed_expected"),
     [
         ([0, 0, 0], Plane([0, 0, 0], [0, 0, 1]), 0),
@@ -78,7 +117,7 @@ def test_cartesian(plane, coeffs_expected):
         ([5, 3, -8], Plane([0, 0, 0], [0, 0, 1]), -8),
     ],
 )
-def test_distance_point_plane(point, plane, dist_signed_expected):
+def test_distance_point(point, plane, dist_signed_expected):
 
     assert math.isclose(plane.distance_point_signed(point), dist_signed_expected)
     assert math.isclose(plane.distance_point(point), abs(dist_signed_expected))
