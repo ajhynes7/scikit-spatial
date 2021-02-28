@@ -10,7 +10,6 @@ from skspatial.objects import Line
 @pytest.mark.parametrize(
     ("point", "radius", "message_expected"),
     [
-        # The point must be 2D.
         ([0, 0, 0], 1, "The point must be 2D"),
         ([1, 2, 3], 1, "The point must be 2D"),
         ([0, 0], 0, "The radius must be positive"),
@@ -111,7 +110,9 @@ def test_project_point(circle, point, point_expected):
 )
 def test_project_point_failure(circle, point):
 
-    with pytest.raises(Exception):
+    message_expected = "The point must not be the center of the circle or sphere."
+
+    with pytest.raises(ValueError, match=message_expected):
         circle.project_point(point)
 
 
