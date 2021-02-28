@@ -166,7 +166,7 @@ def test_failure_collinear_points(array_a, array_b, array_c):
         Triangle(array_a, array_b, array_c)
 
 
-@pytest.fixture
+@pytest.fixture()
 def basic_triangle():
 
     return Triangle([0, 0], [0, 1], [1, 0])
