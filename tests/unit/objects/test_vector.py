@@ -1,5 +1,6 @@
 import math
 
+import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
@@ -63,6 +64,82 @@ def test_unit(array, array_unit_expected):
 def test_is_zero(array, kwargs, bool_expected):
 
     assert Vector(array).is_zero(**kwargs) == bool_expected
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "similarity_expected"),
+    [
+        ([1, 0], [1, 0], 1),
+        ([1, 0], [0, 1], 0),
+        ([1, 0], [-1, 0], -1),
+        ([1, 0], [0, -1], 0),
+        ([1, 0], [1, 1], math.sqrt(2) / 2),
+        ([1, 0], [-1, 1], -math.sqrt(2) / 2),
+        ([1, 0], [-1, -1], -math.sqrt(2) / 2),
+        ([1, 0], [1, -1], math.sqrt(2) / 2),
+        ([1, 0], [0.5, math.sqrt(3) / 2], 0.5),
+        ([1, 0], [math.sqrt(3) / 2, 0.5], math.sqrt(3) / 2),
+        ([1, 1], [0, 0], None),
+        ([0, 0], [1, 1], None),
+    ],
+)
+def test_cosine_similarity(array_u, array_v, similarity_expected):
+
+    if similarity_expected is None:
+        with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
+            Vector(array_u).cosine_similarity(array_v)
+
+    else:
+        similarity = Vector(array_u).cosine_similarity(array_v)
+        assert math.isclose(similarity, similarity_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "angle_expected"),
+    [
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [math.sqrt(3) / 2, 0.5], np.pi / 6),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [0, -1], np.pi / 2),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0, 0], [0, 1, 0], np.pi / 2),
+    ],
+)
+def test_angle_between(array_u, array_v, angle_expected):
+    """Test finding the angle between vectors u and v."""
+
+    angle = Vector(array_u).angle_between(array_v)
+    assert math.isclose(angle, angle_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "angle_expected"),
+    [
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [-1, 1], 3 * np.pi / 4),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0], [-1, -1], -3 * np.pi / 4),
+        ([1, 0], [0, -1], -np.pi / 2),
+        ([1, 0], [1, -1], -np.pi / 4),
+        ([1, 1], [0, 1], np.pi / 4),
+        ([1, 1], [1, 0], -np.pi / 4),
+        ([0], [0], None),
+        ([1, 1, 1], [1, 0, 0], None),
+        (np.ones(4), np.ones(4), None),
+    ],
+)
+def test_angle_signed(array_u, array_v, angle_expected):
+
+    if angle_expected is None:
+        with pytest.raises(ValueError, match="The vectors must be 2D."):
+            Vector(array_u).angle_signed(array_v)
+
+    else:
+        angle = Vector(array_u).angle_signed(array_v)
+        assert math.isclose(angle, angle_expected)
 
 
 @pytest.mark.parametrize(

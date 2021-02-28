@@ -1,3 +1,5 @@
+import math
+
 import pytest
 from numpy.testing import assert_array_equal
 
@@ -74,3 +76,37 @@ def test_to_point(line, param, array_expected):
     point = line.to_point(t=param)
 
     assert_array_equal(point, array_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_point", "line", "dist_expected"),
+    [
+        ([0, 0], Line([0, 0], [1, 0]), 0),
+        ([8, 7], Line([0, 0], [1, 0]), 7),
+        ([20, -3], Line([0, 0], [1, 0]), 3),
+        ([20, -3, 1], Line([0, 0, 0], [1, 0, 0]), math.sqrt(10)),
+    ],
+)
+def test_distance_point(array_point, line, dist_expected):
+
+    assert math.isclose(line.distance_point(array_point), dist_expected)
+
+
+@pytest.mark.parametrize(
+    ("line_a", "line_b", "dist_expected"),
+    [
+        # The lines intersect.
+        (Line([10, 2], [1, 1]), Line([5, -3], [-1, 0]), 0),
+        (Line([0, 0], [1, 1]), Line([1, 0], [1, 2]), 0),
+        # The lines are parallel.
+        (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0]), 0),
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 0]), 0),
+        (Line([24, 0], [0, 1]), Line([3, 0], [0, -5]), 21),
+        (Line([0, 0], [1, 1]), Line([1, 0], [1, 1]), math.sqrt(2) / 2),
+        # The lines are skew.
+        (Line([0, 0, 0], [0, 1, 0]), Line([1, 0, 0], [0, -4, 13]), 1),
+    ],
+)
+def test_distance_line(line_a, line_b, dist_expected):
+
+    assert math.isclose(line_a.distance_line(line_b), dist_expected)

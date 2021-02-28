@@ -1,3 +1,5 @@
+import math
+
 import pytest
 
 from skspatial._functions import _allclose
@@ -61,3 +63,20 @@ def test_cartesian(plane, coeffs_expected):
 
     else:
         assert _allclose(plane.cartesian(), coeffs_expected).all()
+
+
+@pytest.mark.parametrize(
+    ("point", "plane", "dist_signed_expected"),
+    [
+        ([0, 0, 0], Plane([0, 0, 0], [0, 0, 1]), 0),
+        ([50, -67, 0], Plane([0, 0, 0], [0, 0, 1]), 0),
+        ([50, -67, 0], Plane([0, 0, 1], [0, 0, 1]), -1),
+        ([5, 3, 8], Plane([0, 0, 0], [0, 0, 1]), 8),
+        ([5, 3, 7], Plane([0, 0, 0], [0, 0, -50]), -7),
+        ([5, 3, -8], Plane([0, 0, 0], [0, 0, 1]), -8),
+    ],
+)
+def test_distance_point_plane(point, plane, dist_signed_expected):
+
+    assert math.isclose(plane.distance_point_signed(point), dist_signed_expected)
+    assert math.isclose(plane.distance_point(point), abs(dist_signed_expected))

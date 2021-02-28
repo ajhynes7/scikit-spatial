@@ -42,3 +42,20 @@ def test_surface_area_volume(radius, surface_area_expected, volume_expected):
 
     assert math.isclose(sphere.surface_area(), surface_area_expected)
     assert math.isclose(sphere.volume(), volume_expected)
+
+
+@pytest.mark.parametrize(
+    ("sphere", "point", "dist_expected"),
+    [
+        (Sphere([0, 0, 0], 1), [0, 0, 0], 1),
+        (Sphere([0, 0, 0], 1), [1, 0, 0], 0),
+        (Sphere([0, 0, 0], 1), [0, -1, 0], 0),
+        (Sphere([0, 0, 0], 2), [0, 0, 0], 2),
+        (Sphere([0, 0, 0], 1), [1, 1, 1], math.sqrt(3) - 1),
+        (Sphere([0, 0, 0], 2), [1, 1, 1], 2 - math.sqrt(3)),
+        (Sphere([1, 0, 0], 2), [0, 0, 0], 1),
+    ],
+)
+def test_distance_point(sphere, point, dist_expected):
+
+    assert math.isclose(sphere.distance_point(point), dist_expected)

@@ -39,3 +39,23 @@ def test_circumference_area(radius, circumference_expected, area_expected):
 
     assert math.isclose(circle.circumference(), circumference_expected)
     assert math.isclose(circle.area(), area_expected)
+
+
+@pytest.mark.parametrize(
+    ("circle", "point", "dist_expected"),
+    [
+        (Circle([0, 0], 1), [0, 0], 1),
+        (Circle([0, 0], 1), [0.5, 0], 0.5),
+        (Circle([0, 0], 1), [1, 0], 0),
+        (Circle([0, 0], 1), [0, 1], 0),
+        (Circle([0, 0], 1), [-1, 0], 0),
+        (Circle([0, 0], 1), [0, -1], 0),
+        (Circle([0, 0], 1), [2, 0], 1),
+        (Circle([0, 0], 1), [1, 1], math.sqrt(2) - 1),
+        (Circle([1, 1], 1), [0, 0], math.sqrt(2) - 1),
+        (Circle([0, 0], 2), [0, 5], 3),
+    ],
+)
+def test_distance_point(circle, point, dist_expected):
+
+    assert math.isclose(circle.distance_point(point), dist_expected)
