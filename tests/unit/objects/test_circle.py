@@ -4,6 +4,7 @@ import numpy as np
 import pytest
 
 from skspatial.objects import Circle
+from skspatial.objects import Line
 
 
 @pytest.mark.parametrize(
@@ -59,3 +60,43 @@ def test_circumference_area(radius, circumference_expected, area_expected):
 def test_distance_point(circle, point, dist_expected):
 
     assert math.isclose(circle.distance_point(point), dist_expected)
+
+
+@pytest.mark.parametrize(
+    ("circle", "line", "point_a_expected", "point_b_expected"),
+    [
+        (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),
+        (Circle([0, 0], 1), Line([0, 0], [0, 1]), [0, -1], [0, 1]),
+        (Circle([0, 0], 1), Line([0, 1], [1, 0]), [0, 1], [0, 1]),
+        (
+            Circle([0, 0], 1),
+            Line([0, 0.5], [1, 0]),
+            [-math.sqrt(3) / 2, 0.5],
+            [math.sqrt(3) / 2, 0.5],
+        ),
+        (Circle([1, 0], 1), Line([0, 0], [1, 0]), [0, 0], [2, 0]),
+    ],
+)
+def test_intersect_line(circle, line, point_a_expected, point_b_expected):
+
+    point_a, point_b = circle.intersect_line(line)
+
+    assert point_a.is_close(point_a_expected)
+    assert point_b.is_close(point_b_expected)
+
+
+@pytest.mark.parametrize(
+    ("circle", "line"),
+    [
+        # The circle does not intersect the line.
+        (Circle([0, 0], 1), Line([0, 2], [1, 0])),
+        (Circle([0, 0], 1), Line([0, -2], [1, 0])),
+        (Circle([0, 0], 1), Line([2, 0], [0, 1])),
+        (Circle([0, 0], 1), Line([3, 0], [1, 1])),
+        (Circle([1.5, 0], 1), Line([0, 0], [1, 0])),
+    ],
+)
+def test_intersect_line_failure(circle, line):
+
+    with pytest.raises(Exception):
+        circle.intersect_line(line)

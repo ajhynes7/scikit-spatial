@@ -1,8 +1,10 @@
 import math
+from math import sqrt
 
 import numpy as np
 import pytest
 
+from skspatial.objects.line import Line
 from skspatial.objects.points import Points
 from skspatial.objects.sphere import Sphere
 
@@ -91,3 +93,47 @@ def test_best_fit_failure(points, message_expected):
 
     with pytest.raises(ValueError, match=message_expected):
         Sphere.best_fit(points)
+
+
+@pytest.mark.parametrize(
+    ("sphere", "line", "point_a_expected", "point_b_expected"),
+    [
+        (Sphere([0, 0, 0], 1), Line([0, 0, 0], [1, 0, 0]), [-1, 0, 0], [1, 0, 0]),
+        (
+            Sphere([0, 0, 0], 1),
+            Line([0, 0, 0], [1, 1, 0]),
+            -sqrt(2) / 2 * np.array([1, 1, 0]),
+            sqrt(2) / 2 * np.array([1, 1, 0]),
+        ),
+        (
+            Sphere([0, 0, 0], 1),
+            Line([0, 0, 0], [1, 1, 1]),
+            -sqrt(3) / 3 * np.ones(3),
+            sqrt(3) / 3 * np.ones(3),
+        ),
+        (Sphere([1, 0, 0], 1), Line([0, 0, 0], [1, 0, 0]), [0, 0, 0], [2, 0, 0]),
+        (Sphere([0, 0, 0], 1), Line([1, 0, 0], [0, 0, 1]), [1, 0, 0], [1, 0, 0]),
+    ],
+)
+def test_intersect_line(sphere, line, point_a_expected, point_b_expected):
+
+    point_a, point_b = sphere.intersect_line(line)
+
+    assert point_a.is_close(point_a_expected)
+    assert point_b.is_close(point_b_expected)
+
+
+@pytest.mark.parametrize(
+    ("sphere", "line"),
+    [
+        (Sphere([0, 0, 0], 1), Line([0, 0, 2], [1, 0, 0])),
+        (Sphere([0, 0, 0], 1), Line([0, 0, -2], [1, 0, 0])),
+        (Sphere([0, 2, 0], 1), Line([0, 0, 0], [1, 0, 0])),
+        (Sphere([0, -2, 0], 1), Line([0, 0, 0], [1, 0, 0])),
+        (Sphere([5, 0, 0], 1), Line([0, 0, 0], [1, 1, 1])),
+    ],
+)
+def test_intersect_line_failure(sphere, line):
+
+    with pytest.raises(Exception):
+        sphere.intersect_line(line)

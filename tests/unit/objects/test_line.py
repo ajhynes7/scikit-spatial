@@ -114,6 +114,39 @@ def test_distance_line(line_a, line_b, dist_expected):
 
 
 @pytest.mark.parametrize(
+    ("line_a", "line_b", "array_expected"),
+    [
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 1]), [0, 0]),
+        (Line([0, 0], [1, 0]), Line([5, 5], [1, 1]), [0, 0]),
+        (Line([0, 0], [1, 0]), Line([9, 0], [1, 1]), [9, 0]),
+        (Line([0, 0], [1, 1]), Line([4, 0], [1, -1]), [2, 2]),
+        (Line([0, 0, 0], [1, 1, 1]), Line([4, 4, 0], [-1, -1, 1]), [2, 2, 2]),
+    ],
+)
+def test_intersect_line(line_a, line_b, array_expected):
+
+    point_intersection = line_a.intersect_line(line_b)
+    assert point_intersection.is_close(array_expected)
+
+
+@pytest.mark.parametrize(
+    ("line_a", "line_b"),
+    [
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 0])),
+        (Line([0, 0], [1, 0]), Line([5, 5], [1, 0])),
+        (Line([0, 0], [0, 1]), Line([0, 0], [0, 5])),
+        (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0])),
+        (Line([0, 0], [1, 0]), Line([5, 5], [-1, 0])),
+        (Line([0, 0, 0], [1, 1, 1]), Line([0, 1, 0], [-1, 0, 0])),
+    ],
+)
+def test_intersect_line_failure(line_a, line_b):
+
+    with pytest.raises(Exception):
+        line_a.intersect_line(line_b)
+
+
+@pytest.mark.parametrize(
     ("line", "points", "error_expected"),
     [
         (Line([0, 0], [1, 0]), [[0, 0], [10, 0]], 0),

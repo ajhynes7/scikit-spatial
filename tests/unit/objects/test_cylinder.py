@@ -5,6 +5,8 @@ from math import sqrt
 import pytest
 
 from skspatial.objects import Cylinder
+from skspatial.objects import Line
+from skspatial.objects import Point
 
 
 @pytest.mark.parametrize(
@@ -57,3 +59,98 @@ def test_properties(cylinder, length_expected, volume_expected):
 
     assert isclose(cylinder.length(), length_expected)
     assert isclose(cylinder.volume(), volume_expected)
+
+
+@pytest.mark.parametrize(
+    ("cylinder", "line", "array_expected_a", "array_expected_b"),
+    [
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, 0], [1, 0, 0]),
+            [-1, 0, 0],
+            [1, 0, 0],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, 0.5], [1, 0, 0]),
+            [-1, 0, 0.5],
+            [1, 0, 0.5],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 2),
+            Line([0, 0, 0], [1, 0, 0]),
+            [-2, 0, 0],
+            [2, 0, 0],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 5], 1),
+            Line([0, 0, 0], [1, 0, 0]),
+            [-1, 0, 0],
+            [1, 0, 0],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, 0], [1, 1, 0]),
+            [-sqrt(2) / 2, -sqrt(2) / 2, 0],
+            [sqrt(2) / 2, sqrt(2) / 2, 0],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, 0], [1, 1, 1]),
+            3 * [-sqrt(2) / 2],
+            3 * [sqrt(2) / 2],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, -1, 0], [1, 0, 0]),
+            [0, -1, 0],
+            [0, -1, 0],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 1, 0], [1, 0, 0]),
+            [0, 1, 0],
+            [0, 1, 0],
+        ),
+        (
+            Cylinder([1, 0, 0], [0, 0, 1], 1),
+            Line([0, -1, 0], [1, 0, 0]),
+            [1, -1, 0],
+            [1, -1, 0],
+        ),
+    ],
+)
+def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expected_b):
+
+    point_a, point_b = cylinder.intersect_line(line, n_digits=9)
+
+    point_expected_a = Point(array_expected_a)
+    point_expected_b = Point(array_expected_b)
+
+    assert point_a.is_close(point_expected_a)
+    assert point_b.is_close(point_expected_b)
+
+
+@pytest.mark.parametrize(
+    ("cylinder", "line"),
+    [
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, -2, 0], [1, 0, 0]),
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, -2, 0], [1, 0, 1]),
+        ),
+        (
+            Cylinder([3, 10, 4], [-1, 2, -3], 3),
+            Line([0, -2, 0], [1, 0, 1]),
+        ),
+    ],
+)
+def test_intersect_cylinder_line_failure(cylinder, line):
+
+    message_expected = "The line does not intersect the cylinder."
+
+    with pytest.raises(ValueError, match=message_expected):
+        cylinder.intersect_line(line)
