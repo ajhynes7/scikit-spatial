@@ -128,6 +128,7 @@ def test_project_point_failure(circle, point):
             [math.sqrt(3) / 2, 0.5],
         ),
         (Circle([1, 0], 1), Line([0, 0], [1, 0]), [0, 0], [2, 0]),
+        (Circle([1.5, 0], 1), Line([0, 0], [1, 0]), [0.5, 0], [2.5, 0]),
     ],
 )
 def test_intersect_line(circle, line, point_a_expected, point_b_expected):
@@ -141,15 +142,15 @@ def test_intersect_line(circle, line, point_a_expected, point_b_expected):
 @pytest.mark.parametrize(
     ("circle", "line"),
     [
-        # The circle does not intersect the line.
         (Circle([0, 0], 1), Line([0, 2], [1, 0])),
         (Circle([0, 0], 1), Line([0, -2], [1, 0])),
         (Circle([0, 0], 1), Line([2, 0], [0, 1])),
         (Circle([0, 0], 1), Line([3, 0], [1, 1])),
-        (Circle([1.5, 0], 1), Line([0, 0], [1, 0])),
     ],
 )
 def test_intersect_line_failure(circle, line):
 
-    with pytest.raises(Exception):
+    message_expected = "The line does not intersect the circle."
+
+    with pytest.raises(ValueError, match=message_expected):
         circle.intersect_line(line)
