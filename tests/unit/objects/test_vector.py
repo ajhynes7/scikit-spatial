@@ -143,6 +143,83 @@ def test_angle_signed(array_u, array_v, angle_expected):
 
 
 @pytest.mark.parametrize(
+    ("array_u", "array_v", "bool_expected"),
+    [
+        ([1, 0], [0, 1], True),
+        ([0, 1], [-1, 0], True),
+        ([-1, 0], [0, -1], True),
+        ([1, 1], [-1, -1], False),
+        ([1, 1], [1, 1], False),
+        # The zero vector is perpendicular to all vectors.
+        ([0, 0], [-1, 5], True),
+        ([0, 0, 0], [1, 1, 1], True),
+    ],
+)
+def test_is_perpendicular(array_u, array_v, bool_expected):
+    """Test checking if vector u is perpendicular to vector v."""
+    vector_u = Vector(array_u)
+
+    assert vector_u.is_perpendicular(array_v) == bool_expected
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "bool_expected"),
+    [
+        ([0, 1], [0, 1], True),
+        ([1, 0], [0, 1], False),
+        ([0, 1], [4, 0], False),
+        ([0, 1], [0, 5], True),
+        ([1, 1], [-1, -1], True),
+        ([1, 1], [-5, -5], True),
+        ([0, 1], [0, -1], True),
+        ([0.1, 5, 4], [3, 2, 0], False),
+        ([1, 1, 1, 1], [-2, -2, -2, 4], False),
+        ([1, 1, 1, 1], [-2, -2, -2, -2], True),
+        ([5, 0, -6, 7], [0, 1, 6, 3], False),
+        ([6, 0, 1, 0], [-12, 0, -2, 0], True),
+        # The zero vector is parallel to all vectors.
+        ([0, 0], [1, 1], True),
+        ([5, 2], [0, 0], True),
+        ([5, -3, 2, 6], [0, 0, 0, 0], True),
+    ],
+)
+def test_is_parallel(array_u, array_v, bool_expected):
+    """Test checking if vector u is parallel to vector v."""
+    vector_u = Vector(array_u)
+
+    assert vector_u.is_parallel(array_v) == bool_expected
+
+
+@pytest.mark.parametrize(
+    ("array_a", "array_b", "value_expected"),
+    [
+        ([0, 1], [0, 1], 0),
+        ([0, 1], [0, 9], 0),
+        ([0, 1], [0, -20], 0),
+        ([0, 1], [1, 1], 1),
+        ([0, 1], [38, 29], 1),
+        ([0, 1], [1, 0], 1),
+        ([0, 1], [1, -100], 1),
+        ([0, 1], [-1, 1], -1),
+        ([0, 1], [-1, 20], -1),
+        ([0, 1], [-1, -20], -1),
+        ([0, 1], [-5, 50], -1),
+        ([0], [1], None),
+        ([0, 0, 0], [1, 1, 1], None),
+        ([0, 0, 0, 0], [1, 1, 1, 1], None),
+    ],
+)
+def test_side_vector(array_a, array_b, value_expected):
+
+    if value_expected is None:
+        with pytest.raises(ValueError):
+            Vector(array_a).side_vector(array_b)
+
+    else:
+        assert Vector(array_a).side_vector(array_b) == value_expected
+
+
+@pytest.mark.parametrize(
     ("vector_u", "vector_v", "vector_expected"),
     [
         ([1, 1], [1, 0], [1, 0]),

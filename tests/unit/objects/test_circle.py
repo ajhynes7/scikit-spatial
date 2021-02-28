@@ -63,6 +63,25 @@ def test_distance_point(circle, point, dist_expected):
 
 
 @pytest.mark.parametrize(
+    ("circle", "point", "bool_expected"),
+    [
+        (Circle([0, 0], 1), [1, 0], True),
+        (Circle([0, 0], 1), [0, 1], True),
+        (Circle([0, 0], 1), [-1, 0], True),
+        (Circle([0, 0], 1), [0, -1], True),
+        (Circle([0, 0], 1), [0, 0], False),
+        (Circle([0, 0], 1), [1, 1], False),
+        (Circle([0, 0], 2), [1, 0], False),
+        (Circle([1, 0], 1), [1, 0], False),
+        (Circle([0, 0], math.sqrt(2)), [1, 1], True),
+    ],
+)
+def test_contains_point(circle, point, bool_expected):
+
+    assert circle.contains_point(point) == bool_expected
+
+
+@pytest.mark.parametrize(
     ("circle", "point", "point_expected"),
     [
         (Circle([0, 0], 1), [1, 0], [1, 0]),

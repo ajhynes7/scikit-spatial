@@ -62,3 +62,24 @@ def test_set_dimension(points, dim, points_expected):
 
     else:
         assert_array_equal(points.set_dimension(dim), points_expected)
+
+
+@pytest.mark.parametrize(
+    ("points", "bool_expected"),
+    [
+        ([[0, 0], [0, 0], [0, 0]], True),
+        ([[1, 0], [1, 0], [1, 0]], True),
+        ([[0, 0], [0, 1], [0, 2]], True),
+        ([[0, 0], [0, 1], [1, 2]], False),
+        ([[0, 1], [0, 0], [0, 2]], True),
+        ([[0, 0], [-1, 0], [10, 0]], True),
+        ([[0, 0], [1, 1], [2, 2], [-4, -4], [5, 5]], True),
+        ([[0, 0, 0], [1, 1, 1], [2, 2, 2]], True),
+        ([[0, 0, 0], [1, 1, 1], [2, 2, 2.5]], False),
+        ([[0, 0, 0], [1, 1, 0], [2, 2, 0], [-4, -4, 10], [5, 5, 0]], False),
+    ],
+)
+def test_are_collinear(points, bool_expected):
+    """Test checking if multiple points are collinear."""
+
+    assert Points(points).are_collinear() == bool_expected

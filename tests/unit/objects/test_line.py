@@ -80,6 +80,27 @@ def test_to_point(line, param, array_expected):
 
 
 @pytest.mark.parametrize(
+    ("line_a", "line_b", "bool_expected"),
+    [
+        (Line([0, 0], [1, 1]), Line([0, 0], [0, 1]), True),
+        (Line([-6, 7], [5, 90]), Line([1, 4], [-4, 5]), True),
+        (Line([0, 0, 1], [1, 1, 0]), Line([0, 0, 0], [0, 1, 0]), False),
+        (Line([0, 0, 1], [1, 1, 0]), Line([0, 0, 1], [0, 1, 0]), True),
+        (Line([0, 0, 1], [1, 0, 1]), Line([0, 0, 1], [2, 0, 2]), True),
+    ],
+)
+def test_is_coplanar(line_a, line_b, bool_expected):
+    """Test checking if two lines are coplanar."""
+
+    if bool_expected is None:
+        with pytest.raises(TypeError, match="The input must also be a line."):
+            line_a.is_coplanar(line_b)
+
+    else:
+        assert line_a.is_coplanar(line_b) == bool_expected
+
+
+@pytest.mark.parametrize(
     ("point", "point_line", "vector_line", "point_expected", "dist_expected"),
     [
         ([0, 5], [0, 0], [0, 1], [0, 5], 0),
@@ -116,6 +137,24 @@ def test_project_vector(line, vector, vector_expected):
 
     vector_projected = line.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
+    ("line", "point", "value_expected"),
+    [
+        (Line([0, 0], [0, 1]), [0, 0], 0),
+        (Line([0, 0], [0, 1]), [1, 0], 1),
+        (Line([0, 0], [0, 1]), [1, 1], 1),
+        (Line([0, 0], [0, 1]), [1, 10], 1),
+        (Line([0, 0], [0, 1]), [1, -10], 1),
+        (Line([0, 0], [0, 1]), [-1, 0], -1),
+        (Line([0, 0], [0, 1]), [-1, 1], -1),
+        (Line([0, 0], [0, 1]), [-1, -25], -1),
+    ],
+)
+def test_side_point(line, point, value_expected):
+
+    assert line.side_point(point) == value_expected
 
 
 @pytest.mark.parametrize(

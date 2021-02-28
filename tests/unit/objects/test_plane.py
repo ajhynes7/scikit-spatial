@@ -124,6 +124,28 @@ def test_distance_point(point, plane, dist_signed_expected):
 
 
 @pytest.mark.parametrize(
+    ("plane", "point", "value_expected"),
+    [
+        (Plane([0, 0], [1, 1]), [2, 2], 1),
+        (Plane([0, 0], [1, 1]), [0, 0], 0),
+        (Plane([0, 1], [1, 1]), [0, 0], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 0, 0], 0),
+        (Plane([0, 0, 0], [1, 0, 0]), [1, 0, 0], 1),
+        (Plane([0, 0, 0], [1, 0, 0]), [-1, 0, 0], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [25, 53, -105], 1),
+        (Plane([0, 0, 0], [1, 0, 0]), [-2, 53, -105], -1),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 38, 19], 0),
+        (Plane([0, 0, 0], [1, 0, 0]), [0, 101, -45], 0),
+        (Plane([0, 0, 0], [-1, 0, 0]), [1, 0, 0], -1),
+        (Plane([5, 0, 0], [1, 0, 0]), [1, 0, 0], -1),
+    ],
+)
+def test_side_point(plane, point, value_expected):
+
+    assert plane.side_point(point) == value_expected
+
+
+@pytest.mark.parametrize(
     ("line", "plane", "array_expected"),
     [
         (Line([0, 0, 0], [1, 0, 0]), Plane([0, 0, 0], [1, 0, 0]), [0, 0, 0]),

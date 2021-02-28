@@ -65,6 +65,27 @@ def test_distance_point(sphere, point, dist_expected):
 
 
 @pytest.mark.parametrize(
+    ("sphere", "point", "bool_expected"),
+    [
+        (Sphere([0, 0, 0], 1), [1, 0, 0], True),
+        (Sphere([0, 0, 0], 1), [0, 1, 0], True),
+        (Sphere([0, 0, 0], 1), [0, 0, 1], True),
+        (Sphere([0, 0, 0], 1), [-1, 0, 0], True),
+        (Sphere([0, 0, 0], 1), [0, -1, 0], True),
+        (Sphere([0, 0, 0], 1), [0, 0, -1], True),
+        (Sphere([0, 0, 0], 1), [1, 1, 0], False),
+        (Sphere([1, 0, 0], 1), [1, 0, 0], False),
+        (Sphere([1, 0, 0], 1), [2, 0, 0], True),
+        (Sphere([0, 0, 0], 2), [0, 2, 0], True),
+        (Sphere([0, 0, 0], math.sqrt(3)), [1, 1, 1], True),
+    ],
+)
+def test_contains_point(sphere, point, bool_expected):
+
+    assert sphere.contains_point(point) == bool_expected
+
+
+@pytest.mark.parametrize(
     ("sphere", "point", "point_expected"),
     [
         (Sphere([0, 0, 0], 1), [1, 0, 0], [1, 0, 0]),
