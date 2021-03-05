@@ -10,22 +10,17 @@ from skspatial.objects import Points
 @pytest.mark.parametrize(
     "array",
     [
-        # The array cannot be empty.
-        [],
-        [[]],
-        [[], []],
-        # The array cannot be 1D.
         [0],
         [5],
         [0, 1],
         [0, 1, 2],
-        # The points cannot have different lengths.
-        [[0, 1], [0, 1, 0]],
     ],
 )
 def test_failure(array):
 
-    with pytest.raises(Exception):
+    message_expected = "The array must be 2D."
+
+    with pytest.raises(ValueError, match=message_expected):
         Points(array)
 
 
