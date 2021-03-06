@@ -147,6 +147,9 @@ def test_intersect_line(circle, line, point_a_expected, point_b_expected):
         (Circle([0, 0], 1), Line([0, -2], [1, 0])),
         (Circle([0, 0], 1), Line([2, 0], [0, 1])),
         (Circle([0, 0], 1), Line([3, 0], [1, 1])),
+        (Circle([0, 0], 0.5), Line([0, 1], [1, 1])),
+        (Circle([0, 1], 0.5), Line([0, 0], [1, 0])),
+        (Circle([5, 2], 1), Line([2, -1], [1, 0])),
     ],
 )
 def test_intersect_line_failure(circle, line):

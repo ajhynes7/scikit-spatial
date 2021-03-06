@@ -7,6 +7,11 @@ from numpy.testing import assert_array_equal
 
 from skspatial.objects import Line
 
+POINTS_MUST_NOT_BE_CONCURRENT = "The points must not be concurrent."
+ARRAY_MUST_NOT_BE_EMPTY = "The array must not be empty."
+LINES_MUST_BE_COPLANAR = "The lines must be coplanar."
+LINES_MUST_NOT_BE_PARALLEL = "The lines must not be parallel."
+
 
 @pytest.mark.parametrize(
     ("array_a", "array_b", "line_expected"),
@@ -27,7 +32,6 @@ def test_from_points(array_a, array_b, line_expected):
 @pytest.mark.parametrize(
     ("array_a", "array_b"),
     [
-        # The zero vector cannot be used.
         ([0, 0], [0, 0]),
         ([1, 2], [1, 2]),
         ([-1, 5], [-1, 5]),
@@ -36,7 +40,9 @@ def test_from_points(array_a, array_b, line_expected):
 )
 def test_from_points_failure(array_a, array_b):
 
-    with pytest.raises(Exception):
+    message_expected = "The vector must not be the zero vector."
+
+    with pytest.raises(ValueError, match=message_expected):
         Line.from_points(array_a, array_b)
 
 
@@ -209,19 +215,19 @@ def test_intersect_line(line_a, line_b, array_expected):
 
 
 @pytest.mark.parametrize(
-    ("line_a", "line_b"),
+    ("line_a", "line_b", "message_expected"),
     [
-        (Line([0, 0], [1, 0]), Line([0, 0], [1, 0])),
-        (Line([0, 0], [1, 0]), Line([5, 5], [1, 0])),
-        (Line([0, 0], [0, 1]), Line([0, 0], [0, 5])),
-        (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0])),
-        (Line([0, 0], [1, 0]), Line([5, 5], [-1, 0])),
-        (Line([0, 0, 0], [1, 1, 1]), Line([0, 1, 0], [-1, 0, 0])),
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 0]), LINES_MUST_NOT_BE_PARALLEL),
+        (Line([0, 0], [1, 0]), Line([5, 5], [1, 0]), LINES_MUST_NOT_BE_PARALLEL),
+        (Line([0, 0], [0, 1]), Line([0, 0], [0, 5]), LINES_MUST_NOT_BE_PARALLEL),
+        (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0]), LINES_MUST_NOT_BE_PARALLEL),
+        (Line([0, 0], [1, 0]), Line([5, 5], [-1, 0]), LINES_MUST_NOT_BE_PARALLEL),
+        (Line([0, 0, 0], [1, 1, 1]), Line([0, 1, 0], [-1, 0, 0]), LINES_MUST_BE_COPLANAR),
     ],
 )
-def test_intersect_line_failure(line_a, line_b):
+def test_intersect_line_failure(line_a, line_b, message_expected):
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError, match=message_expected):
         line_a.intersect_line(line_b)
 
 
@@ -263,17 +269,17 @@ def test_best_fit(points, line_expected):
 
 
 @pytest.mark.parametrize(
-    "points",
+    ("points", "message_expected"),
     [
-        # There are fewer than two points.
-        [[]],
-        [[0, 0]],
-        [[0, 0, 0]],
+        ([[]], ARRAY_MUST_NOT_BE_EMPTY),
+        ([[0, 0]], POINTS_MUST_NOT_BE_CONCURRENT),
+        ([[0, 0, 0]], POINTS_MUST_NOT_BE_CONCURRENT),
+        ([[1, 2], [1, 2], [1, 2]], POINTS_MUST_NOT_BE_CONCURRENT),
     ],
 )
-def test_best_fit_failure(points):
+def test_best_fit_failure(points, message_expected):
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError, match=message_expected):
         Line.best_fit(points)
 
 

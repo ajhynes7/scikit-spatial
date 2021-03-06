@@ -31,7 +31,6 @@ def test_from_points(point_a, point_b, point_c, plane_expected):
 @pytest.mark.parametrize(
     ("point_a", "point_b", "point_c"),
     [
-        # The points cannot be collinear.
         ([0, 0], [0, 0], [0, 0]),
         ([0, 0], [0, 1], [0, 2]),
         ([-2, 1], [0, 2], [2, 3]),
@@ -41,7 +40,9 @@ def test_from_points(point_a, point_b, point_c, plane_expected):
 )
 def test_from_points_failure(point_a, point_b, point_c):
 
-    with pytest.raises(Exception):
+    message_expected = "The points must not be collinear."
+
+    with pytest.raises(ValueError, match=message_expected):
         Plane.from_points(point_a, point_b, point_c)
 
 
@@ -169,7 +170,9 @@ def test_intersect_line(line, plane, array_expected):
 )
 def test_intersect_line_failure(line, plane):
 
-    with pytest.raises(Exception):
+    message_expected = "The line and plane must not be parallel."
+
+    with pytest.raises(ValueError, match=message_expected):
         plane.intersect_line(line)
 
 
@@ -210,7 +213,9 @@ def test_intersect_plane(plane_a, plane_b, line_expected):
 )
 def test_intersect_plane_failure(plane_a, plane_b):
 
-    with pytest.raises(Exception):
+    message_expected = "The planes must not be parallel."
+
+    with pytest.raises(Exception, match=message_expected):
         plane_a.intersect_plane(plane_b)
 
 
