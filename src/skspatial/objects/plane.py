@@ -1,4 +1,6 @@
 """Module for the Plane class."""
+from __future__ import annotations
+
 from typing import cast
 from typing import Tuple
 
@@ -26,6 +28,9 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         Point on the plane.
     direction : array_like
         Normal vector of the plane.
+    kwargs : dict, optional
+        Additional keywords passed to :meth:`Vector.is_zero`.
+        This method is used to ensure that the normal vector is not the zero vector.
 
     Attributes
     ----------
@@ -84,7 +89,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like) -> 'Plane':
+    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like, **kwargs) -> 'Plane':
         """
         Instantiate a plane from a point and two vectors.
 
@@ -96,6 +101,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
             Point on the plane.
         vector_a, vector_b : array_like
             Input vectors.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_parallel`.
 
         Returns
         -------
@@ -122,7 +129,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         """
         vector_a = Vector(vector_a)
 
-        if vector_a.is_parallel(vector_b, rel_tol=0, abs_tol=0):
+        if vector_a.is_parallel(vector_b, **kwargs):
             raise ValueError("The vectors must not be parallel.")
 
         # The cross product returns a 3D vector.
@@ -134,7 +141,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like) -> 'Plane':
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like, **kwargs) -> 'Plane':
         """
         Instantiate a plane from three points.
 
@@ -144,6 +151,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ----------
         point_a, point_b, point_c: array_like
             Three points defining the plane.
+        kwargs: dict, optional
+            Additional keywords passed to :meth:`Points.are_collinear`.
 
         Returns
         -------
@@ -173,7 +182,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ValueError: The points must not be collinear.
 
         """
-        if Points([point_a, point_b, point_c]).are_collinear(tol=0):
+        if Points([point_a, point_b, point_c]).are_collinear(**kwargs):
             raise ValueError("The points must not be collinear.")
 
         vector_ab = Vector.from_points(point_a, point_b)
@@ -420,7 +429,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         """
         return int(np.sign(self.distance_point_signed(point)))
 
-    def intersect_line(self, line: Line) -> 'Plane':
+    def intersect_line(self, line: Line, **kwargs) -> 'Plane':
         """
         Intersect the plane with a line.
 
@@ -430,6 +439,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ----------
         line : Line
             Input line.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_perpendicular`.
 
         Returns
         -------
@@ -466,7 +477,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ValueError: The line and plane must not be parallel.
 
         """
-        if self.normal.is_perpendicular(line.direction, rel_tol=0, abs_tol=0):
+        if self.normal.is_perpendicular(line.direction, **kwargs):
             raise ValueError("The line and plane must not be parallel.")
 
         vector_plane_line = Vector.from_points(self.point, line.point)
@@ -479,7 +490,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return line.point + vector_line_scaled
 
-    def intersect_plane(self, other: 'Plane') -> Line:
+    def intersect_plane(self, other: 'Plane', **kwargs) -> Line:
         """
         Intersect the plane with another.
 
@@ -489,6 +500,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ----------
         other : Plane
             Other plane.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_parallel`.
 
         Returns
         -------
@@ -529,7 +542,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ValueError: The planes must not be parallel.
 
         """
-        if self.normal.is_parallel(other.normal, rel_tol=0, abs_tol=0):
+        if self.normal.is_parallel(other.normal, **kwargs):
             raise ValueError("The planes must not be parallel.")
 
         array_normals_stacked = np.vstack((self.normal, other.normal))
@@ -554,7 +567,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like, **kwargs) -> 'Plane':
+    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> 'Plane':
         """
         Return the plane of best fit for a set of 3D points.
 
@@ -562,6 +575,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ----------
         points : array_like
              Input 3D points.
+        tol : float | None, optional
+            Keyword passed to :meth:`Points.are_collinear` (default None).
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.svd`
 
@@ -606,7 +621,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         if points.dimension != 3:
             raise ValueError("The points must be 3D.")
 
-        if points.are_collinear(tol=0):
+        if points.are_collinear(tol=tol):
             raise ValueError("The points must not be collinear.")
 
         points_centered, centroid = points.mean_center(return_centroid=True)
