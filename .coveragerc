@@ -1,8 +1,7 @@
 [run]
-source = skspatial
 omit =
-    skspatial/plotting.py
-    skspatial/tests/*
+    */plotting.py
 
 [report]
-exclude_lines=def *plot*
+exclude_lines =
+    def *plot*
