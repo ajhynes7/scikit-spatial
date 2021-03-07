@@ -10,7 +10,7 @@
          :target: https://pypi.python.org/pypi/scikit-spatial
 
 .. image:: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yaml/badge.svg
-         :target: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yaml
+         :target: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml
 
 .. image:: https://results.pre-commit.ci/badge/github/ajhynes7/scikit-spatial/master.svg
    :target: https://results.pre-commit.ci/latest/github/ajhynes7/scikit-spatial/master
