@@ -28,4 +28,4 @@ jobs:
               with:
                   fail_ci_if_error: true
                   verbose: true
-                  gcov_prefix: $GITHUB_WORKSPACE
+                  gcov_prefix: ${{ env.GITHUB_WORKSPACE }}
