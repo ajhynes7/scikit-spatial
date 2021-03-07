@@ -3,9 +3,9 @@ import math
 import pytest
 
 from skspatial._functions import _allclose
-from skspatial.objects.line import Line
-from skspatial.objects.plane import Plane
-from skspatial.objects.points import Points
+from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(

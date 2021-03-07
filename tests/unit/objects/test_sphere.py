@@ -4,9 +4,9 @@ from math import sqrt
 import numpy as np
 import pytest
 
-from skspatial.objects.line import Line
-from skspatial.objects.points import Points
-from skspatial.objects.sphere import Sphere
+from skspatial.objects import Line
+from skspatial.objects import Points
+from skspatial.objects import Sphere
 
 POINT_MUST_BE_3D = "The point must be 3D."
 RADIUS_MUST_BE_POSITIVE = "The radius must be positive."
