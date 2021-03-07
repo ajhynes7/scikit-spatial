@@ -1,4 +1,6 @@
 """Module for the Vector class."""
+from __future__ import annotations
+
 import math
 from typing import cast
 
@@ -68,7 +70,7 @@ class Vector(_BaseArray1D):
     """
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Vector':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> Vector:
         """
         Instantiate a vector from point A to point B.
 
@@ -132,7 +134,7 @@ class Vector(_BaseArray1D):
         """
         return np.linalg.norm(self, **kwargs)
 
-    def unit(self) -> 'Vector':
+    def unit(self) -> Vector:
         """
         Return the unit vector in the same direction as the vector.
 
@@ -210,7 +212,7 @@ class Vector(_BaseArray1D):
         """
         return math.isclose(self.dot(self), 0, **kwargs)
 
-    def cross(self, other: array_like) -> 'Vector':
+    def cross(self, other: array_like) -> Vector:
         """
         Compute the cross product with another vector.
 
@@ -540,16 +542,21 @@ class Vector(_BaseArray1D):
 
         The vectors are not 2D.
 
+        >>> Vector([1]).side_vector([2])
+        Traceback (most recent call last):
+        ...
+        ValueError: The vectors must be 2D.
+
         >>> Vector([1, 0, 0]).side_vector([1, 2, 3])
         Traceback (most recent call last):
         ...
         ValueError: The vectors must be 2D.
 
         """
-        value_cross = np.cross(other, self)
-
-        if value_cross.ndim != 0:
+        if self.dimension != 2 or Vector(other).dimension != 2:
             raise ValueError("The vectors must be 2D.")
+
+        value_cross = np.cross(other, self)
 
         return int(np.sign(value_cross))
 
@@ -588,7 +595,7 @@ class Vector(_BaseArray1D):
 
         return np.float64(result)
 
-    def project_vector(self, other: array_like) -> 'Vector':
+    def project_vector(self, other: array_like) -> Vector:
         """
         Project an other vector onto the vector.
 
@@ -621,7 +628,7 @@ class Vector(_BaseArray1D):
         """
         return self.dot(other) / self.dot(self) * self
 
-    def different_direction(self, **kwargs: float) -> 'Vector':
+    def different_direction(self, **kwargs: float) -> Vector:
         """
         Return a simple vector that is in a different direction.
 

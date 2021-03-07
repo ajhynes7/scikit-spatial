@@ -92,7 +92,9 @@ def test_two_vectors(arrays):
     assert vector_a.is_parallel(vector_zero)
 
     # The angle with the zero vector is undefined.
-    with pytest.raises(Exception):
+    message_expected = "The vectors must have non-zero magnitudes."
+
+    with pytest.raises(ValueError, match=message_expected):
         vector_a.angle_between(vector_zero)
 
     # The projection of vector B onto A is parallel to A.

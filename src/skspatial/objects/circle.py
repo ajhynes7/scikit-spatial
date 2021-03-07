@@ -200,11 +200,11 @@ class Circle(_BaseSphere):
         point_2 = point_1 + line.direction.unit()
 
         # Translate the points on the line to mimic the circle being centered on the origin.
-        point_1 -= self.point
-        point_2 -= self.point
+        point_translated_1 = point_1 - self.point
+        point_translated_2 = point_2 - self.point
 
-        x_1, y_1 = point_1
-        x_2, y_2 = point_2
+        x_1, y_1 = point_translated_1
+        x_2, y_2 = point_translated_2
 
         d_x = x_2 - x_1
         d_y = y_2 - y_1
@@ -225,12 +225,12 @@ class Circle(_BaseSphere):
         coords_x = (determinant * d_y + pm * sign * d_x * root) / d_r_squared
         coords_y = (-determinant * d_x + pm * abs(d_y) * root) / d_r_squared
 
-        point_a = Point([coords_x[0], coords_y[0]])
-        point_b = Point([coords_x[1], coords_y[1]])
+        point_translated_a = Point([coords_x[0], coords_y[0]])
+        point_translated_b = Point([coords_x[1], coords_y[1]])
 
         # Translate the intersection points back from origin circle to real circle.
-        point_a += self.point
-        point_b += self.point
+        point_a = point_translated_a + self.point
+        point_b = point_translated_b + self.point
 
         return point_a, point_b
 

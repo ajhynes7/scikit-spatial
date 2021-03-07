@@ -1,5 +1,6 @@
 import math
 
+import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
@@ -7,7 +8,7 @@ from skspatial.objects import Vector
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, vector_expected",
+    ("array_a", "array_b", "vector_expected"),
     [
         ([0, 0], [1, 0], Vector([1, 0])),
         ([1, 0], [1, 0], Vector([0, 0])),
@@ -22,7 +23,7 @@ def test_from_points(array_a, array_b, vector_expected):
 
 
 @pytest.mark.parametrize(
-    "array, array_unit_expected",
+    ("array", "array_unit_expected"),
     [
         ([1, 0], [1, 0]),
         ([2, 0], [1, 0]),
@@ -48,7 +49,7 @@ def test_unit(array, array_unit_expected):
 
 
 @pytest.mark.parametrize(
-    "array, kwargs, bool_expected",
+    ("array", "kwargs", "bool_expected"),
     [
         ([0, 0], {}, True),
         ([0, 0, 0], {}, True),
@@ -66,7 +67,196 @@ def test_is_zero(array, kwargs, bool_expected):
 
 
 @pytest.mark.parametrize(
-    "array, array_expected",
+    ("array_u", "array_v", "similarity_expected"),
+    [
+        ([1, 0], [1, 0], 1),
+        ([1, 0], [0, 1], 0),
+        ([1, 0], [-1, 0], -1),
+        ([1, 0], [0, -1], 0),
+        ([1, 0], [1, 1], math.sqrt(2) / 2),
+        ([1, 0], [-1, 1], -math.sqrt(2) / 2),
+        ([1, 0], [-1, -1], -math.sqrt(2) / 2),
+        ([1, 0], [1, -1], math.sqrt(2) / 2),
+        ([1, 0], [0.5, math.sqrt(3) / 2], 0.5),
+        ([1, 0], [math.sqrt(3) / 2, 0.5], math.sqrt(3) / 2),
+        ([1, 1], [0, 0], None),
+        ([0, 0], [1, 1], None),
+    ],
+)
+def test_cosine_similarity(array_u, array_v, similarity_expected):
+
+    if similarity_expected is None:
+        with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
+            Vector(array_u).cosine_similarity(array_v)
+
+    else:
+        similarity = Vector(array_u).cosine_similarity(array_v)
+        assert math.isclose(similarity, similarity_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "angle_expected"),
+    [
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [math.sqrt(3) / 2, 0.5], np.pi / 6),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [0, -1], np.pi / 2),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0, 0], [0, 1, 0], np.pi / 2),
+    ],
+)
+def test_angle_between(array_u, array_v, angle_expected):
+    """Test finding the angle between vectors u and v."""
+
+    angle = Vector(array_u).angle_between(array_v)
+    assert math.isclose(angle, angle_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "angle_expected"),
+    [
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [-1, 1], 3 * np.pi / 4),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0], [-1, -1], -3 * np.pi / 4),
+        ([1, 0], [0, -1], -np.pi / 2),
+        ([1, 0], [1, -1], -np.pi / 4),
+        ([1, 1], [0, 1], np.pi / 4),
+        ([1, 1], [1, 0], -np.pi / 4),
+        ([0], [0], None),
+        ([1, 1, 1], [1, 0, 0], None),
+        (np.ones(4), np.ones(4), None),
+    ],
+)
+def test_angle_signed(array_u, array_v, angle_expected):
+
+    if angle_expected is None:
+        with pytest.raises(ValueError, match="The vectors must be 2D."):
+            Vector(array_u).angle_signed(array_v)
+
+    else:
+        angle = Vector(array_u).angle_signed(array_v)
+        assert math.isclose(angle, angle_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "bool_expected"),
+    [
+        ([1, 0], [0, 1], True),
+        ([0, 1], [-1, 0], True),
+        ([-1, 0], [0, -1], True),
+        ([1, 1], [-1, -1], False),
+        ([1, 1], [1, 1], False),
+        # The zero vector is perpendicular to all vectors.
+        ([0, 0], [-1, 5], True),
+        ([0, 0, 0], [1, 1, 1], True),
+    ],
+)
+def test_is_perpendicular(array_u, array_v, bool_expected):
+    """Test checking if vector u is perpendicular to vector v."""
+    vector_u = Vector(array_u)
+
+    assert vector_u.is_perpendicular(array_v) == bool_expected
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "bool_expected"),
+    [
+        ([0, 1], [0, 1], True),
+        ([1, 0], [0, 1], False),
+        ([0, 1], [4, 0], False),
+        ([0, 1], [0, 5], True),
+        ([1, 1], [-1, -1], True),
+        ([1, 1], [-5, -5], True),
+        ([0, 1], [0, -1], True),
+        ([0.1, 5, 4], [3, 2, 0], False),
+        ([1, 1, 1, 1], [-2, -2, -2, 4], False),
+        ([1, 1, 1, 1], [-2, -2, -2, -2], True),
+        ([5, 0, -6, 7], [0, 1, 6, 3], False),
+        ([6, 0, 1, 0], [-12, 0, -2, 0], True),
+        # The zero vector is parallel to all vectors.
+        ([0, 0], [1, 1], True),
+        ([5, 2], [0, 0], True),
+        ([5, -3, 2, 6], [0, 0, 0, 0], True),
+    ],
+)
+def test_is_parallel(array_u, array_v, bool_expected):
+    """Test checking if vector u is parallel to vector v."""
+    vector_u = Vector(array_u)
+
+    assert vector_u.is_parallel(array_v) == bool_expected
+
+
+@pytest.mark.parametrize(
+    ("array_a", "array_b", "value_expected"),
+    [
+        ([0, 0], [0, 0], 0),
+        ([0, 0], [0, 1], 0),
+        ([0, 0], [1, 1], 0),
+        ([0, 1], [0, 1], 0),
+        ([0, 1], [0, 9], 0),
+        ([0, 1], [0, -20], 0),
+        ([0, 1], [1, 1], 1),
+        ([0, 1], [38, 29], 1),
+        ([0, 1], [1, 0], 1),
+        ([0, 1], [1, -100], 1),
+        ([0, 1], [-1, 1], -1),
+        ([0, 1], [-1, 20], -1),
+        ([0, 1], [-1, -20], -1),
+        ([0, 1], [-5, 50], -1),
+    ],
+)
+def test_side_vector(array_a, array_b, value_expected):
+
+    assert Vector(array_a).side_vector(array_b) == value_expected
+
+
+@pytest.mark.parametrize(
+    ("array_a", "array_b"),
+    [
+        ([0], [1]),
+        ([0, 0, 0], [1, 1, 1]),
+        ([0, 0, 0, 0], [1, 1, 1, 1]),
+    ],
+)
+def test_side_vector_failure(array_a, array_b):
+
+    message_expected = "The vectors must be 2D."
+
+    with pytest.raises(ValueError, match=message_expected):
+        Vector(array_a).side_vector(array_b)
+
+
+@pytest.mark.parametrize(
+    ("vector_u", "vector_v", "vector_expected"),
+    [
+        ([1, 1], [1, 0], [1, 0]),
+        ([1, 5], [1, 0], [1, 0]),
+        ([5, 5], [1, 0], [5, 0]),
+        # Scaling v by a non-zero scalar doesn't change the projection.
+        ([0, 1], [0, 1], [0, 1]),
+        ([0, 1], [0, -5], [0, 1]),
+        ([0, 1], [0, 15], [0, 1]),
+        # The projection is the zero vector if u and v are perpendicular.
+        ([1, 0], [0, 1], [0, 0]),
+        ([5, 0], [0, 9], [0, 0]),
+        # The projection of the zero vector onto v is the zero vector.
+        ([0, 0], [0, 1], [0, 0]),
+    ],
+)
+def test_project_vector(vector_u, vector_v, vector_expected):
+    """Test projecting vector u onto vector v."""
+
+    vector_u_projected = Vector(vector_v).project_vector(vector_u)
+
+    assert vector_u_projected.is_close(vector_expected)
+
+
+@pytest.mark.parametrize(
+    ("array", "array_expected"),
     [
         ([1], [-1]),
         ([5], [-1]),

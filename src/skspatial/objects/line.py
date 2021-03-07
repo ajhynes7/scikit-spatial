@@ -1,4 +1,6 @@
 """Module for the Line class."""
+from __future__ import annotations
+
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -25,6 +27,9 @@ class Line(_BaseLinePlane):
         Point on the line.
     direction : array_like
         Direction vector of the line.
+    kwargs : dict, optional
+        Additional keywords passed to :meth:`Vector.is_zero`.
+        This method is used to ensure that the direction vector is not the zero vector.
 
     Attributes
     ----------
@@ -84,7 +89,7 @@ class Line(_BaseLinePlane):
         self.direction = self.vector
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Line':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> Line:
         """
         Instantiate a line from two points.
 
@@ -116,7 +121,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @classmethod
-    def from_slope(cls, slope: float, y_intercept: float) -> 'Line':
+    def from_slope(cls, slope: float, y_intercept: float) -> Line:
         r"""
         Instantiate a 2D line from a slope and Y-intercept.
 
@@ -437,7 +442,7 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    def intersect_line(self, other: 'Line') -> Point:
+    def intersect_line(self, other: 'Line', **kwargs) -> Point:
         """
         Intersect the line with another.
 
@@ -447,6 +452,8 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Other line.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_parallel`.
 
         Returns
         -------
@@ -468,10 +475,32 @@ class Line(_BaseLinePlane):
 
         >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([5, 5], [0, 1])
-
         >>> line_a.intersect_line(line_b)
         Point([5., 0.])
 
+        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_b = Line([5, 5, 0], [0, 0, -8])
+        >>> line_a.intersect_line(line_b)
+        Point([5., 5., 5.])
+
+        >>> line_a = Line([0, 0, 0], [1, 0, 0])
+        >>> line_b = Line([0, 0], [1, 1])
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        ValueError: The lines must have the same dimension.
+
+        >>> line_a = Line(4 * [0], [1, 0, 0, 0])
+        >>> line_b = Line(4 * [0], [0, 0, 0, 1])
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        ValueError: The line dimension cannot be greater than 3.
+
+        >>> line_a = Line([0, 0], [0, 1])
+        >>> line_b = Line([0, 1], [0, 1])
+
+        >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([0, 1], [2, 0])
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
@@ -480,20 +509,19 @@ class Line(_BaseLinePlane):
 
         >>> line_a = Line([1, 2, 3], [-4, 1, 1])
         >>> line_b = Line([4, 5, 6], [3, 1, 5])
-
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         ValueError: The lines must be coplanar.
 
-        >>> line_a = Line([0, 0, 0], [1, 1, 1])
-        >>> line_b = Line([5, 5, 0], [0, 0, -8])
-
-        >>> line_a.intersect_line(line_b)
-        Point([5., 5., 5.])
-
         """
-        if self.direction.is_parallel(other.direction, rel_tol=0, abs_tol=0):
+        if self.dimension != other.dimension:
+            raise ValueError("The lines must have the same dimension.")
+
+        if self.dimension > 3 or other.dimension > 3:
+            raise ValueError("The line dimension cannot be greater than 3.")
+
+        if self.direction.is_parallel(other.direction, **kwargs):
             raise ValueError("The lines must not be parallel.")
 
         if not self.is_coplanar(other):
@@ -514,7 +542,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like, **kwargs) -> 'Line':
+    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> Line:
         """
         Return the line of best fit for a set of points.
 
@@ -522,6 +550,8 @@ class Line(_BaseLinePlane):
         ----------
         points : array_like
              Input points.
+        tol : float | None, optional
+            Keyword passed to :meth:`Points.are_collinear` (default None).
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.svd`
 
@@ -555,7 +585,7 @@ class Line(_BaseLinePlane):
         """
         points_spatial = Points(points)
 
-        if points_spatial.are_concurrent(tol=0):
+        if points_spatial.are_concurrent(tol=tol):
             raise ValueError("The points must not be concurrent.")
 
         points_centered, centroid = points_spatial.mean_center(return_centroid=True)

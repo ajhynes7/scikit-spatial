@@ -12,7 +12,7 @@ from tests.property.strategies import consistent_dim
 def test_from_points(arrays):
 
     points = Points(arrays)
-    assume(not points.are_collinear(tol=ATOL))
+    assume(not points.are_collinear(tol=1))
 
     # The plane must contain each point.
     plane = Plane.from_points(*points)

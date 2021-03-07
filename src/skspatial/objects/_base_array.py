@@ -1,4 +1,5 @@
 """Private base classes for arrays."""
+import warnings
 from typing import cast
 from typing import Type
 from typing import TypeVar
@@ -8,7 +9,6 @@ import numpy as np
 from skspatial._functions import _allclose
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.typing import array_like
-
 
 # Create generic variables that can be 'Parent' or any subclass.
 Array = TypeVar('Array', bound='_BaseArray')
@@ -22,6 +22,15 @@ class _BaseArray(np.ndarray, _BaseSpatial):
     """Private base class for spatial objects based on a single NumPy array."""
 
     def __new__(cls: Type[Array], array: array_like) -> Array:
+
+        try:
+            warnings.filterwarnings("error")
+            np.array(array)
+
+        except np.VisibleDeprecationWarning as error:
+
+            if str(error).startswith("Creating an ndarray from ragged nested sequences"):
+                raise ValueError("The array must not contain sequences with different lengths.")
 
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")

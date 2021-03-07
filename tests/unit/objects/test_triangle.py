@@ -140,7 +140,7 @@ def test_triangle(test_case):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, array_c",
+    ("array_a", "array_b", "array_c"),
     [([1], [1, 0], [1, 0]), ([1, 0, 0], [1, 0], [1, 0]), ([1, 0], [1, 0], [1, 0, 0]), ([1, 0, 0], [1, 0], [1, 0, 0])],
 )
 def test_failure_different_dimensions(array_a, array_b, array_c):
@@ -150,7 +150,7 @@ def test_failure_different_dimensions(array_a, array_b, array_c):
 
 
 @pytest.mark.parametrize(
-    "array_a, array_b, array_c",
+    ("array_a", "array_b", "array_c"),
     [
         ([1], [2], [3]),
         ([1, 0], [1, 0], [1, 0]),
@@ -166,7 +166,7 @@ def test_failure_collinear_points(array_a, array_b, array_c):
         Triangle(array_a, array_b, array_c)
 
 
-@pytest.fixture
+@pytest.fixture()
 def basic_triangle():
 
     return Triangle([0, 0], [0, 1], [1, 0])
