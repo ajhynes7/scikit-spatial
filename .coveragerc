@@ -1,4 +1,6 @@
 [run]
+source =
+    src/
 omit =
     */plotting.py
 

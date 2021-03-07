@@ -22,3 +22,10 @@ jobs:
 
             - name: Run tox
               run: tox
+
+            - name: Upload coverage report to codecov
+              uses: codecov/codecov-action@v1.2.1
+              with:
+                  fail_ci_if_error: true
+                  verbose: true
+                  gcov_prefix: ${{ env.GITHUB_WORKSPACE }}
