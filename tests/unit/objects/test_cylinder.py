@@ -9,6 +9,9 @@ from skspatial.objects import Line
 from skspatial.objects import Point
 from skspatial.objects import Points
 
+LINE_DOES_NOT_INTERSECT_CYLINDER = "The line does not intersect the cylinder."
+LINE_MUST_BE_3D = "The line must be 3D."
+
 
 @pytest.mark.parametrize(
     ("point", "vector", "radius", "message_expected"),
@@ -158,25 +161,36 @@ def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expecte
 
 
 @pytest.mark.parametrize(
-    ("cylinder", "line"),
+    ("cylinder", "line", "message_expected"),
     [
         (
             Cylinder([0, 0, 0], [0, 0, 1], 1),
             Line([0, -2, 0], [1, 0, 0]),
+            LINE_DOES_NOT_INTERSECT_CYLINDER,
         ),
         (
             Cylinder([0, 0, 0], [0, 0, 1], 1),
             Line([0, -2, 0], [1, 0, 1]),
+            LINE_DOES_NOT_INTERSECT_CYLINDER,
         ),
         (
             Cylinder([3, 10, 4], [-1, 2, -3], 3),
             Line([0, -2, 0], [1, 0, 1]),
+            LINE_DOES_NOT_INTERSECT_CYLINDER,
+        ),
+        (
+            Cylinder([3, 10, 4], [-1, 2, -3], 3),
+            Line([0, 0], [1, 0]),
+            LINE_MUST_BE_3D,
+        ),
+        (
+            Cylinder([3, 10, 4], [-1, 2, -3], 3),
+            Line(4 * [0], [1, 0, 0, 0]),
+            LINE_MUST_BE_3D,
         ),
     ],
 )
-def test_intersect_cylinder_line_failure(cylinder, line):
-
-    message_expected = "The line does not intersect the cylinder."
+def test_intersect_cylinder_line_failure(cylinder, line, message_expected):
 
     with pytest.raises(ValueError, match=message_expected):
         cylinder.intersect_line(line)
