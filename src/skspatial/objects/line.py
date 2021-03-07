@@ -475,10 +475,32 @@ class Line(_BaseLinePlane):
 
         >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([5, 5], [0, 1])
-
         >>> line_a.intersect_line(line_b)
         Point([5., 0.])
 
+        >>> line_a = Line([0, 0, 0], [1, 1, 1])
+        >>> line_b = Line([5, 5, 0], [0, 0, -8])
+        >>> line_a.intersect_line(line_b)
+        Point([5., 5., 5.])
+
+        >>> line_a = Line([0, 0, 0], [1, 0, 0])
+        >>> line_b = Line([0, 0], [1, 1])
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        ValueError: The lines must have the same dimension.
+
+        >>> line_a = Line(4 * [0], [1, 0, 0, 0])
+        >>> line_b = Line(4 * [0], [0, 0, 0, 1])
+        >>> line_a.intersect_line(line_b)
+        Traceback (most recent call last):
+        ...
+        ValueError: The line dimension cannot be greater than 3.
+
+        >>> line_a = Line([0, 0], [0, 1])
+        >>> line_b = Line([0, 1], [0, 1])
+
+        >>> line_a = Line([0, 0], [1, 0])
         >>> line_b = Line([0, 1], [2, 0])
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
@@ -487,19 +509,18 @@ class Line(_BaseLinePlane):
 
         >>> line_a = Line([1, 2, 3], [-4, 1, 1])
         >>> line_b = Line([4, 5, 6], [3, 1, 5])
-
         >>> line_a.intersect_line(line_b)
         Traceback (most recent call last):
         ...
         ValueError: The lines must be coplanar.
 
-        >>> line_a = Line([0, 0, 0], [1, 1, 1])
-        >>> line_b = Line([5, 5, 0], [0, 0, -8])
-
-        >>> line_a.intersect_line(line_b)
-        Point([5., 5., 5.])
-
         """
+        if self.dimension != other.dimension:
+            raise ValueError("The lines must have the same dimension.")
+
+        if self.dimension > 3 or other.dimension > 3:
+            raise ValueError("The line dimension cannot be greater than 3.")
+
         if self.direction.is_parallel(other.direction, **kwargs):
             raise ValueError("The lines must not be parallel.")
 
