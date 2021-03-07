@@ -9,7 +9,7 @@
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
-.. image:: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yaml/badge.svg
+.. image:: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml/badge.svg
          :target: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml
 
 .. image:: https://results.pre-commit.ci/badge/github/ajhynes7/scikit-spatial/master.svg
