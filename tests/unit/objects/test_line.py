@@ -6,9 +6,14 @@ from numpy.testing import assert_array_almost_equal
 from numpy.testing import assert_array_equal
 
 from skspatial.objects import Line
+from skspatial.objects import Plane
+from skspatial.objects import Point
 
+INPUT_MUST_ALSO_BE_LINE = "The input must also be a line."
 POINTS_MUST_NOT_BE_CONCURRENT = "The points must not be concurrent."
 ARRAY_MUST_NOT_BE_EMPTY = "The array must not be empty."
+LINES_MUST_HAVE_SAME_DIMENSION = "The lines must have the same dimension."
+DIMENSION_MUST_NOT_BE_MORE_THAN_3D = "The line dimension cannot be greater than 3."
 LINES_MUST_BE_COPLANAR = "The lines must be coplanar."
 LINES_MUST_NOT_BE_PARALLEL = "The lines must not be parallel."
 
@@ -97,14 +102,23 @@ def test_to_point(line, param, array_expected):
     ],
 )
 def test_is_coplanar(line_a, line_b, bool_expected):
-    """Test checking if two lines are coplanar."""
 
-    if bool_expected is None:
-        with pytest.raises(TypeError, match="The input must also be a line."):
-            line_a.is_coplanar(line_b)
+    assert line_a.is_coplanar(line_b) == bool_expected
 
-    else:
-        assert line_a.is_coplanar(line_b) == bool_expected
+
+@pytest.mark.parametrize(
+    ("line_a", "line_b"),
+    [
+        (Line([0, 0], [1, 1]), Point([0, 0])),
+        (Line([0, 0, 0], [1, 1, 0]), Plane([0, 0, 0], [0, 0, 1])),
+    ],
+)
+def test_is_coplanar_failure(line_a, line_b):
+
+    message_expected = "The input must also be a line."
+
+    with pytest.raises(TypeError, match=message_expected):
+        line_a.is_coplanar(line_b)
 
 
 @pytest.mark.parametrize(
@@ -217,12 +231,32 @@ def test_intersect_line(line_a, line_b, array_expected):
 @pytest.mark.parametrize(
     ("line_a", "line_b", "message_expected"),
     [
+        (
+            Line([0, 0], [1, 0]),
+            Line([0, 0, 0], [1, 0, 0]),
+            LINES_MUST_HAVE_SAME_DIMENSION,
+        ),
+        (Line([0], [1]), Line([0, 0], [0, 1]), LINES_MUST_HAVE_SAME_DIMENSION),
+        (
+            Line([0, 0], [1, 0]),
+            Line(4 * [0], [1, 0, 0, 0]),
+            LINES_MUST_HAVE_SAME_DIMENSION,
+        ),
+        (
+            Line(4 * [0], [1, 0, 0, 0]),
+            Line(4 * [0], [1, 0, 0, 0]),
+            DIMENSION_MUST_NOT_BE_MORE_THAN_3D,
+        ),
         (Line([0, 0], [1, 0]), Line([0, 0], [1, 0]), LINES_MUST_NOT_BE_PARALLEL),
         (Line([0, 0], [1, 0]), Line([5, 5], [1, 0]), LINES_MUST_NOT_BE_PARALLEL),
         (Line([0, 0], [0, 1]), Line([0, 0], [0, 5]), LINES_MUST_NOT_BE_PARALLEL),
         (Line([0, 0], [1, 0]), Line([0, 0], [-1, 0]), LINES_MUST_NOT_BE_PARALLEL),
         (Line([0, 0], [1, 0]), Line([5, 5], [-1, 0]), LINES_MUST_NOT_BE_PARALLEL),
-        (Line([0, 0, 0], [1, 1, 1]), Line([0, 1, 0], [-1, 0, 0]), LINES_MUST_BE_COPLANAR),
+        (
+            Line([0, 0, 0], [1, 1, 1]),
+            Line([0, 1, 0], [-1, 0, 0]),
+            LINES_MUST_BE_COPLANAR,
+        ),
     ],
 )
 def test_intersect_line_failure(line_a, line_b, message_expected):
@@ -300,8 +334,16 @@ def test_best_fit_failure(points, message_expected):
             [[1, 0], [2, 0], [3, 0], [0, 1], [0, 2], [0, 3]],
             math.sqrt(2) * np.array([0.5, 1, 1.5, 0.5, 1, 1.5]),
         ),
-        (Line([0, 0, 0], [1, 0, 0]), [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]], [1, 2, 3, 4]),
-        (Line([0, 0, 0], [0, 1, 0]), [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]], [20, -5, 59, 0]),
+        (
+            Line([0, 0, 0], [1, 0, 0]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [1, 2, 3, 4],
+        ),
+        (
+            Line([0, 0, 0], [0, 1, 0]),
+            [[1, 20, 3], [2, -5, 8], [3, 59, 100], [4, 0, 14]],
+            [20, -5, 59, 0],
+        ),
     ],
 )
 def test_transform_points(line, points, coords_expected):
