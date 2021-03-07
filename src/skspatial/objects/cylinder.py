@@ -120,7 +120,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         return f"Cylinder(point={repr_point}, vector={repr_vector}, radius={self.radius})"
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> 'Cylinder':
+    def from_points(cls, point_a: array_like, point_b: array_like, radius: float) -> Cylinder:
         """
         Instantiate a cylinder from two points and a radius.
 

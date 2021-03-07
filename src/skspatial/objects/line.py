@@ -89,7 +89,7 @@ class Line(_BaseLinePlane):
         self.direction = self.vector
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like) -> 'Line':
+    def from_points(cls, point_a: array_like, point_b: array_like) -> Line:
         """
         Instantiate a line from two points.
 
@@ -121,7 +121,7 @@ class Line(_BaseLinePlane):
         return cls(point_a, vector_ab)
 
     @classmethod
-    def from_slope(cls, slope: float, y_intercept: float) -> 'Line':
+    def from_slope(cls, slope: float, y_intercept: float) -> Line:
         r"""
         Instantiate a 2D line from a slope and Y-intercept.
 
@@ -542,7 +542,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> 'Line':
+    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> Line:
         """
         Return the line of best fit for a set of points.
 

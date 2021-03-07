@@ -1,4 +1,6 @@
 """Module for the Points class."""
+from __future__ import annotations
+
 from typing import cast
 
 import numpy as np
@@ -67,7 +69,7 @@ class Points(_BaseArray2D):
 
     """
 
-    def unique(self) -> 'Points':
+    def unique(self) -> Points:
         """
         Return unique points.
 
@@ -154,7 +156,7 @@ class Points(_BaseArray2D):
 
         return points_centered
 
-    def normalize_distance(self) -> 'Points':
+    def normalize_distance(self) -> Points:
         """
         Normalize the distances of the points from the origin.
 

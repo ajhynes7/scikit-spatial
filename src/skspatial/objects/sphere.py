@@ -1,4 +1,6 @@
 """Module for the Sphere class."""
+from __future__ import annotations
+
 import math
 from typing import Tuple
 
@@ -182,7 +184,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         return point_a, point_b
 
     @classmethod
-    def best_fit(cls, points: array_like) -> 'Sphere':
+    def best_fit(cls, points: array_like) -> Sphere:
         """
         Return the sphere of best fit for a set of 3D points.
 

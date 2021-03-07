@@ -89,7 +89,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         self.normal = self.vector
 
     @classmethod
-    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like, **kwargs) -> 'Plane':
+    def from_vectors(cls, point: array_like, vector_a: array_like, vector_b: array_like, **kwargs) -> Plane:
         """
         Instantiate a plane from a point and two vectors.
 
@@ -141,7 +141,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return cls(point, vector_normal)
 
     @classmethod
-    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like, **kwargs) -> 'Plane':
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like, **kwargs) -> Plane:
         """
         Instantiate a plane from three points.
 
@@ -429,7 +429,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         """
         return int(np.sign(self.distance_point_signed(point)))
 
-    def intersect_line(self, line: Line, **kwargs) -> 'Plane':
+    def intersect_line(self, line: Line, **kwargs) -> Plane:
         """
         Intersect the plane with a line.
 
@@ -567,7 +567,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> 'Plane':
+    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> Plane:
         """
         Return the plane of best fit for a set of 3D points.
 
