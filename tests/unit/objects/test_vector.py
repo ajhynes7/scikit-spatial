@@ -193,6 +193,9 @@ def test_is_parallel(array_u, array_v, bool_expected):
 @pytest.mark.parametrize(
     ("array_a", "array_b", "value_expected"),
     [
+        ([0, 0], [0, 0], 0),
+        ([0, 0], [0, 1], 0),
+        ([0, 0], [1, 1], 0),
         ([0, 1], [0, 1], 0),
         ([0, 1], [0, 9], 0),
         ([0, 1], [0, -20], 0),
