@@ -33,7 +33,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
     Attributes
     ----------
     point : (3,) Point
-        Center of the circle.
+        Center of the sphere.
     radius : {int, float}
         Radius of the sphere.
     dimension : int
