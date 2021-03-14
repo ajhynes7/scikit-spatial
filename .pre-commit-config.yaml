@@ -8,7 +8,6 @@ repos:
           - id: check-merge-conflict
           - id: check-yaml
           - id: end-of-file-fixer
-          - id: requirements-txt-fixer
           - id: trailing-whitespace
     - repo: https://github.com/asottile/reorder_python_imports
       rev: v2.4.0
@@ -20,6 +19,11 @@ repos:
       hooks:
           - id: black
             args: [-S, -l 120]
+    - repo: https://github.com/asottile/add-trailing-comma
+      rev: v2.1.0
+      hooks:
+          - id: add-trailing-comma
+            args: [--py36-plus]
     - repo: https://gitlab.com/pycqa/flake8
       rev: 3.8.4
       hooks:

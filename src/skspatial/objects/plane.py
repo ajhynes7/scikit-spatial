@@ -590,6 +590,13 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ValueError
             If the points are collinear or are not 3D.
 
+        References
+        ----------
+        Using SVD for some fitting problems
+        Inge Söderkvist
+        Algorithm 3.1
+        https://www.ltu.se/cms_fs/1.51590!/svd-fitting.pdf
+
         Examples
         --------
         >>> from skspatial.objects import Plane
@@ -627,12 +634,14 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         points_centered, centroid = points.mean_center(return_centroid=True)
 
         u, _, _ = np.linalg.svd(points_centered.T, **kwargs)
-        normal = Vector(u[:, -1])
+        normal = Vector(u[:, 2])
 
         return cls(centroid, normal)
 
     def to_mesh(
-        self, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1)
+        self,
+        lims_x: array_like = (-1, 1),
+        lims_y: array_like = (-1, 1),
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Return coordinate matrices for the 3D surface of the plane.
