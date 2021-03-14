@@ -634,7 +634,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         points_centered, centroid = points.mean_center(return_centroid=True)
 
         u, _, _ = np.linalg.svd(points_centered.T, **kwargs)
-        normal = Vector(u[:, -1])
+        normal = Vector(u[:, 2])
 
         return cls(centroid, normal)
 
