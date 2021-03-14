@@ -8,7 +8,6 @@ repos:
           - id: check-merge-conflict
           - id: check-yaml
           - id: end-of-file-fixer
-          - id: requirements-txt-fixer
           - id: trailing-whitespace
     - repo: https://github.com/asottile/reorder_python_imports
       rev: v2.4.0
