@@ -7,7 +7,8 @@ from skspatial.objects import Plane
 
 @pytest.mark.parametrize("class_spatial", [Line, Plane])
 @pytest.mark.parametrize(
-    ("point", "vector"), [([0, 0], [0, 0]), ([1, 1], [0, 0]), ([1, 1, 1], [0, 0, 0]), ([4, 5, 2, 3], [0, 0, 0, 0])]
+    ("point", "vector"),
+    [([0, 0], [0, 0]), ([1, 1], [0, 0]), ([1, 1, 1], [0, 0, 0]), ([4, 5, 2, 3], [0, 0, 0, 0])],
 )
 def test_zero_vector_failure(class_spatial, point, vector):
 

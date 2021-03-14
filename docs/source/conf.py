@@ -63,7 +63,7 @@ sphinx_gallery_conf = {
             '../../examples/intersection',
             '../../examples/fitting',
             '../../examples/triangle',
-        ]
+        ],
     ),
 }
 

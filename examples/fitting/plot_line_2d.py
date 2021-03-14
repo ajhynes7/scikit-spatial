@@ -20,7 +20,7 @@ points = Points(
         [6, 5],
         [5, 6],
         [7, 8],
-    ]
+    ],
 )
 
 line_fit = Line.best_fit(points)

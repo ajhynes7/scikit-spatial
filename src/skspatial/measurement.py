@@ -49,7 +49,10 @@ def area_triangle(point_a: array_like, point_b: array_like, point_c: array_like)
 
 
 def volume_tetrahedron(
-    point_a: array_like, point_b: array_like, point_c: array_like, point_d: array_like
+    point_a: array_like,
+    point_b: array_like,
+    point_c: array_like,
+    point_d: array_like,
 ) -> np.float64:
     """
     Return the volume of a tetrahedron defined by four points.

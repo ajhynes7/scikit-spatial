@@ -639,7 +639,9 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return cls(centroid, normal)
 
     def to_mesh(
-        self, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1)
+        self,
+        lims_x: array_like = (-1, 1),
+        lims_y: array_like = (-1, 1),
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Return coordinate matrices for the 3D surface of the plane.

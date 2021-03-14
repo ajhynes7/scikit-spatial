@@ -19,6 +19,11 @@ repos:
       hooks:
           - id: black
             args: [-S, -l 120]
+    - repo: https://github.com/asottile/add-trailing-comma
+      rev: v2.1.0
+      hooks:
+          - id: add-trailing-comma
+            args: [--py36-plus]
     - repo: https://gitlab.com/pycqa/flake8
       rev: 3.8.4
       hooks:
