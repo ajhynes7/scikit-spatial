@@ -590,6 +590,13 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         ValueError
             If the points are collinear or are not 3D.
 
+        References
+        ----------
+        Using SVD for some fitting problems
+        Inge Söderkvist
+        Algorithm 3.1
+        https://www.ltu.se/cms_fs/1.51590!/svd-fitting.pdf
+
         Examples
         --------
         >>> from skspatial.objects import Plane
