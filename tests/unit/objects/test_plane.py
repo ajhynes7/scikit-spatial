@@ -9,6 +9,47 @@ from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(
+    ("array_point", "array_a", "array_b", "plane_expected"),
+    [
+        ([0, 0], [1, 0], [0, 1], Plane([0, 0, 0], [0, 0, 1])),
+        ([1, 2], [1, 0], [0, 1], Plane([1, 2, 0], [0, 0, 1])),
+        ([0, 0], [0, 1], [1, 0], Plane([0, 0, 0], [0, 0, -1])),
+        ([0, 0], [2, 0], [0, 1], Plane([0, 0, 0], [0, 0, 2])),
+        ([0, 0], [2, 0], [0, 2], Plane([0, 0, 0], [0, 0, 4])),
+        ([1, 2, 3], [2, 0], [0, 2], Plane([1, 2, 3], [0, 0, 4])),
+        ([-3, 2, 6], [1, 4, 6], [-1, 5, 8], Plane([-3, 2, 6], [2, -14, 9])),
+    ],
+)
+def test_from_vectors(array_point, array_a, array_b, plane_expected):
+
+    plane = Plane.from_vectors(array_point, array_a, array_b)
+
+    assert plane.is_close(plane_expected)
+
+    # Also ensure that the vector is exactly as expected.
+    assert plane.vector.is_close(plane_expected.vector)
+
+
+@pytest.mark.parametrize(
+    ("array_point", "array_a", "array_b"),
+    [
+        ([0, 0], [1, 0], [1, 0]),
+        ([2, 3], [1, 0], [1, 0]),
+        ([0, 0], [0, 1], [0, 1]),
+        ([0, 0], [1, 1], [-1, -1]),
+        ([0, 0], [5, 3], [-5, -3]),
+        ([0, 0, 0], [1, 0, 0], [1, 0, 0]),
+    ],
+)
+def test_from_vectors_failure(array_point, array_a, array_b):
+
+    message_expected = "The vectors must not be parallel."
+
+    with pytest.raises(ValueError, match=message_expected):
+        Plane.from_vectors(array_point, array_a, array_b)
+
+
+@pytest.mark.parametrize(
     ("point_a", "point_b", "point_c", "plane_expected"),
     [
         ([0, 0], [1, 0], [0, 1], Plane([0, 0, 0], [0, 0, 1])),
