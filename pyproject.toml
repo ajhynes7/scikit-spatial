@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "scikit-spatial"
-version = "5.2.0"
+version = "6.0.0"
 description = "Spatial objects and computations based on NumPy arrays."
 license = "BSD"
 
@@ -15,7 +15,7 @@ documentation = "https://scikit-spatial.readthedocs.io"
 keywords = ["NumPy", "matplotlib", "visualization", "spatial", "linear algebra"]
 
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: BSD License",
     "Natural Language :: English",

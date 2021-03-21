@@ -38,7 +38,8 @@ class Circle(_BaseSphere):
     Raises
     ------
     ValueError
-        If the radius is not positive, or if the point is not 2D.
+        If the radius is not positive.
+        If the point is not 2D.
 
     Examples
     --------

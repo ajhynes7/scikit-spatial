@@ -46,8 +46,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
     Raises
     ------
     ValueError
-        If the point and vector have different dimensions,
-        or if the vector is all zeros.
+        If the point and vector have different dimensions.
+        If the vector is all zeros.
 
     Examples
     --------

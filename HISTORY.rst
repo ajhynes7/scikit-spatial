@@ -2,6 +2,30 @@
 History
 =======
 
+6.0.0 (2021-03-21)
+------------------
+
+Breaking changes
+~~~~~~~~~~~~~~~~
+* Require NumPy >= 1.20 to make use of the static types introduced in 1.20.
+  Now numpy-stubs doesn't need to be installed for static type checking.
+* Move tests outside of package, and move package under ``src`` directory.
+  This ensures that tox is running the tests with the installed package.
+* Switch from ``setup.py`` to ``pyproject.toml``.
+* Add more ValueErrors for clarity, such as "The lines must have the same dimension"
+  ValueError in ``Line.intersect_line``.
+
+Features
+~~~~~~~~
+* Add ``Cylinder`` class.
+* Add ``Vector.different_direction`` method.
+* Add ``Sphere.best_fit`` method.
+
+Refactoring
+~~~~~~~~~~~
+* Delete ``Vector.dot`` method. The ``dot`` method is already inherited from NumPy.
+
+
 5.2.0 (2020-12-19)
 ------------------
 * Add keyword arguments to ``Plane.best_fit`` and ``Line.best_fit``.

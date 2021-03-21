@@ -45,8 +45,8 @@ class Line(_BaseLinePlane):
     Raises
     ------
     ValueError
-        If the point and vector have different dimensions,
-        or if the vector is all zeros.
+        If the point and vector have different dimensions.
+        If the vector is all zeros.
 
     Examples
     --------
@@ -463,7 +463,10 @@ class Line(_BaseLinePlane):
         Raises
         ------
         ValueError
-            If the lines are parallel or are not coplanar.
+            If the lines don't have the same dimension.
+            If the line dimension is greater than three.
+            If the lines are parallel.
+            If the lines are not coplanar.
 
         References
         ----------

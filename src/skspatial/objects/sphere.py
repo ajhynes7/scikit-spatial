@@ -42,7 +42,8 @@ class Sphere(_BaseSphere, _ToPointsMixin):
     Raises
     ------
     ValueError
-        If the radius is not positive, or if the point is not 3D.
+        If the radius is not positive.
+        If the point is not 3D.
 
     Examples
     --------
@@ -201,8 +202,9 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         Raises
         ------
         ValueError
-            If the points are not 3D, if they lie in a plane,
-            or if there are fewer than four points.
+            If the points are not 3D.
+            If there are fewer than four points.
+            If the points lie in a plane.
 
         Examples
         --------

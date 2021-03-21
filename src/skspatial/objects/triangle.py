@@ -35,7 +35,8 @@ class Triangle(_BaseSpatial):
     Raises
     ------
     ValueError
-        If the points do not have the same dimension, or if they are collinear.
+        If the points do not have the same dimension.
+        If the points are collinear.
 
     Examples
     --------
