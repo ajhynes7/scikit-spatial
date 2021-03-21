@@ -92,6 +92,7 @@ def _solve_quadratic(a: float, b: float, c: float, n_digits: int | None = None) 
     Raises
     ------
     ValueError
+        If the coefficient `a` is zero.
         If the discriminant is negative.
 
     Examples
