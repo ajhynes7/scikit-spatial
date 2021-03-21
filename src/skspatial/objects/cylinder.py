@@ -47,9 +47,9 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
     Raises
     ------
     ValueError
-        If the point or vector are not 3D,
-        if the vector is all zeros,
-        or if the radius is zero.
+        If the point or vector are not 3D.
+        If the vector is all zeros.
+        If the radius is zero.
 
     Examples
     --------
@@ -279,8 +279,8 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         Raises
         ------
         ValueError
-            If the line is not 3D,
-            or if it does not intersect the cylinder at one or two points.
+            If the line is not 3D.
+            If the line does not intersect the cylinder at one or two points.
 
         References
         ----------
