@@ -14,6 +14,7 @@ Methods
    ~skspatial.objects.Vector.angle_signed
    ~skspatial.objects.Vector.cosine_similarity
    ~skspatial.objects.Vector.cross
+   ~skspatial.objects.Vector.different_direction
    ~skspatial.objects.Vector.from_points
    ~skspatial.objects.Vector.is_parallel
    ~skspatial.objects.Vector.is_perpendicular
