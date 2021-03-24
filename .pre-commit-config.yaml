@@ -38,7 +38,7 @@ repos:
           - flake8-rst-docstrings==0.0.14
           - flake8-unused-arguments==0.0.6
   - repo: https://github.com/PyCQA/pydocstyle
-    rev: 5.1.1
+    rev: 6.0.0
     hooks:
       - id: pydocstyle
         args: [--convention=numpy, "--add-ignore=D104,D105"]
