@@ -23,14 +23,16 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
     def __new__(cls: Type[Array], array: array_like) -> Array:
 
-        try:
+        with warnings.catch_warnings():
+
             warnings.filterwarnings("error")
-            np.array(array)
 
-        except np.VisibleDeprecationWarning as error:
+            try:
+                np.array(array)
 
-            if str(error).startswith("Creating an ndarray from ragged nested sequences"):
-                raise ValueError("The array must not contain sequences with different lengths.")
+            except np.VisibleDeprecationWarning as error:
+                if str(error).startswith("Creating an ndarray from ragged nested sequences"):
+                    raise ValueError("The array must not contain sequences with different lengths.")
 
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")
