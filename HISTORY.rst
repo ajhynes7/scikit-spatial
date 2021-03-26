@@ -2,6 +2,15 @@
 History
 =======
 
+6.0.1 (2021-03-25)
+------------------
+
+Fixes
+~~~~~
+* Wrap `filterwarnings("error")` in a `catch_warnings` context manager, in `__BaseArray.__new__()`.
+  Now the warning level is reset at the end of the context manager.
+
+
 6.0.0 (2021-03-21)
 ------------------
 
