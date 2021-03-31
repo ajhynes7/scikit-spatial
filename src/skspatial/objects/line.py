@@ -371,12 +371,43 @@ class Line(_BaseLinePlane):
         return self.direction.side_vector(vector_to_point)
 
     def distance_point(self, point: array_like) -> np.float64:
-        """Return the distance from a point to the line."""
+        """
+        Return the distance from a point to the line.
+
+        This is the distance from the point to its projection on the line.
+
+        Parameters
+        ----------
+        point : array_like
+            Input point.
+
+        Returns
+        -------
+        np.float64
+            Distance from the point to the line.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Line
+
+        >>> line = Line([0, 0], [1, 0])
+        >>> line.distance_point([0, 0])
+        0.0
+        >>> line.distance_point([5, 0])
+        0.0
+        >>> line.distance_point([5, -5])
+        5.0
+
+        >>> line = Line([5, 2, -3], [3, 8, 2])
+        >>> line.distance_point([5, -5, 3]).round(3)
+        7.737
+
+        """
         point_projected = self.project_point(point)
 
         return point_projected.distance_point(point)
 
-    def distance_line(self, other: 'Line') -> np.float64:
+    def distance_line(self, other: Line) -> np.float64:
         """
         Return the shortest distance from the line to another.
 
