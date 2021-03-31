@@ -165,7 +165,7 @@ class Line(_BaseLinePlane):
 
         return cls(point, direction)
 
-    def is_coplanar(self, other: 'Line', **kwargs: float) -> bool:
+    def is_coplanar(self, other: Line, **kwargs: float) -> bool:
         """
         Check if the line is coplanar with another.
 
@@ -442,7 +442,7 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    def intersect_line(self, other: 'Line', **kwargs) -> Point:
+    def intersect_line(self, other: Line, **kwargs) -> Point:
         """
         Intersect the line with another.
 
