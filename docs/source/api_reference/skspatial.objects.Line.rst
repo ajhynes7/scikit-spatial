@@ -12,6 +12,7 @@ Methods
 
    ~skspatial.objects.Line.best_fit
    ~skspatial.objects.Line.distance_line
+   ~skspatial.objects.Line.distance_point
    ~skspatial.objects.Line.from_points
    ~skspatial.objects.Line.from_slope
    ~skspatial.objects.Line.intersect_line
