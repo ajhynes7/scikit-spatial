@@ -6,6 +6,9 @@
 .. image:: https://img.shields.io/pypi/v/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
+.. image:: https://anaconda.org/conda-forge/scikit-spatial/badges/version.svg
+         :target: https://anaconda.org/conda-forge/scikit-spatial
+
 .. image:: https://img.shields.io/pypi/pyversions/scikit-spatial.svg
          :target: https://pypi.python.org/pypi/scikit-spatial
 
@@ -110,12 +113,18 @@ True
 Installation
 ------------
 
-The package can be installed via pip.
+The package can be installed with pip.
 
 .. code-block:: bash
 
    $ pip install scikit-spatial
 
+
+It is also be installed with conda.
+
+.. code-block:: bash
+
+   $ conda install scikit-spatial -c conda-forge
 
 
 Example Usage

@@ -490,7 +490,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return line.point + vector_line_scaled
 
-    def intersect_plane(self, other: 'Plane', **kwargs) -> Line:
+    def intersect_plane(self, other: Plane, **kwargs) -> Line:
         """
         Intersect the plane with another.
 

@@ -196,8 +196,7 @@ class Circle(_BaseSphere):
 
         """
         # Two points on the line.
-        # Copy the line point to avoid changing the line itself.
-        point_1 = np.copy(line.point)
+        point_1 = line.point
         point_2 = point_1 + line.direction.unit()
 
         # Translate the points on the line to mimic the circle being centered on the origin.
