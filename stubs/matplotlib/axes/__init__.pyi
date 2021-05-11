@@ -1,9 +1,6 @@
-
 from skspatial.typing import array_like
 
-
 class Axes:
-
     def add_artist(self, obj: object) -> None: ...
     def arrow(self, x: float, y: float, dx: float, dy: float, **kwargs) -> None: ...
     def plot(self, *args, **kwargs) -> None: ...
