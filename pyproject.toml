@@ -26,6 +26,7 @@ classifiers = [
 ]
 
 packages = [{ include = "skspatial", from = "src" }]
+include = ["tests"]
 
 
 [tool.poetry.dependencies]
