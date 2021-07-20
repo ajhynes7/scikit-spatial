@@ -197,7 +197,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
         12.566
 
-        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
+        >>> Cylinder([0, 0, 0], [0, 0, 2], 2).lateral_surface_area().round(3)
         25.133
 
         """
@@ -218,14 +218,14 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         --------
         >>> from skspatial.objects import Cylinder
 
-        >>> Cylinder([0, 0, 0], [0, 0, 1], 1).lateral_surface_area().round(3)
-        6.283
-
-        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 1).surface_area().round(3)
         12.566
 
-        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
-        25.133
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).surface_area().round(3)
+        37.699
+
+        >>> Cylinder([0, 0, 0], [0, 0, 2], 2).surface_area().round(3)
+        50.265
 
         """
         return self.lateral_surface_area() + 2 * np.pi * self.radius ** 2
