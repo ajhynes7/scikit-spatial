@@ -1,6 +1,7 @@
 """Module for the Cylinder class."""
 from __future__ import annotations
 
+from typing import Optional
 from typing import Tuple
 
 import numpy as np
@@ -178,6 +179,58 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         """
         return self.vector.norm()
 
+    def lateral_surface_area(self) -> np.float64:
+        """
+        Return the lateral surface area of the cylinder.
+
+        Returns
+        -------
+        np.float64
+            Lateral surface area of the cylinder.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 1).lateral_surface_area().round(3)
+        6.283
+
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
+        12.566
+
+        >>> Cylinder([0, 0, 0], [0, 0, 2], 2).lateral_surface_area().round(3)
+        25.133
+
+        """
+        return 2 * np.pi * self.radius * self.length()
+
+    def surface_area(self) -> np.float64:
+        """
+        Return the total surface area of the cylinder.
+
+        This is the lateral surface area plus the area of the two circular caps.
+
+        Returns
+        -------
+        np.float64
+            Total surface area of the cylinder.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 1).surface_area().round(3)
+        12.566
+
+        >>> Cylinder([0, 0, 0], [0, 0, 1], 2).surface_area().round(3)
+        37.699
+
+        >>> Cylinder([0, 0, 0], [0, 0, 2], 2).surface_area().round(3)
+        50.265
+
+        """
+        return self.lateral_surface_area() + 2 * np.pi * self.radius ** 2
+
     def volume(self) -> np.float64:
         r"""
         Return the volume of the cylinder.
@@ -256,7 +309,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         return within_radius and within_planes
 
-    def intersect_line(self, line: Line, n_digits: int | None = None) -> Tuple[Point, Point]:
+    def intersect_line(self, line: Line, n_digits: Optional[int] = None) -> Tuple[Point, Point]:
         """
         Intersect the cylinder with a 3D line.
 

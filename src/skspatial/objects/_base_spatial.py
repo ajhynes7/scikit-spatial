@@ -1,4 +1,7 @@
 class _PlotterMixin:
+
+    dimension: int
+
     def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:

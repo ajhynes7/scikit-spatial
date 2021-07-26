@@ -1,7 +1,7 @@
 """Module for the Plane class."""
 from __future__ import annotations
 
-from typing import cast
+from typing import Optional
 from typing import Tuple
 
 import numpy as np
@@ -235,12 +235,6 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         a, b, c = self.normal.set_dimension(3)
 
         d = -self.normal.dot(self.point)
-
-        # Type casting to satisfy mypy.
-        a = cast(np.number, a)
-        b = cast(np.number, b)
-        c = cast(np.number, c)
-        d = cast(np.number, d)
 
         return a, b, c, d
 
@@ -567,7 +561,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> Plane:
+    def best_fit(cls, points: array_like, tol: Optional[float] = None, **kwargs) -> Plane:
         """
         Return the plane of best fit for a set of 3D points.
 

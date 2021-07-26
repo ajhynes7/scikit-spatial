@@ -66,6 +66,22 @@ def test_properties(cylinder, length_expected, volume_expected):
 
 
 @pytest.mark.parametrize(
+    ("cylinder", "lateral_surface_area_expected", "surface_area_expected"),
+    [
+        (Cylinder([0, 0, 0], [0, 0, 1], 1), 2 * pi, 4 * pi),
+        (Cylinder([0, 0, 0], [0, 0, 2], 1), 4 * pi, 6 * pi),
+        (Cylinder([0, 0, 0], [0, 0, 1], 2), 4 * pi, 12 * pi),
+        (Cylinder([0, 0, 0], [0, 0, 2], 2), 8 * pi, 16 * pi),
+        (Cylinder([0, 0, 0], [0, 0, -2], 2), 8 * pi, 16 * pi),
+    ],
+)
+def test_surface_area(cylinder, lateral_surface_area_expected, surface_area_expected):
+
+    assert isclose(cylinder.lateral_surface_area(), lateral_surface_area_expected)
+    assert isclose(cylinder.surface_area(), surface_area_expected)
+
+
+@pytest.mark.parametrize(
     ("cylinder", "point", "bool_expected"),
     [
         (Cylinder([0, 0, 0], [0, 0, 1], 1), [0, 0, 0], True),

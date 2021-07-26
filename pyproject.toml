@@ -26,6 +26,7 @@ classifiers = [
 ]
 
 packages = [{ include = "skspatial", from = "src" }]
+include = ["tests"]
 
 
 [tool.poetry.dependencies]
@@ -36,9 +37,6 @@ matplotlib = "^3"
 
 # Pre-commit
 pre-commit = { version = "2.11.1", optional = true }
-
-# Types
-mypy = { version = "0.812", optional = true }
 
 # Testing
 pytest = { version = "6.2.2", optional = true }
@@ -59,7 +57,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
 pre_commit = ["pre-commit"]
-types = ["mypy"]
 base_test = ["pytest", "pytest-cov"]
 property = ["hypothesis"]
 docs = ["Sphinx", "numpydoc", "sphinx-bootstrap-theme", "sphinx-gallery"]
