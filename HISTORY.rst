@@ -2,6 +2,20 @@
 History
 =======
 
+
+6.1.0 (2021-07-25)
+------------------
+
+Features
+~~~~~~~~
+- Add `lateral_surface_area` and `surface_area` methods to `Cylinder`.
+
+Improvements
+~~~~~~~~~~~~
+- Remove unnecessary `np.copy` from `Circle.intersect_line`.
+- Complete the docstring for `Line.distance_point`.
+
+
 6.0.1 (2021-03-25)
 ------------------
 
