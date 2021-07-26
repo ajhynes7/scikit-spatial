@@ -1,6 +1,5 @@
 """Private base classes for arrays."""
 import warnings
-from typing import cast
 from typing import Type
 from typing import TypeVar
 
@@ -161,10 +160,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         Point([1.  , 2.  , 3.53])
 
         """
-        result = np.around(self, decimals=decimals, out=self)
-        result = cast(Array, result)
-
-        return result
+        return np.around(self, decimals=decimals, out=self)
 
 
 class _BaseArray1D(_BaseArray):
@@ -172,7 +168,7 @@ class _BaseArray1D(_BaseArray):
 
     def __new__(cls: Type[Array1D], array: array_like) -> Array1D:
 
-        obj = super().__new__(cls, array)
+        obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
 
         if obj.ndim != 1:
             raise ValueError("The array must be 1D.")
@@ -231,7 +227,7 @@ class _BaseArray2D(_BaseArray):
 
     def __new__(cls: Type[Array2D], array: array_like) -> Array2D:
 
-        obj = super().__new__(cls, array)
+        obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
 
         if obj.ndim != 2:
             raise ValueError("The array must be 2D.")

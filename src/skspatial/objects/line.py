@@ -1,6 +1,8 @@
 """Module for the Line class."""
 from __future__ import annotations
 
+from typing import Optional
+
 import numpy as np
 from matplotlib.axes import Axes
 from mpl_toolkits.mplot3d import Axes3D
@@ -576,7 +578,7 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: float | None = None, **kwargs) -> Line:
+    def best_fit(cls, points: array_like, tol: Optional[float] = None, **kwargs) -> Line:
         """
         Return the line of best fit for a set of points.
 

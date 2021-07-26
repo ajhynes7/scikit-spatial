@@ -5,6 +5,7 @@ import math
 from functools import wraps
 from typing import Any
 from typing import Callable
+from typing import Optional
 
 import numpy as np
 
@@ -69,7 +70,7 @@ def np_float(func: Callable) -> Callable[..., np.float64]:
     return wrapper
 
 
-def _solve_quadratic(a: float, b: float, c: float, n_digits: int | None = None) -> np.ndarray:
+def _solve_quadratic(a: float, b: float, c: float, n_digits: Optional[int] = None) -> np.ndarray:
     """
     Solve a quadratic equation.
 

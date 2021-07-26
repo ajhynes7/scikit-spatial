@@ -1,6 +1,7 @@
 """Module for the Cylinder class."""
 from __future__ import annotations
 
+from typing import Optional
 from typing import Tuple
 
 import numpy as np
@@ -308,7 +309,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         return within_radius and within_planes
 
-    def intersect_line(self, line: Line, n_digits: int | None = None) -> Tuple[Point, Point]:
+    def intersect_line(self, line: Line, n_digits: Optional[int] = None) -> Tuple[Point, Point]:
         """
         Intersect the cylinder with a 3D line.
 
