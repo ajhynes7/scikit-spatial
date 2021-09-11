@@ -3,6 +3,14 @@ History
 =======
 
 
+6.1.1 (2021-09-11)
+------------------
+
+Fixes
+~~~~~
+- Add code to `skspatial.__init__.py` to keep the __version__ attribute in sync with the version in `pyproject.toml`.
+
+
 6.1.0 (2021-07-25)
 ------------------
 
