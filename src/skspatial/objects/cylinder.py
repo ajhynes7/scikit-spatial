@@ -19,7 +19,7 @@ from skspatial.typing import array_like
 
 class Cylinder(_BaseSpatial, _ToPointsMixin):
     """
-    A cylinder in space.
+    An infinite cylinder in space.
 
     The cylinder is defined by a point at its base, a vector along its axis, and a radius.
 
