@@ -3,7 +3,7 @@ Cylinder
 
 A :class:`~skspatial.objects.Cylinder` object is defined by a point, a vector, and a radius.
 
-The point is the centre of the cylinder base. The vector is normal to the base, and the length of the cylinder is the length of this vector.
+The point is the centre of an infinite cylinder. The vector is an axis of the cylinder.
 The point and vector must be 3D.
 
 >>> from skspatial.objects import Cylinder
