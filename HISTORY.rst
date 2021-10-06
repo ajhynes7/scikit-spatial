@@ -3,6 +3,19 @@ History
 =======
 
 
+6.2.0 (2021-10-06)
+------------------
+
+Features
+~~~~~~~~
+- Add `infinite` keyword argument to `Cylinder.intersect_line` with a default value of `True`.
+  Now the line can be intersected with a finite cylinder by passing `infinite=False`.
+
+Fixes
+~~~~~
+- Fix the return type hint of `Plane.intersect_line` (from Plane to Point).
+
+
 6.1.1 (2021-09-11)
 ------------------
 
