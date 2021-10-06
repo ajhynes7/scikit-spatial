@@ -302,18 +302,20 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         within_radius = distance_to_axis <= self.radius
 
-        plane_base = Plane(self.point, self.vector)
-        distance_point_signed = plane_base.distance_point_signed(point)
+        between_cap_planes = _between_cap_planes(self, point)
 
-        within_planes = distance_point_signed <= self.length() and distance_point_signed >= 0
+        return within_radius and between_cap_planes
 
-        return within_radius and within_planes
-
-    def intersect_line(self, line: Line, n_digits: Optional[int] = None) -> Tuple[Point, Point]:
+    def intersect_line(
+        self,
+        line: Line,
+        n_digits: Optional[int] = None,
+        infinite: bool = True,
+    ) -> Tuple[Point, Point]:
         """
         Intersect the cylinder with a 3D line.
 
-        This method treats the cylinder as infinite along its axis (i.e., without caps).
+        By default, this method treats the cylinder as infinite along its axis (i.e., without caps).
 
         Parameters
         ----------
@@ -322,12 +324,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         n_digits : int, optional
             Additional keywords passed to :func:`round`.
             This is used to round the coefficients of the quadratic equation.
+        infinite : bool
+            If True, the cylinder is treated as infinite along its axis (i.e., without caps).
 
         Returns
         -------
         point_a, point_b: Point
-            The two intersection points of the line
-            with the infinite cylinder, if they exist.
+            The two intersection points of the line with the cylinder, if they exist.
 
         Raises
         ------
@@ -346,6 +349,9 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
         >>> line = Line([0, 0, 0], [1, 0, 0])
 
+
+        Intersection with an infinite cylinder.
+
         >>> cylinder.intersect_line(line)
         (Point([-1.,  0.,  0.]), Point([1., 0., 0.]))
 
@@ -357,8 +363,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         Point([-0.447, -0.894, -1.342])
         >>> point_b.round(3)
         Point([0.447, 0.894, 1.342])
-
-        >>> cylinder = Cylinder([0, 0, 0], [0, 0, 1], 1)
 
         >>> cylinder.intersect_line(Line([0, 0], [1, 2]))
         Traceback (most recent call last):
@@ -375,31 +379,33 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         ...
         ValueError: The line does not intersect the cylinder.
 
+
+        Intersection with a finite cylinder.
+
+        >>> point_a, point_b = cylinder.intersect_line(Line([0, 0, 0], [0, 0, 1]), infinite=False)
+
+        >>> point_a
+        Point([0., 0., 0.])
+        >>> point_b
+        Point([0., 0., 1.])
+
+        >>> cylinder = Cylinder([0, 0, 0], [0, 0, 5], 1)
+
+        >>> point_a, point_b = cylinder.intersect_line(Line([0, 0, 0], [1, 0, 1]), infinite=False)
+
+        >>> point_a
+        Point([0., 0., 0.])
+        >>> point_b
+        Point([1., 0., 1.])
+
         """
         if line.dimension != 3:
             raise ValueError("The line must be 3D.")
 
-        p_c = self.point
-        v_c = self.vector.unit()
-        r = self.radius
+        if infinite:
+            return _intersect_line_with_infinite_cylinder(self, line, n_digits)
 
-        p_l = line.point
-        v_l = line.vector.unit()
-
-        delta_p = Vector.from_points(p_c, p_l)
-
-        a = (v_l - v_l.dot(v_c) * v_c).norm() ** 2
-        b = 2 * (v_l - v_l.dot(v_c) * v_c).dot(delta_p - delta_p.dot(v_c) * v_c)
-        c = (delta_p - delta_p.dot(v_c) * v_c).norm() ** 2 - r ** 2
-
-        try:
-            X = _solve_quadratic(a, b, c, n_digits=n_digits)
-        except ValueError:
-            raise ValueError("The line does not intersect the cylinder.")
-
-        point_a, point_b = p_l + X.reshape(-1, 1) * v_l
-
-        return point_a, point_b
+        return _intersect_line_with_finite_cylinder(self, line, n_digits)
 
     def to_mesh(self, n_along_axis: int = 100, n_angles: int = 30) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
@@ -507,3 +513,87 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         X, Y, Z = self.to_mesh(n_along_axis, n_angles)
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)
+
+
+def _between_cap_planes(cylinder: Cylinder, point: array_like) -> bool:
+    """Check if a point lies between the cylinder cap planes."""
+    plane_base = Plane(cylinder.point, cylinder.vector)
+    distance_point_signed = plane_base.distance_point_signed(point)
+
+    return 0 <= distance_point_signed <= distance_point_signed <= cylinder.length()
+
+
+def _intersect_line_with_infinite_cylinder(
+    cylinder: Cylinder,
+    line: Line,
+    n_digits: Optional[int],
+) -> Tuple[Point, Point]:
+
+    p_c = cylinder.point
+    v_c = cylinder.vector.unit()
+    r = cylinder.radius
+
+    p_l = line.point
+    v_l = line.vector.unit()
+
+    delta_p = Vector.from_points(p_c, p_l)
+
+    a = (v_l - v_l.dot(v_c) * v_c).norm() ** 2
+    b = 2 * (v_l - v_l.dot(v_c) * v_c).dot(delta_p - delta_p.dot(v_c) * v_c)
+    c = (delta_p - delta_p.dot(v_c) * v_c).norm() ** 2 - r ** 2
+
+    try:
+        X = _solve_quadratic(a, b, c, n_digits=n_digits)
+    except ValueError:
+        raise ValueError("The line does not intersect the cylinder.")
+
+    point_a, point_b = p_l + X.reshape(-1, 1) * v_l
+
+    return point_a, point_b
+
+
+def _intersect_line_with_caps(cylinder: Cylinder, line: Line) -> Tuple[Optional[Point], Optional[Point]]:
+    """Find the intersection points of the line with the cylinder caps."""
+
+    def _intersect_cap(plane_cap: Plane) -> Optional[Point]:
+
+        try:
+            point_intersection = plane_cap.intersect_line(line)
+        except ValueError:
+            return None
+
+        return point_intersection if point_intersection.distance_point(plane_cap.point) <= cylinder.radius else None
+
+    # The planes containing the circular caps of the cylinder.
+    plane_base = Plane(point=cylinder.point, normal=cylinder.vector)
+    plane_top = Plane(point=cylinder.point + cylinder.vector, normal=cylinder.vector)
+
+    point_base = _intersect_cap(plane_base)
+    point_top = _intersect_cap(plane_top)
+
+    return point_base, point_top
+
+
+def _intersect_line_with_finite_cylinder(
+    cylinder: Cylinder,
+    line: Line,
+    n_digits: Optional[int],
+) -> Tuple[Point, Point]:
+    """Find intersection points of a line with a cylinder, including the cylinder caps."""
+    point_base, point_top = _intersect_line_with_caps(cylinder, line)
+
+    if point_base is not None and point_top is not None:
+        return point_base, point_top
+
+    point_a, point_b = _intersect_line_with_infinite_cylinder(cylinder, line, n_digits)
+
+    if not _between_cap_planes(cylinder, point_a):
+        point_a = point_base if point_base is not None else point_top
+
+    if not _between_cap_planes(cylinder, point_b):
+        point_b = point_base if point_base is not None else point_top
+
+    if point_a is None or point_b is None:
+        raise ValueError("The line does not intersect the cylinder.")
+
+    return point_a, point_b
