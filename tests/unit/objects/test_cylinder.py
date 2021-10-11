@@ -177,6 +177,69 @@ def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expecte
 
 
 @pytest.mark.parametrize(
+    ("cylinder", "line", "array_expected_a", "array_expected_b"),
+    [
+        # The line is parallel to the cylinder axis.
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, 0], [0, 0, 1]),
+            [0, 0, 0],
+            [0, 0, 1],
+        ),
+        # The line is perpendicular to the cylinder axis.
+        (
+            Cylinder([0, 0, 0], [0, 0, 2], 1),
+            Line([0, 0, 1], [1, 0, 0]),
+            [-1, 0, 1],
+            [1, 0, 1],
+        ),
+        # The line touches the rim of one cylinder cap.
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([1, 0, 0], [1, 0, 1]),
+            [1, 0, 0],
+            [1, 0, 0],
+        ),
+        # The line touches the edge of the lateral surface.
+        (
+            Cylinder([0, 0, 0], [0, 0, 2], 1),
+            Line([-1, 0, 1], [0, 1, 0]),
+            [-1, 0, 1],
+            [-1, 0, 1],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 2], 1),
+            Line([-1, 0, 1], [0, 1, 1]),
+            [-1, 0, 1],
+            [-1, 0, 1],
+        ),
+        # The line intersects one cap and the lateral surface.
+        (
+            Cylinder([0, 0, 0], [0, 0, 5], 1),
+            Line([0, 0, 0], [1, 0, 1]),
+            [0, 0, 0],
+            [1, 0, 1],
+        ),
+        (
+            Cylinder([0, 0, 0], [0, 0, 5], 1),
+            Line([0, 0, 5], [1, 0, -1]),
+            [0, 0, 5],
+            [1, 0, 4],
+        ),
+    ],
+)
+def test_intersect_cylinder_line_with_caps(cylinder, line, array_expected_a, array_expected_b):
+
+    point_a, point_b = cylinder.intersect_line(line, infinite=False)
+
+    point_expected_a = Point(array_expected_a)
+    point_expected_b = Point(array_expected_b)
+
+    assert point_a.is_close(point_expected_a)
+    assert point_b.is_close(point_expected_b)
+
+
+@pytest.mark.parametrize(
     ("cylinder", "line", "message_expected"),
     [
         (
@@ -210,6 +273,23 @@ def test_intersect_cylinder_line_failure(cylinder, line, message_expected):
 
     with pytest.raises(ValueError, match=message_expected):
         cylinder.intersect_line(line)
+
+
+@pytest.mark.parametrize(
+    ("cylinder", "line"),
+    [
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            Line([0, 0, -1], [1, 0, 0]),
+        ),
+    ],
+)
+def test_intersect_cylinder_line_with_caps_failure(cylinder, line):
+
+    message_expected = "The line does not intersect the cylinder."
+
+    with pytest.raises(ValueError, match=message_expected):
+        cylinder.intersect_line(line, infinite=False)
 
 
 @pytest.mark.parametrize(

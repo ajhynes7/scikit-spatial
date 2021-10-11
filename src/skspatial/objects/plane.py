@@ -423,7 +423,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         """
         return int(np.sign(self.distance_point_signed(point)))
 
-    def intersect_line(self, line: Line, **kwargs) -> Plane:
+    def intersect_line(self, line: Line, **kwargs) -> Point:
         """
         Intersect the plane with a line.
 
