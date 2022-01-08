@@ -3,6 +3,14 @@ History
 =======
 
 
+6.2.1 (2022-01-08)
+------------------
+
+Fixes
+~~~~~
+- Allow for versions of `importlib-metadata` above 1.
+
+
 6.2.0 (2021-10-06)
 ------------------
 
