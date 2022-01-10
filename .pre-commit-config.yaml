@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: check-ast
       - id: check-builtin-literals
@@ -15,17 +15,17 @@ repos:
       - id: reorder-python-imports
         args: [--application-directories, ".:src"]
   - repo: https://github.com/psf/black
-    rev: 21.8b0
+    rev: 21.12b0
     hooks:
       - id: black
         args: [-S, -l 120]
   - repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.1.0
+    rev: v2.2.1
     hooks:
       - id: add-trailing-comma
         args: [--py36-plus]
   - repo: https://github.com/PyCQA/flake8
-    rev: 3.9.2
+    rev: 4.0.1
     hooks:
       - id: flake8
         additional_dependencies:
@@ -44,6 +44,6 @@ repos:
         args: [--convention=numpy, "--add-ignore=D104,D105"]
         exclude: tests|examples|conf.py
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.4.0
+    rev: v2.5.1
     hooks:
       - id: prettier
