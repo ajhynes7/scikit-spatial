@@ -14,4 +14,5 @@ Methods
    ~skspatial.objects.Circle.best_fit
    ~skspatial.objects.Circle.circumference
    ~skspatial.objects.Circle.intersect_line
+   ~skspatial.objects.Circle.best_fit
    ~skspatial.objects.Circle.plot_2d

@@ -296,7 +296,7 @@ class Circle(_BaseSphere):
         c = np.linalg.lstsq(A, b, rcond=None)[0]
 
         center = c[:2]
-        radius = np.sqrt(c[2] + c[0]**2 + c[1]**2)
+        radius = np.sqrt(c[2] + c[0] ** 2 + c[1] ** 2)
 
         return cls(center, radius)
 
