@@ -5,6 +5,7 @@ import pytest
 
 from skspatial.objects import Circle
 from skspatial.objects import Line
+from skspatial.objects import Points
 
 
 @pytest.mark.parametrize(
@@ -114,6 +115,37 @@ def test_project_point_failure(circle, point):
 
     with pytest.raises(ValueError, match=message_expected):
         circle.project_point(point)
+
+
+@pytest.mark.parametrize(
+    ("points", "circle_expected"),
+    [
+        ([[1, 1], [2, 2], [3, 1]], Circle(point=[2, 1], radius=1)),
+        ([[2, 0], [-2, 0], [0, 2]], Circle(point=[0, 0], radius=2)),
+        ([[1, 0], [0, 1], [1, 2]], Circle(point=[1, 1], radius=1)),
+    ],
+)
+def test_best_fit(points, circle_expected):
+
+    points = Points(points)
+    circle_fit = Circle.best_fit(points)
+
+    assert circle_fit.point.is_close(circle_expected.point, abs_tol=1e-9)
+    assert math.isclose(circle_fit.radius, circle_expected.radius)
+
+
+@pytest.mark.parametrize(
+    ("points", "message_expected"),
+    [
+        ([[1, 0, 0], [-1, 0, 0], [0, 1, 0]], "The points must be 2D."),
+        ([[2, 0], [-2, 0]], "There must be at least 3 points."),
+        ([[0, 0], [1, 1], [2, 2]], "The points must not be collinear."),
+    ],
+)
+def test_best_fit_failure(points, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Circle.best_fit(points)
 
 
 @pytest.mark.parametrize(

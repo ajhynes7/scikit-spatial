@@ -1,4 +1,6 @@
 """Module for the Circle class."""
+from __future__ import annotations
+
 import math
 from typing import Tuple
 
@@ -10,6 +12,7 @@ from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
+from skspatial.objects.points import Points
 from skspatial.typing import array_like
 
 
@@ -233,6 +236,69 @@ class Circle(_BaseSphere):
         point_b = point_translated_b + self.point
 
         return point_a, point_b
+
+    @classmethod
+    def best_fit(cls, points: array_like) -> Circle:
+        """
+        Return the sphere of best fit for a set of 2D points.
+
+        Parameters
+        ----------
+        points : array_like
+             Input 2D points.
+
+        Returns
+        -------
+        Circle
+            The circle of best fit.
+
+        Raises
+        ------
+        ValueError
+            If the points are not 2D.
+            If there are fewer than three points.
+            If the points are collinear.
+
+        Reference
+        ---------
+        https://meshlogic.github.io/posts/jupyter/curve-fitting/fitting-a-circle-to-cluster-of-3d-points/
+
+        Examples
+        --------
+        >>> import numpy as np
+
+        >>> from skspatial.objects import Circle
+
+        >>> points = [[1, 1], [2, 2], [3, 1]]
+        >>> circle = Circle.best_fit(points)
+
+        >>> circle.point
+        Point([2., 1.])
+
+        >>> np.round(circle.radius, 2)
+        1.0
+
+        """
+        points = Points(points)
+
+        if points.dimension != 2:
+            raise ValueError("The points must be 2D.")
+
+        if points.shape[0] < 3:
+            raise ValueError("There must be at least 3 points.")
+
+        if points.affine_rank() != 2:
+            raise ValueError("The points must not be collinear.")
+
+        n = points.shape[0]
+        A = np.hstack((2 * points, np.ones((n, 1))))
+        b = (points ** 2).sum(axis=1)
+        c = np.linalg.lstsq(A, b, rcond=None)[0]
+
+        center = c[:2]
+        radius = np.sqrt(c[2] + c[0] ** 2 + c[1] ** 2)
+
+        return cls(center, radius)
 
     def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """

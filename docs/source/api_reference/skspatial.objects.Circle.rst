@@ -11,6 +11,7 @@ Methods
    :toctree: Circle/methods
 
    ~skspatial.objects.Circle.area
+   ~skspatial.objects.Circle.best_fit
    ~skspatial.objects.Circle.circumference
    ~skspatial.objects.Circle.intersect_line
    ~skspatial.objects.Circle.plot_2d
