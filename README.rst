@@ -120,7 +120,7 @@ The package can be installed with pip.
    $ pip install scikit-spatial
 
 
-It is also be installed with conda.
+It can also be installed with conda.
 
 .. code-block:: bash
 
