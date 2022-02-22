@@ -7,10 +7,11 @@ from skspatial.typing import array_like
 
 def area_signed(points: array_like) -> float:
     """
-    Return the signed area of a simple polygon whose vertices are described
-    by their 2D cartesian coordinates using the shoelace algorithm.
-    The algorithm returns a positive area for a polygon whose vertices are given
-    by a counter-clockwise sequence of points.
+    Return the signed area of a simple polygon given the 2D coordinates of its veritces.
+
+    The signed area is computed using the shoelace algorithm. A positive area is
+    returned for a polygon whose vertices are given by a counter-clockwise
+    sequence of points.
 
     Parameters
     ----------
