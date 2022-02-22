@@ -1,7 +1,8 @@
 """Measurements using spatial objects."""
 import numpy as np
 
-from skspatial.objects import Vector, Points
+from skspatial.objects import Points
+from skspatial.objects import Vector
 from skspatial.typing import array_like
 
 
@@ -46,7 +47,8 @@ def area_signed(points: array_like) -> float:
 
     x = points[:, 0]
     y = points[:, 1]
-    return sum(x[i-1]*y[i] - x[i]*y[i-1] for i in range(len(points))) / 2
+    return sum(x[i - 1] * y[i] - x[i] * y[i - 1] for i in range(len(points))) / 2
+
 
 def area_triangle(point_a: array_like, point_b: array_like, point_c: array_like) -> np.float64:
     """
