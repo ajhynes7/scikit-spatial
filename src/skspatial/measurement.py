@@ -1,6 +1,7 @@
 """Measurements using spatial objects."""
 import numpy as np
 
+from skspatial.objects import Points
 from skspatial.objects import Vector
 from skspatial.typing import array_like
 
@@ -97,3 +98,65 @@ def volume_tetrahedron(
     vector_ab = vector_ab.set_dimension(3)
 
     return 1 / 6 * abs(vector_ab.dot(vector_cross))
+
+
+def area_signed(points: array_like) -> float:
+    """
+    Return the signed area of a simple polygon given the 2D coordinates of its veritces.
+
+    The signed area is computed using the shoelace algorithm. A positive area is
+    returned for a polygon whose vertices are given by a counter-clockwise
+    sequence of points.
+
+    Parameters
+    ----------
+    points : array_like
+         Input 2D points.
+
+    Returns
+    -------
+    area_signed : float
+        The signed area of the polygon.
+
+    Raises
+    ------
+    ValueError
+        If the points are not 2D.
+        If there are fewer than three points.
+
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Shoelace_formula
+    https://alexkritchevsky.com/2018/08/06/oriented-area.html
+    https://rosettacode.org/wiki/Shoelace_formula_for_polygonal_area#Python
+
+    Examples
+    --------
+    >>> from skspatial.measurement import area_signed
+
+    >>> area_signed([[0, 0], [1, 0], [0, 1]])
+    0.5
+
+    >>> area_signed([[0, 0], [0, 1], [1, 0]])
+    -0.5
+
+    >>> area_signed([[0, 0], [0, 1], [1, 2], [2, 1], [2, 0]])
+    -3.0
+
+    """
+    points = Points(points)
+    n_points = points.shape[0]
+
+    if points.dimension != 2:
+        raise ValueError("The points must be 2D.")
+
+    if n_points < 3:
+        raise ValueError("There must be at least 3 points.")
+
+    X = points[:, 0]
+    Y = points[:, 1]
+
+    indices = np.arange(n_points)
+    indices_offset = indices - 1
+
+    return 0.5 * np.sum(X[indices_offset] * Y[indices] - X[indices] * Y[indices_offset])
