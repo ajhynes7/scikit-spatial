@@ -6,52 +6,6 @@ from skspatial.objects import Vector
 from skspatial.typing import array_like
 
 
-def area_signed(points: array_like) -> float:
-    """
-    Return the signed area of a simple polygon given the 2D coordinates of its veritces.
-
-    The signed area is computed using the shoelace algorithm. A positive area is
-    returned for a polygon whose vertices are given by a counter-clockwise
-    sequence of points.
-
-    Parameters
-    ----------
-    points : array_like
-         Input 2D points.
-
-    Returns
-    -------
-    area_signed : float
-        The signed area of the polygon.
-
-    Raises
-    ------
-    ValueError
-        If the points are not 2D.
-        If there are fewer than three points.
-
-    References
-    ----------
-    https://en.wikipedia.org/wiki/Shoelace_formula
-    https://alexkritchevsky.com/2018/08/06/oriented-area.html
-    https://rosettacode.org/wiki/Shoelace_formula_for_polygonal_area#Python
-
-    """
-    points = Points(points)
-    n_points = points.shape[0]
-
-    if points.dimension != 2:
-        raise ValueError("The points must be 2D.")
-
-    if n_points < 3:
-        raise ValueError("There must be at least 3 points.")
-
-    X = points[:, 0]
-    Y = points[:, 1]
-
-    return 0.5 * sum(X[i - 1] * Y[i] - X[i] * Y[i - 1] for i in range(n_points))
-
-
 def area_triangle(point_a: array_like, point_b: array_like, point_c: array_like) -> np.float64:
     """
     Return the area of a triangle defined by three points.
@@ -144,3 +98,50 @@ def volume_tetrahedron(
     vector_ab = vector_ab.set_dimension(3)
 
     return 1 / 6 * abs(vector_ab.dot(vector_cross))
+
+
+def area_signed(points: array_like) -> float:
+    """
+    Return the signed area of a simple polygon given the 2D coordinates of its veritces.
+
+    The signed area is computed using the shoelace algorithm. A positive area is
+    returned for a polygon whose vertices are given by a counter-clockwise
+    sequence of points.
+
+    Parameters
+    ----------
+    points : array_like
+         Input 2D points.
+
+    Returns
+    -------
+    area_signed : float
+        The signed area of the polygon.
+
+    Raises
+    ------
+    ValueError
+        If the points are not 2D.
+        If there are fewer than three points.
+
+    References
+    ----------
+    https://en.wikipedia.org/wiki/Shoelace_formula
+    https://alexkritchevsky.com/2018/08/06/oriented-area.html
+    https://rosettacode.org/wiki/Shoelace_formula_for_polygonal_area#Python
+
+    """
+    points = Points(points)
+    n_points = points.shape[0]
+
+    if points.dimension != 2:
+        raise ValueError("The points must be 2D.")
+
+    if n_points < 3:
+        raise ValueError("There must be at least 3 points.")
+
+    X = points[:, 0]
+    Y = points[:, 1]
+
+    return 0.5 * sum(X[i - 1] * Y[i] - X[i] * Y[i - 1] for i in range(n_points))
+
