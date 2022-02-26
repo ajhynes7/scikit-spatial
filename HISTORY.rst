@@ -3,6 +3,15 @@ History
 =======
 
 
+6.3.0 (2022-02-26)
+------------------
+
+Features
+~~~~~~~~
+- Add `Circle.best_fit` method to fit a circle to 2D points.
+- Add `area_signed` function to compute the signed area of a polygon using the shoelace algorithm.
+
+
 6.2.1 (2022-01-08)
 ------------------
 
