@@ -156,5 +156,7 @@ def area_signed(points: array_like) -> float:
     X = points[:, 0]
     Y = points[:, 1]
 
-    I = np.arange(n_points)
-    return 0.5 * np.sum(X[I - 1] * Y[I] - X[I] * Y[I - 1])
+    indices = np.arange(n_points)
+    indices_offset = indices - 1
+
+    return 0.5 * np.sum(X[indices_offset] * Y[indices] - X[indices] * Y[indices_offset])
