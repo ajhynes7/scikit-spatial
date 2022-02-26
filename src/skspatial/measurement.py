@@ -130,6 +130,19 @@ def area_signed(points: array_like) -> float:
     https://alexkritchevsky.com/2018/08/06/oriented-area.html
     https://rosettacode.org/wiki/Shoelace_formula_for_polygonal_area#Python
 
+    Examples
+    --------
+    >>> from skspatial.measurement import area_signed
+
+    >>> area_signed([[0, 0], [1, 0], [0, 1]])
+    0.5
+
+    >>> area_signed([[0, 0], [0, 1], [1, 0]])
+    -0.5
+
+    >>> area_signed([[0, 0], [0, 1], [1, 2], [2, 1], [2, 0]])
+    -3.0
+
     """
     points = Points(points)
     n_points = points.shape[0]
