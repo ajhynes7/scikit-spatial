@@ -38,16 +38,18 @@ def area_signed(points: array_like) -> float:
 
     """
     points = Points(points)
+    n_points = points.shape[0]
 
     if points.dimension != 2:
         raise ValueError("The points must be 2D.")
 
-    if points.shape[0] < 3:
+    if n_points < 3:
         raise ValueError("There must be at least 3 points.")
 
-    x = points[:, 0]
-    y = points[:, 1]
-    return sum(x[i - 1] * y[i] - x[i] * y[i - 1] for i in range(len(points))) / 2
+    X = points[:, 0]
+    Y = points[:, 1]
+
+    return 0.5 * sum(X[i - 1] * Y[i] - X[i] * Y[i - 1] for i in range(n_points))
 
 
 def area_triangle(point_a: array_like, point_b: array_like, point_c: array_like) -> np.float64:
