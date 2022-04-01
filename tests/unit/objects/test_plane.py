@@ -149,6 +149,35 @@ def test_project_vector(plane, vector, vector_expected):
 
 
 @pytest.mark.parametrize(
+    ("plane", "line", "line_expected"),
+    [
+        (
+            Plane([0, 0, 1], [0, 0, 1]),
+            Line([0, 0, 0], [1, 0, 0]),
+            Line([0, 0, 1], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [1, 0, 0]),
+            Line([1, 0, 0], [0, 1, 0]),
+            Line([0, 0, 0], [0, 1, 0]),
+        ),
+        (
+            Plane([0, 1, 0], [0, 1, 0]),
+            Line([0, -1, 0], [1, -2, 0]),
+            Line([0, 1, 0], [1, 0, 0]),
+        ),
+    ],
+)
+def test_project_line(plane, line, line_expected):
+
+    line_projected = plane.project_line(line)
+    point_projected = line_projected.point
+    vector_projected = line_projected.vector
+    assert point_projected.is_close(line_expected.point)
+    assert vector_projected.is_close(line_expected.vector)
+
+
+@pytest.mark.parametrize(
     ("point", "plane", "dist_signed_expected"),
     [
         ([0, 0, 0], Plane([0, 0, 0], [0, 0, 1]), 0),
