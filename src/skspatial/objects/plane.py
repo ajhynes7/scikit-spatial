@@ -302,6 +302,35 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return Vector.from_points(self.point, point_on_plane)
 
+    def project_line(self, line: Line) -> Line:
+        """
+        Project a line onto the plane.
+
+        Parameters
+        ----------
+        line : Line
+            Input line.
+
+        Returns
+        -------
+        Line
+            Projection of the line onto the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+        >>> from skspatial.objects import Line
+
+        >>> plane = Plane([0, 0, 1], [0, 0, 1])
+        >>> line = Line([0, 0, 0], [1, 0, 0])
+
+        >>>  plane.project_line(line)
+        Line(point=Point([0., 0., 1.]), direction=Vector([1, 0, 0]))
+
+        """
+        plane_orthogonal = Plane(line.point, line.direction.cross(self.normal))
+        return self.intersect_plane(plane_orthogonal)
+
     def distance_point_signed(self, point: array_like) -> np.float64:
         """
         Return the signed distance from a point to the plane.
