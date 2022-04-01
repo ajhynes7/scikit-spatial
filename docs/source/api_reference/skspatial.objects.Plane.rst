@@ -18,6 +18,7 @@ Methods
    ~skspatial.objects.Plane.intersect_line
    ~skspatial.objects.Plane.intersect_plane
    ~skspatial.objects.Plane.plot_3d
+   ~skspatial.objects.Plane.project_line
    ~skspatial.objects.Plane.project_point
    ~skspatial.objects.Plane.project_vector
    ~skspatial.objects.Plane.side_point
