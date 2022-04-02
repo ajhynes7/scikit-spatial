@@ -1,8 +1,8 @@
 """
-Vector-Plane Projection
+Line-Plane Projection
 =======================
 
-Project a vector onto a plane.
+Project a line onto a plane.
 
 """
 from skspatial.objects import Plane
