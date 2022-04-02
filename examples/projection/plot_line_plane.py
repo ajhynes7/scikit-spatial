@@ -5,8 +5,8 @@ Line-Plane Projection
 Project a line onto a plane.
 
 """
-from skspatial.objects import Plane
 from skspatial.objects import Line
+from skspatial.objects import Plane
 from skspatial.plotting import plot_3d
 
 plane = Plane([0, 1, 0], [0, 1, 0])
