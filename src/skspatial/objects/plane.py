@@ -302,14 +302,20 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return Vector.from_points(self.point, point_on_plane)
 
-    def project_line(self, line: Line) -> Line:
+    def project_line(self, line: Line, **kwargs: float) -> Line:
         """
         Project a line onto the plane.
+
+        This method can also handle the case where the line is parallel to the plane.
 
         Parameters
         ----------
         line : Line
             Input line.
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Vector.is_perpendicular`,
+            which is used to check if the line is parallel to the plane
+            (i.e., the line direction is perpendicular to the plane normal).
 
         Returns
         -------
@@ -318,18 +324,30 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         Examples
         --------
-        >>> from skspatial.objects import Plane
-        >>> from skspatial.objects import Line
+        >>> from skspatial.objects import Line, Plane
 
-        >>> plane = Plane([0, 0, 1], [0, 0, 1])
-        >>> line = Line([0, 0, 0], [1, 0, 0])
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+        >>> line = Line([0, 0, 0], [1, 1, 1])
 
-        >>>  plane.project_line(line)
-        Line(point=Point([0., 0., 1.]), direction=Vector([1, 0, 0]))
+        >>> plane.project_line(line)
+        Line(point=Point([0., 0., 0.]), direction=Vector([1., 1., 0.]))
+
+        The line is parallel to the plane.
+
+        >>> line = Line([0, 0, 5], [1, 0, 0])
+
+        >>> plane.project_line(line)
+        Line(point=Point([0., 0., 0.]), direction=Vector([1, 0, 0]))
 
         """
-        plane_orthogonal = Plane(line.point, line.direction.cross(self.normal))
-        return self.intersect_plane(plane_orthogonal)
+        point_projected = self.project_point(line.point)
+
+        if self.normal.is_perpendicular(line.vector, **kwargs):
+            return Line(point_projected, line.vector)
+
+        vector_projected = self.project_vector(line.vector)
+        
+        return Line(point_projected, vector_projected)
 
     def distance_point_signed(self, point: array_like) -> np.float64:
         """
