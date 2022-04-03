@@ -152,14 +152,29 @@ def test_project_vector(plane, vector, vector_expected):
     ("plane", "line", "line_expected"),
     [
         (
-            Plane([0, 0, 1], [0, 0, 1]),
+            Plane([0, 0, 0], [0, 0, 1]),
             Line([0, 0, 0], [1, 0, 0]),
-            Line([0, 0, 1], [1, 0, 0]),
+            Line([0, 0, 0], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([0, 0, 5], [1, 0, 0]),
+            Line([0, 0, 0], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([2, 3, -5], [1, 0, 0]),
+            Line([2, 3, 0], [1, 0, 0]),
         ),
         (
             Plane([0, 0, 0], [1, 0, 0]),
             Line([1, 0, 0], [0, 1, 0]),
             Line([0, 0, 0], [0, 1, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, -1, 1]),
+            Line([0, 0, 0], [0, 1, 0]),
+            Line([0, 0, 0], [0, 0.5, 0.5]),
         ),
         (
             Plane([0, 1, 0], [0, 1, 0]),
@@ -171,10 +186,9 @@ def test_project_vector(plane, vector, vector_expected):
 def test_project_line(plane, line, line_expected):
 
     line_projected = plane.project_line(line)
-    point_projected = line_projected.point
-    vector_projected = line_projected.vector
-    assert point_projected.is_close(line_expected.point)
-    assert vector_projected.is_close(line_expected.vector)
+
+    assert line_projected.point.is_close(line_expected.point)
+    assert line_projected.vector.is_close(line_expected.vector)
 
 
 @pytest.mark.parametrize(
