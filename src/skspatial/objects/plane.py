@@ -346,7 +346,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
             return Line(point_projected, line.vector)
 
         vector_projected = self.project_vector(line.vector)
-        
+
         return Line(point_projected, vector_projected)
 
     def distance_point_signed(self, point: array_like) -> np.float64:
