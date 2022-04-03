@@ -104,7 +104,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         50.27
 
         """
-        return 4 * np.pi * self.radius ** 2
+        return 4 * np.pi * self.radius**2
 
     @np_float
     def volume(self) -> float:
@@ -131,7 +131,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         33.51
 
         """
-        return 4 / 3 * np.pi * self.radius ** 3
+        return 4 / 3 * np.pi * self.radius**3
 
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
@@ -172,7 +172,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         dot = vector_unit.dot(vector_to_line)
 
-        discriminant = dot ** 2 - (vector_to_line.norm() ** 2 - self.radius ** 2)
+        discriminant = dot**2 - (vector_to_line.norm() ** 2 - self.radius**2)
 
         if discriminant < 0:
             raise ValueError("The line does not intersect the sphere.")
@@ -235,7 +235,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         n = points.shape[0]
         A = np.hstack((2 * points, np.ones((n, 1))))
-        b = (points ** 2).sum(axis=1)
+        b = (points**2).sum(axis=1)
 
         c, _, _, _ = np.linalg.lstsq(A, b, rcond=None)
 
