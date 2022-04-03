@@ -340,6 +340,9 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         Line(point=Point([0., 0., 0.]), direction=Vector([1, 0, 0]))
 
         """
+        if self.normal.is_parallel(line.vector, **kwargs):
+            raise ValueError("The line and plane must not be perpendicular.")
+
         point_projected = self.project_point(line.point)
 
         if self.normal.is_perpendicular(line.vector, **kwargs):

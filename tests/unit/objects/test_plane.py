@@ -192,6 +192,31 @@ def test_project_line(plane, line, line_expected):
 
 
 @pytest.mark.parametrize(
+    ("plane", "line"),
+    [
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([0, 0, 0], [0, 0, 1]),
+        ),
+        (
+            Plane([0, 0, 5], [-1, 0, 0]),
+            Line([0, 0, 0], [5, 0, 0]),
+        ),
+        (
+            Plane([1, 2, 3], [1, 2, 4]),
+            Line([4, 5, 6], [-2, -4, -8]),
+        ),
+    ],
+)
+def test_project_line_failure(plane, line):
+
+    message_expected = "The line and plane must not be perpendicular."
+
+    with pytest.raises(ValueError, match=message_expected):
+        plane.project_line(line)
+
+
+@pytest.mark.parametrize(
     ("point", "plane", "dist_signed_expected"),
     [
         ([0, 0, 0], Plane([0, 0, 0], [0, 0, 1]), 0),
