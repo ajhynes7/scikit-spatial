@@ -407,13 +407,13 @@ class Triangle(_BaseSpatial):
         a, b, c = self.multiple('length', 'abc')
 
         if vertex == 'A':
-            arg = (b ** 2 + c ** 2 - a ** 2) / (2 * b * c)
+            arg = (b**2 + c**2 - a**2) / (2 * b * c)
 
         elif vertex == 'B':
-            arg = (a ** 2 + c ** 2 - b ** 2) / (2 * a * c)
+            arg = (a**2 + c**2 - b**2) / (2 * a * c)
 
         elif vertex == 'C':
-            arg = (a ** 2 + b ** 2 - c ** 2) / (2 * a * b)
+            arg = (a**2 + b**2 - c**2) / (2 * a * b)
 
         else:
             raise ValueError("The vertex must be 'A', 'B', or 'C'.")
@@ -625,7 +625,7 @@ class Triangle(_BaseSpatial):
         """
         a, b, c = sorted(self.multiple('length', 'abc'))
 
-        return math.isclose(a ** 2 + b ** 2, c ** 2, **kwargs)
+        return math.isclose(a**2 + b**2, c**2, **kwargs)
 
     def plot_2d(self, ax_2d: Axes, part: str = 'points', **kwargs: str) -> None:
         """

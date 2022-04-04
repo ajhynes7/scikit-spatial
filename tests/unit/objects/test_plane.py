@@ -149,6 +149,74 @@ def test_project_vector(plane, vector, vector_expected):
 
 
 @pytest.mark.parametrize(
+    ("plane", "line", "line_expected"),
+    [
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([0, 0, 0], [1, 0, 0]),
+            Line([0, 0, 0], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([0, 0, 5], [1, 0, 0]),
+            Line([0, 0, 0], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([2, 3, -5], [1, 0, 0]),
+            Line([2, 3, 0], [1, 0, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [1, 0, 0]),
+            Line([1, 0, 0], [0, 1, 0]),
+            Line([0, 0, 0], [0, 1, 0]),
+        ),
+        (
+            Plane([0, 0, 0], [0, -1, 1]),
+            Line([0, 0, 0], [0, 1, 0]),
+            Line([0, 0, 0], [0, 0.5, 0.5]),
+        ),
+        (
+            Plane([0, 1, 0], [0, 1, 0]),
+            Line([0, -1, 0], [1, -2, 0]),
+            Line([0, 1, 0], [1, 0, 0]),
+        ),
+    ],
+)
+def test_project_line(plane, line, line_expected):
+
+    line_projected = plane.project_line(line)
+
+    assert line_projected.point.is_close(line_expected.point)
+    assert line_projected.vector.is_close(line_expected.vector)
+
+
+@pytest.mark.parametrize(
+    ("plane", "line"),
+    [
+        (
+            Plane([0, 0, 0], [0, 0, 1]),
+            Line([0, 0, 0], [0, 0, 1]),
+        ),
+        (
+            Plane([0, 0, 5], [-1, 0, 0]),
+            Line([0, 0, 0], [5, 0, 0]),
+        ),
+        (
+            Plane([1, 2, 3], [1, 2, 4]),
+            Line([4, 5, 6], [-2, -4, -8]),
+        ),
+    ],
+)
+def test_project_line_failure(plane, line):
+
+    message_expected = "The line and plane must not be perpendicular."
+
+    with pytest.raises(ValueError, match=message_expected):
+        plane.project_line(line)
+
+
+@pytest.mark.parametrize(
     ("point", "plane", "dist_signed_expected"),
     [
         ([0, 0, 0], Plane([0, 0, 0], [0, 0, 1]), 0),

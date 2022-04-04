@@ -130,7 +130,7 @@ class Circle(_BaseSphere):
         12.57
 
         """
-        return np.pi * self.radius ** 2
+        return np.pi * self.radius**2
 
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
@@ -213,9 +213,9 @@ class Circle(_BaseSphere):
         d_y = y_2 - y_1
 
         # Pre-compute variables common to x and y equations.
-        d_r_squared = d_x ** 2 + d_y ** 2
+        d_r_squared = d_x**2 + d_y**2
         determinant = x_1 * y_2 - x_2 * y_1
-        discriminant = self.radius ** 2 * d_r_squared - determinant ** 2
+        discriminant = self.radius**2 * d_r_squared - determinant**2
 
         if discriminant < 0:
             raise ValueError("The line does not intersect the circle.")
@@ -292,7 +292,7 @@ class Circle(_BaseSphere):
 
         n = points.shape[0]
         A = np.hstack((2 * points, np.ones((n, 1))))
-        b = (points ** 2).sum(axis=1)
+        b = (points**2).sum(axis=1)
         c = np.linalg.lstsq(A, b, rcond=None)[0]
 
         center = c[:2]

@@ -229,7 +229,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         50.265
 
         """
-        return self.lateral_surface_area() + 2 * np.pi * self.radius ** 2
+        return self.lateral_surface_area() + 2 * np.pi * self.radius**2
 
     def volume(self) -> np.float64:
         r"""
@@ -257,7 +257,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         6.28319
 
         """
-        return np.pi * self.radius ** 2 * self.length()
+        return np.pi * self.radius**2 * self.length()
 
     def is_point_within(self, point: array_like) -> bool:
         """
@@ -540,7 +540,7 @@ def _intersect_line_with_infinite_cylinder(
 
     a = (v_l - v_l.dot(v_c) * v_c).norm() ** 2
     b = 2 * (v_l - v_l.dot(v_c) * v_c).dot(delta_p - delta_p.dot(v_c) * v_c)
-    c = (delta_p - delta_p.dot(v_c) * v_c).norm() ** 2 - r ** 2
+    c = (delta_p - delta_p.dot(v_c) * v_c).norm() ** 2 - r**2
 
     try:
         X = _solve_quadratic(a, b, c, n_digits=n_digits)
