@@ -3,6 +3,14 @@ History
 =======
 
 
+6.4.0 (2022-04-07)
+------------------
+
+Features
+~~~~~~~~
+- Add `Plane.project_line` method to project a line onto a plane.
+
+
 6.3.0 (2022-02-26)
 ------------------
 
