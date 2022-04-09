@@ -41,9 +41,6 @@ importlib-metadata = { version = "~1", python = "<3.8" }
 # Pre-commit
 pre-commit = { version = "2.11.1", optional = true }
 
-# Type checking
-pytype = { version = "2022.4.6", optional = true }
-
 # Testing
 pytest = { version = "7.1.1", optional = true }
 pytest-cov = { version = "2.11.1", optional = true }
@@ -63,7 +60,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.extras]
 pre_commit = ["pre-commit"]
-types = ["pytype"]
 base_test = ["pytest", "pytest-cov"]
 property = ["hypothesis"]
 docs = ["Sphinx", "numpydoc", "sphinx-bootstrap-theme", "sphinx-gallery"]
