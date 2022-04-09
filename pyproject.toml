@@ -41,6 +41,9 @@ importlib-metadata = { version = "~1", python = "<3.8" }
 # Pre-commit
 pre-commit = { version = "2.11.1", optional = true }
 
+# Type checking
+pytype = { version = "2022.4.6", optional = true }
+
 # Testing
 pytest = { version = "6.2.2", optional = true }
 pytest-cov = { version = "2.11.1", optional = true }
