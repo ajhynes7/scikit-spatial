@@ -458,8 +458,8 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         # Two unit vectors that are mutually perpendicular
         # and perpendicular to the cylinder axis.
         # These are used to define the points on the cylinder surface.
-        u_1 = v_axis.cross(v_different_direction)
-        u_2 = v_axis.cross(u_1)
+        u_1 = v_axis.cross(v_different_direction).unit()
+        u_2 = v_axis.cross(u_1).unit()
 
         # The cylinder surface ranges over t from 0 to length of axis,
         # and over theta from 0 to 2 * pi.
