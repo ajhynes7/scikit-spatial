@@ -295,12 +295,23 @@ def test_intersect_cylinder_line_with_caps_failure(cylinder, line):
 @pytest.mark.parametrize(
     ("cylinder", "n_along_axis", "n_angles", "points_expected"),
     [
-        (Cylinder([0, 0, 0], [0, 0, 1], 1), 1, 1, [[-1, 0, 0]]),
+        (
+            Cylinder([0, 0, 0], [0, 0, 1], 1),
+            1,
+            1,
+            [[-1, 0, 0]],
+        ),
         (
             Cylinder([0, 0, 0], [0, 0, 1], 1),
             3,
             2,
             [[-1, 0, 0], [-1, 0, 0.5], [-1, 0, 1]],
+        ),
+        (
+            Cylinder([0, 0, 0], [0.707, 0.707, 0], 1),
+            1,
+            3,
+            [[-0.707, 0.707, 0], [0.707, -0.707, -0]],
         ),
     ],
 )
