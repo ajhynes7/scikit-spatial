@@ -65,3 +65,14 @@ def test_dimension_failure(class_spatial, array, dimension):
 
     with pytest.raises(ValueError, match=message_expected):
         object_spatial.set_dimension(dimension)
+
+
+@pytest.mark.parametrize("class_spatial", [Point, Vector])
+def test_dimension_of_slice(class_spatial):
+
+    object_spatial = class_spatial([0, 0, 0])
+
+    assert object_spatial.dimension == 3
+    assert object_spatial[:3].dimension == 3
+    assert object_spatial[:2].dimension == 2
+    assert object_spatial[:1].dimension == 1

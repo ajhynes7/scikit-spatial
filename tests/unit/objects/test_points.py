@@ -52,6 +52,25 @@ def test_set_dimension(points, dim, points_expected):
     assert_array_equal(points.set_dimension(dim), points_expected)
 
 
+def test_dimension_of_slice():
+
+    points = Points([[0, 0, 0], [0, 0, 0]])
+
+    assert points.dimension == 3
+    assert points[:, :3].dimension == 3
+    assert points[:, :2].dimension == 2
+    assert points[:, :1].dimension == 1
+
+    assert points[:0, :].dimension == 3
+    assert points[:1, :].dimension == 3
+    assert points[:2, :].dimension == 3
+
+    # The dimension value is None here because the points are no longer a 2D array,
+    # so the normal method of finding the dimension fails.
+    assert points[:, 0].dimension is None
+    assert points[0, :].dimension is None
+
+
 @pytest.mark.parametrize(
     ("array_points", "array_centered_expected", "centroid_expected"),
     [
