@@ -60,37 +60,6 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         """
         return array
 
-    def __array_finalize__(self, obj: array_like) -> None:
-        """
-        Finalize creation of the array.
-
-        This function is required for adding extra attributes to a subclass of ndarray.
-        Without it, an array constructed from another may not have the extra attributes
-        (e.g., a projection of a vector onto another vector).
-
-        Examples
-        --------
-        >>> from skspatial.objects import Vector, Points
-
-        >>> vector_a = Vector([1, 0])
-        >>> vector_b = vector_a.project_vector([1, 1])
-
-        Without __array_finalize__, this vector will not have the dimension attribute.
-
-        >>> vector_a.dimension == vector_b.dimension
-        True
-
-        The same applies for 2D arrays.
-
-        >>> points = Points([[1, 2, 3], [4, 5, 6]])
-        >>> points_centered = points.mean_center()
-
-        >>> points.dimension == points_centered.dimension
-        True
-
-        """
-        self.dimension = getattr(obj, 'dimension', None)
-
     def to_array(self) -> np.ndarray:
         """
         Convert the object to a regular NumPy ndarray.
@@ -176,6 +145,10 @@ class _BaseArray1D(_BaseArray):
         obj.dimension = obj.size
 
         return obj
+
+    def __array_finalize__(self, _) -> None:
+
+        self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
         """
@@ -285,3 +258,11 @@ class _BaseArray2D(_BaseArray):
         array_padded = np.pad(self, ((0, 0), (0, dim - self.dimension)), 'constant')
 
         return self.__class__(array_padded)
+
+    def __array_finalize__(self, _) -> None:
+
+        try:
+            self.dimension = self.shape[1]
+
+        except IndexError:
+            self.dimension = None
