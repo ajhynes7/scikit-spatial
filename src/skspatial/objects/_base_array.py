@@ -44,7 +44,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
         return obj
 
-    def __array_wrap__(self, array, context=None):  # noqa: U100
+    def __array_wrap__(self, array: np.ndarray) -> np.ndarray:
         """
         Return regular :class:`numpy.ndarray` when default NumPy method is called.
 
