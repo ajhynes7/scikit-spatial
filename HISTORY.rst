@@ -2,6 +2,14 @@
 History
 =======
 
+6.4.1 (2022-06-21)
+------------------
+
+Fixes
+~~~~~
+- Update the `dimension` value of a slice, instead of using the value of the original array.
+- Fix the output radius of `Cylinder.to_mesh`.
+
 
 6.4.0 (2022-04-07)
 ------------------
