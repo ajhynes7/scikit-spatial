@@ -5,7 +5,7 @@ from tests.unit.objects.test_line import LINES_MUST_BE_COPLANAR
 from tests.unit.objects.test_line import LINES_MUST_HAVE_SAME_DIMENSION
 from tests.unit.objects.test_line import LINES_MUST_NOT_BE_PARALLEL
 
-INTERSECTION_MUST_BE_ON_BOTH_LINE_SEGMENTS = "The line segments do not intersect."
+LINE_SEGMENTS_MUST_INTERSECT = "The line segments must intersect."
 
 
 @pytest.mark.parametrize(
@@ -87,9 +87,9 @@ def test_intersect_line_segment(segment_a, segment_b, array_expected):
 @pytest.mark.parametrize(
     ("segment_a", "segment_b", "message_expected"),
     [
-        (LineSegment([0, 0], [2, 0]), LineSegment([1, 1], [1, 2]), INTERSECTION_MUST_BE_ON_BOTH_LINE_SEGMENTS),
-        (LineSegment([1, 1], [1, 2]), LineSegment([0, 0], [2, 0]), INTERSECTION_MUST_BE_ON_BOTH_LINE_SEGMENTS),
-        (LineSegment([0, 0], [2, 0]), LineSegment([1, -1], [1, -2]), INTERSECTION_MUST_BE_ON_BOTH_LINE_SEGMENTS),
+        (LineSegment([0, 0], [2, 0]), LineSegment([1, 1], [1, 2]), LINE_SEGMENTS_MUST_INTERSECT),
+        (LineSegment([1, 1], [1, 2]), LineSegment([0, 0], [2, 0]), LINE_SEGMENTS_MUST_INTERSECT),
+        (LineSegment([0, 0], [2, 0]), LineSegment([1, -1], [1, -2]), LINE_SEGMENTS_MUST_INTERSECT),
         (LineSegment([0, 0], [1, 0]), LineSegment([0, 1], [1, 1]), LINES_MUST_NOT_BE_PARALLEL),
         (LineSegment([0, 0, 0], [1, 0, 0]), LineSegment([0, 0], [1, 0]), LINES_MUST_HAVE_SAME_DIMENSION),
         (LineSegment([0, 0, 0], [1, 1, 1]), LineSegment([0, 1, 0], [-1, 1, 0]), LINES_MUST_BE_COPLANAR),

@@ -139,7 +139,7 @@ class LineSegment:
         >>> segment_a.intersect_line_segment(segment_b)
         Traceback (most recent call last):
         ...
-        ValueError: The line segments do not intersect.
+        ValueError: The line segments must intersect.
 
         """
         line_a = Line.from_points(self.point_a, self.point_b)
@@ -151,7 +151,7 @@ class LineSegment:
         point_on_segment_b = other.contains_point(point_intersection)
 
         if not (point_on_segment_a and point_on_segment_b):
-            raise ValueError("The line segments do not intersect.")
+            raise ValueError("The line segments must intersect.")
 
         return point_intersection
 
@@ -181,6 +181,10 @@ class LineSegment:
             >>> segment = LineSegment([0, 0], [1, 1])
 
             >>> segment.plot_2d(ax, c='k')
+
+            >>> segment.point_a.plot_2d(ax, c='b', s=100, zorder=3)
+            >>> segment.point_b.plot_2d(ax, c='r', s=100, zorder=3)
+
             >>> grid = ax.grid()
 
         """
@@ -212,9 +216,12 @@ class LineSegment:
             >>> fig = plt.figure()
             >>> ax = fig.add_subplot(111, projection='3d')
 
-            >>> line_segment = LineSegment([1, 2, 3], [0, 1, 1])
+            >>> segment = LineSegment([1, 2, 3], [0, 1, 1])
 
-            >>> line_segment.plot_3d(ax, c='k')
+            >>> segment.point_a.plot_3d(ax, c='b', s=100, zorder=3)
+            >>> segment.point_b.plot_3d(ax, c='r', s=100, zorder=3)
+
+            >>> segment.plot_3d(ax, c='k')
 
         """
         _connect_points_3d(ax_3d, self.point_a, self.point_b, **kwargs)
