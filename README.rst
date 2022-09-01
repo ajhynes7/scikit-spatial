@@ -39,6 +39,7 @@ The following spatial objects are provided:
    - Points
    - Vector
    - Line
+   - LineSegment
    - Plane
    - Circle
    - Sphere

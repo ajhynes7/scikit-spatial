@@ -8,6 +8,7 @@ Spatial Objects
    point_vector
    points
    line
+   line_segment
    plane
    circle
    sphere
