@@ -63,3 +63,7 @@ pre_commit = ["pre-commit"]
 base_test = ["pytest", "pytest-cov"]
 property = ["hypothesis"]
 docs = ["Sphinx", "numpydoc", "sphinx-bootstrap-theme", "sphinx-gallery"]
+
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]

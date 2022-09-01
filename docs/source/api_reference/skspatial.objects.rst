@@ -8,6 +8,7 @@ skspatial.objects
    skspatial.objects.Points
    skspatial.objects.Vector
    skspatial.objects.Line
+   skspatial.objects.LineSegment
    skspatial.objects.Plane
    skspatial.objects.Circle
    skspatial.objects.Sphere

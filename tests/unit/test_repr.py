@@ -10,6 +10,7 @@ from skspatial.objects import Points
 from skspatial.objects import Sphere
 from skspatial.objects import Triangle
 from skspatial.objects import Vector
+from skspatial.objects.line_segment import LineSegment
 
 
 @pytest.mark.parametrize(
@@ -27,6 +28,8 @@ from skspatial.objects import Vector
         (Line([0, 0], [1, 0]), "Line(point=Point([0, 0]), direction=Vector([1, 0]))"),
         (Line([-1, 2, 3], [5, 4, 2]), "Line(point=Point([-1,  2,  3]), direction=Vector([5, 4, 2]))"),
         (Line(np.zeros(2), [1, 0]), "Line(point=Point([0., 0.]), direction=Vector([1, 0]))"),
+        (LineSegment([0, 0], [1, 0]), "LineSegment(point_a=Point([0, 0]), point_b=Point([1, 0]))"),
+        (LineSegment([-1, 2, 3], [5, 4, 2]), "LineSegment(point_a=Point([-1,  2,  3]), point_b=Point([5, 4, 2]))"),
         (Plane([0, 0], [1, 0]), "Plane(point=Point([0, 0]), normal=Vector([1, 0]))"),
         (Plane([-1, 2, 3], [5, 4, 2]), "Plane(point=Point([-1,  2,  3]), normal=Vector([5, 4, 2]))"),
         (Circle([0, 0], 1), "Circle(point=Point([0, 0]), radius=1)"),
