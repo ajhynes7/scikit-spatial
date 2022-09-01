@@ -1,12 +1,36 @@
 import pytest
 
-from skspatial.objects import LineSegment
+from skspatial.objects import LineSegment, Point
 from tests.unit.objects.test_line import LINES_MUST_BE_COPLANAR
 from tests.unit.objects.test_line import LINES_MUST_HAVE_SAME_DIMENSION
 from tests.unit.objects.test_line import LINES_MUST_NOT_BE_PARALLEL
 
 INTERSECTION_MUST_BE_ON_BOTH_LINE_SEGMENTS = "The line segments do not intersect."
 
+
+@pytest.mark.parametrize(
+    ("point_a", "point_b"),
+    [([0, 0], [1, 0]), ([-1, -1], [2, -1]), ([1, 2, 3], [4, 5, 6])]
+)
+def test_initialize(point_a, point_b):
+
+    segment = LineSegment(point_a, point_b)
+
+    assert isinstance(segment.point_a, Point)
+    assert isinstance(segment.point_b, Point)
+
+    assert segment.point_a.is_close(point_a)
+    assert segment.point_b.is_close(point_b)
+
+
+@pytest.mark.parametrize(
+    ("point_a", "point_b"),
+    [([0, 0], [0, 0]), ([-1, -1], [-1, -1]), ([2, 2, 2], [2, 2, 2])],
+)
+def test_failure(point_a, point_b):
+
+    with pytest.raises(ValueError, match="The endpoints must not be equal."):
+        LineSegment(point_a, point_b)
 
 @pytest.mark.parametrize(
     ("segment", "point", "bool_expected"),
