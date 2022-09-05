@@ -2,6 +2,18 @@
 History
 =======
 
+6.5.0 (2022-09-05)
+------------------
+
+Features
+~~~~~~~~
+- Add `LineSegment` class.
+
+Docs
+~~~~
+- Add plot of Cylinder-Line Intersection to the gallery.
+
+
 6.4.1 (2022-06-21)
 ------------------
 
