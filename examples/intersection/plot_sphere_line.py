@@ -3,8 +3,7 @@ Sphere-Line Intersection
 ========================
 
 """
-from skspatial.objects import Line
-from skspatial.objects import Sphere
+from skspatial.objects import Line, Sphere
 from skspatial.plotting import plot_3d
 
 

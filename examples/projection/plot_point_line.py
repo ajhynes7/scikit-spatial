@@ -5,8 +5,7 @@
 Project a point onto a line.
 
 """
-from skspatial.objects import Line
-from skspatial.objects import Point
+from skspatial.objects import Line, Point
 from skspatial.plotting import plot_2d
 
 
