@@ -3,8 +3,7 @@ Plane-Line Intersection
 =======================
 
 """
-from skspatial.objects import Line
-from skspatial.objects import Plane
+from skspatial.objects import Line, Plane
 from skspatial.plotting import plot_3d
 
 

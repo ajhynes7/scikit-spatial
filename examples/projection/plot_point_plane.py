@@ -5,9 +5,7 @@ Point-Plane Projection
 Project a point onto a plane.
 
 """
-from skspatial.objects import Plane
-from skspatial.objects import Point
-from skspatial.objects import Vector
+from skspatial.objects import Plane, Point, Vector
 from skspatial.plotting import plot_3d
 
 
