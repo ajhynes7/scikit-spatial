@@ -141,6 +141,39 @@ def test_angle_signed(array_u, array_v, angle_expected):
         angle = Vector(array_u).angle_signed(array_v)
         assert math.isclose(angle, angle_expected)
 
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "positive_direction", "angle_expected"),
+    [
+        ([1, 0], [1, 0], [0, 0, 3], None),
+        ([3, 0, 0], [0, 2, 0], [0, 1, 1], None),
+        ([2, -1, 0], [0, 2, 0], [1, 1], None),
+        ([1, 0, 0], [1, 0, 0], [1, 2, 3], 0),
+        ([1, 0, 0], [-1, 0, 0], [1, 2, 3], np.pi),
+        ([-1, 0, 0], [1, 0, 0], [1, 2, 3], np.pi),
+        ([3, 0, 0], [0, 2, 0], [0, 0, -4], -np.pi / 2),
+        ([3, 0, 0], [0, 2, 0], [0, 0, 5], np.pi / 2),
+        ([-4, 0, 0], [1, 1, 0], [0, 0, 2], -3 * np.pi / 4),
+        (np.ones(4), np.ones(4), np.ones(4), None),
+    ],
+)
+def test_angle_signed_3d(array_u, array_v, positive_direction, angle_expected):
+
+    if not all(
+        [Vector(array_u).dimension == 3, Vector(array_v).dimension == 3, Vector(positive_direction).dimension == 3]
+    ):
+        with pytest.raises(ValueError, match="The vectors must be 3D."):
+            Vector(array_u).angle_signed_3d(array_v, positive_direction)
+
+    elif angle_expected is None:
+        with pytest.raises(
+            ValueError,
+            match="The positive direction vector must be perpendicular to the plane formed by the two input vectors."
+        ):
+            Vector(array_u).angle_signed_3d(array_v, positive_direction)
+
+    else:
+        angle = Vector(array_u).angle_signed_3d(array_v, positive_direction)
+        assert math.isclose(angle, angle_expected)
 
 @pytest.mark.parametrize(
     ("array_u", "array_v", "bool_expected"),
