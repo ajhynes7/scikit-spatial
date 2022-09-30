@@ -114,39 +114,31 @@ def test_angle_between(array_u, array_v, angle_expected):
 
 
 @pytest.mark.parametrize(
-    ("array_u", "array_v", "positive_direction", "angle_expected"),
+    ("array_u", "array_v", "angle_expected"),
     [
-        ([1, 0], [1, 0], None, 0),
-        ([1, 0], [1, 1], [1, 1], np.pi / 4),
-        ([1, 0], [1, 1], [1, 1, 0], np.pi / 4),
-        ([1, 0], [1, 1], None, np.pi / 4),
-        ([1, 0], [1, -1], None, -np.pi / 4),
-        ([1, 0], [0, 1], None, np.pi / 2),
-        ([1, 0], [-1, 1], None, 3 * np.pi / 4),
-        ([1, 0], [-1, 0], None, np.pi),
-        ([1, 0], [-1, -1], None, -3 * np.pi / 4),
-        ([1, 0], [0, -1], None, -np.pi / 2),
-        ([1, 0], [1, -1], None, -np.pi / 4),
-        ([1, 1], [0, 1], None, np.pi / 4),
-        ([1, 1], [1, 0], None, -np.pi / 4),
-        ([1, 0, 0], [0, 1, 0], None, np.pi / 2),
-        ([3, 0, 0], [0, 2, 0], [0, 1, 1], None),
-        ([3, 0, 0], [0, 2, 0], [0, 0, -4], -np.pi / 2),
-        ([3, 0, 0], [0, 2, 0], [0, 0, 5], np.pi / 2),
-        ([3, 0, 0], [0, 2, 0], None, np.pi / 2),
+        ([1, 0], [1, 0], 0),
+        ([1, 0], [1, 1], np.pi / 4),
+        ([1, 0], [0, 1], np.pi / 2),
+        ([1, 0], [-1, 1], 3 * np.pi / 4),
+        ([1, 0], [-1, 0], np.pi),
+        ([1, 0], [-1, -1], -3 * np.pi / 4),
+        ([1, 0], [0, -1], -np.pi / 2),
+        ([1, 0], [1, -1], -np.pi / 4),
+        ([1, 1], [0, 1], np.pi / 4),
+        ([1, 1], [1, 0], -np.pi / 4),
+        ([0], [0], None),
+        ([1, 1, 1], [1, 0, 0], None),
+        (np.ones(4), np.ones(4), None),
     ],
 )
-def test_angle_signed(array_u, array_v, positive_direction, angle_expected):
+def test_angle_signed(array_u, array_v, angle_expected):
 
-    if Vector(array_u).dimension == 3 and angle_expected is None:
-        with pytest.raises(
-            ValueError,
-            match="The positive direction vector must be perpendicular to the plane formed by the two input vectors."
-        ):
-            Vector(array_u).angle_signed(array_v, positive_direction)
+    if angle_expected is None:
+        with pytest.raises(ValueError, match="The vectors must be 2D."):
+            Vector(array_u).angle_signed(array_v)
 
     else:
-        angle = Vector(array_u).angle_signed(array_v, positive_direction)
+        angle = Vector(array_u).angle_signed(array_v)
         assert math.isclose(angle, angle_expected)
 
 

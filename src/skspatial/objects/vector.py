@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import math
-from typing import cast, Optional
+from typing import cast
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -345,16 +345,16 @@ class Vector(_BaseArray1D):
         return math.acos(cos_theta)
 
     @np_float
-    def angle_signed(self, other: array_like, positive_direction: Optional[array_like] = None) -> float:
+    def angle_signed(self, other: array_like) -> float:
         """
         Return the signed angle in radians between the vector and another.
+
+        The vectors must be 2D.
 
         Parameters
         ----------
         other : array_like
             Other vector.
-        positive_direction : array_like, optional
-            Vector perpendicular to the plane formed by the two input vectors (default None).
 
         Returns
         -------
@@ -364,7 +364,7 @@ class Vector(_BaseArray1D):
         Raises
         ------
         ValueError
-            If the positive direction vector is not perpendicular to the plane formed by the two input vectors.
+            If the vectors are not 2D.
 
         Examples
         --------
@@ -380,34 +380,19 @@ class Vector(_BaseArray1D):
         >>> np.degrees(Vector([1, 0]).angle_signed([0, -1]))
         -90.0
 
-        >>> np.degrees(Vector([1, 0, 0]).angle_signed([0, -1, 0]))
-        90.0
-
-        >>> np.degrees(Vector([1, 0, 0]).angle_signed([0, -1, 0], positive_direction=[0, 0, 2]))
-        -90.0
-
-        >>> Vector([1, 0, 0]).angle_signed([0, -1, 0], positive_direction=[0, 2, 0])
+        >>> Vector([1, 0, 0]).angle_signed([0, -1, 0])
         Traceback (most recent call last):
         ...
-        ValueError: The positive direction vector must be perpendicular to the plane formed by the two input vectors.
+        ValueError: The vectors must be 2D.
 
         """
-        if self.dimension == 2:
-            dot = self.dot(other)
-            det = np.linalg.det([self, other])
-            return math.atan2(det, dot)
+        if not (self.dimension == 2 and Vector(other).dimension == 2):
+            raise ValueError("The vectors must be 2D.")
 
-        if positive_direction is None:
-            return self.angle_between(other)
+        dot = self.dot(other)
+        det = np.linalg.det([self, other])
 
-        cross = self.cross(other)
-        if not Vector(cross).is_parallel(positive_direction):
-            raise ValueError(
-                "The positive direction vector must be perpendicular to the plane formed by the two input vectors."
-            )
-
-        similarity = Vector(cross).cosine_similarity(positive_direction)
-        return self.angle_between(other) * similarity
+        return math.atan2(det, dot)
 
     def is_perpendicular(self, other: array_like, **kwargs: float) -> bool:
         r"""
