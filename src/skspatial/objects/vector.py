@@ -458,10 +458,12 @@ class Vector(_BaseArray1D):
             raise ValueError("The vectors must be 3D.")
 
         cross = self.cross(other)
+
         if not cross.is_parallel(direction_positive):
             raise ValueError(
                 "The positive direction vector must be perpendicular to the plane formed by the two input vectors."
             )
+        
         direction_positive = Vector(direction_positive).unit()
         return np.arctan2(cross.dot(direction_positive), self.dot(other))
 
