@@ -404,9 +404,9 @@ class Vector(_BaseArray1D):
         Parameters
         ----------
         other : array_like
-            Other vector.
+            Other main input vector.
         direction_positive : array_like
-            Vector perpendicular to the plane formed by the two input vectors.
+            A vector perpendicular to the plane formed by the two main input vectors.
 
         Returns
         -------
@@ -425,7 +425,7 @@ class Vector(_BaseArray1D):
 
         Notes
         -----
-        Right-handed rotation.
+        This method uses the convention of right-handed rotation.
 
         Examples
         --------
