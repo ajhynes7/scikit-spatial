@@ -395,7 +395,7 @@ class Vector(_BaseArray1D):
         return math.atan2(det, dot)
 
     @np_float
-    def angle_signed_3d(self, other: array_like, positive_direction: array_like) -> float:
+    def angle_signed_3d(self, other: array_like, direction_positive: array_like) -> float:
         """
         Return the signed angle in radians between the vector and another.
 
@@ -405,7 +405,7 @@ class Vector(_BaseArray1D):
         ----------
         other : array_like
             Other vector.
-        positive_direction : array_like
+        direction_positive : array_like
             Vector perpendicular to the plane formed by the two input vectors.
 
         Returns
@@ -432,10 +432,10 @@ class Vector(_BaseArray1D):
         >>> import numpy as np
         >>> from skspatial.objects import Vector
 
-        >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], positive_direction=[0, 0, 2]))
+        >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], direction_positive=[0, 0, 2]))
         -90.0
 
-        >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], positive_direction=[0, 0, -5]))
+        >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], direction_positive=[0, 0, -5]))
         90.0
 
         >>> Vector([1, 0]).angle_signed_3d([1, 0], [1, 0, 0])
@@ -454,16 +454,16 @@ class Vector(_BaseArray1D):
         ValueError: The positive direction vector must be perpendicular to the plane formed by the two input vectors.
 
         """
-        if not all([self.dimension == 3, Vector(other).dimension == 3, Vector(positive_direction).dimension == 3]):
+        if not all([self.dimension == 3, Vector(other).dimension == 3, Vector(direction_positive).dimension == 3]):
             raise ValueError("The vectors must be 3D.")
 
         cross = self.cross(other)
-        if not Vector(cross).is_parallel(positive_direction):
+        if not Vector(cross).is_parallel(direction_positive):
             raise ValueError(
                 "The positive direction vector must be perpendicular to the plane formed by the two input vectors."
             )
-        positive_direction = Vector(positive_direction).unit()
-        return np.arctan2(cross.dot(positive_direction), self.dot(other))
+        direction_positive = Vector(direction_positive).unit()
+        return np.arctan2(cross.dot(direction_positive), self.dot(other))
 
     def is_perpendicular(self, other: array_like, **kwargs: float) -> bool:
         r"""
