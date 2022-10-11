@@ -458,7 +458,7 @@ class Vector(_BaseArray1D):
             raise ValueError("The vectors must be 3D.")
 
         cross = self.cross(other)
-        if not Vector(cross).is_parallel(direction_positive):
+        if not cross.is_parallel(direction_positive):
             raise ValueError(
                 "The positive direction vector must be perpendicular to the plane formed by the two input vectors."
             )
