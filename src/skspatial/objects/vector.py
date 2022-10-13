@@ -417,7 +417,7 @@ class Vector(_BaseArray1D):
         ------
         ValueError
             If the vectors are not 3D.
-            If the positive direction vector is not perpendicular to the plane formed by the two input vectors.
+            If the positive direction vector is not perpendicular to the plane formed by the two main input vectors.
 
         References
         ----------
@@ -451,7 +451,7 @@ class Vector(_BaseArray1D):
         >>> Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], [0, 2, 0])
         Traceback (most recent call last):
         ...
-        ValueError: The positive direction vector must be perpendicular to the plane formed by the two input vectors.
+        ValueError: The positive direction vector must be perpendicular to the plane formed by the two main input vectors.
 
         """
         if not all([self.dimension == 3, Vector(other).dimension == 3, Vector(direction_positive).dimension == 3]):
