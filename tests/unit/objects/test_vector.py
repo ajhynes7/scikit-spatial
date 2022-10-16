@@ -33,19 +33,21 @@ def test_from_points(array_a, array_b, vector_expected):
         ([1, 1, 1], [math.sqrt(3) / 3, math.sqrt(3) / 3, math.sqrt(3) / 3]),
         ([2, 0, 0, 0], [1, 0, 0, 0]),
         ([3, 3, 0, 0], [math.sqrt(2) / 2, math.sqrt(2) / 2, 0, 0]),
-        ([0], None),
-        ([0, 0], None),
-        ([0, 0, 0], None),
     ],
 )
 def test_unit(array, array_unit_expected):
 
-    if array_unit_expected is None:
-        with pytest.raises(ValueError, match="The magnitude must not be zero."):
-            Vector(array).unit()
+    assert Vector(array).unit().is_close(array_unit_expected)
 
-    else:
-        assert Vector(array).unit().is_close(array_unit_expected)
+
+@pytest.mark.parametrize(
+    "array",
+    [[0], [0, 0], [0, 0, 0]],
+)
+def test_unit_failure(array):
+
+    with pytest.raises(ValueError, match="The magnitude must not be zero."):
+        Vector(array).unit()
 
 
 @pytest.mark.parametrize(
@@ -79,19 +81,24 @@ def test_is_zero(array, kwargs, bool_expected):
         ([1, 0], [1, -1], math.sqrt(2) / 2),
         ([1, 0], [0.5, math.sqrt(3) / 2], 0.5),
         ([1, 0], [math.sqrt(3) / 2, 0.5], math.sqrt(3) / 2),
-        ([1, 1], [0, 0], None),
-        ([0, 0], [1, 1], None),
     ],
 )
 def test_cosine_similarity(array_u, array_v, similarity_expected):
 
-    if similarity_expected is None:
-        with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
-            Vector(array_u).cosine_similarity(array_v)
+    similarity = Vector(array_u).cosine_similarity(array_v)
+    assert math.isclose(similarity, similarity_expected)
 
-    else:
-        similarity = Vector(array_u).cosine_similarity(array_v)
-        assert math.isclose(similarity, similarity_expected)
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v"),
+    [
+        ([1, 1], [0, 0]),
+        ([0, 0], [1, 1]),
+    ],
+)
+def test_cosine_similarity_failure(array_u, array_v):
+    with pytest.raises(ValueError, match="The vectors must have non-zero magnitudes."):
+        Vector(array_u).cosine_similarity(array_v)
 
 
 @pytest.mark.parametrize(
@@ -126,20 +133,26 @@ def test_angle_between(array_u, array_v, angle_expected):
         ([1, 0], [1, -1], -np.pi / 4),
         ([1, 1], [0, 1], np.pi / 4),
         ([1, 1], [1, 0], -np.pi / 4),
-        ([0], [0], None),
-        ([1, 1, 1], [1, 0, 0], None),
-        (np.ones(4), np.ones(4), None),
     ],
 )
 def test_angle_signed(array_u, array_v, angle_expected):
 
-    if angle_expected is None:
-        with pytest.raises(ValueError, match="The vectors must be 2D."):
-            Vector(array_u).angle_signed(array_v)
+    angle = Vector(array_u).angle_signed(array_v)
+    assert math.isclose(angle, angle_expected)
 
-    else:
-        angle = Vector(array_u).angle_signed(array_v)
-        assert math.isclose(angle, angle_expected)
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v"),
+    [
+        ([0], [0]),
+        ([1, 1, 1], [1, 0, 0]),
+        (np.ones(4), np.ones(4)),
+    ],
+)
+def test_angle_signed_failure(array_u, array_v):
+
+    with pytest.raises(ValueError, match="The vectors must be 2D."):
+        Vector(array_u).angle_signed(array_v)
 
 
 @pytest.mark.parametrize(
