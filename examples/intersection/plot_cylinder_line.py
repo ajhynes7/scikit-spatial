@@ -1,6 +1,6 @@
 """
 Cylinder-Line Intersection
-========================
+==========================
 
 """
 from skspatial.objects import Line, Cylinder
@@ -19,4 +19,3 @@ plot_3d(
     point_a.plotter(c='r', s=100),
     point_b.plotter(c='r', s=100),
 )
-
