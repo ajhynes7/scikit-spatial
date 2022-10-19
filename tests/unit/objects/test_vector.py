@@ -182,7 +182,7 @@ def test_angle_signed_3d(array_u, array_v, direction_positive, angle_expected):
             [3, 0, 0],
             [0, 2, 0],
             [0, 1, 1],
-            "The positive direction vector must be perpendicular to the plane formed by " "the two main input vectors.",
+            "The positive direction vector must be perpendicular to the plane formed by the two main input vectors.",
         ),
     ],
 )
