@@ -61,7 +61,6 @@ def np_float(func: Callable) -> Callable[..., np.float64]:
     Outputs with type np.float64 have a useful round() method.
 
     """
-
     # wraps() is needed so that sphinx generates
     # the docstring of functions with this decorator.
     @wraps(func)
@@ -123,7 +122,7 @@ def _solve_quadratic(a: float, b: float, c: float, n_digits: Optional[int] = Non
     if a == 0:
         raise ValueError("The coefficient `a` must be non-zero.")
 
-    discriminant = b ** 2 - 4 * a * c
+    discriminant = b**2 - 4 * a * c
 
     if discriminant < 0:
         raise ValueError("The discriminant must not be negative.")
