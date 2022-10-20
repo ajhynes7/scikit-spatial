@@ -64,8 +64,8 @@ def np_float(func: Callable) -> Callable[..., np.float64]:
     # wraps() is needed so that sphinx generates
     # the docstring of functions with this decorator.
     @wraps(func)
-    def wrapper(*args):
-        return np.float64(func(*args))
+    def wrapper(*args, **kwargs):
+        return np.float64(func(*args, **kwargs))
 
     return wrapper
 

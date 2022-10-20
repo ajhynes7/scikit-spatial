@@ -12,6 +12,7 @@ Methods
 
    ~skspatial.objects.Vector.angle_between
    ~skspatial.objects.Vector.angle_signed
+   ~skspatial.objects.Vector.angle_signed_3d
    ~skspatial.objects.Vector.cosine_similarity
    ~skspatial.objects.Vector.cross
    ~skspatial.objects.Vector.different_direction

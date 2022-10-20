@@ -156,6 +156,43 @@ def test_angle_signed_failure(array_u, array_v):
 
 
 @pytest.mark.parametrize(
+    ("array_u", "array_v", "direction_positive", "angle_expected"),
+    [
+        ([1, 0, 0], [1, 0, 0], [1, 2, 3], 0),
+        ([1, 0, 0], [-1, 0, 0], [1, 2, 3], np.pi),
+        ([-1, 0, 0], [1, 0, 0], [1, 2, 3], np.pi),
+        ([3, 0, 0], [0, 2, 0], [0, 0, -4], -np.pi / 2),
+        ([3, 0, 0], [0, 2, 0], [0, 0, 5], np.pi / 2),
+        ([-4, 0, 0], [1, 1, 0], [0, 0, 2], -3 * np.pi / 4),
+    ],
+)
+def test_angle_signed_3d(array_u, array_v, direction_positive, angle_expected):
+
+    angle = Vector(array_u).angle_signed_3d(array_v, direction_positive)
+    assert math.isclose(angle, angle_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_u", "array_v", "direction_positive", "message_expected"),
+    [
+        ([1, 0], [1, 0], [0, 0, 3], "The vectors must be 3D."),
+        ([2, -1, 0], [0, 2, 0], [1, 1], "The vectors must be 3D."),
+        (np.ones(4), np.ones(4), np.ones(4), "The vectors must be 3D."),
+        (
+            [3, 0, 0],
+            [0, 2, 0],
+            [0, 1, 1],
+            "The positive direction vector must be perpendicular to the plane formed by the two main input vectors.",
+        ),
+    ],
+)
+def test_angle_signed_3d_failure(array_u, array_v, direction_positive, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Vector(array_u).angle_signed_3d(array_v, direction_positive)
+
+
+@pytest.mark.parametrize(
     ("array_u", "array_v", "bool_expected"),
     [
         ([1, 0], [0, 1], True),
