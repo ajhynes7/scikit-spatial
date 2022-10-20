@@ -448,12 +448,6 @@ class Vector(_BaseArray1D):
         ...
         ValueError: The vectors must be 3D.
 
-        >>> Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], [0, 2, 0])
-        Traceback (most recent call last):
-        ...
-        ValueError: The positive direction vector must be perpendicular to the plane formed by the two main input ...
-        vectors.
-
         """
         if not all([self.dimension == 3, Vector(other).dimension == 3, Vector(direction_positive).dimension == 3]):
             raise ValueError("The vectors must be 3D.")
