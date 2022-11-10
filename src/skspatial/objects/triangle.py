@@ -498,11 +498,17 @@ class Triangle(_BaseSpatial):
 
         raise ValueError("The vertex must be 'A', 'B', or 'C'.")
 
-    def orthocenter(self) -> Point:
+    def orthocenter(self, tol: np.float64 = None) -> Point:
         """
         Return the orthocenter of the triangle.
 
         The orthocenter is the intersection point of the three altitudes.
+
+        Parameters
+        ----------
+        tol : np.float64, optional
+            Threshold below which values are considered zero. This value is passed to is_coplanar as tol and to is_collinear as abs_tol.
+
 
         Returns
         -------
@@ -523,7 +529,7 @@ class Triangle(_BaseSpatial):
         line_alt_a = self.altitude('A')
         line_alt_b = self.altitude('B')
 
-        return line_alt_a.intersect_line(line_alt_b)
+        return line_alt_a.intersect_line(line_alt_b, tol=tol, abs_tol=tol) if tol is not None else line_alt_a.intersect_line(line_alt_b)
 
     def classify(self, **kwargs: float) -> str:
         """

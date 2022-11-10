@@ -106,13 +106,16 @@ class LineSegment:
 
         return math.isclose(similarity, -1, **kwargs)
 
-    def intersect_line_segment(self, other: LineSegment) -> Point:
+    def intersect_line_segment(self, other: LineSegment, tol: np.float64 = None) -> Point:
         """
         Intersect the line segment with another.
 
         Parameters
         ----------
         other : LineSegment
+
+        tol : np.float64, optional
+            Threshold below which values are considered zero. This value is passed to is_coplanar as tol and to is_collinear as abs_tol.
 
         Returns
         -------
@@ -145,7 +148,7 @@ class LineSegment:
         line_a = Line.from_points(self.point_a, self.point_b)
         line_b = Line.from_points(other.point_a, other.point_b)
 
-        point_intersection = line_a.intersect_line(line_b)
+        point_intersection = line_a.intersect_line(line_b, tol=tol, abs_tol=tol) if tol is not None else line_a.intersect_line(line_b)
 
         point_on_segment_a = self.contains_point(point_intersection)
         point_on_segment_b = other.contains_point(point_intersection)

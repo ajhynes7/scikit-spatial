@@ -475,7 +475,7 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    def intersect_line(self, other: Line, **kwargs) -> Point:
+    def intersect_line(self, other: Line, tol: np.float64 = None, **kwargs) -> Point:
         """
         Intersect the line with another.
 
@@ -485,6 +485,8 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Other line.
+        tol : np.float64, optional
+            Threshold below which values are considered zero. This value is passed to is_coplanar
         kwargs : dict, optional
             Additional keywords passed to :meth:`Vector.is_parallel`.
 
@@ -560,7 +562,7 @@ class Line(_BaseLinePlane):
         if self.direction.is_parallel(other.direction, **kwargs):
             raise ValueError("The lines must not be parallel.")
 
-        if not self.is_coplanar(other):
+        if not self.is_coplanar(other, tol=tol):
             raise ValueError("The lines must be coplanar.")
 
         # Vector from line A to line B.
