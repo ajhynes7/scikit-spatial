@@ -529,7 +529,7 @@ class Triangle(_BaseSpatial):
         line_alt_a = self.altitude('A')
         line_alt_b = self.altitude('B')
 
-        return line_alt_a.intersect_line(line_alt_b, tol=tol, abs_tol=tol) if tol is not None else line_alt_a.intersect_line(line_alt_b)
+        return line_alt_a.intersect_line(line_alt_b, **kwargs)
 
     def classify(self, **kwargs: float) -> str:
         """
