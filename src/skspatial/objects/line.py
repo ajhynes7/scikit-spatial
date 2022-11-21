@@ -475,7 +475,7 @@ class Line(_BaseLinePlane):
 
         return distance
 
-    def intersect_line(self, other: Line, tol: np.float64 = None, **kwargs) -> Point:
+    def intersect_line(self, other: Line, check_coplanar: bool = True, **kwargs) -> Point:
         """
         Intersect the line with another.
 
