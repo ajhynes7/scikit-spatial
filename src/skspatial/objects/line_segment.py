@@ -148,7 +148,7 @@ class LineSegment:
         line_a = Line.from_points(self.point_a, self.point_b)
         line_b = Line.from_points(other.point_a, other.point_b)
 
-        point_intersection = line_a.intersect_line(line_b, tol=tol, abs_tol=tol) if tol is not None else line_a.intersect_line(line_b)
+        point_intersection = line_a.intersect_line(line_b, **kwargs)
 
         point_on_segment_a = self.contains_point(point_intersection)
         point_on_segment_b = other.contains_point(point_intersection)
