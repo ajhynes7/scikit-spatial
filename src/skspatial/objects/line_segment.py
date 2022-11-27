@@ -106,7 +106,7 @@ class LineSegment:
 
         return math.isclose(similarity, -1, **kwargs)
 
-    def intersect_line_segment(self, other: LineSegment, tol: np.float64 = None) -> Point:
+    def intersect_line_segment(self, other: LineSegment, **kwargs) -> Point:
         """
         Intersect the line segment with another.
 
@@ -114,9 +114,9 @@ class LineSegment:
         ----------
         other : LineSegment
 
-        tol : np.float64, optional
-            Threshold below which values are considered zero. This value is passed to is_coplanar as tol and to is_collinear as abs_tol.
-
+        kwargs : dict, optional
+            Additional keyword arguments passed to :meth:`Line.intersect_line`.
+            
         Returns
         -------
         Point

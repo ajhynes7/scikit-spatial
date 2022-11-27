@@ -498,7 +498,7 @@ class Triangle(_BaseSpatial):
 
         raise ValueError("The vertex must be 'A', 'B', or 'C'.")
 
-    def orthocenter(self, tol: np.float64 = None) -> Point:
+    def orthocenter(self, **kwargs) -> Point:
         """
         Return the orthocenter of the triangle.
 
@@ -506,9 +506,8 @@ class Triangle(_BaseSpatial):
 
         Parameters
         ----------
-        tol : np.float64, optional
-            Threshold below which values are considered zero. This value is passed to is_coplanar as tol and to is_collinear as abs_tol.
-
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Line.intersect_line`.
 
         Returns
         -------

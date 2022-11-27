@@ -213,18 +213,20 @@ def test_distance_line(line_a, line_b, dist_expected):
 
 
 @pytest.mark.parametrize(
-    ("line_a", "line_b", "array_expected"),
+    ("line_a", "line_b", "array_expected", "check_coplanar"),
     [
-        (Line([0, 0], [1, 0]), Line([0, 0], [1, 1]), [0, 0]),
-        (Line([0, 0], [1, 0]), Line([5, 5], [1, 1]), [0, 0]),
-        (Line([0, 0], [1, 0]), Line([9, 0], [1, 1]), [9, 0]),
-        (Line([0, 0], [1, 1]), Line([4, 0], [1, -1]), [2, 2]),
-        (Line([0, 0, 0], [1, 1, 1]), Line([4, 4, 0], [-1, -1, 1]), [2, 2, 2]),
+        (Line([0, 0], [1, 0]), Line([0, 0], [1, 1]), [0, 0], True),
+        (Line([0, 0], [1, 0]), Line([5, 5], [1, 1]), [0, 0], True),
+        (Line([0, 0], [1, 0]), Line([9, 0], [1, 1]), [9, 0], True),
+        (Line([0, 0], [1, 1]), Line([4, 0], [1, -1]), [2, 2], True),
+        (Line([0, 0, 0], [1, 1, 1]), Line([4, 4, 0], [-1, -1, 1]), [2, 2, 2], True),
+        (Line([0, 0, 0], [1, 1, 0]), Line([4, 5, 0], [-1, 0, 0]), [5, 5, 0], True),
+        (Line([0, 0, 0], [1, 1, 0]), Line([4, 5, 1], [-1, 0, 0]), [5, 5, 0], False),
     ],
 )
-def test_intersect_line(line_a, line_b, array_expected):
+def test_intersect_line(line_a, line_b, array_expected, check_coplanar):
 
-    point_intersection = line_a.intersect_line(line_b)
+    point_intersection = line_a.intersect_line(line_b, check_coplanar)
     assert point_intersection.is_close(array_expected)
 
 
