@@ -9,4 +9,4 @@ try:
 except ModuleNotFoundError:
     import importlib_metadata  # type: ignore
 
-# __version__ = importlib_metadata.version("scikit-spatial")
+__version__ = importlib_metadata.version("scikit-spatial")
