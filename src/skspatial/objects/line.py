@@ -485,8 +485,8 @@ class Line(_BaseLinePlane):
         ----------
         other : Line
             Other line.
-        tol : np.float64, optional
-            Threshold below which values are considered zero. This value is passed to is_coplanar
+        check_coplanar : bool, optional
+            Check that the lines are coplanar (default True). If False, this method may not return an actual intersection point, but an approximate one.
         kwargs : dict, optional
             Additional keywords passed to :meth:`Vector.is_parallel`.
 
