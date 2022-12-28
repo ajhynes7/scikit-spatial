@@ -149,6 +149,21 @@ def test_best_fit_failure(points, message_expected):
 
 
 @pytest.mark.parametrize(
+    ("circle_a", "circle_b", "point_a_expected", "point_b_expected"),
+    [
+        (Circle([0, 0], 1), Circle([2, 0], 1), [1, 0], [1, 0]),
+        (Circle([0, 0], 1), Circle([1, 0], 1), [0.5, math.sqrt(3) / 2], [0.5, -math.sqrt(3) / 2]),
+    ],
+)
+def test_intersect_circle(circle_a, circle_b, point_a_expected, point_b_expected):
+
+    point_a, point_b = circle_a.intersect_circle(circle_b)
+
+    assert point_a.is_close(point_a_expected)
+    assert point_b.is_close(point_b_expected)
+
+
+@pytest.mark.parametrize(
     ("circle", "line", "point_a_expected", "point_b_expected"),
     [
         (Circle([0, 0], 1), Line([0, 0], [1, 0]), [-1, 0], [1, 0]),

@@ -13,6 +13,7 @@ from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
+from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
@@ -131,6 +132,61 @@ class Circle(_BaseSphere):
 
         """
         return np.pi * self.radius**2
+
+    def intersect_circle(self, other: Circle) -> Tuple[Point, Point]:
+        """
+        Intersect the circle with another circle.
+
+        A circle intersects a circle at two points.
+
+        Parameters
+        ----------
+        other : Circle
+            Other circle.
+
+        Returns
+        -------
+        point_a, point_b : Point
+            The two points of intersection.
+
+        Raises
+        ------
+        ValueError
+            If the circles do not intersect.
+
+        References
+        ----------
+        http://paulbourke.net/geometry/circlesphere/
+
+        Examples
+        --------
+        >>> from skspatial.objects import Circle
+
+        >>> circle_a = Circle([0, 0], 1)
+        >>> circle_b = Circle([2, 0], 1)
+
+        >>> circle_a.intersect_circle(circle_b)
+        (Point([1.,  0.]), Point([1., 0.]))
+
+        """
+        d = self.point.distance_point(other.point)
+
+        a = (self.radius**2 - other.radius**2 + d**2) / (2 * d)
+
+        h = math.sqrt(self.radius**2 - a**2)
+
+        point_middle = self.point + a * Vector.from_points(self.point, other.point) / d
+
+        x_a = point_middle[0] + h * (self.point[1] - other.point[1]) / d
+        x_b = point_middle[0] - h * (self.point[1] - other.point[1]) / d
+
+        y_a = point_middle[1] - h * (self.point[0] - other.point[0]) / d
+        y_b = point_middle[1] + h * (self.point[0] - other.point[0]) / d
+
+        point_a = Point([x_a, y_a])
+        point_b = Point([x_b, y_b])
+
+        return point_a, point_b
 
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
