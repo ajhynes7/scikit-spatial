@@ -7,6 +7,10 @@ from skspatial.objects import Circle
 from skspatial.objects import Line
 from skspatial.objects import Points
 
+CIRCLE_CENTRES_ARE_COINCIDENT = "The centres of the circles are coincident."
+CIRCLES_ARE_SEPARATE = "The circles do not intersect. These circles are separate."
+CIRCLE_CONTAINED_IN_OTHER = "The circles do not intersect. One circle is contained within the other."
+
 
 @pytest.mark.parametrize(
     ("point", "radius", "message_expected"),
@@ -166,6 +170,23 @@ def test_intersect_circle(circle_a, circle_b, point_a_expected, point_b_expected
 
     assert point_a.is_close(point_a_expected)
     assert point_b.is_close(point_b_expected)
+
+
+@pytest.mark.parametrize(
+    ("circle_a", "circle_b", "message_expected"),
+    [
+        (Circle([0, 0], 1), Circle([0, 0], 1), CIRCLE_CENTRES_ARE_COINCIDENT),
+        (Circle([0, 0], 1), Circle([0, 0], 2), CIRCLE_CENTRES_ARE_COINCIDENT),
+        (Circle([4, -3], 1), Circle([4, -3], 1), CIRCLE_CENTRES_ARE_COINCIDENT),
+        (Circle([0, 0], 3), Circle([1, 0], 1), CIRCLE_CONTAINED_IN_OTHER),
+        (Circle([0, 0], 1), Circle([0, 3], 1), CIRCLES_ARE_SEPARATE),
+        (Circle([1, 1], 1), Circle([5, 0], 1), CIRCLES_ARE_SEPARATE),
+    ],
+)
+def test_intersect_circle_failure(circle_a, circle_b, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        circle_a.intersect_circle(circle_b)
 
 
 @pytest.mark.parametrize(

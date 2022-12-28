@@ -152,7 +152,9 @@ class Circle(_BaseSphere):
         Raises
         ------
         ValueError
-            If the circles do not intersect.
+            If the centres of the circles are coincident.
+            If the circles are separate.
+            If one circle is contained within the other.
 
         References
         ----------
@@ -168,8 +170,32 @@ class Circle(_BaseSphere):
         >>> circle_a.intersect_circle(circle_b)
         (Point([1.,  0.]), Point([1., 0.]))
 
+        >>> circle_a.intersect_circle(Circle[0, 0], 2)
+        Traceback (most recent call last):
+        ...
+        ValueError: The centres of the circles are coincident.
+
+        >>> circle_a.intersect_circle(Circle[3, 0], 1)
+        Traceback (most recent call last):
+        ...
+        ValueError: The circles do not intersect. These circles are separate.
+
+        >>> Circle([0, 0], 3).intersect_circle(Circle[1, 0], 1)
+        Traceback (most recent call last):
+        ...
+        The circles do not intersect. One circle is contained within the other.
+
         """
         d = self.point.distance_point(other.point)
+
+        if d == 0:
+            raise ValueError("The centres of the circles are coincident.")
+
+        if d > self.radius + other.radius:
+            raise ValueError("The circles do not intersect. These circles are separate.")
+
+        if d < abs(self.radius - other.radius):
+            raise ValueError("The circles do not intersect. One circle is contained within the other.")
 
         a = (self.radius**2 - other.radius**2 + d**2) / (2 * d)
 
