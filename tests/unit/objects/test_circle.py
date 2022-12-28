@@ -152,6 +152,11 @@ def test_best_fit_failure(points, message_expected):
     ("circle_a", "circle_b", "point_a_expected", "point_b_expected"),
     [
         (Circle([0, 0], 1), Circle([2, 0], 1), [1, 0], [1, 0]),
+        (Circle([1, 0], 1), Circle([3, 0], 1), [2, 0], [2, 0]),
+        (Circle([0, 0], 2), Circle([1, 0], 1), [2, 0], [2, 0]),
+        (Circle([0, 0], 2), Circle([3, 0], 1), [2, 0], [2, 0]),
+        (Circle([0, 0], 1), Circle([0, 2], 1), [0, 1], [0, 1]),
+        (Circle([0, 0], 2), Circle([2, 0], 1), [1.75, math.sqrt(0.9375)], [1.75, -math.sqrt(0.9375)]),
         (Circle([0, 0], 1), Circle([1, 0], 1), [0.5, math.sqrt(3) / 2], [0.5, -math.sqrt(3) / 2]),
     ],
 )
