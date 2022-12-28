@@ -203,14 +203,13 @@ class Circle(_BaseSphere):
 
         point_middle = self.point + a * Vector.from_points(self.point, other.point) / d
 
-        x_a = point_middle[0] + h * (self.point[1] - other.point[1]) / d
-        x_b = point_middle[0] - h * (self.point[1] - other.point[1]) / d
+        pm = np.array([1, -1])
 
-        y_a = point_middle[1] - h * (self.point[0] - other.point[0]) / d
-        y_b = point_middle[1] + h * (self.point[0] - other.point[0]) / d
+        X = point_middle[0] + pm * h * (self.point[1] - other.point[1]) / d
+        Y = point_middle[1] - pm * h * (self.point[0] - other.point[0]) / d
 
-        point_a = Point([x_a, y_a])
-        point_b = Point([x_b, y_b])
+        point_a = Point([X[0], Y[0]])
+        point_b = Point([X[1], Y[1]])
 
         return point_a, point_b
 
@@ -304,11 +303,11 @@ class Circle(_BaseSphere):
 
         root = math.sqrt(discriminant)
 
-        pm = np.array([-1, 1])  # Array to compute minus/plus.
+        mp = np.array([-1, 1])  # Array to compute minus/plus.
         sign = -1 if d_y < 0 else 1
 
-        coords_x = (determinant * d_y + pm * sign * d_x * root) / d_r_squared
-        coords_y = (-determinant * d_x + pm * abs(d_y) * root) / d_r_squared
+        coords_x = (determinant * d_y + mp * sign * d_x * root) / d_r_squared
+        coords_y = (-determinant * d_x + mp * abs(d_y) * root) / d_r_squared
 
         point_translated_a = Point([coords_x[0], coords_y[0]])
         point_translated_b = Point([coords_x[1], coords_y[1]])
