@@ -168,22 +168,22 @@ class Circle(_BaseSphere):
         >>> circle_b = Circle([2, 0], 1)
 
         >>> circle_a.intersect_circle(circle_b)
-        (Point([1.,  0.]), Point([1., 0.]))
+        (Point([1., 0.]), Point([1., 0.]))
 
-        >>> circle_a.intersect_circle(Circle[0, 0], 2)
+        >>> circle_a.intersect_circle(Circle([0, 0], 2))
         Traceback (most recent call last):
         ...
         ValueError: The centres of the circles are coincident.
 
-        >>> circle_a.intersect_circle(Circle[3, 0], 1)
+        >>> circle_a.intersect_circle(Circle([3, 0], 1))
         Traceback (most recent call last):
         ...
         ValueError: The circles do not intersect. These circles are separate.
 
-        >>> Circle([0, 0], 3).intersect_circle(Circle[1, 0], 1)
+        >>> Circle([0, 0], 3).intersect_circle(Circle([1, 0], 1))
         Traceback (most recent call last):
         ...
-        The circles do not intersect. One circle is contained within the other.
+        ValueError: The circles do not intersect. One circle is contained within the other.
 
         """
         d = self.point.distance_point(other.point)
