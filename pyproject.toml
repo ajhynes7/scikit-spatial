@@ -55,6 +55,7 @@ flake8-unused-arguments = "^0.0.11"
 pre-commit = "^2.20.0"
 pydocstyle = "^6.1.1"
 reorder-python-imports = "^3.8.5"
+toml = "^0.10.2"
 
 [tool.poetry.group.base_test.dependencies]
 pytest = "^7.1.3"

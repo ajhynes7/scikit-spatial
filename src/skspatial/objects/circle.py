@@ -13,6 +13,7 @@ from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
+from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
 
@@ -132,6 +133,86 @@ class Circle(_BaseSphere):
         """
         return np.pi * self.radius**2
 
+    def intersect_circle(self, other: Circle) -> Tuple[Point, Point]:
+        """
+        Intersect the circle with another circle.
+
+        A circle intersects a circle at two points.
+
+        Parameters
+        ----------
+        other : Circle
+            Other circle.
+
+        Returns
+        -------
+        point_a, point_b : Point
+            The two points of intersection.
+
+        Raises
+        ------
+        ValueError
+            If the centres of the circles are coincident.
+            If the circles are separate.
+            If one circle is contained within the other.
+
+        References
+        ----------
+        http://paulbourke.net/geometry/circlesphere/
+
+        Examples
+        --------
+        >>> from skspatial.objects import Circle
+
+        >>> circle_a = Circle([0, 0], 1)
+        >>> circle_b = Circle([2, 0], 1)
+
+        >>> circle_a.intersect_circle(circle_b)
+        (Point([1., 0.]), Point([1., 0.]))
+
+        >>> circle_a.intersect_circle(Circle([0, 0], 2))
+        Traceback (most recent call last):
+        ...
+        ValueError: The centres of the circles are coincident.
+
+        >>> circle_a.intersect_circle(Circle([3, 0], 1))
+        Traceback (most recent call last):
+        ...
+        ValueError: The circles do not intersect. These circles are separate.
+
+        >>> Circle([0, 0], 3).intersect_circle(Circle([1, 0], 1))
+        Traceback (most recent call last):
+        ...
+        ValueError: The circles do not intersect. One circle is contained within the other.
+
+        """
+        d = self.point.distance_point(other.point)
+
+        if d == 0:
+            raise ValueError("The centres of the circles are coincident.")
+
+        if d > self.radius + other.radius:
+            raise ValueError("The circles do not intersect. These circles are separate.")
+
+        if d < abs(self.radius - other.radius):
+            raise ValueError("The circles do not intersect. One circle is contained within the other.")
+
+        a = (self.radius**2 - other.radius**2 + d**2) / (2 * d)
+
+        h = math.sqrt(self.radius**2 - a**2)
+
+        point_middle = self.point + a * Vector.from_points(self.point, other.point) / d
+
+        pm = np.array([1, -1])
+
+        X = point_middle[0] + pm * h * (self.point[1] - other.point[1]) / d
+        Y = point_middle[1] - pm * h * (self.point[0] - other.point[0]) / d
+
+        point_a = Point([X[0], Y[0]])
+        point_b = Point([X[1], Y[1]])
+
+        return point_a, point_b
+
     def intersect_line(self, line: Line) -> Tuple[Point, Point]:
         """
         Intersect the circle with a line.
@@ -222,11 +303,11 @@ class Circle(_BaseSphere):
 
         root = math.sqrt(discriminant)
 
-        pm = np.array([-1, 1])  # Array to compute minus/plus.
+        mp = np.array([-1, 1])  # Array to compute minus/plus.
         sign = -1 if d_y < 0 else 1
 
-        coords_x = (determinant * d_y + pm * sign * d_x * root) / d_r_squared
-        coords_y = (-determinant * d_x + pm * abs(d_y) * root) / d_r_squared
+        coords_x = (determinant * d_y + mp * sign * d_x * root) / d_r_squared
+        coords_y = (-determinant * d_x + mp * abs(d_y) * root) / d_r_squared
 
         point_translated_a = Point([coords_x[0], coords_y[0]])
         point_translated_b = Point([coords_x[1], coords_y[1]])
