@@ -2,9 +2,6 @@
 skspatial.objects.LineSegment
 =============================
 
-.. autoclass:: skspatial.objects.LineSegment
-
-
 Methods
 -------
 .. autosummary::

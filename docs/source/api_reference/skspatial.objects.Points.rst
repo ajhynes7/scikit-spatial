@@ -2,9 +2,6 @@
 skspatial.objects.Points
 ========================
 
-.. autoclass:: skspatial.objects.Points
-
-
 Methods
 -------
 .. autosummary::

@@ -2,9 +2,6 @@
 skspatial.objects.Circle
 ========================
 
-.. autoclass:: skspatial.objects.Circle
-
-
 Methods
 -------
 .. autosummary::

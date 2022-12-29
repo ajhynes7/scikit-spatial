@@ -2,9 +2,6 @@
 skspatial.objects.Sphere
 ========================
 
-.. autoclass:: skspatial.objects.Sphere
-
-
 Methods
 -------
 .. autosummary::

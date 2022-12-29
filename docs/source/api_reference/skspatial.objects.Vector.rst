@@ -2,9 +2,6 @@
 skspatial.objects.Vector
 ========================
 
-.. autoclass:: skspatial.objects.Vector
-
-
 Methods
 -------
 .. autosummary::

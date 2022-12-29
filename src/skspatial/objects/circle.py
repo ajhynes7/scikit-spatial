@@ -340,8 +340,8 @@ class Circle(_BaseSphere):
             If there are fewer than three points.
             If the points are collinear.
 
-        Reference
-        ---------
+        References
+        ----------
         https://meshlogic.github.io/posts/jupyter/curve-fitting/fitting-a-circle-to-cluster-of-3d-points/
 
         Examples

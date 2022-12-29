@@ -2,9 +2,6 @@
 skspatial.objects.Plane
 =======================
 
-.. autoclass:: skspatial.objects.Plane
-
-
 Methods
 -------
 .. autosummary::

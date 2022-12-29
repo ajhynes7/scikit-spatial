@@ -2,9 +2,6 @@
 skspatial.objects.Cylinder
 ==========================
 
-.. autoclass:: skspatial.objects.Cylinder
-
-
 Methods
 -------
 .. autosummary::
