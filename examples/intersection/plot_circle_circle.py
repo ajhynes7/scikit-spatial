@@ -21,4 +21,4 @@ _, ax = plot_2d(
 )
 
 ax.set_xlim(-4, 4)
-ax.set_ylim(-4, 4)
+ax.set_ylim(-3, 3)
