@@ -2,9 +2,6 @@
 skspatial.objects.Circle
 ========================
 
-.. autoclass:: skspatial.objects.Circle
-
-
 Methods
 -------
 .. autosummary::
@@ -13,5 +10,6 @@ Methods
    ~skspatial.objects.Circle.area
    ~skspatial.objects.Circle.best_fit
    ~skspatial.objects.Circle.circumference
+   ~skspatial.objects.Circle.intersect_circle
    ~skspatial.objects.Circle.intersect_line
    ~skspatial.objects.Circle.plot_2d

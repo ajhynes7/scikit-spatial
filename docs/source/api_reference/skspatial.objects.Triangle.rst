@@ -2,9 +2,6 @@
 skspatial.objects.Triangle
 ==========================
 
-.. autoclass:: skspatial.objects.Triangle
-
-
 Methods
 -------
 .. autosummary::
