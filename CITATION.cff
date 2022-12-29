@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "scikit-spatial: Spatial objects and computations based on NumPy arrays"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - given-names: Andrew
+    family-names: Hynes
+    email: andrewjhynes@gmail.com
+license: BSD-3-Clause
+url: https://scikit-spatial.readthedocs.io
+repository-code: https://github.com/ajhynes7/scikit-spatial
