@@ -498,11 +498,16 @@ class Triangle(_BaseSpatial):
 
         raise ValueError("The vertex must be 'A', 'B', or 'C'.")
 
-    def orthocenter(self) -> Point:
+    def orthocenter(self, **kwargs) -> Point:
         """
         Return the orthocenter of the triangle.
 
         The orthocenter is the intersection point of the three altitudes.
+
+        Parameters
+        ----------
+        kwargs : dict, optional
+            Additional keywords passed to :meth:`Line.intersect_line`.
 
         Returns
         -------
@@ -523,7 +528,7 @@ class Triangle(_BaseSpatial):
         line_alt_a = self.altitude('A')
         line_alt_b = self.altitude('B')
 
-        return line_alt_a.intersect_line(line_alt_b)
+        return line_alt_a.intersect_line(line_alt_b, **kwargs)
 
     def classify(self, **kwargs: float) -> str:
         """
