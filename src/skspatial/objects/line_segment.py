@@ -116,7 +116,7 @@ class LineSegment:
 
         kwargs : dict, optional
             Additional keyword arguments passed to :meth:`Line.intersect_line`.
-            
+
         Returns
         -------
         Point

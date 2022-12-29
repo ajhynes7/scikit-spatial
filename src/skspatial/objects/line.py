@@ -486,7 +486,7 @@ class Line(_BaseLinePlane):
         other : Line
             Other line.
         check_coplanar : bool, optional
-            Check that the lines are coplanar (default True). 
+            Check that the lines are coplanar (default True).
             If False, this method may not return an actual intersection point, but an approximate one.
         kwargs : dict, optional
             Additional keywords passed to :meth:`Vector.is_parallel`.
