@@ -15,10 +15,6 @@
 .. image:: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml/badge.svg
          :target: https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml
 
-.. image:: https://results.pre-commit.ci/badge/github/ajhynes7/scikit-spatial/master.svg
-   :target: https://results.pre-commit.ci/latest/github/ajhynes7/scikit-spatial/master
-   :alt: pre-commit.ci status
-
 .. image:: https://readthedocs.org/projects/scikit-spatial/badge/?version=latest
          :target: https://scikit-spatial.readthedocs.io/en/latest/?badge=latest
          :alt: Documentation Status
