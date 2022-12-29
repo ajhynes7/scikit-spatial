@@ -64,13 +64,6 @@ pytest-cov = "^4.0.0"
 [tool.poetry.group.property_test.dependencies]
 hypothesis = "^6.56.2"
 
-[tool.poetry.group.docs.dependencies]
-Sphinx = "4.2.0"
-numpydoc = "1.1.0"
-sphinx-bootstrap-theme = "0.8.0"
-sphinx-gallery = "0.9.0"
-
-
 [tool.poetry.group.pre_commit]
 optional = true
 
@@ -79,10 +72,6 @@ optional = true
 
 [tool.poetry.group.property_test]
 optional = true
-
-[tool.poetry.group.docs]
-optional = true
-
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
