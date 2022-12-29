@@ -9,44 +9,30 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: local
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: v3.9.0
     hooks:
-      - id: reorder_python_imports
-        name: reorder-python-imports
-        entry: reorder-python-imports
-        language: system
-        types: [python]
+      - id: reorder-python-imports
         exclude: ^examples/
         args: [--application-directories, ".:src"]
-  - repo: local
+  - repo: https://github.com/psf/black
+    rev: 22.12.0
     hooks:
       - id: black
-        name: black
-        language: system
-        entry: black
-        types: [python]
-  - repo: local
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.4.0
     hooks:
-      - id: add_trailing_comma
-        name: add-trailing-comma
-        entry: add-trailing-comma
-        language: system
-        types: [python]
-  - repo: local
+      - id: add-trailing-comma
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
     hooks:
       - id: flake8
-        name: flake8
-        entry: flake8
-        language: system
-        types: [python]
-  - repo: local
+  - repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.1.1
     hooks:
       - id: pydocstyle
-        name: pydocstyle
-        entry: pydocstyle
-        language: system
-        types: [python]
         exclude: tests|examples|conf.py
+        additional_dependencies: ["toml"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.6.2
     hooks:
