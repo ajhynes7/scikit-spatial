@@ -1,11 +1,15 @@
 """Module for the Cylinder class."""
 from __future__ import annotations
 
+import math
+from typing import List
+from typing import NamedTuple
 from typing import Optional
 from typing import Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
+from scipy.optimize import minimize
 
 from skspatial._functions import _solve_quadratic
 from skspatial.objects._base_spatial import _BaseSpatial
@@ -13,6 +17,7 @@ from skspatial.objects._mixins import _ToPointsMixin
 from skspatial.objects.line import Line
 from skspatial.objects.plane import Plane
 from skspatial.objects.point import Point
+from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
 from skspatial.typing import array_like
 
@@ -476,6 +481,80 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         return X, Y, Z
 
+    @classmethod
+    def best_fit(cls, points: array_like) -> Cylinder:
+        """
+        Return the cylinder of best fit for a set of 3D points.
+
+        The points are assumed to lie close to the cylinder surface.
+
+        The algorithm is not guaranteed to produce a meaningful solution with random points.
+
+        Parameters
+        ----------
+        points : array_like
+             Input 3D points.
+
+        Returns
+        -------
+        Cylinder
+            The cylinder of best fit.
+
+        Raises
+        ------
+        ValueError
+            If the points are not 3D.
+            If there are fewer than six points.
+            If the points are collinear.
+            If the points are coplanar.
+
+        References
+        ----------
+        https://www.geometrictools.com/Documentation/LeastSquaresFitting.pdf
+        https://github.com/xingjiepan/cylinder_fitting
+        https://github.com/CristianoPizzamiglio/py-cylinder-fitting
+
+        Examples
+        --------
+        >>> from skspatial.objects import Cylinder
+
+        >>> points = [[0, 2, 0], [0, -2, 0], [0, 0, 2], [5, 2, 0], [5, -2, 0], [5, 0, 2]]
+        >>> cylinder = Cylinder.best_fit(points)
+
+        >>> cylinder.point.round()
+        Point([0., 0., 0.])
+
+        >>> cylinder.vector.round()
+        Vector([5., 0., 0.])
+
+        >>> cylinder.radius
+        2.0
+
+        """
+        points = Points(points)
+
+        if points.dimension != 3:
+            raise ValueError("The points must be 3D.")
+
+        if points.shape[0] < 6:
+            raise ValueError("There must be at least 6 points.")
+
+        if points.are_collinear():
+            raise ValueError("The points must not be collinear.")
+
+        if points.are_coplanar():
+            raise ValueError("The points must not be coplanar.")
+
+        points_centered, centroid = points.mean_center(return_centroid=True)
+        unit_vector, center, radius, _ = _best_fit(points_centered, centroid)
+        axis = Line(point=center, direction=unit_vector)
+        points_1d = axis.transform_points(points)
+        point_a = axis.project_point(points[np.argmin(points_1d)])
+        length = point_a.distance_point(center) * 2
+        vector_ab = unit_vector * length
+
+        return cls(point_a, vector_ab, radius)
+
     def plot_3d(self, ax_3d: Axes3D, n_along_axis: int = 100, n_angles: int = 30, **kwargs) -> None:
         """
         Plot a 3D cylinder.
@@ -515,6 +594,23 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         ax_3d.plot_surface(X, Y, Z, **kwargs)
 
 
+class _SphericalCoordinates(NamedTuple):
+    """
+    Spherical coordinates.
+
+    Attributes
+    ----------
+    theta : float
+        Inclination in radians.
+    phi : float
+        Azimuth in radians.
+
+    """
+
+    theta: float
+    phi: float
+
+
 def _between_cap_planes(cylinder: Cylinder, point: array_like) -> bool:
     """Check if a point lies between the cylinder cap planes."""
     plane_base = Plane(cylinder.point, cylinder.vector)
@@ -528,7 +624,6 @@ def _intersect_line_with_infinite_cylinder(
     line: Line,
     n_digits: Optional[int],
 ) -> Tuple[Point, Point]:
-
     p_c = cylinder.point
     v_c = cylinder.vector.unit()
     r = cylinder.radius
@@ -597,3 +692,106 @@ def _intersect_line_with_finite_cylinder(
         raise ValueError("The line does not intersect the cylinder.")
 
     return point_a, point_b
+
+
+def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, float, float]:
+    """Return the cylinder of best fit for a set of 3D points."""
+    best_fit = minimize(
+        lambda x: _compute_g(_compute_direction(_SphericalCoordinates(x[0], x[1])), points_centered),
+        x0=np.array(_compute_initial_direction(points_centered)),
+        method="Powell",
+    )
+    direction = _compute_direction(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
+    center = _compute_center(direction, points_centered) + centroid
+    return direction, center, _compute_radius(direction, points_centered), best_fit.fun
+
+
+def _compute_direction(spherical_coordinates: _SphericalCoordinates) -> Vector:
+    """Compute the unit direction vector using spherical coordinates."""
+    return spherical_to_cartesian(spherical_coordinates)
+
+
+def _compute_initial_direction(points: Points) -> _SphericalCoordinates:
+    """Compute the initial direction as the best fit line."""
+    initial_direction = Line.best_fit(points).vector.unit()
+    return cartesian_to_spherical(*initial_direction)
+
+
+def _compute_projection_matrix(direction: Vector) -> np.ndarray:
+    """Compute the projection matrix."""
+    return np.identity(3) - np.dot(np.reshape(direction, (3, 1)), np.reshape(direction, (1, 3)))
+
+
+def _compute_skew_matrix(direction: Vector) -> np.ndarray:
+    """Compute the skew matrix."""
+    return np.array(
+        [
+            [0.0, -direction[2], direction[1]],
+            [direction[2], 0.0, -direction[0]],
+            [-direction[1], direction[0], 0.0],
+        ],
+    )
+
+
+def _compute_a_matrix(input_samples: List[np.ndarray]) -> np.ndarray:
+    """Compute the :math:`{A}` matrix."""
+    return sum(np.dot(np.reshape(sample, (3, 1)), np.reshape(sample, (1, 3))) for sample in input_samples)
+
+
+def _compute_a_hat_matrix(a_matrix: np.ndarray, skew_matrix: np.ndarray) -> np.ndarray:
+    r"""Compute the :math:`\\hat{A}` matrix."""
+    return np.dot(skew_matrix, np.dot(a_matrix, np.transpose(skew_matrix)))
+
+
+def _compute_g(direction: Vector, points: Points) -> float:
+    """Compute :math:`G`."""
+    projection_matrix = _compute_projection_matrix(direction)
+    skew_matrix = _compute_skew_matrix(direction)
+    input_samples = [np.dot(projection_matrix, X) for X in points]
+    a_matrix = _compute_a_matrix(input_samples)
+    a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
+
+    u = sum(np.dot(sample, sample) for sample in input_samples) / len(points)
+    v = np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
+        np.dot(a_hat_matrix, a_matrix),
+    )
+    return sum((np.dot(sample, sample) - u - 2 * np.dot(sample, v)) ** 2 for sample in input_samples)
+
+
+def _compute_center(direction: Vector, points: Points) -> Point:
+    """Compute center."""
+    projection_matrix = _compute_projection_matrix(direction)
+    skew_matrix = _compute_skew_matrix(direction)
+    input_samples = [np.dot(projection_matrix, X) for X in points]
+    a_matrix = _compute_a_matrix(input_samples)
+    a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
+
+    return np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
+        np.dot(a_hat_matrix, a_matrix),
+    )
+
+
+def _compute_radius(direction: Vector, points) -> float:
+    """Compute radius."""
+    projection_matrix = _compute_projection_matrix(direction)
+    center = _compute_center(direction, points)
+    return np.sqrt(
+        sum(np.dot(center - point, np.dot(projection_matrix, center - point)) for point in points) / len(points),
+    )
+
+
+def cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinates:
+    """Convert cartesian to spherical coordinates."""
+    theta = np.arccos(z / np.sqrt(x**2 + y**2 + z**2))
+
+    if math.isclose(x, 0.0, abs_tol=1e-9) and math.isclose(y, 0.0, abs_tol=1e-9):
+        phi = 0.0
+    else:
+        phi = np.sign(y) * np.arccos(x / np.sqrt(x**2 + y**2))
+    return _SphericalCoordinates(theta, phi)
+
+
+def spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
+    """Convert spherical to cartesian coordinates."""
+    theta, phi = spherical_coordinates
+    return Vector([np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)])
