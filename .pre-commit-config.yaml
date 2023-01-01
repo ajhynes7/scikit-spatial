@@ -24,9 +24,19 @@ repos:
     hooks:
       - id: add-trailing-comma
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 4.0.1
     hooks:
       - id: flake8
+        additional_dependencies:
+          - flake8-bugbear
+          - flake8-builtins
+          - flake8-commas
+          - flake8-comprehensions
+          - flake8-eradicate
+          - flake8-pytest-style
+          - flake8-rst-docstrings
+          - flake8-simplify
+          - flake8-unused-arguments
   - repo: https://github.com/PyCQA/pydocstyle
     rev: 6.2.0
     hooks:
