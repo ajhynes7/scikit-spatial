@@ -329,7 +329,6 @@ def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
     [
         ([[1, 0], [-1, 0], [0, 1]], "The points must be 3D."),
         ([[2, 0, 1], [-2, 0, -3]], "There must be at least 6 points."),
-        ([[0, 0, 0], [1, 1, 1], [2, 2, 2], [3, 3, 3], [4, 4, 4], [5, 5, 5]], "The points must not be collinear."),
         ([[0, 0, 1], [1, 1, 1], [2, 1, 1], [3, 3, 1], [4, 4, 1], [5, 5, 1]], "The points must not be coplanar."),
     ],
 )

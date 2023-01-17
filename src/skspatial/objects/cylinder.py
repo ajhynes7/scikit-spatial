@@ -504,7 +504,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         ValueError
             If the points are not 3D.
             If there are fewer than six points.
-            If the points are collinear.
             If the points are coplanar.
 
         References
@@ -537,9 +536,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         if points.shape[0] < 6:
             raise ValueError("There must be at least 6 points.")
-
-        if points.are_collinear():
-            raise ValueError("The points must not be collinear.")
 
         if points.are_coplanar():
             raise ValueError("The points must not be coplanar.")
