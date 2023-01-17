@@ -693,18 +693,13 @@ def _intersect_line_with_finite_cylinder(
 def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, float, float]:
     """Return the cylinder of best fit for a set of 3D points."""
     best_fit = minimize(
-        lambda x: _compute_g(_compute_direction(_SphericalCoordinates(x[0], x[1])), points_centered),
+        lambda x: _compute_g(spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
         x0=_compute_initial_direction(points_centered),
         method="Powell",
     )
-    direction = _compute_direction(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
+    direction = spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
     center = _compute_center(direction, points_centered) + centroid
     return direction, center, _compute_radius(direction, points_centered), best_fit.fun
-
-
-def _compute_direction(spherical_coordinates: _SphericalCoordinates) -> Vector:
-    """Compute the unit direction vector using spherical coordinates."""
-    return spherical_to_cartesian(spherical_coordinates)
 
 
 def _compute_initial_direction(points: Points) -> np.ndarray:
