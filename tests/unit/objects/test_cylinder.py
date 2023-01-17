@@ -325,20 +325,6 @@ def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
 
 
 @pytest.mark.parametrize(
-    ("points", "message_expected"),
-    [
-        ([[1, 0], [-1, 0], [0, 1]], "The points must be 3D."),
-        ([[2, 0, 1], [-2, 0, -3]], "There must be at least 6 points."),
-        ([[0, 0, 1], [1, 1, 1], [2, 1, 1], [3, 3, 1], [4, 4, 1], [5, 5, 1]], "The points must not be coplanar."),
-    ],
-)
-def test_best_fit_failure(points, message_expected):
-
-    with pytest.raises(ValueError, match=message_expected):
-        Cylinder.best_fit(points)
-
-
-@pytest.mark.parametrize(
     ("points", "point_expected", "vector_expected", "radius_expected"),
     [
         ([[2, 0, 0], [0, 2, 0], [0, -2, 0], [2, 0, 4], [0, 2, 4], [0, -2, 4]], [0, 0, 0], [0, 0, 4], 2.0),
@@ -353,3 +339,17 @@ def test_best_fit(points, point_expected, vector_expected, radius_expected):
     assert cylinder.point.is_close(point_expected, abs_tol=1e-9)
     assert cylinder.vector.is_close(vector_expected, abs_tol=1e-9)
     assert math.isclose(cylinder.radius, radius_expected, abs_tol=1e-9)
+
+
+@pytest.mark.parametrize(
+    ("points", "message_expected"),
+    [
+        ([[1, 0], [-1, 0], [0, 1]], "The points must be 3D."),
+        ([[2, 0, 1], [-2, 0, -3]], "There must be at least 6 points."),
+        ([[0, 0, 1], [1, 1, 1], [2, 1, 1], [3, 3, 1], [4, 4, 1], [5, 5, 1]], "The points must not be coplanar."),
+    ],
+)
+def test_best_fit_failure(points, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Cylinder.best_fit(points)
