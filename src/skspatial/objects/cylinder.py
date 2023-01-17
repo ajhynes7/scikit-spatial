@@ -693,11 +693,11 @@ def _intersect_line_with_finite_cylinder(
 def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, float, float]:
     """Return the cylinder of best fit for a set of 3D points."""
     best_fit = minimize(
-        lambda x: _compute_g(spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
+        lambda x: _compute_g(_spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
         x0=_compute_initial_direction(points_centered),
         method="Powell",
     )
-    direction = spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
+    direction = _spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
     center = _compute_center(direction, points_centered) + centroid
     return direction, center, _compute_radius(direction, points_centered), best_fit.fun
 
@@ -705,17 +705,17 @@ def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, 
 def _compute_initial_direction(points: Points) -> np.ndarray:
     """Compute the initial direction as the best fit line."""
     initial_direction = Line.best_fit(points).vector.unit()
-    spherical_coordinates = cartesian_to_spherical(*initial_direction)
+    spherical_coordinates = _cartesian_to_spherical(*initial_direction)
     return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
 
 
 def _compute_projection_matrix(direction: Vector) -> np.ndarray:
-    """Compute the projection matrix."""
+
     return np.identity(3) - np.dot(np.reshape(direction, (3, 1)), np.reshape(direction, (1, 3)))
 
 
 def _compute_skew_matrix(direction: Vector) -> np.ndarray:
-    """Compute the skew matrix."""
+
     return np.array(
         [
             [0.0, -direction[2], direction[1]],
@@ -726,17 +726,17 @@ def _compute_skew_matrix(direction: Vector) -> np.ndarray:
 
 
 def _compute_a_matrix(input_samples: List[np.ndarray]) -> np.ndarray:
-    """Compute the :math:`{A}` matrix."""
+
     return sum(np.dot(np.reshape(sample, (3, 1)), np.reshape(sample, (1, 3))) for sample in input_samples)
 
 
 def _compute_a_hat_matrix(a_matrix: np.ndarray, skew_matrix: np.ndarray) -> np.ndarray:
-    r"""Compute the :math:`\\hat{A}` matrix."""
+
     return np.dot(skew_matrix, np.dot(a_matrix, np.transpose(skew_matrix)))
 
 
 def _compute_g(direction: Vector, points: Points) -> float:
-    """Compute :math:`G`."""
+
     projection_matrix = _compute_projection_matrix(direction)
     skew_matrix = _compute_skew_matrix(direction)
     input_samples = [np.dot(projection_matrix, X) for X in points]
@@ -751,7 +751,7 @@ def _compute_g(direction: Vector, points: Points) -> float:
 
 
 def _compute_center(direction: Vector, points: Points) -> Point:
-    """Compute center."""
+
     projection_matrix = _compute_projection_matrix(direction)
     skew_matrix = _compute_skew_matrix(direction)
     input_samples = [np.dot(projection_matrix, X) for X in points]
@@ -764,7 +764,7 @@ def _compute_center(direction: Vector, points: Points) -> Point:
 
 
 def _compute_radius(direction: Vector, points) -> float:
-    """Compute radius."""
+
     projection_matrix = _compute_projection_matrix(direction)
     center = _compute_center(direction, points)
     return np.sqrt(
@@ -772,7 +772,7 @@ def _compute_radius(direction: Vector, points) -> float:
     )
 
 
-def cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinates:
+def _cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinates:
     """Convert cartesian to spherical coordinates."""
     theta = np.arccos(z / np.sqrt(x**2 + y**2 + z**2))
 
@@ -783,7 +783,7 @@ def cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinate
     return _SphericalCoordinates(theta, phi)
 
 
-def spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
+def _spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
     """Convert spherical to cartesian coordinates."""
     theta = spherical_coordinates.theta
     phi = spherical_coordinates.phi
