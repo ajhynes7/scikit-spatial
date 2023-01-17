@@ -338,7 +338,7 @@ def test_best_fit(points, point_expected, vector_expected, radius_expected):
 
     assert cylinder.point.is_close(point_expected, abs_tol=1e-9)
     assert cylinder.vector.is_close(vector_expected, abs_tol=1e-9)
-    assert math.isclose(cylinder.radius, radius_expected, abs_tol=1e-9)
+    assert math.isclose(cylinder.radius, radius_expected)
 
 
 @pytest.mark.parametrize(
