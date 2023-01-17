@@ -486,14 +486,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         """
         Return the cylinder of best fit for a set of 3D points.
 
-        The points are assumed to lie close to the cylinder surface.
-
-        The algorithm is not guaranteed to produce a meaningful solution with random points.
+        The points are assumed to lie close to the cylinder surface. The algorithm is not guaranteed to produce a
+        meaningful solution with random points.
 
         Parameters
         ----------
         points : array_like
-             Input 3D points.
+             Input 3D points. At least six points must be provided.
 
         Returns
         -------
