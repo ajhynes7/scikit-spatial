@@ -2,8 +2,8 @@
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from typing import List
-from typing import NamedTuple
 from typing import Optional
 from typing import Tuple
 
@@ -589,7 +589,8 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         ax_3d.plot_surface(X, Y, Z, **kwargs)
 
 
-class _SphericalCoordinates(NamedTuple):
+@dataclass
+class _SphericalCoordinates:
     """
     Spherical coordinates.
 
@@ -693,7 +694,7 @@ def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, 
     """Return the cylinder of best fit for a set of 3D points."""
     best_fit = minimize(
         lambda x: _compute_g(_compute_direction(_SphericalCoordinates(x[0], x[1])), points_centered),
-        x0=np.array(_compute_initial_direction(points_centered)),
+        x0=_compute_initial_direction(points_centered),
         method="Powell",
     )
     direction = _compute_direction(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
@@ -706,10 +707,11 @@ def _compute_direction(spherical_coordinates: _SphericalCoordinates) -> Vector:
     return spherical_to_cartesian(spherical_coordinates)
 
 
-def _compute_initial_direction(points: Points) -> _SphericalCoordinates:
+def _compute_initial_direction(points: Points) -> np.ndarray:
     """Compute the initial direction as the best fit line."""
     initial_direction = Line.best_fit(points).vector.unit()
-    return cartesian_to_spherical(*initial_direction)
+    spherical_coordinates = cartesian_to_spherical(*initial_direction)
+    return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
 
 
 def _compute_projection_matrix(direction: Vector) -> np.ndarray:
@@ -788,5 +790,6 @@ def cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinate
 
 def spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
     """Convert spherical to cartesian coordinates."""
-    theta, phi = spherical_coordinates
+    theta = spherical_coordinates.theta
+    phi = spherical_coordinates.phi
     return Vector([np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)])
