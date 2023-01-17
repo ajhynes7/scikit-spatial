@@ -739,7 +739,7 @@ def _compute_g(direction: Vector, points: Points) -> float:
 
     projection_matrix = _compute_projection_matrix(direction)
     skew_matrix = _compute_skew_matrix(direction)
-    input_samples = [np.dot(projection_matrix, X) for X in points]
+    input_samples = [np.dot(projection_matrix, x) for x in points]
     a_matrix = _compute_a_matrix(input_samples)
     a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
 
@@ -754,7 +754,7 @@ def _compute_center(direction: Vector, points: Points) -> Point:
 
     projection_matrix = _compute_projection_matrix(direction)
     skew_matrix = _compute_skew_matrix(direction)
-    input_samples = [np.dot(projection_matrix, X) for X in points]
+    input_samples = [np.dot(projection_matrix, x) for x in points]
     a_matrix = _compute_a_matrix(input_samples)
     a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
 
