@@ -79,6 +79,90 @@ class Circle(_BaseSphere):
         if self.point.dimension != 2:
             raise ValueError("The point must be 2D.")
 
+    @classmethod
+    def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like, **kwargs) -> Circle:
+        """
+        Instantiate a circle from three points.
+
+        Parameters
+        ----------
+        point_a, point_b, point_c: array_like
+            Three points defining the circle. The points must be 2D.
+        kwargs: dict, optional
+            Additional keywords passed to :meth:`Points.are_collinear`.
+
+        Returns
+        -------
+        Circle
+            Circle containing the three input points.
+
+        Raises
+        ------
+        ValueError
+            If the points are not 2D.
+            If the points are collinear.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Circle
+
+        >>> Circle.from_points([-1, 0], [0, 1], [1, 0])
+        Circle(point=Point([-0.,  0.]), radius=1.0)
+
+        >>> Circle.from_points([1, 0, 0], [0, 1], [1, 0])
+        Traceback (most recent call last):
+        ...
+        ValueError: The points must be 2D.
+
+        >>> Circle.from_points([0, 0], [1, 1], [2, 2])
+        Traceback (most recent call last):
+        ...
+        ValueError: The points must not be collinear.
+
+        """
+
+        def _minor(array, i: int, j: int):
+            subarray = array[
+                np.array(list(range(i)) + list(range(i + 1, array.shape[0])))[:, np.newaxis],
+                np.array(list(range(j)) + list(range(j + 1, array.shape[1]))),
+            ]
+            return np.linalg.det(subarray)
+
+        point_a = Point(point_a)
+        point_b = Point(point_b)
+        point_c = Point(point_c)
+
+        if any(point.dimension != 2 for point in [point_a, point_b, point_c]):
+            raise ValueError("The points must be 2D.")
+
+        if Points([point_a, point_b, point_c]).are_collinear(**kwargs):
+            raise ValueError("The points must not be collinear.")
+
+        x_a, y_a = point_a
+        x_b, y_b = point_b
+        x_c, y_c = point_c
+
+        matrix = np.array(
+            [
+                [0, 0, 0, 1],
+                [x_a**2 + y_a**2, x_a, y_a, 1],
+                [x_b**2 + y_b**2, x_b, y_b, 1],
+                [x_c**2 + y_c**2, x_c, y_c, 1],
+            ],
+        )
+
+        M_00 = _minor(matrix, 0, 0)
+        M_01 = _minor(matrix, 0, 1)
+        M_02 = _minor(matrix, 0, 2)
+        M_03 = _minor(matrix, 0, 3)
+
+        x = 0.5 * M_01 / M_00
+        y = -0.5 * M_02 / M_00
+
+        radius = math.sqrt(x**2 + y**2 + M_03 / M_00)
+
+        return cls([x, y], radius)
+
     @np_float
     def circumference(self) -> float:
         r"""

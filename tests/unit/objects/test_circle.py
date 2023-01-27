@@ -7,6 +7,12 @@ from skspatial.objects import Circle
 from skspatial.objects import Line
 from skspatial.objects import Points
 
+POINT_MUST_BE_2D = "The point must be 2D."
+RADIUS_MUST_BE_POSITIVE = "The radius must be positive."
+
+POINTS_MUST_BE_2D = "The points must be 2D."
+POINTS_MUST_NOT_BE_COLLINEAR = "The points must not be collinear."
+
 CIRCLE_CENTRES_ARE_COINCIDENT = "The centres of the circles are coincident."
 CIRCLES_ARE_SEPARATE = "The circles do not intersect. These circles are separate."
 CIRCLE_CONTAINED_IN_OTHER = "The circles do not intersect. One circle is contained within the other."
@@ -15,17 +21,49 @@ CIRCLE_CONTAINED_IN_OTHER = "The circles do not intersect. One circle is contain
 @pytest.mark.parametrize(
     ("point", "radius", "message_expected"),
     [
-        ([0, 0, 0], 1, "The point must be 2D"),
-        ([1, 2, 3], 1, "The point must be 2D"),
-        ([0, 0], 0, "The radius must be positive"),
-        ([0, 0], -1, "The radius must be positive"),
-        ([0, 0], -5, "The radius must be positive"),
+        ([0, 0, 0], 1, POINT_MUST_BE_2D),
+        ([1, 2, 3], 1, POINT_MUST_BE_2D),
+        ([0, 0], 0, RADIUS_MUST_BE_POSITIVE),
+        ([0, 0], -1, RADIUS_MUST_BE_POSITIVE),
+        ([0, 0], -5, RADIUS_MUST_BE_POSITIVE),
     ],
 )
 def test_failure(point, radius, message_expected):
 
     with pytest.raises(ValueError, match=message_expected):
         Circle(point, radius)
+
+
+@pytest.mark.parametrize(
+    ("point_a", "point_b", "point_c", "circle_expected"),
+    [
+        ([0, -1], [1, 0], [0, 1], Circle([0, 0], 1)),
+        ([0, -2], [2, 0], [0, 2], Circle([0, 0], 2)),
+        ([1, -1], [2, 0], [1, 1], Circle([1, 0], 1)),
+    ],
+)
+def test_from_points(point_a, point_b, point_c, circle_expected):
+
+    circle = Circle.from_points(point_a, point_b, point_c)
+
+    assert circle.point.is_close(circle_expected.point)
+    assert math.isclose(circle.radius, circle_expected.radius)
+
+
+@pytest.mark.parametrize(
+    ("point_a", "point_b", "point_c", "message_expected"),
+    [
+        ([1, 0, 0], [1, 0], [1, 0], POINTS_MUST_BE_2D),
+        ([1, 0], [1, 0, 0], [1, 0], POINTS_MUST_BE_2D),
+        ([1, 0], [0, 0], [1, 0, 1], POINTS_MUST_BE_2D),
+        ([0, 0], [0, 0], [0, 0], POINTS_MUST_NOT_BE_COLLINEAR),
+        ([0, 0], [1, 1], [2, 2], POINTS_MUST_NOT_BE_COLLINEAR),
+    ],
+)
+def test_from_points_failure(point_a, point_b, point_c, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Circle.from_points(point_a, point_b, point_c)
 
 
 @pytest.mark.parametrize(
