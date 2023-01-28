@@ -3,6 +3,16 @@ History
 =======
 
 
+6.8.0 (2023-01-28)
+------------------
+
+Features
+~~~~~~~~
+- Add `Circle.from_points` method.
+- Add `check_coplanar` kwarg to `Line.intersect_line`.
+- Lower minimum NumPy version to 1.16.
+
+
 6.7.0 (2022-12-28)
 ------------------
 
