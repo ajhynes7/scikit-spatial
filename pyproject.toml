@@ -35,7 +35,7 @@ python = "^3.7"
 
 numpy = "^1.16"
 matplotlib = "^3"
-scipy = "^1.6"
+scipy = "^1.2"
 
 # To keep __version__ in sync with the version in this file.
 importlib-metadata = { version = "~1", python = "<3.8" }
