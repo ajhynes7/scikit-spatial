@@ -529,6 +529,97 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         2.0
 
         """
+
+        def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, float, float]:
+            """Return the cylinder of best fit for a set of 3D points."""
+            best_fit = minimize(
+                lambda x: _compute_g(_spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
+                x0=_compute_initial_direction(points_centered),
+                method="Powell",
+            )
+            direction = _spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
+            center = _compute_center(direction, points_centered) + centroid
+            return direction, center, _compute_radius(direction, points_centered), best_fit.fun
+
+        def _compute_initial_direction(points: Points) -> np.ndarray:
+            """Compute the initial direction as the best fit line."""
+            initial_direction = Line.best_fit(points).vector.unit()
+            spherical_coordinates = _cartesian_to_spherical(*initial_direction)
+            return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
+
+        def _compute_projection_matrix(direction: Vector) -> np.ndarray:
+
+            return np.identity(3) - np.dot(np.reshape(direction, (3, 1)), np.reshape(direction, (1, 3)))
+
+        def _compute_skew_matrix(direction: Vector) -> np.ndarray:
+
+            return np.array(
+                [
+                    [0.0, -direction[2], direction[1]],
+                    [direction[2], 0.0, -direction[0]],
+                    [-direction[1], direction[0], 0.0],
+                ],
+            )
+
+        def _compute_a_matrix(input_samples: List[np.ndarray]) -> np.ndarray:
+
+            return sum(np.dot(np.reshape(sample, (3, 1)), np.reshape(sample, (1, 3))) for sample in input_samples)
+
+        def _compute_a_hat_matrix(a_matrix: np.ndarray, skew_matrix: np.ndarray) -> np.ndarray:
+
+            return np.dot(skew_matrix, np.dot(a_matrix, np.transpose(skew_matrix)))
+
+        def _compute_g(direction: Vector, points: Points) -> float:
+
+            projection_matrix = _compute_projection_matrix(direction)
+            skew_matrix = _compute_skew_matrix(direction)
+            input_samples = [np.dot(projection_matrix, x) for x in points]
+            a_matrix = _compute_a_matrix(input_samples)
+            a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
+
+            u = sum(np.dot(sample, sample) for sample in input_samples) / len(points)
+            v = np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
+                np.dot(a_hat_matrix, a_matrix),
+            )
+            return sum((np.dot(sample, sample) - u - 2 * np.dot(sample, v)) ** 2 for sample in input_samples)
+
+        def _compute_center(direction: Vector, points: Points) -> Point:
+
+            projection_matrix = _compute_projection_matrix(direction)
+            skew_matrix = _compute_skew_matrix(direction)
+            input_samples = [np.dot(projection_matrix, x) for x in points]
+            a_matrix = _compute_a_matrix(input_samples)
+            a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
+
+            return np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
+                np.dot(a_hat_matrix, a_matrix),
+            )
+
+        def _compute_radius(direction: Vector, points) -> float:
+
+            projection_matrix = _compute_projection_matrix(direction)
+            center = _compute_center(direction, points)
+            return np.sqrt(
+                sum(np.dot(center - point, np.dot(projection_matrix, center - point)) for point in points)
+                / len(points),
+            )
+
+        def _cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinates:
+            """Convert cartesian to spherical coordinates."""
+            theta = np.arccos(z / np.sqrt(x**2 + y**2 + z**2))
+
+            if math.isclose(x, 0.0, abs_tol=1e-9) and math.isclose(y, 0.0, abs_tol=1e-9):
+                phi = 0.0
+            else:
+                phi = np.sign(y) * np.arccos(x / np.sqrt(x**2 + y**2))
+            return _SphericalCoordinates(theta, phi)
+
+        def _spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
+            """Convert spherical to cartesian coordinates."""
+            theta = spherical_coordinates.theta
+            phi = spherical_coordinates.phi
+            return Vector([np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)])
+
         points = Points(points)
 
         if points.dimension != 3:
@@ -688,103 +779,3 @@ def _intersect_line_with_finite_cylinder(
         raise ValueError("The line does not intersect the cylinder.")
 
     return point_a, point_b
-
-
-def _best_fit(points_centered: Points, centroid: Point) -> Tuple[Vector, Point, float, float]:
-    """Return the cylinder of best fit for a set of 3D points."""
-    best_fit = minimize(
-        lambda x: _compute_g(_spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
-        x0=_compute_initial_direction(points_centered),
-        method="Powell",
-    )
-    direction = _spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
-    center = _compute_center(direction, points_centered) + centroid
-    return direction, center, _compute_radius(direction, points_centered), best_fit.fun
-
-
-def _compute_initial_direction(points: Points) -> np.ndarray:
-    """Compute the initial direction as the best fit line."""
-    initial_direction = Line.best_fit(points).vector.unit()
-    spherical_coordinates = _cartesian_to_spherical(*initial_direction)
-    return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
-
-
-def _compute_projection_matrix(direction: Vector) -> np.ndarray:
-
-    return np.identity(3) - np.dot(np.reshape(direction, (3, 1)), np.reshape(direction, (1, 3)))
-
-
-def _compute_skew_matrix(direction: Vector) -> np.ndarray:
-
-    return np.array(
-        [
-            [0.0, -direction[2], direction[1]],
-            [direction[2], 0.0, -direction[0]],
-            [-direction[1], direction[0], 0.0],
-        ],
-    )
-
-
-def _compute_a_matrix(input_samples: List[np.ndarray]) -> np.ndarray:
-
-    return sum(np.dot(np.reshape(sample, (3, 1)), np.reshape(sample, (1, 3))) for sample in input_samples)
-
-
-def _compute_a_hat_matrix(a_matrix: np.ndarray, skew_matrix: np.ndarray) -> np.ndarray:
-
-    return np.dot(skew_matrix, np.dot(a_matrix, np.transpose(skew_matrix)))
-
-
-def _compute_g(direction: Vector, points: Points) -> float:
-
-    projection_matrix = _compute_projection_matrix(direction)
-    skew_matrix = _compute_skew_matrix(direction)
-    input_samples = [np.dot(projection_matrix, x) for x in points]
-    a_matrix = _compute_a_matrix(input_samples)
-    a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
-
-    u = sum(np.dot(sample, sample) for sample in input_samples) / len(points)
-    v = np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
-        np.dot(a_hat_matrix, a_matrix),
-    )
-    return sum((np.dot(sample, sample) - u - 2 * np.dot(sample, v)) ** 2 for sample in input_samples)
-
-
-def _compute_center(direction: Vector, points: Points) -> Point:
-
-    projection_matrix = _compute_projection_matrix(direction)
-    skew_matrix = _compute_skew_matrix(direction)
-    input_samples = [np.dot(projection_matrix, x) for x in points]
-    a_matrix = _compute_a_matrix(input_samples)
-    a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
-
-    return np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
-        np.dot(a_hat_matrix, a_matrix),
-    )
-
-
-def _compute_radius(direction: Vector, points) -> float:
-
-    projection_matrix = _compute_projection_matrix(direction)
-    center = _compute_center(direction, points)
-    return np.sqrt(
-        sum(np.dot(center - point, np.dot(projection_matrix, center - point)) for point in points) / len(points),
-    )
-
-
-def _cartesian_to_spherical(x: float, y: float, z: float) -> _SphericalCoordinates:
-    """Convert cartesian to spherical coordinates."""
-    theta = np.arccos(z / np.sqrt(x**2 + y**2 + z**2))
-
-    if math.isclose(x, 0.0, abs_tol=1e-9) and math.isclose(y, 0.0, abs_tol=1e-9):
-        phi = 0.0
-    else:
-        phi = np.sign(y) * np.arccos(x / np.sqrt(x**2 + y**2))
-    return _SphericalCoordinates(theta, phi)
-
-
-def _spherical_to_cartesian(spherical_coordinates: _SphericalCoordinates) -> Vector:
-    """Convert spherical to cartesian coordinates."""
-    theta = spherical_coordinates.theta
-    phi = spherical_coordinates.phi
-    return Vector([np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)])
