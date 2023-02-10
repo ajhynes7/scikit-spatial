@@ -535,7 +535,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             best_fit = minimize(
                 lambda x: _compute_g(_spherical_to_cartesian(_SphericalCoordinates(x[0], x[1])), points_centered),
                 x0=_compute_initial_direction(points_centered),
-                method="Powell",
+                method="BFGS",
             )
             direction = _spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
             center = _compute_center(direction, points_centered) + centroid
