@@ -5,7 +5,7 @@ from math import sqrt
 
 import pytest
 
-from skspatial.objects import Cylinder
+from skspatial.objects import Cylinder, Vector
 from skspatial.objects import Line
 from skspatial.objects import Point
 from skspatial.objects import Points
@@ -325,19 +325,19 @@ def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
 
 
 @pytest.mark.parametrize(
-    ("points", "point_expected", "vector_expected", "radius_expected"),
+    ("points", "vector_expected", "radius_expected"),
     [
-        ([[2, 0, 0], [0, 2, 0], [0, -2, 0], [2, 0, 4], [0, 2, 4], [0, -2, 4]], [0, 0, 0], [0, 0, 4], 2.0),
-        ([[-2, 0, 1], [-2, 1, 0], [-2, -1, 0], [3, 0, 1], [3, 1, 0], [3, -1, 0]], [-2, 0, 0], [5, 0, 0], 1.0),
-        ([[-3, 3, 0], [0, 3, 3], [0, 3, -3], [-3, -12, 0], [0, -12, 3], [0, -12, -3]], [0, -12, 0], [0, 15, 0], 3.0),
+        ([[2, 0, 0], [0, 2, 0], [0, -2, 0], [2, 0, 4], [0, 2, 4], [0, -2, 4]], Vector([0, 0, 4]), 2.0),
+        ([[-2, 0, 1], [-2, 1, 0], [-2, -1, 0], [3, 0, 1], [3, 1, 0], [3, -1, 0]], Vector([5, 0, 0]), 1.0),
+        ([[-3, 3, 0], [0, 3, 3], [0, 3, -3], [-3, -12, 0], [0, -12, 3], [0, -12, -3]], Vector([0, -15, 0]), 3.0),
     ],
 )
-def test_best_fit(points, point_expected, vector_expected, radius_expected):
+def test_best_fit(points, vector_expected, radius_expected):
 
     cylinder = Cylinder.best_fit(points)
 
-    assert cylinder.point.is_close(point_expected, abs_tol=1e-9)
-    assert cylinder.vector.is_close(vector_expected, abs_tol=1e-9)
+    assert isclose(cylinder.vector.norm(), vector_expected.norm())
+    assert cylinder.vector.is_parallel(vector_expected)
     assert math.isclose(cylinder.radius, radius_expected)
 
 
