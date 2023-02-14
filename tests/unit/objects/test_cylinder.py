@@ -5,10 +5,11 @@ from math import sqrt
 
 import pytest
 
-from skspatial.objects import Cylinder, Vector
+from skspatial.objects import Cylinder
 from skspatial.objects import Line
 from skspatial.objects import Point
 from skspatial.objects import Points
+from skspatial.objects import Vector
 
 LINE_DOES_NOT_INTERSECT_CYLINDER = "The line does not intersect the cylinder."
 LINE_MUST_BE_3D = "The line must be 3D."
