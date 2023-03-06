@@ -16,4 +16,3 @@ plot_3d(
     sphere.plotter(alpha=0.2),
     circle3D.plotter(),
 )
-
