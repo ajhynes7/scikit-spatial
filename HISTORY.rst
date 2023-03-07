@@ -3,6 +3,14 @@ History
 =======
 
 
+6.8.1 (2023-03-07)
+------------------
+
+Fixes
+~~~~~
+- Add missing `plotter` method to `LineSegment`.
+
+
 6.8.0 (2023-01-28)
 ------------------
 
