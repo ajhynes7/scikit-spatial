@@ -45,3 +45,12 @@ from skspatial.objects.line_segment import LineSegment
 def test_repr(obj_spatial, repr_expected):
 
     assert repr(obj_spatial) == repr_expected
+
+
+@pytest.mark.parametrize(
+    "class_spatial",
+    [Point, Points, Vector, Line, LineSegment, Plane, Circle, Sphere, Triangle, Cylinder],
+)
+def test_plotter(class_spatial):
+
+    assert callable(class_spatial.plotter)
