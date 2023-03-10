@@ -269,25 +269,24 @@ class Circle3D(_BaseSphere):
     #             [0,  np.sin(phi), np.cos(phi)] ])
     #         return rotx
 
-    #     def _rotY(theta):    
+    #     def _rotY(theta):
     #         roty = np.array([
     #             [np.cos(theta), 0, np.sin(theta) ],
     #             [0         , 1,     0       ],
-    #             [-np.sin(theta), 0,  np.cos(theta) ] ])   
+    #             [-np.sin(theta), 0,  np.cos(theta) ] ])
     #         return roty
-            
-    #     def _rotZ(psi):    
+
+    #     def _rotZ(psi):
     #         rotz = np.array([
     #             [ np.cos(psi), -np.sin(psi), 0 ],
     #             [np.sin(psi), np.cos(psi), 0 ],
-    #             [   0        ,     0      , 1 ] ])   
+    #             [   0        ,     0      , 1 ] ])
     #         return rotz
 
     #     # From https://stackoverflow.com/questions/2827393/angles-between-two-n-dimensional-vectors-in-python
 
-
     #     def _angle_between(v1, v2):
-    #         def _unit_vector(vector):       
+    #         def _unit_vector(vector):
     #             return vector / np.linalg.norm(vector)
     #         v1_u = _unit_vector(v1)
     #         v2_u = _unit_vector(v2)
@@ -513,17 +512,17 @@ class Circle3D(_BaseSphere):
             pathpatch_2d_to_3d(p, z=0, normal=normal)
             pathpatch_translate(p, (point[0], point[1], point[2]))
             return ax
-            
-        circle = plot_Circle3D(ax_3d, self.point, self.plane.normal, size=self.radius, color='y', fill=False) # **kwargs)
+
+        circle = plot_Circle3D(
+            ax_3d, self.point, self.plane.normal, size=self.radius, color='y', fill=False,
+        )  # **kwargs)
         # ax_3d.add_artist(circle)
         # ax_3d.set_aspect('equal')
 
-
-                
         ax_3d.set_aspect('equal')
-        
+
         ax_3d.set_xlim([-80, 80])
         ax_3d.set_ylim([-80, 80])
         ax_3d.set_zlim([-80, 80])
         ax_3d.view_init(elev=16, azim=45, roll=0)
-            # ax_3d.view_init(elev=10, azim=150, roll=0)
+        # ax_3d.view_init(elev=10, azim=150, roll=0)
