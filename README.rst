@@ -39,6 +39,7 @@ New objects:
    - Elipse3D - a 2D elipse on a plane in 3D space
 
 New functionality within existing objects:
+
    - Sphere
       - Added sphere-plane intersection, which is a Circle3D
       - Added sphere-sphere intersection, which projects both spheres onto their shared plane of intersection, which is a Circle3D  
