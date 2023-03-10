@@ -11,4 +11,15 @@ from skspatial.objects.sphere import Sphere
 from skspatial.objects.triangle import Triangle
 from skspatial.objects.vector import Vector
 
-__all__ = ['Circle', 'Circle3D' 'Cylinder', 'Line', 'LineSegment', 'Plane', 'Point', 'Points', 'Sphere', 'Triangle', 'Vector']
+__all__ = [
+    'Circle',
+    'Circle3D' 'Cylinder',
+    'Line',
+    'LineSegment',
+    'Plane',
+    'Point',
+    'Points',
+    'Sphere',
+    'Triangle',
+    'Vector',
+]

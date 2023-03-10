@@ -10,9 +10,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
 from skspatial.objects._mixins import _ToPointsMixin
-from skspatial.objects.line import Line
 from skspatial.objects.circle import Circle
 from skspatial.objects.circle3D import Circle3D
+from skspatial.objects.line import Line
 from skspatial.objects.plane import Plane
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
@@ -187,7 +187,6 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         return point_a, point_b
 
-
     def intersect_plane(self, plane: Plane) -> Circle3D:
         """
         Intersect the sphere with a plane.
@@ -240,20 +239,16 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         # return point_a, point_b
 
-
-
         # Distance between plane and sphere's point
         D = plane.distance_point_signed(self.point)
         point = plane.project_point(self.point)
         # Based on D, R, get r
-        r = np.sqrt( self.radius**2 - D**2 )
+        r = np.sqrt(self.radius**2 - D**2)
 
         # Based on R, draw circle on plane
-        print(D,r, point)
+        print(D, r, point)
         # return Circle([0,5], r)
         return Circle3D(point, r, plane)
-
-
 
     @classmethod
     def best_fit(cls, points: array_like) -> Sphere:
