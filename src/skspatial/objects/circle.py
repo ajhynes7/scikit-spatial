@@ -405,7 +405,7 @@ class Circle(_BaseSphere):
     @classmethod
     def best_fit(cls, points: array_like) -> Circle:
         """
-        Return the sphere of best fit for a set of 2D points.
+        Return the circle of best fit for a set of 2D points.
 
         Parameters
         ----------

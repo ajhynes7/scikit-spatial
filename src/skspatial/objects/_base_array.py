@@ -1,5 +1,4 @@
 """Private base classes for arrays."""
-import warnings
 from typing import Type
 from typing import TypeVar
 
@@ -21,17 +20,6 @@ class _BaseArray(np.ndarray, _BaseSpatial):
     """Private base class for spatial objects based on a single NumPy array."""
 
     def __new__(cls: Type[Array], array: array_like) -> Array:
-
-        with warnings.catch_warnings():
-
-            warnings.filterwarnings("error")
-
-            try:
-                np.array(array)
-
-            except np.VisibleDeprecationWarning as error:
-                if str(error).startswith("Creating an ndarray from ragged nested sequences"):
-                    raise ValueError("The array must not contain sequences with different lengths.")
 
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")

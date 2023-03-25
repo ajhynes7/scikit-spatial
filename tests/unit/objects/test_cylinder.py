@@ -1,3 +1,4 @@
+import math
 from math import isclose
 from math import pi
 from math import sqrt
@@ -8,6 +9,7 @@ from skspatial.objects import Cylinder
 from skspatial.objects import Line
 from skspatial.objects import Point
 from skspatial.objects import Points
+from skspatial.objects import Vector
 
 LINE_DOES_NOT_INTERSECT_CYLINDER = "The line does not intersect the cylinder."
 LINE_MUST_BE_3D = "The line must be 3D."
@@ -321,3 +323,34 @@ def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
     points_unique = Points(array_rounded).unique()
 
     assert points_unique.is_close(points_expected)
+
+
+@pytest.mark.parametrize(
+    ("points", "vector_expected", "radius_expected"),
+    [
+        ([[2, 0, 0], [0, 2, 0], [0, -2, 0], [2, 0, 4], [0, 2, 4], [0, -2, 4]], Vector([0, 0, 4]), 2.0),
+        ([[-2, 0, 1], [-2, 1, 0], [-2, -1, 0], [3, 0, 1], [3, 1, 0], [3, -1, 0]], Vector([5, 0, 0]), 1.0),
+        ([[-3, 3, 0], [0, 3, 3], [0, 3, -3], [-3, -12, 0], [0, -12, 3], [0, -12, -3]], Vector([0, -15, 0]), 3.0),
+    ],
+)
+def test_best_fit(points, vector_expected, radius_expected):
+
+    cylinder = Cylinder.best_fit(points)
+
+    assert isclose(cylinder.vector.norm(), vector_expected.norm())
+    assert cylinder.vector.is_parallel(vector_expected)
+    assert math.isclose(cylinder.radius, radius_expected)
+
+
+@pytest.mark.parametrize(
+    ("points", "message_expected"),
+    [
+        ([[1, 0], [-1, 0], [0, 1]], "The points must be 3D."),
+        ([[2, 0, 1], [-2, 0, -3]], "There must be at least 6 points."),
+        ([[0, 0, 1], [1, 1, 1], [2, 1, 1], [3, 3, 1], [4, 4, 1], [5, 5, 1]], "The points must not be coplanar."),
+    ],
+)
+def test_best_fit_failure(points, message_expected):
+
+    with pytest.raises(ValueError, match=message_expected):
+        Cylinder.best_fit(points)

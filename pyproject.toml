@@ -31,10 +31,11 @@ include = ["tests"]
 
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.8,<3.12"
 
-numpy = "^1.16"
+numpy = "^1.17.3"
 matplotlib = "^3"
+scipy = "^1.8"
 
 # To keep __version__ in sync with the version in this file.
 importlib-metadata = { version = "~1", python = "<3.8" }
