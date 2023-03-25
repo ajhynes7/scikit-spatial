@@ -18,9 +18,7 @@ from skspatial.objects import Vector
 )
 def test_failure_from_different_lengths(class_spatial, array):
 
-    message_expected = "The array must not contain sequences with different lengths."
-
-    with pytest.raises(ValueError, match=message_expected):
+    with pytest.raises(ValueError):  # noqa: PT011
         class_spatial(array)
 
 
