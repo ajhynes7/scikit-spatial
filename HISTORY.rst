@@ -2,6 +2,18 @@
 History
 =======
 
+7.0.0 (2023-03-26)
+------------------
+
+Breaking Changes
+~~~~~~~~~~~~~~~~
+- Drop support for Python 3.7.
+- Increase minimum NumPy version to 1.17.3 (to be compatible with the new dependency SciPy).
+
+Features
+~~~~~~~~
+- Add `Cylinder.best_fit` method.
+
 
 6.8.1 (2023-03-07)
 ------------------
