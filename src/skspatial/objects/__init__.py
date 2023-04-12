@@ -1,5 +1,7 @@
 """Package containing spatial objects."""
 from skspatial.objects.circle import Circle
+from skspatial.objects.circle3D import Circle3D
+from skspatial.objects.elipse3D import Elipse3D
 from skspatial.objects.cylinder import Cylinder
 from skspatial.objects.line import Line
 from skspatial.objects.line_segment import LineSegment
@@ -10,4 +12,17 @@ from skspatial.objects.sphere import Sphere
 from skspatial.objects.triangle import Triangle
 from skspatial.objects.vector import Vector
 
-__all__ = ['Circle', 'Cylinder', 'Line', 'LineSegment', 'Plane', 'Point', 'Points', 'Sphere', 'Triangle', 'Vector']
+__all__ = [
+    'Circle',
+    'Circle3D',
+    'Elipse3D',
+    'Cylinder',
+    'Line',
+    'LineSegment',
+    'Plane',
+    'Point',
+    'Points',
+    'Sphere',
+    'Triangle',
+    'Vector',
+]

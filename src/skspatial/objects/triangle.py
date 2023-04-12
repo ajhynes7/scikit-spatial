@@ -709,3 +709,7 @@ class Triangle(_BaseSpatial):
         elif part == 'lines':
             for line in self.multiple('line', 'abc'):
                 line.plot_3d(ax_3d, **kwargs)
+
+
+        # NEW
+        ax_3d.view_init(elev=0, azim=-90, roll=0)
