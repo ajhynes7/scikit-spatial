@@ -518,7 +518,12 @@ class Circle3D(_BaseSphere):
             return ax
 
         circle = plot_Circle3D(
-            ax_3d, self.point, self.plane.normal, size=self.radius, color='y', fill=False,
+            ax_3d,
+            self.point,
+            self.plane.normal,
+            size=self.radius,
+            color='y',
+            fill=False,
         )  # **kwargs)
         # ax_3d.add_artist(circle)
         # ax_3d.set_aspect('equal')
