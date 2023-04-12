@@ -246,7 +246,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         r = np.sqrt(self.radius**2 - D**2)
 
         # Based on R, draw circle on plane
-        print(D, r, point)
+        # print(D, r, point)
         # return Circle([0,5], r)
         return Circle3D(point, r, plane)
 
@@ -400,3 +400,14 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         X, Y, Z = self.to_mesh(n_angles)
 
         ax_3d.plot_surface(X, Y, Z, **kwargs)
+        ax_3d.set_aspect('equal')
+
+        ax_3d.set_xlim([-50, 50])
+        ax_3d.set_ylim([-50, 50])
+        ax_3d.set_zlim([-50, 50])
+
+#         ax_3d.set_xlim([-80, 80])
+#         ax_3d.set_ylim([-80, 80])
+#         ax_3d.set_zlim([-80, 80])
+# # 
+        ax_3d.view_init(elev=16, azim=60, roll=0)

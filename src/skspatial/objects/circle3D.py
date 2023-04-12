@@ -68,6 +68,10 @@ class Circle3D(_BaseSphere):
         if self.point.dimension != 3:
             raise ValueError("The point must be 3D.")
 
+
+    def __repr__(self) -> str:
+        return f"Circle3D(point={self.point}, plane={self.plane}, radius={self.radius})"
+    
     # @classmethod
     # def from_points(cls, point_a: array_like, point_b: array_like, point_c: array_like, **kwargs) -> Circle:
     #     """
@@ -519,10 +523,4 @@ class Circle3D(_BaseSphere):
         # ax_3d.add_artist(circle)
         # ax_3d.set_aspect('equal')
 
-        ax_3d.set_aspect('equal')
-
-        ax_3d.set_xlim([-80, 80])
-        ax_3d.set_ylim([-80, 80])
-        ax_3d.set_zlim([-80, 80])
-        ax_3d.view_init(elev=16, azim=45, roll=0)
         # ax_3d.view_init(elev=10, azim=150, roll=0)
