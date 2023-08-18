@@ -46,7 +46,8 @@ New functionality within existing objects:
    - Cylinder
       - Added cylinder-plane intersection, which is a Elipse3D or Circle3D depending on the plane's orientation
 
-New functionality, added into [skspatial/geometric_functions.py](https://github.com/Yeok-c/scikit-spatial/blob/master/src/skspatial/geometric_functions.py)
+New functionality, added into `skspatial/geometric_functions.py <skspatial/geometric_functions.py>`_ 
+
    - extract_center_and_radius, from a sphere's equation, which can then be used to initialize Sphere object
    - intersection_3_spheres, which is a Point
    - ssc_intersect - Sphere, Sphere, Cylinder intersection - to find 2 points
@@ -54,6 +55,8 @@ New functionality, added into [skspatial/geometric_functions.py](https://github.
    - plot_elipse - which is used for plotting 2D elipses in 3D space (Elipse3D)
    - plot_triangle - which is used for plotting arrays of 2D triangles in 3D space
    - mirror_triangles, rotate_triangles, mirror_point, translate_and_rotate etc.
+
+
 Introduction
 ------------
 
