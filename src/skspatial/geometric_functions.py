@@ -587,3 +587,26 @@ def parse_TIME(A):
         duration.append(list(A[i].values())[0]-list(A[i+1].values())[0])
     return duration
 
+
+# ------------ for origami stuff ---------------
+import numpy as np
+
+class TPoint():
+    def __init__(self, point, plane, r, c, W=0):
+        self.point = point
+        self.folded_point = None
+        self.r = r
+        self.c = c
+        self.W = W
+        self.plane = plane
+    def __repr__(self):
+        return f"P_Crease: {self.point}, P_Folded: {self.folded_point}, Plane: {self.plane}, Row: {self.r}, Col: {self.c}, W: {self.W}"
+        # return f"Point in crease pattern: {self.crease_pattern_point}, Edge sameplane len: {self.edge_sameplane}, Edge diffplane len: {self.edge_diffplane}, Plane: {self.plane}"
+
+def edge_len(tpoint1: TPoint, tpoint2:TPoint):
+    return abs(norm(tpoint1.point-tpoint2.point))
+
+def norm_2(v):
+    return v.dot(v)
+def norm(v):
+    return np.sqrt(norm_2(v))
