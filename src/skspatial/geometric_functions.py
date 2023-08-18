@@ -542,7 +542,7 @@ def plot_elipse(elipse: Elipse3D):
 
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-def plot_triangle(ax, T, face_color = [0.5, 0.5, 1], edge_color = 'k', alpha = 0.2): 
+def plot_triangle(ax, T, face_color = [0.5, 0.5, 1], edge_color = 'k', alpha = 0.2, width=0.2): 
     triangles = []
     for t in T:
         triangles.append([t.point_a, t.point_b, t.point_c])
@@ -552,7 +552,7 @@ def plot_triangle(ax, T, face_color = [0.5, 0.5, 1], edge_color = 'k', alpha = 0
     # ax.add_collection(Poly3DCollection(triangles))
 
     # Note: edge colors can also be a list, like ['r','g','b'] for the colors of each of the edges
-    collection = Poly3DCollection(triangles, linewidths=0.2, edgecolors=edge_color, alpha=alpha)
+    collection = Poly3DCollection(triangles, linewidths=width, edgecolors=edge_color, alpha=alpha)
     collection.set_facecolor(face_color)
     ax.add_collection3d(collection)
     return ax
