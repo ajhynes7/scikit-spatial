@@ -546,11 +546,49 @@ def plot_triangle(ax, T, face_color = [0.5, 0.5, 1], edge_color = 'k', alpha = 0
     triangles = []
     for t in T:
         triangles.append([t.point_a, t.point_b, t.point_c])
+        # triangles.append([t.point_a, t.point_b])
+        # triangles.append([t.point_b, t.point_c])
+        # triangles.append([t.point_c, t.point_a])
     # ax.add_collection(Poly3DCollection(triangles))
+
+    # Note: edge colors can also be a list, like ['r','g','b'] for the colors of each of the edges
     collection = Poly3DCollection(triangles, linewidths=0.2, edgecolors=edge_color, alpha=alpha)
     collection.set_facecolor(face_color)
     ax.add_collection3d(collection)
     return ax
+
+def plot_crease_handles(ax, Q, face_color = [1,1,1], edge_color = 'k', alpha = 1): 
+    quadrigons = []
+    for q in Q:
+        quadrigons.append([q.points[0], q.points[1]])
+        quadrigons.append([q.points[2], q.points[3]])
+        quadrigons.append([q.points[3], q.points[0]])
+        # triangles.append([t.point_a, t.point_b])
+        # triangles.append([t.point_b, t.point_c])
+        # triangles.append([t.point_c, t.point_a])
+    # ax.add_collection(Poly3DCollection(triangles))
+
+    # Note: edge colors can also be a list, like ['r','g','b'] for the colors of each of the edges
+    collection = Poly3DCollection(quadrigons, linewidths=0.4, edgecolors=edge_color, alpha=alpha)
+    collection.set_facecolor(face_color)
+    ax.add_collection3d(collection)
+    return ax
+
+def plot_crease_triangle(ax, T, face_color = [1,1,1], edge_color = ['r', 'r', 'b'], alpha = 1): 
+    triangles = []
+    for t in T:
+        # triangles.append([t.point_a, t.point_b, t.point_c])
+        triangles.append([t.point_a, t.point_b])
+        triangles.append([t.point_b, t.point_c])
+        triangles.append([t.point_c, t.point_a])
+    # ax.add_collection(Poly3DCollection(triangles))
+
+    # Note: edge colors can also be a list, like ['r','g','b'] for the colors of each of the edges
+    collection = Poly3DCollection(triangles, linewidths=0.4, edgecolors=edge_color, alpha=alpha)
+    collection.set_facecolor(face_color)
+    ax.add_collection3d(collection)
+    return ax
+
 
 # def tim(self, task_name, print_flag=False):
 #     self.current_time = time.time()
