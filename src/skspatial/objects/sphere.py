@@ -410,4 +410,5 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 #         ax_3d.set_ylim([-80, 80])
 #         ax_3d.set_zlim([-80, 80])
 # # 
-        ax_3d.view_init(elev=16, azim=60, roll=0)
+        ax_3d.view_init(elev=16, azim=160, roll=0)
+        # ax_3d.view_init(elev=16, azim=60, roll=0)

@@ -713,3 +713,4 @@ class Triangle(_BaseSpatial):
 
         # NEW
         ax_3d.view_init(elev=0, azim=-90, roll=0)
+        ax_3d.set_aspect('equal')
