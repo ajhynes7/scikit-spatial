@@ -8,6 +8,7 @@ from numpy.testing import assert_array_equal
 from skspatial.objects import Line
 from skspatial.objects import Plane
 from skspatial.objects import Point
+from skspatial.objects import Points
 
 INPUT_MUST_ALSO_BE_LINE = "The input must also be a line."
 POINTS_MUST_NOT_BE_CONCURRENT = "The points must not be concurrent."
@@ -146,6 +147,27 @@ def test_project_point(point, point_line, vector_line, point_expected, dist_expe
 
 
 @pytest.mark.parametrize(
+    ("points", "point_line", "vector_line"),
+    [
+        ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [0, 0], [0, 1]),
+        ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [0, 0], [0, 100]),
+        ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [1, -5], [0, 3])
+    ],
+)
+def test_project_points(points, point_line, vector_line):
+    line = Line(point_line, vector_line)
+
+    distances = line.distance_points(points)
+    points_projected = line.project_points(points)
+
+    distanecs_expected = [line.distance_point(point) for point in points]
+    points_expected = [line.project_point(point) for point in points]
+
+    assert np.all(np.isclose(points_projected, points_expected))
+    assert np.all(np.isclose(distances, distanecs_expected))
+
+
+@pytest.mark.parametrize(
     ("line", "vector", "vector_expected"),
     [
         (Line([0, 0], [1, 0]), [1, 1], [1, 0]),
@@ -190,6 +212,23 @@ def test_side_point(line, point, value_expected):
 def test_distance_point(array_point, line, dist_expected):
 
     assert math.isclose(line.distance_point(array_point), dist_expected)
+
+
+@pytest.mark.parametrize(
+    ("array_points", "line"),
+    [
+        ([[0, 0], [8, 7], [20, -3]], Line([0, 0], [1, 0])),
+        ([[0, 0], [8, 7], [20, -3]], Line([0, 0], [0, 1])),
+        ([[0, 0], [8, 7], [20, -3]], Line([0, 1], [1, 0])),
+        ([[0, 0, 0], [8, 7, 13], [20, -3, 1]], Line([0, 0, 0], [1, 0, 0]))
+    ],
+)
+def test_distance_points(array_points, line):
+    distances = line.distance_points(array_points)
+
+    distanecs_expected = [line.distance_point(point) for point in array_points]
+
+    assert np.all(np.isclose(distances, distanecs_expected))
 
 
 @pytest.mark.parametrize(

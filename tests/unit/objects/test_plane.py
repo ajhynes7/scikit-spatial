@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 import pytest
 
@@ -141,6 +142,31 @@ def test_project_point(point, point_plane, normal_plane, point_expected, dist_ex
 
 
 @pytest.mark.parametrize(
+    ("points", "point_plane", "normal_plane"),
+    [
+        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, 1]),
+        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, -1]),
+        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, 50]),
+        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, -50])
+    ],
+)
+def test_project_points(points, point_plane, normal_plane):
+    plane = Plane(point_plane, normal_plane)
+
+    distances = plane.distance_points(points)
+    points_projected = plane.project_points(points)
+    distances_signed = plane.distance_points_signed(points)
+
+    distances_expected = [plane.distance_points(point) for point in points]
+    points_expected = [plane.project_point(point) for point in points]
+    distances_signed_expected = [plane.distance_point_signed(point) for point in points]
+
+    assert np.all(np.isclose(distances, distances_expected))
+    assert np.all(np.isclose(points_projected, points_expected))
+    assert np.all(np.isclose(distances_signed, distances_signed_expected))
+
+
+@pytest.mark.parametrize(
     ("plane", "vector", "vector_expected"),
     [
         (Plane([0, 0, 0], [0, 0, 1]), [1, 1, 0], [1, 1, 0]),
@@ -238,6 +264,26 @@ def test_distance_point(point, plane, dist_signed_expected):
 
     assert math.isclose(plane.distance_point_signed(point), dist_signed_expected)
     assert math.isclose(plane.distance_point(point), abs(dist_signed_expected))
+
+
+@pytest.mark.parametrize(
+    ("points", "plane"),
+    [
+        ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 0], [0, 0, 1])),
+        ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 1], [0, 0, 1])),
+        ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 0], [0, 0, -50]))
+    ],
+)
+def test_distance_points(points, plane):
+    distances = plane.distance_points(points)
+    distances_signed = plane.distance_points_signed(points)
+
+    distanecs_expected = [plane.distance_point(point) for point in points]
+    distances_signed_expected = [plane.distance_points_signed(point) for point in points]
+    
+    assert np.all(np.isclose(distances_signed, distances_signed_expected))
+    assert np.all(np.isclose(distances, np.abs(distances_signed_expected)))
+    assert np.all(np.isclose(distances, distanecs_expected))
 
 
 @pytest.mark.parametrize(

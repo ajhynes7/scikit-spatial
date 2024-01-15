@@ -273,6 +273,37 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return Point(point) + vector_projected
 
+    def project_points(self, points: array_like) -> Points:
+        """
+        Project points onto the plane.
+
+        Parameters
+        ----------
+        points : array_like
+            Input points.
+
+        Returns
+        -------
+        Points
+            Projection of the points onto the plane.
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 2])
+
+        >>> plane.project_points([[10, 2, 5],[1, 2, 3]])
+        Points([[10.,  2.,  0.]
+                [1,    2,   0]])
+
+        """
+        vectors = np.subtract(self.point, points)
+
+        dot_products =  np.dot(vectors, self.normal.unit())
+
+        return Points(dot_products[:, np.newaxis] * self.normal.unit() + points)
+
     def project_vector(self, vector: array_like) -> Vector:
         """
         Project a vector onto the plane.
@@ -392,6 +423,38 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return self.normal.scalar_projection(vector_to_point)
 
+    def distance_points_signed(self, points: array_like) -> np.ndarray:
+        """
+        Return the signed distances from points to the plane.
+
+        Parameters
+        ----------
+        points : array_like
+            Input points.
+
+        Returns
+        -------
+        np.ndarray
+            Signed distances from the points to the plane.
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Point-PlaneDistance.html
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+
+        >>> plane.distance_points_signed([[5, 2, 0], [5, 2, 1], [5, 2, -4], [5, 2, -4]])
+        [0,  1, -4, -4]
+
+        """
+        vectors = np.subtract(points, self.point)
+
+        return np.array(np.dot(vectors, self.normal.unit()))
+
     def distance_point(self, point: array_like) -> np.float64:
         """
         Return the distance from a point to the plane.
@@ -427,6 +490,36 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         """
         return abs(self.distance_point_signed(point))
+
+    def distance_points(self, point: array_like) -> np.ndarray:
+        """
+        Return the distances from points to the plane.
+
+        Parameters
+        ----------
+        points : array_like
+            Input point.
+
+        Returns
+        -------
+        np.ndarray
+            Distances from the points to the plane.
+
+        References
+        ----------
+        http://mathworld.wolfram.com/Point-PlaneDistance.html
+
+        Examples
+        --------
+        >>> from skspatial.objects import Plane
+
+        >>> plane = Plane([0, 0, 0], [0, 0, 1])
+
+        >>> plane.distance_points([[5, 2, 0], [5, 2, 1], [5, 2, -4], [5, 2, -4]])
+        [0,  1, 4, 4]
+
+        """
+        return np.abs(self.distance_points_signed(point))
 
     def side_point(self, point: array_like) -> int:
         """
