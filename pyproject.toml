@@ -19,6 +19,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: BSD License",
     "Natural Language :: English",
+    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -29,9 +30,15 @@ classifiers = [
 packages = [{ include = "skspatial", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
-numpy = "^1.19"
-scipy = "^1.9"
+python = ">=3.8,<3.13"
+numpy = [
+    { version = "^1.24", python = "<3.12" },
+    { version = "^1.26", python = ">=3.12" },
+]
+scipy = [
+    { version = "^1.9", python = "<3.12" },
+    { version = "^1.12", python = ">=3.12" },
+]
 matplotlib = "^3.6"
 
 [tool.poetry.group.base_test.dependencies]
