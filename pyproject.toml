@@ -1,7 +1,7 @@
 [tool.poetry]
 
 name = "scikit-spatial"
-version = "7.1.0"
+version = "7.1.1"
 description = "Spatial objects and computations based on NumPy arrays."
 license = "BSD-3-Clause"
 
