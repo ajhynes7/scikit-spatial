@@ -467,16 +467,17 @@ class Line(_BaseLinePlane):
 
         Examples
         --------
+        >>> import numpy as np
         >>> from skspatial.objects import Line
 
-        >>> Line([0, 0], [0, 1])        
+        >>> line = Line([0, 0], [0, 1])
         >>> line.distance_points([[0, 5], [1,5], [0, 1], [1, 0], [0, 2], [-15, 5], [ 50, 10]])
-        [0, 1, 0, 1, 0, 15, 50]
+        array([0., 1., 0., 1., 0., 15., 50.])
 
         >>> line = Line([0, 0, 0], [0, 0, 1])
         >>> points = Points([[14, -8, 19], [16, 15, 11], [11, 19, 13], [-1,-18, 8], [-17, 1, 11]])
         >>> np.round(line.distance_points(points), 3)
-        [16.125, 21.932, 21.954, 18.028, 17.029]
+        array([16.125, 21.932, 21.954, 18.028, 17.029])
 
         """
         projected_points = self.project_points(points)

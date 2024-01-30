@@ -295,7 +295,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         >>> plane.project_points([[10, 2, 5],[1, 2, 3]])
         Points([[10.,  2.,  0.]
-                [1,    2,   0]])
+                [1.,   2.,  0.]])
 
         """
         vectors = np.subtract(self.point, points)
@@ -448,7 +448,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.distance_points_signed([[5, 2, 0], [5, 2, 1], [5, 2, -4], [5, 2, -4]])
-        [0,  1, -4, -4]
+        array([0.,  1., -4., -4.])
 
         """
         vectors = np.subtract(points, self.point)
