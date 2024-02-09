@@ -275,7 +275,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
     def project_points(self, points: array_like) -> Points:
         """
-        Project points onto the plane.
+        Project multiple points onto the plane.
 
         Parameters
         ----------
@@ -285,7 +285,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         Returns
         -------
         Points
-            Projection of the points onto the plane.
+            Projections of the points onto the plane.
 
         Examples
         --------
@@ -294,8 +294,8 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane(point=[0, 0, 0], normal=[0, 0, 2])
 
         >>> plane.project_points([[10, 2, 5],[1, 2, 3]])
-        Points([[10.,  2.,  0.]
-                [1.,   2.,  0.]])
+        Points([[10.,  2.,  0.],
+                [ 1.,  2.,  0.]])
 
         """
         vectors = np.subtract(self.point, points)
@@ -425,7 +425,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
     def distance_points_signed(self, points: array_like) -> np.ndarray:
         """
-        Return the signed distances from points to the plane.
+        Return the signed distances from multiple points to the plane.
 
         Parameters
         ----------
@@ -448,7 +448,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.distance_points_signed([[5, 2, 0], [5, 2, 1], [5, 2, -4], [5, 2, -4]])
-        array([0.,  1., -4., -4.])
+        array([ 0.,  1., -4., -4.])
 
         """
         vectors = np.subtract(points, self.point)
@@ -516,7 +516,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.distance_points([[5, 2, 0], [5, 2, 1], [5, 2, -4], [5, 2, -4]])
-        [0,  1, 4, 4]
+        array([0., 1., 4., 4.])
 
         """
         return np.abs(self.distance_points_signed(point))

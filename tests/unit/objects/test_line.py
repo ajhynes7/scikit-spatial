@@ -163,8 +163,8 @@ def test_project_points(points, point_line, vector_line):
     distanecs_expected = [line.distance_point(point) for point in points]
     points_expected = [line.project_point(point) for point in points]
 
-    assert np.all(np.isclose(points_projected, points_expected))
-    assert np.all(np.isclose(distances, distanecs_expected))
+    assert np.allclose(points_projected, points_expected)
+    assert np.allclose(distances, distanecs_expected)
 
 
 @pytest.mark.parametrize(
@@ -228,7 +228,7 @@ def test_distance_points(array_points, line):
 
     distanecs_expected = [line.distance_point(point) for point in array_points]
 
-    assert np.all(np.isclose(distances, distanecs_expected))
+    assert np.allclose(distances, distanecs_expected)
 
 
 @pytest.mark.parametrize(

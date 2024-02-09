@@ -161,9 +161,9 @@ def test_project_points(points, point_plane, normal_plane):
     points_expected = [plane.project_point(point) for point in points]
     distances_signed_expected = [plane.distance_point_signed(point) for point in points]
 
-    assert np.all(np.isclose(distances, distances_expected))
-    assert np.all(np.isclose(points_projected, points_expected))
-    assert np.all(np.isclose(distances_signed, distances_signed_expected))
+    assert np.allclose(distances, distances_expected)
+    assert np.allclose(points_projected, points_expected)
+    assert np.allclose(distances_signed, distances_signed_expected)
 
 
 @pytest.mark.parametrize(
@@ -281,9 +281,9 @@ def test_distance_points(points, plane):
     distanecs_expected = [plane.distance_point(point) for point in points]
     distances_signed_expected = [plane.distance_points_signed(point) for point in points]
     
-    assert np.all(np.isclose(distances_signed, distances_signed_expected))
-    assert np.all(np.isclose(distances, np.abs(distances_signed_expected)))
-    assert np.all(np.isclose(distances, distanecs_expected))
+    assert np.allclose(distances_signed, distances_signed_expected)
+    assert np.allclose(distances, np.abs(distances_signed_expected))
+    assert np.allclose(distances, distanecs_expected)
 
 
 @pytest.mark.parametrize(

@@ -28,22 +28,6 @@
 
 |
 
-This branch
------------
-
-This branch adds functions to Line and Plane to project Points and compute the distance to Points. 
-Previously, this would require iteration over the elements in a Points object, which is significantly slower.
-
-New Line functions:
-   - Line.project_points: Project multiple points onto the same line
-   - Line.distance_points: Get the distance from multiple points to the same line
-
-New Plane Functions:
-   - Plane.project_points: Project multiple points onto the same plane
-   - Plane.distance_points: Get the distance from multiple points to a plane
-   - Plane.distance_points_signed: Get the signed distance from multiple points to a plane
-
-
 Introduction
 ------------
 

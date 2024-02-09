@@ -304,7 +304,7 @@ class Line(_BaseLinePlane):
 
     def project_points(self, points: array_like) -> Points:
         """
-        Project points onto the line.
+        Project multiple points onto the line.
 
         Parameters
         ----------
@@ -451,9 +451,9 @@ class Line(_BaseLinePlane):
 
     def distance_points(self, points: array_like) -> np.ndarray:
         """
-        Return the distance from points to the line.
+        Return the distances from points to the line.
 
-        This is the distance from points to their projection on the line.
+        These are the distances from the points to their projections on the line.
 
         Parameters
         ----------
@@ -463,7 +463,7 @@ class Line(_BaseLinePlane):
         Returns
         -------
         np.ndarray
-            Distances from the point to the line.
+            Distances from the points to the line.
 
         Examples
         --------
@@ -472,7 +472,7 @@ class Line(_BaseLinePlane):
 
         >>> line = Line([0, 0], [0, 1])
         >>> line.distance_points([[0, 5], [1,5], [0, 1], [1, 0], [0, 2], [-15, 5], [ 50, 10]])
-        array([0., 1., 0., 1., 0., 15., 50.])
+        array([ 0.,  1.,  0.,  1.,  0., 15., 50.])
 
         >>> line = Line([0, 0, 0], [0, 0, 1])
         >>> points = Points([[14, -8, 19], [16, 15, 11], [11, 19, 13], [-1,-18, 8], [-17, 1, 11]])
