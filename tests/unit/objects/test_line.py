@@ -164,7 +164,7 @@ def test_project_points(points, point_line, vector_line):
     points_expected = [line.project_point(point) for point in points]
 
     assert np.allclose(points_projected, points_expected)
-    assert np.allclose(distances, distanecs_expected)
+    assert np.allclose(distances, distances_expected)
 
 
 @pytest.mark.parametrize(
