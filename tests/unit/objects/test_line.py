@@ -160,7 +160,7 @@ def test_project_points(points, point_line, vector_line):
     distances = line.distance_points(points)
     points_projected = line.project_points(points)
 
-    distanecs_expected = [line.distance_point(point) for point in points]
+    distances_expected = [line.distance_point(point) for point in points]
     points_expected = [line.project_point(point) for point in points]
 
     assert np.allclose(points_projected, points_expected)
