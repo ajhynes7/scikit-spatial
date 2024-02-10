@@ -283,7 +283,7 @@ def test_distance_points(points, plane):
     
     assert np.allclose(distances_signed, distances_signed_expected)
     assert np.allclose(distances, np.abs(distances_signed_expected))
-    assert np.allclose(distances, distanecs_expected)
+    assert np.allclose(distances, distances_expected)
 
 
 @pytest.mark.parametrize(
