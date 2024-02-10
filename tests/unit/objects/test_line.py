@@ -228,7 +228,7 @@ def test_distance_points(array_points, line):
 
     distances_expected = [line.distance_point(point) for point in array_points]
 
-    assert np.allclose(distances, distanecs_expected)
+    assert np.allclose(distances, distances_expected)
 
 
 @pytest.mark.parametrize(
