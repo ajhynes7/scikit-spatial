@@ -279,7 +279,7 @@ def test_distance_points(points, plane):
     distances_signed = plane.distance_points_signed(points)
 
     distances_expected = [plane.distance_point(point) for point in points]
-    distances_signed_expected = [plane.distance_points_signed(point) for point in points]
+    distances_signed_expected = [plane.distance_point_signed(point) for point in points]
     
     assert np.allclose(distances_signed, distances_signed_expected)
     assert np.allclose(distances, np.abs(distances_signed_expected))
