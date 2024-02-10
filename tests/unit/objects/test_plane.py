@@ -157,7 +157,7 @@ def test_project_points(points, point_plane, normal_plane):
     points_projected = plane.project_points(points)
     distances_signed = plane.distance_points_signed(points)
 
-    distances_expected = [plane.distance_points(point) for point in points]
+    distances_expected = [plane.distance_point(point) for point in points]
     points_expected = [plane.project_point(point) for point in points]
     distances_signed_expected = [plane.distance_point_signed(point) for point in points]
 
