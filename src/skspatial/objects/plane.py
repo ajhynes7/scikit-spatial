@@ -498,7 +498,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         Parameters
         ----------
         points : array_like
-            Input point.
+            Input points.
 
         Returns
         -------
