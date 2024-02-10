@@ -226,7 +226,7 @@ def test_distance_point(array_point, line, dist_expected):
 def test_distance_points(array_points, line):
     distances = line.distance_points(array_points)
 
-    distanecs_expected = [line.distance_point(point) for point in array_points]
+    distances_expected = [line.distance_point(point) for point in array_points]
 
     assert np.allclose(distances, distanecs_expected)
 
