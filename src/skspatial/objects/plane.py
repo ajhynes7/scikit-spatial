@@ -493,7 +493,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
     def distance_points(self, point: array_like) -> np.ndarray:
         """
-        Return the distances from points to the plane.
+        Return the distances from multiple points to the plane.
 
         Parameters
         ----------
