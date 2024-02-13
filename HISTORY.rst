@@ -2,6 +2,19 @@
 History
 =======
 
+
+7.2.0 (2024-02-12)
+------------------
+
+Features
+~~~~~~~~
+- Add new methods:
+  - `Line.project_points`
+  - `Line.distance_points`
+  - `Plane.project_points`
+  - `Plane.distance_points`
+
+
 7.1.1 (2024-01-29)
 ------------------
 
