@@ -5,9 +5,9 @@ Point-Plane Projection
 Project a point onto a plane.
 
 """
+
 from skspatial.objects import Plane, Point, Vector
 from skspatial.plotting import plot_3d
-
 
 plane = Plane(point=[0, 0, 2], normal=[1, 0, 2])
 point = Point([5, 9, 3])

@@ -3,7 +3,6 @@ import math
 import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
-
 from skspatial.objects import Vector
 
 
@@ -18,7 +17,6 @@ from skspatial.objects import Vector
     ],
 )
 def test_from_points(array_a, array_b, vector_expected):
-
     assert_array_equal(Vector.from_points(array_a, array_b), vector_expected)
 
 
@@ -36,7 +34,6 @@ def test_from_points(array_a, array_b, vector_expected):
     ],
 )
 def test_unit(array, array_unit_expected):
-
     assert Vector(array).unit().is_close(array_unit_expected)
 
 
@@ -45,7 +42,6 @@ def test_unit(array, array_unit_expected):
     [[0], [0, 0], [0, 0, 0]],
 )
 def test_unit_failure(array):
-
     with pytest.raises(ValueError, match="The magnitude must not be zero."):
         Vector(array).unit()
 
@@ -64,7 +60,6 @@ def test_unit_failure(array):
     ],
 )
 def test_is_zero(array, kwargs, bool_expected):
-
     assert Vector(array).is_zero(**kwargs) == bool_expected
 
 
@@ -84,7 +79,6 @@ def test_is_zero(array, kwargs, bool_expected):
     ],
 )
 def test_cosine_similarity(array_u, array_v, similarity_expected):
-
     similarity = Vector(array_u).cosine_similarity(array_v)
     assert math.isclose(similarity, similarity_expected)
 
@@ -136,7 +130,6 @@ def test_angle_between(array_u, array_v, angle_expected):
     ],
 )
 def test_angle_signed(array_u, array_v, angle_expected):
-
     angle = Vector(array_u).angle_signed(array_v)
     assert math.isclose(angle, angle_expected)
 
@@ -150,7 +143,6 @@ def test_angle_signed(array_u, array_v, angle_expected):
     ],
 )
 def test_angle_signed_failure(array_u, array_v):
-
     with pytest.raises(ValueError, match="The vectors must be 2D."):
         Vector(array_u).angle_signed(array_v)
 
@@ -167,7 +159,6 @@ def test_angle_signed_failure(array_u, array_v):
     ],
 )
 def test_angle_signed_3d(array_u, array_v, direction_positive, angle_expected):
-
     angle = Vector(array_u).angle_signed_3d(array_v, direction_positive)
     assert math.isclose(angle, angle_expected)
 
@@ -187,7 +178,6 @@ def test_angle_signed_3d(array_u, array_v, direction_positive, angle_expected):
     ],
 )
 def test_angle_signed_3d_failure(array_u, array_v, direction_positive, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Vector(array_u).angle_signed_3d(array_v, direction_positive)
 
@@ -260,7 +250,6 @@ def test_is_parallel(array_u, array_v, bool_expected):
     ],
 )
 def test_side_vector(array_a, array_b, value_expected):
-
     assert Vector(array_a).side_vector(array_b) == value_expected
 
 
@@ -273,7 +262,6 @@ def test_side_vector(array_a, array_b, value_expected):
     ],
 )
 def test_side_vector_failure(array_a, array_b):
-
     message_expected = "The vectors must be 2D."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -326,7 +314,6 @@ def test_project_vector(vector_u, vector_v, vector_expected):
     ],
 )
 def test_different_direction(array, array_expected):
-
     vector = Vector(array)
     vector_expected = Vector(array_expected)
 
@@ -343,7 +330,6 @@ def test_different_direction(array, array_expected):
     ],
 )
 def test_different_direction_failure(array):
-
     message_expected = "The vector must not be the zero vector."
 
     with pytest.raises(ValueError, match=message_expected):

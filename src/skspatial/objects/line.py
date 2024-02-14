@@ -1,4 +1,5 @@
 """Module for the Line class."""
+
 from __future__ import annotations
 
 from typing import Optional
@@ -11,8 +12,7 @@ from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _connect_points_2d
-from skspatial.plotting import _connect_points_3d
+from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.transformation import transform_coordinates
 from skspatial.typing import array_like
 
@@ -85,7 +85,6 @@ class Line(_BaseLinePlane):
     """
 
     def __init__(self, point: array_like, direction: array_like):
-
         super().__init__(point, direction)
 
         self.direction = self.vector
@@ -336,7 +335,7 @@ class Line(_BaseLinePlane):
 
         # Project the vectors onto the line.
         dot_products = np.dot(vectors, self.direction.unit())
-        
+
         # Add the projected vector to the point on the line.
         projected_points = Points(dot_products[:, np.newaxis] * self.direction.unit() + self.point)
 
@@ -481,9 +480,9 @@ class Line(_BaseLinePlane):
 
         """
         projected_points = self.project_points(points)
-        
+
         distances = np.linalg.norm(points - projected_points, axis=1)
-        
+
         return distances
 
     def distance_line(self, other: Line) -> np.float64:

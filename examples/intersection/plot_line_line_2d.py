@@ -3,9 +3,9 @@
 =========================
 
 """
+
 from skspatial.objects import Line
 from skspatial.plotting import plot_2d
-
 
 line_a = Line(point=[0, 0], direction=[1, 1.5])
 line_b = Line(point=[5, 0], direction=[-1, 1])

@@ -3,10 +3,7 @@ from math import sqrt
 
 import numpy as np
 import pytest
-
-from skspatial.objects import Line
-from skspatial.objects import Points
-from skspatial.objects import Sphere
+from skspatial.objects import Line, Points, Sphere
 
 POINT_MUST_BE_3D = "The point must be 3D."
 RADIUS_MUST_BE_POSITIVE = "The radius must be positive."
@@ -25,7 +22,6 @@ RADIUS_MUST_BE_POSITIVE = "The radius must be positive."
     ],
 )
 def test_failure(point, radius, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Sphere(point, radius)
 
@@ -41,7 +37,6 @@ def test_failure(point, radius, message_expected):
     ],
 )
 def test_surface_area_volume(radius, surface_area_expected, volume_expected):
-
     sphere = Sphere([0, 0, 0], radius)
 
     assert math.isclose(sphere.surface_area(), surface_area_expected)
@@ -61,7 +56,6 @@ def test_surface_area_volume(radius, surface_area_expected, volume_expected):
     ],
 )
 def test_distance_point(sphere, point, dist_expected):
-
     assert math.isclose(sphere.distance_point(point), dist_expected)
 
 
@@ -82,7 +76,6 @@ def test_distance_point(sphere, point, dist_expected):
     ],
 )
 def test_contains_point(sphere, point, bool_expected):
-
     assert sphere.contains_point(point) == bool_expected
 
 
@@ -98,7 +91,6 @@ def test_contains_point(sphere, point, bool_expected):
     ],
 )
 def test_project_point(sphere, point, point_expected):
-
     point_projected = sphere.project_point(point)
     assert point_projected.is_close(point_expected)
 
@@ -112,7 +104,6 @@ def test_project_point(sphere, point, point_expected):
     ],
 )
 def test_project_point_failure(sphere, point):
-
     message_expected = "The point must not be the center of the circle or sphere."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -128,7 +119,6 @@ def test_project_point_failure(sphere, point):
     ],
 )
 def test_best_fit(points, sphere_expected):
-
     points = Points(points)
     sphere_fit = Sphere.best_fit(points)
 
@@ -145,7 +135,6 @@ def test_best_fit(points, sphere_expected):
     ],
 )
 def test_best_fit_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Sphere.best_fit(points)
 
@@ -171,7 +160,6 @@ def test_best_fit_failure(points, message_expected):
     ],
 )
 def test_intersect_line(sphere, line, point_a_expected, point_b_expected):
-
     point_a, point_b = sphere.intersect_line(line)
 
     assert point_a.is_close(point_a_expected)
@@ -189,7 +177,6 @@ def test_intersect_line(sphere, line, point_a_expected, point_b_expected):
     ],
 )
 def test_intersect_line_failure(sphere, line):
-
     message_expected = "The line does not intersect the sphere."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -208,7 +195,6 @@ def test_intersect_line_failure(sphere, line):
     ],
 )
 def test_to_points(sphere, n_angles, points_expected):
-
     array_rounded = sphere.to_points(n_angles=n_angles).round(3)
     points_unique = Points(array_rounded).unique()
 

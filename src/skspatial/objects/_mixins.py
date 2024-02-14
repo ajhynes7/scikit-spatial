@@ -1,6 +1,6 @@
 """Mixin classes."""
-from typing import Callable
-from typing import Tuple
+
+from typing import Callable, Tuple
 
 import numpy as np
 
@@ -9,7 +9,6 @@ from skspatial.objects.points import Points
 
 
 class _ToPointsMixin:
-
     to_mesh: Callable[..., Tuple[np.ndarray, np.ndarray, np.ndarray]]
 
     def to_points(self, **kwargs) -> Points:

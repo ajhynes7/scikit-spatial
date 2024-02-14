@@ -1,12 +1,9 @@
 import math
+
 import numpy as np
-
 import pytest
-
 from skspatial._functions import _allclose
-from skspatial.objects import Line
-from skspatial.objects import Plane
-from skspatial.objects import Points
+from skspatial.objects import Line, Plane, Points
 
 
 @pytest.mark.parametrize(
@@ -22,7 +19,6 @@ from skspatial.objects import Points
     ],
 )
 def test_from_vectors(array_point, array_a, array_b, plane_expected):
-
     plane = Plane.from_vectors(array_point, array_a, array_b)
 
     assert plane.is_close(plane_expected)
@@ -43,7 +39,6 @@ def test_from_vectors(array_point, array_a, array_b, plane_expected):
     ],
 )
 def test_from_vectors_failure(array_point, array_a, array_b):
-
     message_expected = "The vectors must not be parallel."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -63,7 +58,6 @@ def test_from_vectors_failure(array_point, array_a, array_b):
     ],
 )
 def test_from_points(point_a, point_b, point_c, plane_expected):
-
     plane = Plane.from_points(point_a, point_b, point_c)
 
     assert plane.point.is_close(plane_expected.point)
@@ -81,7 +75,6 @@ def test_from_points(point_a, point_b, point_c, plane_expected):
     ],
 )
 def test_from_points_failure(point_a, point_b, point_c):
-
     message_expected = "The points must not be collinear."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -112,7 +105,6 @@ def test_cartesian(plane, coeffs_expected):
     ],
 )
 def test_cartesian_failure(plane):
-
     with pytest.raises(ValueError, match="The plane dimension must be <= 3."):
         plane.cartesian()
 
@@ -147,7 +139,7 @@ def test_project_point(point, point_plane, normal_plane, point_expected, dist_ex
         ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, 1]),
         ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, -1]),
         ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, 50]),
-        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, -50])
+        ([[5, 9, 1], [6, 3, 9], [8, 8, 8], [4, 2, 6], [1, 3, 10]], [0, 0, 0], [0, 0, -50]),
     ],
 )
 def test_project_points(points, point_plane, normal_plane):
@@ -176,7 +168,6 @@ def test_project_points(points, point_plane, normal_plane):
     ],
 )
 def test_project_vector(plane, vector, vector_expected):
-
     vector_projected = plane.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
 
@@ -217,7 +208,6 @@ def test_project_vector(plane, vector, vector_expected):
     ],
 )
 def test_project_line(plane, line, line_expected):
-
     line_projected = plane.project_line(line)
 
     assert line_projected.point.is_close(line_expected.point)
@@ -242,7 +232,6 @@ def test_project_line(plane, line, line_expected):
     ],
 )
 def test_project_line_failure(plane, line):
-
     message_expected = "The line and plane must not be perpendicular."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -261,7 +250,6 @@ def test_project_line_failure(plane, line):
     ],
 )
 def test_distance_point(point, plane, dist_signed_expected):
-
     assert math.isclose(plane.distance_point_signed(point), dist_signed_expected)
     assert math.isclose(plane.distance_point(point), abs(dist_signed_expected))
 
@@ -271,7 +259,7 @@ def test_distance_point(point, plane, dist_signed_expected):
     [
         ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 0], [0, 0, 1])),
         ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 1], [0, 0, 1])),
-        ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 0], [0, 0, -50]))
+        ([[0, 0, 0], [50, -67, 0], [50, -67, 0], [5, 3, 8], [5, 3, 7], [5, 3, -8]], Plane([0, 0, 0], [0, 0, -50])),
     ],
 )
 def test_distance_points(points, plane):
@@ -280,7 +268,7 @@ def test_distance_points(points, plane):
 
     distances_expected = [plane.distance_point(point) for point in points]
     distances_signed_expected = [plane.distance_point_signed(point) for point in points]
-    
+
     assert np.allclose(distances_signed, distances_signed_expected)
     assert np.allclose(distances, np.abs(distances_signed_expected))
     assert np.allclose(distances, distances_expected)
@@ -304,7 +292,6 @@ def test_distance_points(points, plane):
     ],
 )
 def test_side_point(plane, point, value_expected):
-
     assert plane.side_point(point) == value_expected
 
 
@@ -317,7 +304,6 @@ def test_side_point(plane, point, value_expected):
     ],
 )
 def test_intersect_line(line, plane, array_expected):
-
     point_intersection = plane.intersect_line(line)
     assert point_intersection.is_close(array_expected)
 
@@ -331,7 +317,6 @@ def test_intersect_line(line, plane, array_expected):
     ],
 )
 def test_intersect_line_failure(line, plane):
-
     message_expected = "The line and plane must not be parallel."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -359,7 +344,6 @@ def test_intersect_line_failure(line, plane):
     ],
 )
 def test_intersect_plane(plane_a, plane_b, line_expected):
-
     line_intersection = plane_a.intersect_plane(plane_b)
     assert line_intersection.is_close(line_expected)
 
@@ -374,7 +358,6 @@ def test_intersect_plane(plane_a, plane_b, line_expected):
     ],
 )
 def test_intersect_plane_failure(plane_a, plane_b):
-
     message_expected = "The planes must not be parallel."
 
     with pytest.raises(Exception, match=message_expected):
@@ -393,7 +376,6 @@ def test_intersect_plane_failure(plane_a, plane_b):
     ],
 )
 def test_sum_squares_plane(plane, points, error_expected):
-
     error = plane.sum_squares(points)
     assert math.isclose(error, error_expected)
 
@@ -448,7 +430,6 @@ def test_sum_squares_plane(plane, points, error_expected):
     ],
 )
 def test_best_fit(points, plane_expected):
-
     points = Points(points).set_dimension(3)
     plane_fit = Plane.best_fit(points)
 
@@ -472,7 +453,6 @@ def test_best_fit(points, plane_expected):
     ],
 )
 def test_best_fit_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Plane.best_fit(points)
 
@@ -496,7 +476,6 @@ def test_best_fit_failure(points, message_expected):
     ],
 )
 def test_to_points(plane, points_expected):
-
     points = plane.to_points()
 
     assert points.is_close(points_expected)

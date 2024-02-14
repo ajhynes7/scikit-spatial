@@ -2,10 +2,7 @@ import math
 
 import numpy as np
 import pytest
-
-from skspatial.objects import Circle
-from skspatial.objects import Line
-from skspatial.objects import Points
+from skspatial.objects import Circle, Line, Points
 
 POINT_MUST_BE_2D = "The point must be 2D."
 RADIUS_MUST_BE_POSITIVE = "The radius must be positive."
@@ -29,7 +26,6 @@ CIRCLE_CONTAINED_IN_OTHER = "The circles do not intersect. One circle is contain
     ],
 )
 def test_failure(point, radius, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Circle(point, radius)
 
@@ -43,7 +39,6 @@ def test_failure(point, radius, message_expected):
     ],
 )
 def test_from_points(point_a, point_b, point_c, circle_expected):
-
     circle = Circle.from_points(point_a, point_b, point_c)
 
     assert circle.point.is_close(circle_expected.point)
@@ -61,7 +56,6 @@ def test_from_points(point_a, point_b, point_c, circle_expected):
     ],
 )
 def test_from_points_failure(point_a, point_b, point_c, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Circle.from_points(point_a, point_b, point_c)
 
@@ -77,7 +71,6 @@ def test_from_points_failure(point_a, point_b, point_c, message_expected):
     ],
 )
 def test_circumference_area(radius, circumference_expected, area_expected):
-
     circle = Circle([0, 0], radius)
 
     assert math.isclose(circle.circumference(), circumference_expected)
@@ -100,7 +93,6 @@ def test_circumference_area(radius, circumference_expected, area_expected):
     ],
 )
 def test_distance_point(circle, point, dist_expected):
-
     assert math.isclose(circle.distance_point(point), dist_expected)
 
 
@@ -119,7 +111,6 @@ def test_distance_point(circle, point, dist_expected):
     ],
 )
 def test_contains_point(circle, point, bool_expected):
-
     assert circle.contains_point(point) == bool_expected
 
 
@@ -138,7 +129,6 @@ def test_contains_point(circle, point, bool_expected):
     ],
 )
 def test_project_point(circle, point, point_expected):
-
     point_projected = circle.project_point(point)
     assert point_projected.is_close(point_expected)
 
@@ -152,7 +142,6 @@ def test_project_point(circle, point, point_expected):
     ],
 )
 def test_project_point_failure(circle, point):
-
     message_expected = "The point must not be the center of the circle or sphere."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -168,7 +157,6 @@ def test_project_point_failure(circle, point):
     ],
 )
 def test_best_fit(points, circle_expected):
-
     points = Points(points)
     circle_fit = Circle.best_fit(points)
 
@@ -185,7 +173,6 @@ def test_best_fit(points, circle_expected):
     ],
 )
 def test_best_fit_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Circle.best_fit(points)
 
@@ -203,7 +190,6 @@ def test_best_fit_failure(points, message_expected):
     ],
 )
 def test_intersect_circle(circle_a, circle_b, point_a_expected, point_b_expected):
-
     point_a, point_b = circle_a.intersect_circle(circle_b)
 
     assert point_a.is_close(point_a_expected)
@@ -222,7 +208,6 @@ def test_intersect_circle(circle_a, circle_b, point_a_expected, point_b_expected
     ],
 )
 def test_intersect_circle_failure(circle_a, circle_b, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         circle_a.intersect_circle(circle_b)
 
@@ -244,7 +229,6 @@ def test_intersect_circle_failure(circle_a, circle_b, message_expected):
     ],
 )
 def test_intersect_line(circle, line, point_a_expected, point_b_expected):
-
     point_a, point_b = circle.intersect_line(line)
 
     assert point_a.is_close(point_a_expected)
@@ -264,7 +248,6 @@ def test_intersect_line(circle, line, point_a_expected, point_b_expected):
     ],
 )
 def test_intersect_line_failure(circle, line):
-
     message_expected = "The line does not intersect the circle."
 
     with pytest.raises(ValueError, match=message_expected):

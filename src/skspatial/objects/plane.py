@@ -1,8 +1,8 @@
 """Module for the Plane class."""
+
 from __future__ import annotations
 
-from typing import Optional
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -84,7 +84,6 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
     """
 
     def __init__(self, point: array_like, normal: array_like):
-
         super().__init__(point, normal)
         self.normal = self.vector
 
@@ -300,7 +299,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         """
         vectors = np.subtract(self.point, points)
 
-        dot_products =  np.dot(vectors, self.normal.unit())
+        dot_products = np.dot(vectors, self.normal.unit())
 
         return Points(dot_products[:, np.newaxis] * self.normal.unit() + points)
 

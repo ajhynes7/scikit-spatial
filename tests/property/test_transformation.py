@@ -1,17 +1,14 @@
 import hypothesis.strategies as st
 import numpy as np
-from hypothesis import assume
-from hypothesis import given
+from hypothesis import assume, given
 from numpy.testing import assert_array_almost_equal
 
 from tests.property.constants import ATOL
-from tests.property.strategies import lines
-from tests.property.strategies import multi_points
+from tests.property.strategies import lines, multi_points
 
 
 @given(st.data())
 def test_mean_center(data):
-
     dim = data.draw(st.integers(min_value=2, max_value=5))
     points = data.draw(multi_points(dim))
 
@@ -26,7 +23,6 @@ def test_mean_center(data):
 
 @given(st.data())
 def test_normalize_distance(data):
-
     dim = data.draw(st.integers(min_value=2, max_value=5))
     points = data.draw(multi_points(dim))
 
@@ -40,7 +36,6 @@ def test_normalize_distance(data):
 
 @given(st.data())
 def test_transform_points_line(data):
-
     dim = data.draw(st.integers(min_value=2, max_value=5))
     points = data.draw(multi_points(dim))
 

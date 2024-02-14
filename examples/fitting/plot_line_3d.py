@@ -5,9 +5,9 @@
 Fit a line to multiple 3D points.
 
 """
+
 from skspatial.objects import Line, Points
 from skspatial.plotting import plot_3d
-
 
 points = Points(
     [

@@ -3,9 +3,9 @@ Plane-Plane Intersection
 ========================
 
 """
+
 from skspatial.objects import Plane
 from skspatial.plotting import plot_3d
-
 
 plane_a = Plane([0, 0, 0], [1, 0, 0])
 plane_b = Plane([0, 0, 0], [1, 0, 1])

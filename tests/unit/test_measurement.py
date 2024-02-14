@@ -2,10 +2,7 @@ import math
 
 import numpy as np
 import pytest
-
-from skspatial.measurement import area_signed
-from skspatial.measurement import area_triangle
-from skspatial.measurement import volume_tetrahedron
+from skspatial.measurement import area_signed, area_triangle, volume_tetrahedron
 from skspatial.objects import Points
 
 
@@ -22,7 +19,6 @@ from skspatial.objects import Points
     ],
 )
 def test_area_triangle(array_a, array_b, array_c, area_expected):
-
     area = area_triangle(array_a, array_b, array_c)
     assert math.isclose(area, area_expected)
 
@@ -40,7 +36,6 @@ def test_area_triangle(array_a, array_b, array_c, area_expected):
     ],
 )
 def test_volume_tetrahedron(array_a, array_b, array_c, array_d, volume_expected):
-
     volume = volume_tetrahedron(array_a, array_b, array_c, array_d)
     assert math.isclose(volume, volume_expected)
 
@@ -65,7 +60,6 @@ def test_volume_tetrahedron(array_a, array_b, array_c, array_d, volume_expected)
     ],
 )
 def test_area_signed(points, area_expected):
-
     points = Points(points)
     area = area_signed(points)
 
@@ -80,6 +74,5 @@ def test_area_signed(points, area_expected):
     ],
 )
 def test_area_signed_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         area_signed(points)

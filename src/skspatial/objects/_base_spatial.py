@@ -1,18 +1,15 @@
 class _PlotterMixin:
-
     dimension: int
 
     def plotter(self, **kwargs):
         """Return a function that plots the object when passed a matplotlib axes."""
         if self.dimension == 2:
-
             if not hasattr(self, 'plot_2d'):
                 raise ValueError("The object cannot be plotted in 2D.")
 
             return lambda ax: self.plot_2d(ax, **kwargs)
 
         if self.dimension == 3:
-
             if not hasattr(self, 'plot_3d'):
                 raise ValueError("The object cannot be plotted in 3D.")
 

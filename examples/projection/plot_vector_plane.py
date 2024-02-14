@@ -5,9 +5,9 @@ Vector-Plane Projection
 Project a vector onto a plane.
 
 """
+
 from skspatial.objects import Plane, Vector
 from skspatial.plotting import plot_3d
-
 
 plane = Plane([0, 0, 0], [0, 0, 1])
 vector = Vector([1, 1, 1])

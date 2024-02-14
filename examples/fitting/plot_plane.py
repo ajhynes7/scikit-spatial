@@ -5,9 +5,9 @@
 Fit a plane to multiple 3D points.
 
 """
+
 from skspatial.objects import Plane, Points
 from skspatial.plotting import plot_3d
-
 
 points = Points([[0, 0, 0], [1, 3, 5], [-5, 6, 3], [3, 6, 7], [-2, 6, 7]])
 

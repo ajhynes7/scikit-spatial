@@ -1,4 +1,5 @@
 """Module for the Sphere class."""
+
 from __future__ import annotations
 
 import math
@@ -73,7 +74,6 @@ class Sphere(_BaseSphere, _ToPointsMixin):
     """
 
     def __init__(self, point: array_like, radius: float):
-
         super().__init__(point, radius)
 
         if self.point.dimension != 3:

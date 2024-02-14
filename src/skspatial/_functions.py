@@ -1,11 +1,10 @@
 """Private functions for some spatial computations."""
+
 from __future__ import annotations
 
 import math
 from functools import wraps
-from typing import Any
-from typing import Callable
-from typing import Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -61,6 +60,7 @@ def np_float(func: Callable) -> Callable[..., np.float64]:
     Outputs with type np.float64 have a useful round() method.
 
     """
+
     # wraps() is needed so that sphinx generates
     # the docstring of functions with this decorator.
     @wraps(func)

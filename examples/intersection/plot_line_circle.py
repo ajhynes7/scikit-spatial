@@ -3,10 +3,9 @@ Circle-Line Intersection
 ========================
 
 """
-from skspatial.objects import Circle
-from skspatial.objects import Line
-from skspatial.plotting import plot_2d
 
+from skspatial.objects import Circle, Line
+from skspatial.plotting import plot_2d
 
 circle = Circle([0, 0], 5)
 line = Line([0, 0], [1, 1])

@@ -3,9 +3,9 @@ Circle-Circle Intersection
 ==========================
 
 """
+
 from skspatial.objects import Circle
 from skspatial.plotting import plot_2d
-
 
 circle_a = Circle([0, 0], 2)
 circle_b = Circle([2, 0], 1)

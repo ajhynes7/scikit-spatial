@@ -1,6 +1,6 @@
 """Private base classes for arrays."""
-from typing import Type
-from typing import TypeVar
+
+from typing import Type, TypeVar
 
 import numpy as np
 
@@ -20,7 +20,6 @@ class _BaseArray(np.ndarray, _BaseSpatial):
     """Private base class for spatial objects based on a single NumPy array."""
 
     def __new__(cls: Type[Array], array: array_like) -> Array:
-
         if np.size(array) == 0:
             raise ValueError("The array must not be empty.")
 
@@ -124,7 +123,6 @@ class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
     def __new__(cls: Type[Array1D], array: array_like) -> Array1D:
-
         obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
 
         if obj.ndim != 1:
@@ -135,7 +133,6 @@ class _BaseArray1D(_BaseArray):
         return obj
 
     def __array_finalize__(self, _) -> None:
-
         self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
@@ -187,7 +184,6 @@ class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
     def __new__(cls: Type[Array2D], array: array_like) -> Array2D:
-
         obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
 
         if obj.ndim != 2:
@@ -248,7 +244,6 @@ class _BaseArray2D(_BaseArray):
         return self.__class__(array_padded)
 
     def __array_finalize__(self, _) -> None:
-
         try:
             self.dimension = self.shape[1]
 

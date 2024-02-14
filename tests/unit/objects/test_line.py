@@ -2,13 +2,8 @@ import math
 
 import numpy as np
 import pytest
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_equal
-
-from skspatial.objects import Line
-from skspatial.objects import Plane
-from skspatial.objects import Point
-from skspatial.objects import Points
+from numpy.testing import assert_array_almost_equal, assert_array_equal
+from skspatial.objects import Line, Plane, Point
 
 INPUT_MUST_ALSO_BE_LINE = "The input must also be a line."
 POINTS_MUST_NOT_BE_CONCURRENT = "The points must not be concurrent."
@@ -31,7 +26,6 @@ LINES_MUST_NOT_BE_PARALLEL = "The lines must not be parallel."
     ],
 )
 def test_from_points(array_a, array_b, line_expected):
-
     assert Line.from_points(array_a, array_b).is_close(line_expected)
 
 
@@ -45,7 +39,6 @@ def test_from_points(array_a, array_b, line_expected):
     ],
 )
 def test_from_points_failure(array_a, array_b):
-
     message_expected = "The vector must not be the zero vector."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -67,7 +60,6 @@ def test_from_points_failure(array_a, array_b):
     ],
 )
 def test_from_slope(slope, y_intercept, line_expected):
-
     assert Line.from_slope(slope, y_intercept).is_close(line_expected)
 
 
@@ -86,7 +78,6 @@ def test_from_slope(slope, y_intercept, line_expected):
     ],
 )
 def test_to_point(line, param, array_expected):
-
     point = line.to_point(t=param)
 
     assert_array_equal(point, array_expected)
@@ -103,7 +94,6 @@ def test_to_point(line, param, array_expected):
     ],
 )
 def test_is_coplanar(line_a, line_b, bool_expected):
-
     assert line_a.is_coplanar(line_b) == bool_expected
 
 
@@ -115,7 +105,6 @@ def test_is_coplanar(line_a, line_b, bool_expected):
     ],
 )
 def test_is_coplanar_failure(line_a, line_b):
-
     message_expected = "The input must also be a line."
 
     with pytest.raises(TypeError, match=message_expected):
@@ -136,7 +125,6 @@ def test_is_coplanar_failure(line_a, line_b):
     ],
 )
 def test_project_point(point, point_line, vector_line, point_expected, dist_expected):
-
     line = Line(point_line, vector_line)
 
     point_projected = line.project_point(point)
@@ -151,7 +139,7 @@ def test_project_point(point, point_line, vector_line, point_expected, dist_expe
     [
         ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [0, 0], [0, 1]),
         ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [0, 0], [0, 100]),
-        ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [1, -5], [0, 3])
+        ([[0, 5], [1, 5], [0, 1], [1, 0], [0, 2], [-15, 5], [50, 10]], [1, -5], [0, 3]),
     ],
 )
 def test_project_points(points, point_line, vector_line):
@@ -177,7 +165,6 @@ def test_project_points(points, point_line, vector_line):
     ],
 )
 def test_project_vector(line, vector, vector_expected):
-
     vector_projected = line.project_vector(vector)
     assert vector_projected.is_close(vector_expected)
 
@@ -196,7 +183,6 @@ def test_project_vector(line, vector, vector_expected):
     ],
 )
 def test_side_point(line, point, value_expected):
-
     assert line.side_point(point) == value_expected
 
 
@@ -210,7 +196,6 @@ def test_side_point(line, point, value_expected):
     ],
 )
 def test_distance_point(array_point, line, dist_expected):
-
     assert math.isclose(line.distance_point(array_point), dist_expected)
 
 
@@ -220,7 +205,7 @@ def test_distance_point(array_point, line, dist_expected):
         ([[0, 0], [8, 7], [20, -3]], Line([0, 0], [1, 0])),
         ([[0, 0], [8, 7], [20, -3]], Line([0, 0], [0, 1])),
         ([[0, 0], [8, 7], [20, -3]], Line([0, 1], [1, 0])),
-        ([[0, 0, 0], [8, 7, 13], [20, -3, 1]], Line([0, 0, 0], [1, 0, 0]))
+        ([[0, 0, 0], [8, 7, 13], [20, -3, 1]], Line([0, 0, 0], [1, 0, 0])),
     ],
 )
 def test_distance_points(array_points, line):
@@ -247,7 +232,6 @@ def test_distance_points(array_points, line):
     ],
 )
 def test_distance_line(line_a, line_b, dist_expected):
-
     assert math.isclose(line_a.distance_line(line_b), dist_expected)
 
 
@@ -264,7 +248,6 @@ def test_distance_line(line_a, line_b, dist_expected):
     ],
 )
 def test_intersect_line(line_a, line_b, array_expected, check_coplanar):
-
     point_intersection = line_a.intersect_line(line_b, check_coplanar)
     assert point_intersection.is_close(array_expected)
 
@@ -301,7 +284,6 @@ def test_intersect_line(line_a, line_b, array_expected, check_coplanar):
     ],
 )
 def test_intersect_line_failure(line_a, line_b, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         line_a.intersect_line(line_b)
 
@@ -318,7 +300,6 @@ def test_intersect_line_failure(line_a, line_b, message_expected):
     ],
 )
 def test_sum_squares(line, points, error_expected):
-
     error = line.sum_squares(points)
     assert math.isclose(error, error_expected)
 
@@ -336,7 +317,6 @@ def test_sum_squares(line, points, error_expected):
     ],
 )
 def test_best_fit(points, line_expected):
-
     line_fit = Line.best_fit(np.array(points))
 
     assert line_fit.is_close(line_expected)
@@ -353,7 +333,6 @@ def test_best_fit(points, line_expected):
     ],
 )
 def test_best_fit_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Line.best_fit(points)
 
@@ -388,6 +367,5 @@ def test_best_fit_failure(points, message_expected):
     ],
 )
 def test_transform_points(line, points, coords_expected):
-
     coordinates = line.transform_points(points)
     assert_array_almost_equal(coordinates, coords_expected)

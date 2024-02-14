@@ -1,10 +1,8 @@
 """Test functionality of objects based on a NumPy array (Point, Vector, and Points)."""
+
 import numpy as np
 import pytest
-
-from skspatial.objects import Point
-from skspatial.objects import Points
-from skspatial.objects import Vector
+from skspatial.objects import Point, Points, Vector
 
 
 @pytest.mark.parametrize("class_spatial", [Point, Vector, Points])
@@ -17,7 +15,6 @@ from skspatial.objects import Vector
     ],
 )
 def test_failure_from_different_lengths(class_spatial, array):
-
     with pytest.raises(ValueError):  # noqa: PT011
         class_spatial(array)
 
@@ -32,7 +29,6 @@ def test_failure_from_different_lengths(class_spatial, array):
     ],
 )
 def test_failure_from_empty_array(class_spatial, array):
-
     message_expected = "The array must not be empty."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -50,7 +46,6 @@ def test_failure_from_empty_array(class_spatial, array):
     ],
 )
 def test_failure_from_infinite_values(class_spatial, array):
-
     message_expected = "The values must all be finite."
 
     with pytest.raises(ValueError, match=message_expected):

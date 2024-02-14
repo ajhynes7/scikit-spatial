@@ -5,7 +5,6 @@ from tests.property.strategies import triangles
 
 @given(triangles(2))
 def test_orthocenter(triangle):
-
     point_orthocenter = triangle.orthocenter()
 
     alt_a = triangle.altitude('A')

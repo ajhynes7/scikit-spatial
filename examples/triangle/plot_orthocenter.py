@@ -5,9 +5,9 @@ Triangle with Altitudes and Orthocenter
 Plotting a triangle with its three altitudes and their intersection point, the orthocenter.
 
 """
+
 from skspatial.objects import Triangle
 from skspatial.plotting import plot_2d
-
 
 triangle = Triangle([0, 0], [2, 0], [1, 2])
 

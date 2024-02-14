@@ -1,18 +1,14 @@
 import math
 
 from hypothesis import given
-
 from skspatial.objects import Line
+
 from tests.property.constants import ATOL
-from tests.property.strategies import consistent_dim
-from tests.property.strategies import lines
-from tests.property.strategies import points
-from tests.property.strategies import vectors_nonzero
+from tests.property.strategies import consistent_dim, lines, points, vectors_nonzero
 
 
 @given(consistent_dim([points, vectors_nonzero]))
 def test_from_points(objs):
-
     point_a, vector = objs
     point_b = point_a + vector
 
@@ -29,7 +25,6 @@ def test_from_points(objs):
 
 @given(consistent_dim(2 * [lines]))
 def test_two_lines(lines):
-
     line_a, line_b = lines
 
     if line_a.direction.is_parallel(line_b.direction, rel_tol=0, abs_tol=0):

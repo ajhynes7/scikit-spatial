@@ -2,23 +2,15 @@ import math
 
 import numpy as np
 import pytest
-from hypothesis import assume
-from hypothesis import given
+from hypothesis import assume, given
+from skspatial.objects import Point, Vector
 
-from skspatial.objects import Point
-from skspatial.objects import Vector
 from tests.property.constants import ATOL
-from tests.property.strategies import arrays
-from tests.property.strategies import arrays_fixed
-from tests.property.strategies import arrays_fixed_nonzero
-from tests.property.strategies import arrays_nonzero
-from tests.property.strategies import consistent_dim
-from tests.property.strategies import floats
+from tests.property.strategies import arrays, arrays_fixed, arrays_fixed_nonzero, arrays_nonzero, consistent_dim, floats
 
 
 @given(consistent_dim(2 * [arrays_fixed]))
 def test_from_points(arrays):
-
     array_a, array_b = arrays
 
     point_a = Point(array_a)
@@ -29,7 +21,6 @@ def test_from_points(arrays):
 
 @given(arrays_nonzero)
 def test_unit(array):
-
     vector = Vector(array)
     vector_unit = vector.unit()
 
@@ -50,7 +41,6 @@ def test_add_subtract(array):
 
 @given(arrays_nonzero, floats)
 def test_scale(array, scalar):
-
     assume(abs(scalar) > ATOL)
 
     vector = Vector(array)
@@ -68,7 +58,6 @@ def test_scale(array, scalar):
 
 @given(consistent_dim(2 * [arrays_fixed_nonzero]))
 def test_two_vectors(arrays):
-
     array_a, array_b = arrays
     vector_a = Vector(array_a)
 

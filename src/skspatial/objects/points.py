@@ -1,4 +1,5 @@
 """Module for the Points class."""
+
 from __future__ import annotations
 
 from typing import cast
@@ -10,8 +11,7 @@ from numpy.linalg import matrix_rank
 
 from skspatial.objects._base_array import _BaseArray2D
 from skspatial.objects.point import Point
-from skspatial.plotting import _scatter_2d
-from skspatial.plotting import _scatter_3d
+from skspatial.plotting import _scatter_2d, _scatter_3d
 
 
 class Points(_BaseArray2D):
