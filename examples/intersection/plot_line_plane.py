@@ -3,9 +3,9 @@ Plane-Line Intersection
 =======================
 
 """
+
 from skspatial.objects import Line, Plane
 from skspatial.plotting import plot_3d
-
 
 plane = Plane(point=[0, 0, 0], normal=[1, 1, 1])
 line = Line(point=[-1, -1, 0], direction=[0, 0, 1])

@@ -1,16 +1,13 @@
 """Test behaviour of points with vectors."""
-from hypothesis import given
 
-from skspatial.objects import Point
-from skspatial.objects import Vector
-from tests.property.strategies import arrays
-from tests.property.strategies import arrays_fixed
-from tests.property.strategies import consistent_dim
+from hypothesis import given
+from skspatial.objects import Point, Vector
+
+from tests.property.strategies import arrays, arrays_fixed, consistent_dim
 
 
 @given(consistent_dim(2 * [arrays_fixed]))
 def test_add(arrays):
-
     array_a, array_b = arrays
 
     # Add and subtract the array to obtain the same point.
@@ -19,7 +16,6 @@ def test_add(arrays):
 
 @given(arrays)
 def test_is_close(array):
-
     vector = Vector(array)
     point = Point(array)
 

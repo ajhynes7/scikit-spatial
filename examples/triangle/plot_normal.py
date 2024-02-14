@@ -5,9 +5,9 @@ Triangle with Normal Vector
 Plotting a triangle with its normal vector. The tail of the vector is set to be the triangle centroid.
 
 """
+
 from skspatial.objects import Triangle
 from skspatial.plotting import plot_3d
-
 
 triangle = Triangle([0, 0, 1], [1, 1, 0], [0, 2, 1])
 

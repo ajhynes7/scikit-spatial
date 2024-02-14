@@ -1,4 +1,5 @@
 """Constants used for property tests."""
+
 # Minimum absolute value of floats.
 FLOAT_MIN = 1e-3
 

@@ -1,16 +1,12 @@
-from hypothesis import assume
-from hypothesis import given
+from hypothesis import assume, given
+from skspatial.objects import Plane, Points
 
-from skspatial.objects import Plane
-from skspatial.objects import Points
 from tests.property.constants import ATOL
-from tests.property.strategies import arrays_fixed
-from tests.property.strategies import consistent_dim
+from tests.property.strategies import arrays_fixed, consistent_dim
 
 
 @given(consistent_dim(3 * [arrays_fixed], max_dim=3))
 def test_from_points(arrays):
-
     points = Points(arrays)
     assume(not points.are_collinear(tol=1))
 

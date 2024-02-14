@@ -1,11 +1,10 @@
 """Module for the Cylinder class."""
+
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import List
-from typing import Optional
-from typing import Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -98,7 +97,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
     """
 
     def __init__(self, point: array_like, vector: array_like, radius: float):
-
         self.point = Point(point)
         self.vector = Vector(vector)
 
@@ -119,7 +117,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         self.dimension = self.point.dimension
 
     def __repr__(self) -> str:
-
         repr_point = np.array_repr(self.point)
         repr_vector = np.array_repr(self.vector)
 
@@ -548,11 +545,9 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
 
         def _compute_projection_matrix(direction: Vector) -> np.ndarray:
-
             return np.identity(3) - np.dot(np.reshape(direction, (3, 1)), np.reshape(direction, (1, 3)))
 
         def _compute_skew_matrix(direction: Vector) -> np.ndarray:
-
             return np.array(
                 [
                     [0.0, -direction[2], direction[1]],
@@ -562,15 +557,12 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             )
 
         def _compute_a_matrix(input_samples: List[np.ndarray]) -> np.ndarray:
-
             return sum(np.dot(np.reshape(sample, (3, 1)), np.reshape(sample, (1, 3))) for sample in input_samples)
 
         def _compute_a_hat_matrix(a_matrix: np.ndarray, skew_matrix: np.ndarray) -> np.ndarray:
-
             return np.dot(skew_matrix, np.dot(a_matrix, np.transpose(skew_matrix)))
 
         def _compute_g(direction: Vector, points: Points) -> float:
-
             projection_matrix = _compute_projection_matrix(direction)
             skew_matrix = _compute_skew_matrix(direction)
             input_samples = [np.dot(projection_matrix, x) for x in points]
@@ -584,7 +576,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             return sum((np.dot(sample, sample) - u - 2 * np.dot(sample, v)) ** 2 for sample in input_samples)
 
         def _compute_center(direction: Vector, points: Points) -> Point:
-
             projection_matrix = _compute_projection_matrix(direction)
             skew_matrix = _compute_skew_matrix(direction)
             input_samples = [np.dot(projection_matrix, x) for x in points]
@@ -596,7 +587,6 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             )
 
         def _compute_radius(direction: Vector, points) -> float:
-
             projection_matrix = _compute_projection_matrix(direction)
             center = _compute_center(direction, points)
             return np.sqrt(
@@ -726,8 +716,8 @@ def _intersect_line_with_infinite_cylinder(
 
     try:
         X = _solve_quadratic(a, b, c, n_digits=n_digits)
-    except ValueError:
-        raise ValueError("The line does not intersect the cylinder.")
+    except ValueError as error:
+        raise ValueError("The line does not intersect the cylinder.") from error
 
     point_a, point_b = p_l + X.reshape(-1, 1) * v_l
 
@@ -738,7 +728,6 @@ def _intersect_line_with_caps(cylinder: Cylinder, line: Line) -> Tuple[Optional[
     """Find the intersection points of the line with the cylinder caps."""
 
     def _intersect_cap(plane_cap: Plane) -> Optional[Point]:
-
         try:
             point_intersection = plane_cap.intersect_line(line)
         except ValueError:

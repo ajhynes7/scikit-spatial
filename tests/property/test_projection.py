@@ -2,18 +2,11 @@ import math
 
 import hypothesis.strategies as st
 import pytest
-from hypothesis import assume
-from hypothesis import given
-
+from hypothesis import assume, given
 from skspatial.objects import Vector
-from tests.property.constants import ATOL
-from tests.property.constants import DIM_MAX
-from tests.property.constants import DIM_MIN
-from tests.property.strategies import arrays_fixed
-from tests.property.strategies import circles
-from tests.property.strategies import lines
-from tests.property.strategies import planes
-from tests.property.strategies import spheres
+
+from tests.property.constants import ATOL, DIM_MAX, DIM_MIN
+from tests.property.strategies import arrays_fixed, circles, lines, planes, spheres
 
 
 @pytest.mark.parametrize('lines_or_planes', [lines, planes])
@@ -50,7 +43,6 @@ def test_project_point(lines_or_planes, data):
 @pytest.mark.parametrize('circles_or_spheres', [circles, spheres])
 @given(data=st.data())
 def test_project_point_circle_sphere(circles_or_spheres, data):
-
     circle_or_sphere = data.draw(circles_or_spheres())
     array_point = data.draw(arrays_fixed(circle_or_sphere.dimension))
 

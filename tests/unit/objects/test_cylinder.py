@@ -1,15 +1,8 @@
 import math
-from math import isclose
-from math import pi
-from math import sqrt
+from math import isclose, pi, sqrt
 
 import pytest
-
-from skspatial.objects import Cylinder
-from skspatial.objects import Line
-from skspatial.objects import Point
-from skspatial.objects import Points
-from skspatial.objects import Vector
+from skspatial.objects import Cylinder, Line, Point, Points, Vector
 
 LINE_DOES_NOT_INTERSECT_CYLINDER = "The line does not intersect the cylinder."
 LINE_MUST_BE_3D = "The line must be 3D."
@@ -25,7 +18,6 @@ LINE_MUST_BE_3D = "The line must be 3D."
     ],
 )
 def test_failure(point, vector, radius, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Cylinder(point, vector, radius)
 
@@ -40,7 +32,6 @@ def test_failure(point, vector, radius, message_expected):
     ],
 )
 def test_from_points(array_a, array_b, radius, cylinder_expected):
-
     cylinder_from_points = Cylinder.from_points(array_a, array_b, radius)
 
     assert cylinder_from_points.vector.is_close(cylinder_expected.vector)
@@ -62,7 +53,6 @@ def test_from_points(array_a, array_b, radius, cylinder_expected):
     ],
 )
 def test_properties(cylinder, length_expected, volume_expected):
-
     assert isclose(cylinder.length(), length_expected)
     assert isclose(cylinder.volume(), volume_expected)
 
@@ -78,7 +68,6 @@ def test_properties(cylinder, length_expected, volume_expected):
     ],
 )
 def test_surface_area(cylinder, lateral_surface_area_expected, surface_area_expected):
-
     assert isclose(cylinder.lateral_surface_area(), lateral_surface_area_expected)
     assert isclose(cylinder.surface_area(), surface_area_expected)
 
@@ -104,7 +93,6 @@ def test_surface_area(cylinder, lateral_surface_area_expected, surface_area_expe
     ],
 )
 def test_cylinder_is_point_within(cylinder, point, bool_expected):
-
     assert cylinder.is_point_within(point) == bool_expected
 
 
@@ -168,7 +156,6 @@ def test_cylinder_is_point_within(cylinder, point, bool_expected):
     ],
 )
 def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expected_b):
-
     point_a, point_b = cylinder.intersect_line(line, n_digits=9)
 
     point_expected_a = Point(array_expected_a)
@@ -231,7 +218,6 @@ def test_intersect_cylinder_line(cylinder, line, array_expected_a, array_expecte
     ],
 )
 def test_intersect_cylinder_line_with_caps(cylinder, line, array_expected_a, array_expected_b):
-
     point_a, point_b = cylinder.intersect_line(line, infinite=False)
 
     point_expected_a = Point(array_expected_a)
@@ -272,7 +258,6 @@ def test_intersect_cylinder_line_with_caps(cylinder, line, array_expected_a, arr
     ],
 )
 def test_intersect_cylinder_line_failure(cylinder, line, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         cylinder.intersect_line(line)
 
@@ -287,7 +272,6 @@ def test_intersect_cylinder_line_failure(cylinder, line, message_expected):
     ],
 )
 def test_intersect_cylinder_line_with_caps_failure(cylinder, line):
-
     message_expected = "The line does not intersect the cylinder."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -318,7 +302,6 @@ def test_intersect_cylinder_line_with_caps_failure(cylinder, line):
     ],
 )
 def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
-
     array_rounded = cylinder.to_points(n_along_axis=n_along_axis, n_angles=n_angles).round(3)
     points_unique = Points(array_rounded).unique()
 
@@ -334,7 +317,6 @@ def test_to_points(cylinder, n_along_axis, n_angles, points_expected):
     ],
 )
 def test_best_fit(points, vector_expected, radius_expected):
-
     cylinder = Cylinder.best_fit(points)
 
     assert isclose(cylinder.vector.norm(), vector_expected.norm())
@@ -351,6 +333,5 @@ def test_best_fit(points, vector_expected, radius_expected):
     ],
 )
 def test_best_fit_failure(points, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         Cylinder.best_fit(points)

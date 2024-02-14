@@ -1,8 +1,6 @@
-from math import isclose
-from math import sqrt
+from math import isclose, sqrt
 
 import pytest
-
 from skspatial._functions import _solve_quadratic
 
 A_MUST_BE_NON_ZERO = "The coefficient `a` must be non-zero."
@@ -19,7 +17,6 @@ DISCRIMINANT_MUST_NOT_BE_NEGATIVE = "The discriminant must not be negative."
     ],
 )
 def test_solve_quadratic(a, b, c, x1_expected, x2_expected):
-
     x1, x2 = _solve_quadratic(a, b, c)
 
     assert isclose(x1, x1_expected)
@@ -38,6 +35,5 @@ def test_solve_quadratic(a, b, c, x1_expected, x2_expected):
     ],
 )
 def test_solve_quadratic_failure(a, b, c, message_expected):
-
     with pytest.raises(ValueError, match=message_expected):
         _solve_quadratic(a, b, c)

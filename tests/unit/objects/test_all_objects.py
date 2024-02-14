@@ -1,15 +1,6 @@
 import numpy as np
 import pytest
-
-from skspatial.objects import Circle
-from skspatial.objects import Cylinder
-from skspatial.objects import Line
-from skspatial.objects import Plane
-from skspatial.objects import Point
-from skspatial.objects import Points
-from skspatial.objects import Sphere
-from skspatial.objects import Triangle
-from skspatial.objects import Vector
+from skspatial.objects import Circle, Cylinder, Line, Plane, Point, Points, Sphere, Triangle, Vector
 from skspatial.objects.line_segment import LineSegment
 
 
@@ -43,7 +34,6 @@ from skspatial.objects.line_segment import LineSegment
     ],
 )
 def test_repr(obj_spatial, repr_expected):
-
     assert repr(obj_spatial) == repr_expected
 
 
@@ -52,5 +42,4 @@ def test_repr(obj_spatial, repr_expected):
     [Point, Points, Vector, Line, LineSegment, Plane, Circle, Sphere, Triangle, Cylinder],
 )
 def test_plotter(class_spatial):
-
     assert callable(class_spatial.plotter)

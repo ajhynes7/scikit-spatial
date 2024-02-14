@@ -1,6 +1,6 @@
 """Spatial transformations."""
-from typing import cast
-from typing import Sequence
+
+from typing import Sequence, cast
 
 import numpy as np
 

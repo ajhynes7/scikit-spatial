@@ -1,4 +1,5 @@
 """Module for the Circle class."""
+
 from __future__ import annotations
 
 import math
@@ -73,7 +74,6 @@ class Circle(_BaseSphere):
     """
 
     def __init__(self, point: array_like, radius: float):
-
         super().__init__(point, radius)
 
         if self.point.dimension != 2:

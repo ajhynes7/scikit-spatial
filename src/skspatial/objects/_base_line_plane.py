@@ -1,10 +1,10 @@
 """Module for private parent class of Line and Plane."""
+
 import inspect
 
 import numpy as np
 
-from skspatial._functions import _contains_point
-from skspatial._functions import _sum_squares
+from skspatial._functions import _contains_point, _sum_squares
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
@@ -15,7 +15,6 @@ class _BaseLinePlane(_BaseSpatial):
     """Private parent class for Line and Plane."""
 
     def __init__(self, point: array_like, vector: array_like, **kwargs):
-
         self.point = Point(point)
         self.vector = Vector(vector)
 
@@ -28,7 +27,6 @@ class _BaseLinePlane(_BaseSpatial):
         self.dimension = self.point.dimension
 
     def __repr__(self) -> str:
-
         name_class = type(self).__name__
         name_vector = inspect.getfullargspec(type(self)).args[-1]
 
@@ -101,5 +99,4 @@ class _BaseLinePlane(_BaseSpatial):
         return contains_point and is_parallel
 
     def sum_squares(self, points: array_like) -> np.float64:
-
         return _sum_squares(self, points)

@@ -1,8 +1,8 @@
 """Measurements using spatial objects."""
+
 import numpy as np
 
-from skspatial.objects import Points
-from skspatial.objects import Vector
+from skspatial.objects import Points, Vector
 from skspatial.typing import array_like
 
 

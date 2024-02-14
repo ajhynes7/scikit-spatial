@@ -1,6 +1,5 @@
 import numpy as np
 import pytest
-
 from skspatial.objects import Points
 
 
@@ -13,7 +12,6 @@ from skspatial.objects import Points
     ],
 )
 def test_dimension_failure(array, dimension):
-
     message_expected = "The desired dimension cannot be less than the current dimension."
 
     points = Points(array)

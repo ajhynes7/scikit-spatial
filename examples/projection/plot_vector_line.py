@@ -5,9 +5,9 @@
 Project a vector onto a line.
 
 """
+
 from skspatial.objects import Line, Vector
 from skspatial.plotting import plot_3d
-
 
 line = Line([0, 0, 0], [1, 1, 2])
 vector = Vector([1, 1, 0.1])

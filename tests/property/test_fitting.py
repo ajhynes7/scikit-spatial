@@ -1,19 +1,13 @@
 import hypothesis.strategies as st
-from hypothesis import assume
-from hypothesis import given
+from hypothesis import assume, given
+from skspatial.objects import Line, Plane, Points
 
-from skspatial.objects import Line
-from skspatial.objects import Plane
-from skspatial.objects import Points
 from tests.property.constants import ATOL
-from tests.property.strategies import arrays_fixed
-from tests.property.strategies import lines
-from tests.property.strategies import planes
+from tests.property.strategies import arrays_fixed, lines, planes
 
 
 @given(st.data())
 def test_best_fit_line(data):
-
     n_points = data.draw(st.integers(min_value=2, max_value=5))
     dim = data.draw(st.integers(min_value=2, max_value=4))
 
@@ -31,7 +25,6 @@ def test_best_fit_line(data):
 
 @given(st.data())
 def test_best_fit_plane(data):
-
     n_points = data.draw(st.integers(min_value=3, max_value=5))
 
     points = Points([data.draw(arrays_fixed(3)) for _ in range(n_points)])

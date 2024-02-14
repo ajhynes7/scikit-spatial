@@ -1,14 +1,8 @@
 from dataclasses import dataclass
-from math import atan
-from math import degrees
-from math import isclose
-from math import radians
-from math import sqrt
+from math import atan, degrees, isclose, radians, sqrt
 
 import pytest
-
-from skspatial.objects import Line
-from skspatial.objects import Triangle
+from skspatial.objects import Line, Triangle
 from skspatial.typing import array_like
 
 
@@ -108,7 +102,6 @@ list_test_cases = [
 
 @pytest.mark.parametrize('test_case', list_test_cases)
 def test_triangle(test_case):
-
     triangle = Triangle(*test_case.points)
 
     assert triangle.area() == test_case.area
@@ -132,7 +125,6 @@ def test_triangle(test_case):
 
     altitudes_a = triangle.multiple('altitude', 'ABC')
     altitudes_b = test_case.altitudes
-    print(altitudes_a, altitudes_b)
     assert all(a.is_close(b, abs_tol=1e-3) for a, b in zip(altitudes_a, altitudes_b))
 
     assert triangle.classify() == test_case.classification
@@ -144,7 +136,6 @@ def test_triangle(test_case):
     [([1], [1, 0], [1, 0]), ([1, 0, 0], [1, 0], [1, 0]), ([1, 0], [1, 0], [1, 0, 0]), ([1, 0, 0], [1, 0], [1, 0, 0])],
 )
 def test_failure_different_dimensions(array_a, array_b, array_c):
-
     with pytest.raises(ValueError, match="The points must have the same dimension."):
         Triangle(array_a, array_b, array_c)
 
@@ -161,20 +152,17 @@ def test_failure_different_dimensions(array_a, array_b, array_c):
     ],
 )
 def test_failure_collinear_points(array_a, array_b, array_c):
-
     with pytest.raises(ValueError, match="The points must not be collinear."):
         Triangle(array_a, array_b, array_c)
 
 
 @pytest.fixture()
 def basic_triangle():
-
     return Triangle([0, 0], [0, 1], [1, 0])
 
 
 @pytest.mark.parametrize("string", ['a', 'b', 'c', 'd', 'D'])
 def test_failure_point(basic_triangle, string):
-
     message = "The vertex must be 'A', 'B', or 'C'."
 
     with pytest.raises(ValueError, match=message):
@@ -189,7 +177,6 @@ def test_failure_point(basic_triangle, string):
 
 @pytest.mark.parametrize("string", ['A', 'B', 'C', 'D'])
 def test_failure_line(basic_triangle, string):
-
     message = "The side must be 'a', 'b', or 'c'."
 
     with pytest.raises(ValueError, match=message):

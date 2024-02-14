@@ -1,8 +1,6 @@
-from math import isclose
-from math import sqrt
+from math import isclose, sqrt
 
 import pytest
-
 from skspatial.objects import Point
 
 
@@ -24,6 +22,5 @@ from skspatial.objects import Point
     ],
 )
 def test_distance_point(array_a, array_b, dist_expected):
-
     point_a = Point(array_a)
     assert isclose(point_a.distance_point(array_b), dist_expected)

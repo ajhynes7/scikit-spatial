@@ -1,4 +1,5 @@
 """Module for the LineSegment class."""
+
 from __future__ import annotations
 
 import math
@@ -11,8 +12,7 @@ from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _connect_points_2d
-from skspatial.plotting import _connect_points_3d
+from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.typing import array_like
 
 
@@ -54,7 +54,6 @@ class LineSegment(_BaseSpatial):
     """
 
     def __init__(self, point_a: array_like, point_b: array_like):
-
         self.point_a = Point(point_a)
         self.point_b = Point(point_b)
 
@@ -62,7 +61,6 @@ class LineSegment(_BaseSpatial):
             raise ValueError("The endpoints must not be equal.")
 
     def __repr__(self) -> str:
-
         repr_point_a = np.array_repr(self.point_a)
         repr_point_b = np.array_repr(self.point_b)
 

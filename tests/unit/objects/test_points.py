@@ -1,10 +1,7 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_array_almost_equal
-from numpy.testing import assert_array_equal
-
-from skspatial.objects import Point
-from skspatial.objects import Points
+from numpy.testing import assert_array_almost_equal, assert_array_equal
+from skspatial.objects import Point, Points
 
 
 @pytest.mark.parametrize(
@@ -17,7 +14,6 @@ from skspatial.objects import Points
     ],
 )
 def test_failure(array):
-
     message_expected = "The array must be 2D."
 
     with pytest.raises(ValueError, match=message_expected):
@@ -34,7 +30,6 @@ def test_failure(array):
     ],
 )
 def test_dimension(points, dim_expected):
-
     assert points.dimension == dim_expected
 
 
@@ -48,12 +43,10 @@ def test_dimension(points, dim_expected):
     ],
 )
 def test_set_dimension(points, dim, points_expected):
-
     assert_array_equal(points.set_dimension(dim), points_expected)
 
 
 def test_dimension_of_slice():
-
     points = Points([[0, 0, 0], [0, 0, 0]])
 
     assert points.dimension == 3
@@ -86,7 +79,6 @@ def test_dimension_of_slice():
     ],
 )
 def test_mean_center(array_points, array_centered_expected, centroid_expected):
-
     points = Points(array_points)
     points_centered, centroid = points.mean_center(return_centroid=True)
 
@@ -107,7 +99,6 @@ def test_mean_center(array_points, array_centered_expected, centroid_expected):
     ],
 )
 def test_normalize_distance(array_points, array_points_expected):
-
     points_normalized = Points(array_points).normalize_distance()
 
     assert_array_almost_equal(points_normalized, array_points_expected)

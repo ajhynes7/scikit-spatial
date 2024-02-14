@@ -1,4 +1,5 @@
 """Module for the Triangle class."""
+
 import math
 from itertools import combinations
 from typing import Sequence
@@ -63,7 +64,6 @@ class Triangle(_BaseSpatial):
     """
 
     def __init__(self, point_a: array_like, point_b: array_like, point_c: array_like):
-
         self.point_a = Point(point_a)
         self.point_b = Point(point_b)
         self.point_c = Point(point_c)
@@ -77,7 +77,6 @@ class Triangle(_BaseSpatial):
         self.dimension = self.point_a.dimension
 
     def __repr__(self) -> str:
-
         repr_a = np.array_repr(self.point_a)
         repr_b = np.array_repr(self.point_b)
         repr_c = np.array_repr(self.point_c)

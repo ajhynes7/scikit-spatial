@@ -1,4 +1,5 @@
 """Module for base class of Circle and Sphere."""
+
 import numpy as np
 
 from skspatial._functions import _contains_point
@@ -12,7 +13,6 @@ class _BaseSphere(_BaseSpatial):
     """Private parent class for Circle and Sphere."""
 
     def __init__(self, point: array_like, radius: float):
-
         if radius <= 0:
             raise ValueError("The radius must be positive.")
 
@@ -22,7 +22,6 @@ class _BaseSphere(_BaseSpatial):
         self.dimension = self.point.dimension
 
     def __repr__(self) -> str:
-
         name_class = type(self).__name__
 
         repr_point = np.array_repr(self.point)
