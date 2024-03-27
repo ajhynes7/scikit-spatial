@@ -58,6 +58,7 @@ additional methods from this package.
 >>> from skspatial.objects import Vector
 
 >>> vector = Vector([2, 0, 0])
+
 ```
 
 Behaviour inherited from NumPy:
@@ -68,6 +69,7 @@ Behaviour inherited from NumPy:
 
 >>> vector.mean().round(3)
 0.667
+
 ```
 
 Additional methods from `scikit-spatial`:
@@ -78,6 +80,7 @@ Additional methods from `scikit-spatial`:
 
 >>> vector.unit()
 Vector([1., 0., 0.])
+
 ```
 
 `Point` and `Vector` are based on a 1D NumPy array, and `Points` is
@@ -91,6 +94,7 @@ instead of the spatial object class.
 ```py
 >>> vector.sum()
 array(2)
+
 ```
 
 This is to avoid getting a spatial object with a forbidden shape, like a
@@ -99,8 +103,9 @@ causes an exception.
 
 ```py
 >>> Vector(vector.sum())
-Traceback (most recent call last): ...
+Traceback (most recent call last):
 ValueError: The array must be 1D.
+
 ```
 
 Because the computations of `scikit-spatial` are also based on NumPy,
@@ -114,10 +119,11 @@ keyword is passed to `numpy.linalg.matrix_rank`.
 >>> points = Points([[1, 2, 3], [4, 5, 6], [7, 8, 8]])
 
 >>> points.are_collinear()
-False 
+False
 
 >>> points.are_collinear(tol=1)
 True
+
 ```
 
 # Installation
@@ -126,12 +132,14 @@ The package can be installed with pip.
 
 ```bash
 $ pip install scikit-spatial
+
 ```
 
 It can also be installed with conda.
 
 ``` bash
 $ conda install scikit-spatial -c conda-forge
+
 ```
 
 # Example Usage
@@ -145,6 +153,7 @@ Measure the cosine similarity between two vectors.
 
 >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
 0.707
+
 ```
 
 ## Comparison
@@ -154,11 +163,11 @@ Check if multiple points are collinear.
 ```py
 >>> from skspatial.objects import Points
 
->>> points = Points([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11,
-12]])
+>>> points = Points([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
 
 >>> points.are_collinear()
 True
+
 ```
 
 ## Projection
@@ -172,6 +181,7 @@ Project a point onto a line.
 
 >>> line.project_point([5, 6, 7])
 Point([5.5, 5.5, 0. ])
+
 ```
 
 ## Intersection
@@ -186,6 +196,7 @@ Find the intersection of two planes.
 
 >>> plane_a.intersect_plane(plane_b)
 Line(point=Point([5., 0., 0.]), direction=Vector([0, 1, 0]))
+
 ```
 
 An error is raised if the computation is undefined.
@@ -194,8 +205,9 @@ An error is raised if the computation is undefined.
 >>> plane_b = Plane(point=[0, 0, 1], normal=[0, 0, 1])
 
 >>> plane_a.intersect_plane(plane_b)
-Traceback (most recent call last): ...
+Traceback (most recent call last):
 ValueError: The planes must not be parallel.
+
 ```
 
 ## Fitting
@@ -207,6 +219,7 @@ Find the plane of best fit for multiple points.
 
 >>> Plane.best_fit(points)
 Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
+
 ```
 
 ## Transformation
@@ -218,7 +231,8 @@ Transform multiple points to 1D coordinates along a line.
 >>> points = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 >>> line.transform_points(points).round(3)
-array([ 2.236, 6.261, 10.286])
+array([ 2.236,  6.261, 10.286])
+
 ```
 
 # Acknowledgment

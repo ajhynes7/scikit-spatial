@@ -6,7 +6,7 @@ license = "BSD-3-Clause"
 
 authors = ["Andrew Hynes <andrewjhynes@gmail.com>"]
 
-readme = "README.rst"
+readme = "README.md"
 
 repository = "https://github.com/ajhynes7/scikit-spatial"
 documentation = "https://scikit-spatial.readthedocs.io"
