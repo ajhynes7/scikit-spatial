@@ -2,6 +2,15 @@
 History
 =======
 
+7.2.2 (2024-03-27)
+------------------
+
+Fixes
+~~~~~
+- Change reference in `Plane.best_fit` docstring as the previous link was broken.
+- Change `README.rst` to `README.md` as GitHub was not rendering the former well.
+
+
 7.2.1 (2024-02-17)
 ------------------
 
