@@ -830,3 +830,10 @@ class Vector(_BaseArray1D):
         point_2 = np.array(point) + scalar * self
 
         _connect_points_3d(ax_3d, point, point_2, **kwargs)
+        
+        ax_3d.set_aspect('equal')
+
+        ax_3d.set_xlim([-5, 5])
+        ax_3d.set_ylim([-5, 5])
+        ax_3d.set_zlim([-5, 5])
+

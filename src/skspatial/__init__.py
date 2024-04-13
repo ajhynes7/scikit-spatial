@@ -1,3 +1,6 @@
+import os
+ROOT_DIR=os.path.dirname(__file__)
+
 """Top-level package for scikit-spatial."""
 
 __author__ = "Andrew Hynes"
