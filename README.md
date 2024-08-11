@@ -86,6 +86,8 @@ Vector([1., 0., 0.])
 Because `Point` and `Vector` are both subclasses of `ndarray`, a `Vector` can be added to a `Point`. This produces a new `Point`.
 
 ```py
+>>> from skspatial.objects import Point
+
 >>> Point([1, 2]) + Vector([3, 4])
 Point([4, 6])
 
