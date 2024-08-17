@@ -764,3 +764,11 @@ class Line(_BaseLinePlane):
         point_2 = self.to_point(t_2)
 
         _connect_points_3d(ax_3d, point_1, point_2, **kwargs)
+        
+        ax_3d.set_aspect('equal')
+
+        center = np.array([ -61.59029,   719.055725, 1307.218994])
+        margin = 200
+        ax_3d.set_xlim([center[0]-margin, center[0]+margin])
+        ax_3d.set_ylim([center[1]-margin, center[1]+margin])
+        ax_3d.set_zlim([center[2]-margin, center[2]+margin])
