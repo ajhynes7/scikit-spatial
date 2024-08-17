@@ -1,5 +1,5 @@
 """Private functions for some spatial computations."""
-from __future__ import annotations
+# # import future_annotations as annotations
 
 import math
 from functools import wraps

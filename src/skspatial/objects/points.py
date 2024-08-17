@@ -1,5 +1,5 @@
 """Module for the Points class."""
-from __future__ import annotations
+import future_annotations as annotations
 
 from typing import cast
 

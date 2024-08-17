@@ -1,5 +1,5 @@
 """Module for the Vector class."""
-from __future__ import annotations
+import future_annotations as annotations
 
 import math
 from typing import cast

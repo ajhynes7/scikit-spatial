@@ -1,5 +1,5 @@
 """Module for the Cylinder class."""
-from __future__ import annotations
+# import future_annotations as annotations
 
 from typing import Optional
 from typing import Tuple
