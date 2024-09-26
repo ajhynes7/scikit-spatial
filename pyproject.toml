@@ -29,16 +29,10 @@ classifiers = [
 packages = [{ include = "skspatial", from = "src" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.13"
-numpy = [
-    { version = "^1.24", python = "<3.12" },
-    { version = "^1.26", python = ">=3.12" },
-]
-scipy = [
-    { version = "^1.9", python = "<3.12" },
-    { version = "^1.12", python = ">=3.12" },
-]
-matplotlib = "^3.6"
+python = ">=3.8"
+numpy = ">=1.24"
+scipy = ">=1.9"
+matplotlib = ">=3"
 
 [tool.poetry.group.base_test.dependencies]
 pytest = "^7.1.3"
@@ -59,10 +53,6 @@ pythonpath = ["src"]
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 120
-skip-string-normalization = true
 
 [tool.ruff]
 line-length = 120
@@ -95,6 +85,8 @@ select = [
     "E", "W",
     # pyflakes
     "F",
+    # NumPy 2 deprecation
+    "NPY201"
 ]
 
 ignore = [
