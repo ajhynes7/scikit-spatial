@@ -31,7 +31,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
         return obj
 
-    def __array_wrap__(self, array: np.ndarray) -> np.ndarray:
+    def __array_wrap__(self, array, context=None, return_scalar=False) -> np.ndarray:
         """
         Return regular :class:`numpy.ndarray` when default NumPy method is called.
 
@@ -45,7 +45,10 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         2.16
 
         """
-        return array
+        if return_scalar:
+            return array.item()
+
+        return super().__array_wrap__(self, array, context, return_scalar)
 
     def to_array(self) -> np.ndarray:
         """
