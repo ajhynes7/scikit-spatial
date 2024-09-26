@@ -32,6 +32,12 @@ Point([1, 2])
 (2,)
 
 
+A :class:`~skspatial.objects.Vector` can be added to a :class:`~skspatial.objects.Point`, producing a new :class:`~skspatial.objects.Point`.
+
+>>> Point([1, 2]) + Vector([3, 4])
+Point([4, 6])
+
+
 The magnitude of a vector is found with the :meth:`~skspatial.objects.Vector.norm` method.
 
 >>> from skspatial.objects import Vector
