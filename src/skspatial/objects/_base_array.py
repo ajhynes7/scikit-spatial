@@ -137,7 +137,6 @@ class _BaseArray1D(_BaseArray):
         return array
 
     def __array_finalize__(self, obj) -> None:
-
         self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
@@ -187,7 +186,7 @@ class _BaseArray1D(_BaseArray):
 
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
-    
+
     def __new__(cls, array_like):
         array = super().__new__(cls, array_like)
 
@@ -197,9 +196,11 @@ class _BaseArray2D(_BaseArray):
         return array
 
     def __array_finalize__(self, _) -> None:
+        try:
+            self.dimension = self.shape[1]
 
-        self.dimension = self.shape[1]
-
+        except IndexError:
+            self.dimension = None
 
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
@@ -250,10 +251,3 @@ class _BaseArray2D(_BaseArray):
         array_padded = np.pad(self, ((0, 0), (0, dim - self.dimension)), 'constant')
 
         return self.__class__(array_padded)
-
-    def __array_finalize__(self, _) -> None:
-        try:
-            self.dimension = self.shape[1]
-
-        except IndexError:
-            self.dimension = None
