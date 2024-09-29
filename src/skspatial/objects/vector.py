@@ -625,12 +625,14 @@ class Vector(_BaseArray1D):
         ValueError: The vectors must be 2D.
 
         """
-        if self.dimension != 2 or Vector(other).dimension != 2:
+        vector_other = Vector(other)
+
+        if self.dimension != 2 or vector_other.dimension != 2:
             raise ValueError("The vectors must be 2D.")
 
-        value_cross = np.cross(other, self)
+        product = np.cross(vector_other.set_dimension(3), self.set_dimension(3))
 
-        return int(np.sign(value_cross))
+        return int(np.sign(product[2]))
 
     def scalar_projection(self, other: array_like) -> np.float64:
         """
