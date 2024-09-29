@@ -182,7 +182,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         point_a, point_b = line.point + distances.reshape(-1, 1) * vector_unit
 
-        return point_a, point_b
+        return Point(point_a), Point(point_b)
 
     @classmethod
     def best_fit(cls, points: array_like) -> Sphere:

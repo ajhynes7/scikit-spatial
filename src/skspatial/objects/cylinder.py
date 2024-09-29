@@ -721,7 +721,7 @@ def _intersect_line_with_infinite_cylinder(
 
     point_a, point_b = p_l + X.reshape(-1, 1) * v_l
 
-    return point_a, point_b
+    return Point(point_a), Point(point_b)
 
 
 def _intersect_line_with_caps(cylinder: Cylinder, line: Line) -> Tuple[Optional[Point], Optional[Point]]:
