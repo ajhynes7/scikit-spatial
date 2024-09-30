@@ -136,7 +136,7 @@ class _BaseArray1D(_BaseArray):
 
         return array
 
-    def __array_finalize__(self, obj) -> None:
+    def __array_finalize__(self, _) -> None:
         self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
