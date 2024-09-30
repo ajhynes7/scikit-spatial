@@ -293,7 +293,7 @@ class Points(_BaseArray2D):
         False
 
         """
-        return self.affine_rank(**kwargs) <= 1
+        return bool(self.affine_rank(**kwargs) <= 1)
 
     def are_coplanar(self, **kwargs) -> bool:
         """
@@ -323,7 +323,7 @@ class Points(_BaseArray2D):
         False
 
         """
-        return self.affine_rank(**kwargs) <= 2
+        return bool(self.affine_rank(**kwargs) <= 2)
 
     def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """

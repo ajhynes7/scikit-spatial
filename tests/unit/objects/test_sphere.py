@@ -76,7 +76,7 @@ def test_distance_point(sphere, point, dist_expected):
     ],
 )
 def test_contains_point(sphere, point, bool_expected):
-    assert sphere.contains_point(point) == bool_expected
+    assert sphere.contains_point(point) is bool_expected
 
 
 @pytest.mark.parametrize(

@@ -94,7 +94,7 @@ def test_to_point(line, param, array_expected):
     ],
 )
 def test_is_coplanar(line_a, line_b, bool_expected):
-    assert line_a.is_coplanar(line_b) == bool_expected
+    assert line_a.is_coplanar(line_b) is bool_expected
 
 
 @pytest.mark.parametrize(

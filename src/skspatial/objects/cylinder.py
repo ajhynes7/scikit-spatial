@@ -306,7 +306,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         between_cap_planes = _between_cap_planes(self, point)
 
-        return within_radius and between_cap_planes
+        return bool(within_radius and between_cap_planes)
 
     def intersect_line(
         self,
@@ -693,7 +693,7 @@ def _between_cap_planes(cylinder: Cylinder, point: array_like) -> bool:
     plane_base = Plane(cylinder.point, cylinder.vector)
     distance_point_signed = plane_base.distance_point_signed(point)
 
-    return 0 <= distance_point_signed <= distance_point_signed <= cylinder.length()
+    return bool(0 <= distance_point_signed <= distance_point_signed <= cylinder.length())
 
 
 def _intersect_line_with_infinite_cylinder(

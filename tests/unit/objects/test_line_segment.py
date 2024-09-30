@@ -48,7 +48,7 @@ def test_failure(point_a, point_b):
     ],
 )
 def test_contains_point(segment, point, bool_expected):
-    assert segment.contains_point(point) == bool_expected
+    assert segment.contains_point(point) is bool_expected
 
 
 @pytest.mark.parametrize(
@@ -63,7 +63,7 @@ def test_contains_point(segment, point, bool_expected):
     ],
 )
 def test_contains_point_with_tolerance(segment, point, bool_expected):
-    assert segment.contains_point(point, abs_tol=1e-1) == bool_expected
+    assert segment.contains_point(point, abs_tol=1e-1) is bool_expected
 
 
 @pytest.mark.parametrize(
