@@ -67,7 +67,7 @@ Behaviour inherited from NumPy:
 3
 
 >>> vector.mean().round(3)
-0.667
+np.float64(0.667)
 
 ```
 
@@ -75,7 +75,7 @@ Additional methods from `scikit-spatial`:
 
 ```py
 >>> vector.norm()
-2.0
+np.float64(2.0)
 
 >>> vector.unit()
 Vector([1., 0., 0.])
@@ -102,7 +102,7 @@ instead of the spatial object class.
 
 ```py
 >>> vector.sum()
-array(2)
+2
 
 ```
 
@@ -161,7 +161,7 @@ Measure the cosine similarity between two vectors.
 >>> from skspatial.objects import Vector
 
 >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
-0.707
+np.float64(0.707)
 
 ```
 
