@@ -178,7 +178,7 @@ class Vector(_BaseArray1D):
         if magnitude == 0:
             raise ValueError("The magnitude must not be zero.")
 
-        return self / magnitude
+        return cast(Vector, self / magnitude)
 
     def is_zero(self, **kwargs: float) -> bool:
         """

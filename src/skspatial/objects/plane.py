@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional, Tuple
+from typing import Optional, Tuple, cast
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -270,7 +270,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         # Perpendicular vector from the point in space to the plane.
         vector_projected = self.normal.project_vector(vector_to_plane)
 
-        return Point(point) + vector_projected
+        return cast(Point, Point(point) + vector_projected)
 
     def project_points(self, points: array_like) -> Points:
         """

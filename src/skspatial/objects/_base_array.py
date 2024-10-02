@@ -105,7 +105,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         """
         return np.array_equal(self, other)
 
-    def round(self, decimals: int = 0) -> Array:  # type: ignore[override]  # noqa: A003
+    def round(self, decimals: int = 0):  # type: ignore[override]
         """
         Round the array to the given number of decimals.
 
@@ -196,11 +196,7 @@ class _BaseArray2D(_BaseArray):
         return array
 
     def __array_finalize__(self, _) -> None:
-        try:
-            self.dimension = self.shape[1]
-
-        except IndexError:
-            self.dimension = None
+        self.dimension = self.shape[1]
 
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """

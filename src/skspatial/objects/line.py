@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, cast
 
 import numpy as np
 from matplotlib.axes import Axes
@@ -299,7 +299,7 @@ class Line(_BaseLinePlane):
         vector_projected = self.direction.project_vector(vector_to_point)
 
         # Add the projected vector to the point on the line.
-        return self.point + vector_projected
+        return cast(Point, self.point + vector_projected)
 
     def project_points(self, points: array_like) -> Points:
         """
