@@ -30,7 +30,7 @@ jobs:
           pip install tox==4.21.1 tox-gh==1.4.1
 
       - name: Run tox
-        run: tox
+        run: tox -e unit
         env:
           TOX_GH_MAJOR_MINOR: ${{ matrix.env }}
 
