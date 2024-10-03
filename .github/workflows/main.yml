@@ -1,7 +1,6 @@
 name: scikit-spatial
 
 on:
-  push:
   pull_request:
 
 jobs:
