@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.4.18"
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -21,7 +26,7 @@ jobs:
 
       - name: Install tox
         run: |
-          pip install tox==4.21.1 tox-gh==1.4.1
+          uv tool install tox --with tox-uv --with tox-gh
 
       - name: Run tox
         run: tox
