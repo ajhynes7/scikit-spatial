@@ -433,15 +433,15 @@ class Line(_BaseLinePlane):
 
         >>> line = Line([0, 0], [1, 0])
         >>> line.distance_point([0, 0])
-        0.0
+        np.float64(0.0)
         >>> line.distance_point([5, 0])
-        0.0
+        np.float64(0.0)
         >>> line.distance_point([5, -5])
-        5.0
+        np.float64(5.0)
 
         >>> line = Line([5, 2, -3], [3, 8, 2])
         >>> line.distance_point([5, -5, 3]).round(3)
-        7.737
+        np.float64(7.737)
 
         """
         point_projected = self.project_point(point)
@@ -514,7 +514,7 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([-4, 1], [7, 23])
 
         >>> line_a.distance_line(line_b)
-        0.0
+        np.float64(0.0)
 
         2. The lines are parallel.
 
@@ -522,7 +522,7 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([0, 5], [-1, 0])
 
         >>> line_a.distance_line(line_b)
-        5.0
+        np.float64(5.0)
 
         3. The lines are skew.
 
@@ -530,7 +530,7 @@ class Line(_BaseLinePlane):
         >>> line_b = Line([1, 0, 0], [1, 1, 1])
 
         >>> line_a.distance_line(line_b).round(3)
-        0.707
+        np.float64(0.707)
 
         """
         if self.direction.is_parallel(other.direction):

@@ -108,7 +108,7 @@ class Triangle(_BaseSpatial):
 
         >>> lengths = triangle.multiple('length', 'abc')
         >>> [round(x, 3) for x in lengths]
-        [1.414, 1.0, 1.0]
+        [np.float64(1.414), np.float64(1.0), np.float64(1.0)]
 
         >>> angles = triangle.multiple('angle', 'ABC')
         >>> [round(degrees(x), 3) for x in angles]
@@ -178,13 +178,13 @@ class Triangle(_BaseSpatial):
         >>> from skspatial.objects import Triangle
 
         >>> Triangle([0, 0], [0, 1], [1, 0]).area()
-        0.5
+        np.float64(0.5)
 
         >>> Triangle([0, 0], [0, 2], [1, 1]).area()
-        1.0
+        np.float64(1.0)
 
         >>> Triangle([3, -5, 1], [5, 2, 1], [9, 4, 2]).area().round(2)
-        12.54
+        np.float64(12.54)
 
         """
         return 0.5 * self.normal().norm()
@@ -203,10 +203,10 @@ class Triangle(_BaseSpatial):
         >>> from skspatial.objects import Triangle
 
         >>> Triangle([0, 0], [0, 1], [1, 0]).perimeter().round(3)
-        3.414
+        np.float64(3.414)
 
         >>> Triangle([0, 1], [1, 1], [2, 0]).perimeter().round(3)
-        4.65
+        np.float64(4.65)
 
         """
         result = np.sum(self.multiple('length', 'abc'))
@@ -348,11 +348,11 @@ class Triangle(_BaseSpatial):
         >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
 
         >>> triangle.length('a').round(3)
-        1.414
+        np.float64(1.414)
         >>> triangle.length('b')
-        1.0
+        np.float64(1.0)
         >>> triangle.length('c')
-        1.0
+        np.float64(1.0)
 
         >>> triangle.length('d')
         Traceback (most recent call last):
@@ -391,11 +391,11 @@ class Triangle(_BaseSpatial):
         >>> triangle = Triangle([0, 0], [1, 0], [0, 1])
 
         >>> triangle.angle('A').round(3)
-        1.571
+        np.float64(1.571)
         >>> triangle.angle('B').round(3)
-        0.785
+        np.float64(0.785)
         >>> triangle.angle('C').round(3)
-        0.785
+        np.float64(0.785)
 
         >>> triangle.angle('D')
         Traceback (most recent call last):

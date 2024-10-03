@@ -189,7 +189,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return Plane.from_vectors(point_a, vector_ab, vector_ac)
 
-    def cartesian(self) -> Tuple[np.number, np.number, np.number, np.number]:
+    def cartesian(self) -> Tuple[np.int64, np.int64, np.int64, np.int64]:
         """
         Return the coefficients of the Cartesian equation of the plane.
 
@@ -210,16 +210,16 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> from skspatial.objects import Plane
 
         >>> Plane(point=[1, 1], normal=[1, 0]).cartesian()
-        (1, 0, 0, -1)
+        (np.int64(1), np.int64(0), np.int64(0), np.int64(-1))
 
         >>> Plane(point=[1, 2, 0], normal=[0, 0, 1]).cartesian()
-        (0, 0, 1, 0)
+        (np.int64(0), np.int64(0), np.int64(1), np.int64(0))
 
         >>> Plane(point=[1, 2, 8], normal=[0, 0, 5]).cartesian()
-        (0, 0, 5, -40)
+        (np.int64(0), np.int64(0), np.int64(5), np.int64(-40))
 
         >>> Plane(point=[4, 9, -1], normal=[10, 2, 4]).cartesian()
-        (10, 2, 4, -54)
+        (np.int64(10), np.int64(2), np.int64(4), np.int64(-54))
 
         >>> Plane([0, 0, 0, 0], [1, 0, 0, 0]).cartesian()
         Traceback (most recent call last):
@@ -407,15 +407,15 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.distance_point_signed([5, 2, 0])
-        0.0
+        np.float64(0.0)
 
         >>> plane.distance_point_signed([5, 2, 1])
-        1.0
+        np.float64(1.0)
 
         >>> plane.distance_point([5, 2, -4])
-        4.0
+        np.float64(4.0)
         >>> plane.distance_point_signed([5, 2, -4])
-        -4.0
+        np.float64(-4.0)
 
         """
         vector_to_point = Vector.from_points(self.point, point)
@@ -479,13 +479,13 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> plane = Plane([0, 0, 0], [0, 0, 1])
 
         >>> plane.distance_point([5, 2, 0])
-        0.0
+        np.float64(0.0)
 
         >>> plane.distance_point([5, 2, 1])
-        1.0
+        np.float64(1.0)
 
         >>> plane.distance_point([5, 2, -4])
-        4.0
+        np.float64(4.0)
 
         """
         return abs(self.distance_point_signed(point))

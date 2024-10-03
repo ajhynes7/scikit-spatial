@@ -170,13 +170,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).length()
-        1.0
+        np.float64(1.0)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 1).length()
-        2.0
+        np.float64(2.0)
 
         >>> Cylinder([0, 0, 0], [1, 1, 1], 1).length().round(3)
-        1.732
+        np.float64(1.732)
 
         """
         return self.vector.norm()
@@ -195,13 +195,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).lateral_surface_area().round(3)
-        6.283
+        np.float64(6.283)
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
-        12.566
+        np.float64(12.566)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 2).lateral_surface_area().round(3)
-        25.133
+        np.float64(25.133)
 
         """
         return 2 * np.pi * self.radius * self.length()
@@ -222,13 +222,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).surface_area().round(3)
-        12.566
+        np.float64(12.566)
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 2).surface_area().round(3)
-        37.699
+        np.float64(37.699)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 2).surface_area().round(3)
-        50.265
+        np.float64(50.265)
 
         """
         return self.lateral_surface_area() + 2 * np.pi * self.radius**2
@@ -251,12 +251,12 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).volume().round(5)
-        3.14159
+        np.float64(3.14159)
 
         The length of the vector sets the length of the cylinder.
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 1).volume().round(5)
-        6.28319
+        np.float64(6.28319)
 
         """
         return np.pi * self.radius**2 * self.length()
@@ -523,7 +523,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         Vector([5., 0., 0.])
 
         >>> cylinder.radius
-        2.0
+        np.float64(2.0)
 
         """
 

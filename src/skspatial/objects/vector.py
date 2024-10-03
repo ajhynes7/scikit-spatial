@@ -49,7 +49,7 @@ class Vector(_BaseArray1D):
     The object inherits methods from :class:`numpy.ndarray`.
 
     >>> vector.mean()
-    array(2.)
+    np.float64(2.0)
 
     >>> Vector([])
     Traceback (most recent call last):
@@ -124,13 +124,13 @@ class Vector(_BaseArray1D):
         >>> vector = Vector([1, 2, 3])
 
         >>> vector.norm().round(3)
-        3.742
+        np.float64(3.742)
 
         >>> vector.norm(ord=1)
-        6.0
+        np.float64(6.0)
 
         >>> vector.norm(ord=0)
-        3.0
+        np.float64(3.0)
 
         """
         return np.linalg.norm(self, **kwargs)
@@ -276,16 +276,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([1, 0]).cosine_similarity([0, 1])
-        0.0
+        np.float64(0.0)
 
         >>> Vector([30, 0]).cosine_similarity([0, 20])
-        0.0
+        np.float64(0.0)
 
         >>> Vector([1, 0]).cosine_similarity([-1, 0])
-        -1.0
+        np.float64(-1.0)
 
         >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
-        0.707
+        np.float64(0.707)
 
         >>> Vector([0, 0]).cosine_similarity([1, 1])
         Traceback (most recent call last):
@@ -327,18 +327,18 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([1, 0]).angle_between([1, 0])
-        0.0
+        np.float64(0.0)
 
         >>> Vector([1, 1, 1]).angle_between([1, 1, 1])
-        0.0
+        np.float64(0.0)
 
         >>> angle = Vector([1, 0]).angle_between([1, 1])
         >>> np.degrees(angle).round()
-        45.0
+        np.float64(45.0)
 
         >>> angle = Vector([1, 0]).angle_between([-2, 0])
         >>> np.degrees(angle).round()
-        180.0
+        np.float64(180.0)
 
         """
         cos_theta = self.cosine_similarity(other)
@@ -373,13 +373,13 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([1, 0]).angle_signed([1, 0])
-        0.0
+        np.float64(0.0)
 
         >>> np.degrees(Vector([1, 0]).angle_signed([0, 1]))
-        90.0
+        np.float64(90.0)
 
         >>> np.degrees(Vector([1, 0]).angle_signed([0, -1]))
-        -90.0
+        np.float64(-90.0)
 
         >>> Vector([1, 0, 0]).angle_signed([0, -1, 0])
         Traceback (most recent call last):
@@ -434,10 +434,10 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], direction_positive=[0, 0, 2]))
-        -90.0
+        np.float64(-90.0)
 
         >>> np.degrees(Vector([1, 0, 0]).angle_signed_3d([0, -1, 0], direction_positive=[0, 0, -5]))
-        90.0
+        np.float64(90.0)
 
         >>> Vector([1, 0]).angle_signed_3d([1, 0], [1, 0, 0])
         Traceback (most recent call last):
@@ -653,16 +653,16 @@ class Vector(_BaseArray1D):
         >>> from skspatial.objects import Vector
 
         >>> Vector([0, 1]).scalar_projection([2, 1])
-        1.0
+        np.float64(1.0)
 
         >>> Vector([-1, -1]).scalar_projection([1, 0]).round(3)
-        -0.707
+        np.float64(-0.707)
 
         >>> Vector([0, 100]).scalar_projection([9, 5])
-        5.0
+        np.float64(5.0)
 
         >>> Vector([5, 0]).scalar_projection([-10, 3])
-        -10.0
+        np.float64(-10.0)
 
         """
         result = self.unit().dot(other)

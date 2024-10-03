@@ -59,7 +59,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
     3
 
     >>> sphere.surface_area().round(2)
-    314.16
+    np.float64(314.16)
 
     >>> Sphere([0, 0], 0)
     Traceback (most recent call last):
@@ -98,10 +98,10 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         >>> from skspatial.objects import Sphere
 
         >>> Sphere([0, 0, 0], 1).surface_area().round(2)
-        12.57
+        np.float64(12.57)
 
         >>> Sphere([0, 0, 0], 2).surface_area().round(2)
-        50.27
+        np.float64(50.27)
 
         """
         return 4 * np.pi * self.radius**2
@@ -125,10 +125,10 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         >>> from skspatial.objects import Sphere
 
         >>> Sphere([0, 0, 0], 1).volume().round(2)
-        4.19
+        np.float64(4.19)
 
         >>> Sphere([0, 0, 0], 2).volume().round(2)
-        33.51
+        np.float64(33.51)
 
         """
         return 4 / 3 * np.pi * self.radius**3
@@ -219,7 +219,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
         Point([1., 1., 1.])
 
         >>> np.round(sphere.radius, 2)
-        1.0
+        np.float64(1.0)
 
         """
         points = Points(points)

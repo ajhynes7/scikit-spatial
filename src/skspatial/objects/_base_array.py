@@ -39,14 +39,14 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         >>> vector = Vector([1.234, 2.1234, 3.1234])
 
         >>> vector.sum().round()
-        6.0
+        np.float64(6.0)
 
         >>> vector.mean().round(2)
-        2.16
+        np.float64(2.16)
 
         """
         if return_scalar:
-            return array.item()
+            return array[()]
 
         try:
             return type(self)(array)

@@ -59,7 +59,7 @@ class Circle(_BaseSphere):
     2
 
     >>> circle.area().round(2)
-    28.27
+    np.float64(28.27)
 
     >>> Circle([0, 0, 0], 1)
     Traceback (most recent call last):
@@ -182,10 +182,10 @@ class Circle(_BaseSphere):
         >>> from skspatial.objects import Circle
 
         >>> Circle([0, 0], 1).area().round(2)
-        3.14
+        np.float64(3.14)
 
         >>> Circle([0, 0], 2).area().round(2)
-        12.57
+        np.float64(12.57)
 
         """
         return 2 * np.pi * self.radius
@@ -209,10 +209,10 @@ class Circle(_BaseSphere):
         >>> from skspatial.objects import Circle
 
         >>> Circle([0, 0], 1).area().round(2)
-        3.14
+        np.float64(3.14)
 
         >>> Circle([0, 0], 2).area().round(2)
-        12.57
+        np.float64(12.57)
 
         """
         return np.pi * self.radius**2
@@ -441,7 +441,7 @@ class Circle(_BaseSphere):
         Point([2., 1.])
 
         >>> np.round(circle.radius, 2)
-        1.0
+        np.float64(1.0)
 
         """
         points = Points(points)
