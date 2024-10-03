@@ -22,7 +22,7 @@ jobs:
 
       - name: Install tox
         run: |
-          pip install tox==4.21.1 tox-gh-actions==3.2.0
+          pip install tox==4.21.1 tox-gh==1.4.1
 
       - name: Run tox
         run: tox
