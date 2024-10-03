@@ -129,14 +129,14 @@ class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
     def __new__(cls, array_like):
-        array = super().__new__(cls, array_like)
+        array = np.array(array_like)
 
         if array.ndim != 1:
             raise ValueError("The array must be 1D.")
 
-        return array
+        return super().__new__(cls, array_like)
 
-    def __array_finalize__(self, _) -> None:
+    def __array_finalize__(self, _):
         self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
@@ -188,15 +188,18 @@ class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
     def __new__(cls, array_like):
-        array = super().__new__(cls, array_like)
+        array = np.array(array_like)
 
         if array.ndim != 2:
             raise ValueError("The array must be 2D.")
 
-        return array
+        return super().__new__(cls, array)
 
-    def __array_finalize__(self, _) -> None:
-        self.dimension = self.shape[1]
+    def __array_finalize__(self, _):
+        try:
+            self.dimension = self.shape[1]
+        except IndexError:
+            self.dimension = None
 
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
