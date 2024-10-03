@@ -153,8 +153,8 @@ def area_signed(points: array_like) -> float:
     if n_points < 3:
         raise ValueError("There must be at least 3 points.")
 
-    X = points[:, 0].to_array()
-    Y = points[:, 1].to_array()
+    X = np.array(points[:, 0])
+    Y = np.array(points[:, 1])
 
     indices = np.arange(n_points)
     indices_offset = indices - 1
