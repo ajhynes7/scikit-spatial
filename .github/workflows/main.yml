@@ -20,7 +20,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install tox
-        run: pip install tox==4.21.1
+        run: |
+          pip install tox==4.21.1 tox-gh-actions==3.2.0
 
       - name: Run tox
         run: tox
