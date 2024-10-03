@@ -1,15 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "scikit-spatial"
 version = "7.2.2"
 description = "Spatial objects and computations based on NumPy arrays."
-license = "BSD-3-Clause"
 
-authors = ["Andrew Hynes <andrewjhynes@gmail.com>"]
+license = { text = "BSD-3-Clause" }
+authors = [
+    { name = "Andrew Hynes", email = "andrewjhynes@gmail.com" },
+]
 
 readme = "README.md"
-repository = "https://github.com/ajhynes7/scikit-spatial"
-documentation = "https://scikit-spatial.readthedocs.io"
-
 keywords = ["NumPy", "matplotlib", "visualization", "spatial", "linear algebra"]
 
 classifiers = [
@@ -25,15 +28,20 @@ classifiers = [
     "Topic :: Scientific/Engineering",
 ]
 
-packages = [{ include = "skspatial", from = "src" }]
-
-requires-python = ">=3.12"
+requires-python = ">=3.8"
 
 dependencies = [
     "matplotlib>=3.9.2",
     "numpy>=2.1.1",
     "scipy>=1.14.1",
 ]
+
+[project.urls]
+repository = "https://github.com/ajhynes7/scikit-spatial"
+documentation = "https://scikit-spatial.readthedocs.io"
+
+[tool.setuptools]
+packages = { find = { where = ["src"] } }
 
 [tool.uv]
 dev-dependencies = [
