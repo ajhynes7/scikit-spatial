@@ -97,12 +97,12 @@ based on a 2D NumPy array, where each row represents a point in space.
 The `Line` and `Plane` objects have `Point` and `Vector` objects as
 attributes.
 
-Note that most methods inherited from NumPy return a regular _ndarray_,
+Note that most methods inherited from NumPy return a regular NumPy object,
 instead of the spatial object class.
 
 ```py
 >>> vector.sum()
-2
+np.int64(2)
 
 ```
 
