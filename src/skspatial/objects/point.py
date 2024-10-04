@@ -44,7 +44,7 @@ class Point(_BaseArray1D):
     The object inherits methods from :class:`numpy.ndarray`.
 
     >>> point.mean()
-    array(2.)
+    np.float64(2.0)
 
     >>> Point([])
     Traceback (most recent call last):
@@ -85,13 +85,13 @@ class Point(_BaseArray1D):
 
         >>> point = Point([1, 2])
         >>> point.distance_point([1, 2])
-        0.0
+        np.float64(0.0)
 
         >>> point.distance_point([-1, 2])
-        2.0
+        np.float64(2.0)
 
         >>> Point([1, 2, 0]).distance_point([1, 2, 3])
-        3.0
+        np.float64(3.0)
 
         """
         vector = Vector.from_points(self, other)

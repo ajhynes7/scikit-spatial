@@ -11,6 +11,5 @@ docs/source/api_reference/*/
 docs/source/computations/*/
 docs/source/gallery/
 htmlcov/
-poetry.lock
 
 !.github/

@@ -111,7 +111,7 @@ def test_distance_point(circle, point, dist_expected):
     ],
 )
 def test_contains_point(circle, point, bool_expected):
-    assert circle.contains_point(point) == bool_expected
+    assert circle.contains_point(point) is bool_expected
 
 
 @pytest.mark.parametrize(

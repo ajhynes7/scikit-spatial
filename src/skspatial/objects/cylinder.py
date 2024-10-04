@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, cast
 
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
@@ -170,13 +170,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).length()
-        1.0
+        np.float64(1.0)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 1).length()
-        2.0
+        np.float64(2.0)
 
         >>> Cylinder([0, 0, 0], [1, 1, 1], 1).length().round(3)
-        1.732
+        np.float64(1.732)
 
         """
         return self.vector.norm()
@@ -195,13 +195,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).lateral_surface_area().round(3)
-        6.283
+        np.float64(6.283)
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 2).lateral_surface_area().round(3)
-        12.566
+        np.float64(12.566)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 2).lateral_surface_area().round(3)
-        25.133
+        np.float64(25.133)
 
         """
         return 2 * np.pi * self.radius * self.length()
@@ -222,13 +222,13 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).surface_area().round(3)
-        12.566
+        np.float64(12.566)
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 2).surface_area().round(3)
-        37.699
+        np.float64(37.699)
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 2).surface_area().round(3)
-        50.265
+        np.float64(50.265)
 
         """
         return self.lateral_surface_area() + 2 * np.pi * self.radius**2
@@ -251,12 +251,12 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         >>> from skspatial.objects import Cylinder
 
         >>> Cylinder([0, 0, 0], [0, 0, 1], 1).volume().round(5)
-        3.14159
+        np.float64(3.14159)
 
         The length of the vector sets the length of the cylinder.
 
         >>> Cylinder([0, 0, 0], [0, 0, 2], 1).volume().round(5)
-        6.28319
+        np.float64(6.28319)
 
         """
         return np.pi * self.radius**2 * self.length()
@@ -306,7 +306,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         between_cap_planes = _between_cap_planes(self, point)
 
-        return within_radius and between_cap_planes
+        return bool(within_radius and between_cap_planes)
 
     def intersect_line(
         self,
@@ -523,7 +523,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
         Vector([5., 0., 0.])
 
         >>> cylinder.radius
-        2.0
+        np.float64(2.0)
 
         """
 
@@ -534,14 +534,17 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
                 x0=_compute_initial_direction(points_centered),
                 method="Powell",
             )
+
             direction = _spherical_to_cartesian(_SphericalCoordinates(best_fit.x[0], best_fit.x[1]))
-            center = _compute_center(direction, points_centered) + centroid
+            center = cast(Point, _compute_center(direction, points_centered) + centroid)
+
             return direction, center, _compute_radius(direction, points_centered), best_fit.fun
 
         def _compute_initial_direction(points: Points) -> np.ndarray:
             """Compute the initial direction as the best fit line."""
             initial_direction = Line.best_fit(points).vector.unit()
             spherical_coordinates = _cartesian_to_spherical(*initial_direction)
+
             return np.array([spherical_coordinates.theta, spherical_coordinates.phi])
 
         def _compute_projection_matrix(direction: Vector) -> np.ndarray:
@@ -582,8 +585,11 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
             a_matrix = _compute_a_matrix(input_samples)
             a_hat_matrix = _compute_a_hat_matrix(a_matrix, skew_matrix)
 
-            return np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples)) / np.trace(
-                np.dot(a_hat_matrix, a_matrix),
+            return Point(
+                np.dot(a_hat_matrix, sum(np.dot(sample, sample) * sample for sample in input_samples))
+                / np.trace(
+                    np.dot(a_hat_matrix, a_matrix),
+                ),
             )
 
         def _compute_radius(direction: Vector, points) -> float:
@@ -693,7 +699,7 @@ def _between_cap_planes(cylinder: Cylinder, point: array_like) -> bool:
     plane_base = Plane(cylinder.point, cylinder.vector)
     distance_point_signed = plane_base.distance_point_signed(point)
 
-    return 0 <= distance_point_signed <= distance_point_signed <= cylinder.length()
+    return bool(0 <= distance_point_signed <= distance_point_signed <= cylinder.length())
 
 
 def _intersect_line_with_infinite_cylinder(
@@ -721,7 +727,7 @@ def _intersect_line_with_infinite_cylinder(
 
     point_a, point_b = p_l + X.reshape(-1, 1) * v_l
 
-    return point_a, point_b
+    return Point(point_a), Point(point_b)
 
 
 def _intersect_line_with_caps(cylinder: Cylinder, line: Line) -> Tuple[Optional[Point], Optional[Point]]:
@@ -759,10 +765,10 @@ def _intersect_line_with_finite_cylinder(
     point_a, point_b = _intersect_line_with_infinite_cylinder(cylinder, line, n_digits)
 
     if not _between_cap_planes(cylinder, point_a):
-        point_a = point_base if point_base is not None else point_top
+        point_a = cast(Point, point_base if point_base is not None else point_top)
 
     if not _between_cap_planes(cylinder, point_b):
-        point_b = point_base if point_base is not None else point_top
+        point_b = cast(Point, point_base if point_base is not None else point_top)
 
     if point_a is None or point_b is None:
         raise ValueError("The line does not intersect the cylinder.")

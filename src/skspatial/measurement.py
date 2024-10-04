@@ -31,13 +31,13 @@ def area_triangle(point_a: array_like, point_b: array_like, point_c: array_like)
     >>> from skspatial.measurement import area_triangle
 
     >>> area_triangle([0, 0], [0, 1], [1, 0])
-    0.5
+    np.float64(0.5)
 
     >>> area_triangle([0, 0], [0, 2], [1, 1])
-    1.0
+    np.float64(1.0)
 
     >>> area_triangle([3, -5, 1], [5, 2, 1], [9, 4, 2]).round(2)
-    12.54
+    np.float64(12.54)
 
     """
     vector_ab = Vector.from_points(point_a, point_b)
@@ -79,13 +79,13 @@ def volume_tetrahedron(
     >>> from skspatial.measurement import volume_tetrahedron
 
     >>> volume_tetrahedron([0, 0], [3, 2], [-3, 5], [1, 8])
-    0.0
+    np.float64(0.0)
 
     >>> volume_tetrahedron([0, 0, 0], [2, 0, 0], [1, 1, 0], [0, 0, 1]).round(3)
-    0.333
+    np.float64(0.333)
 
     >>> volume_tetrahedron([0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]).round(3)
-    0.167
+    np.float64(0.167)
 
     """
     vector_ab = Vector.from_points(point_a, point_b)
@@ -135,13 +135,13 @@ def area_signed(points: array_like) -> float:
     >>> from skspatial.measurement import area_signed
 
     >>> area_signed([[0, 0], [1, 0], [0, 1]])
-    0.5
+    np.float64(0.5)
 
     >>> area_signed([[0, 0], [0, 1], [1, 0]])
-    -0.5
+    np.float64(-0.5)
 
     >>> area_signed([[0, 0], [0, 1], [1, 2], [2, 1], [2, 0]])
-    -3.0
+    np.float64(-3.0)
 
     """
     points = Points(points)
@@ -153,8 +153,8 @@ def area_signed(points: array_like) -> float:
     if n_points < 3:
         raise ValueError("There must be at least 3 points.")
 
-    X = points[:, 0]
-    Y = points[:, 1]
+    X = np.array(points[:, 0])
+    Y = np.array(points[:, 1])
 
     indices = np.arange(n_points)
     indices_offset = indices - 1

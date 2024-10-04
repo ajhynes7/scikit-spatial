@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import math
-from typing import Tuple
+from typing import Tuple, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -59,7 +59,7 @@ class Circle(_BaseSphere):
     2
 
     >>> circle.area().round(2)
-    28.27
+    np.float64(28.27)
 
     >>> Circle([0, 0, 0], 1)
     Traceback (most recent call last):
@@ -182,10 +182,10 @@ class Circle(_BaseSphere):
         >>> from skspatial.objects import Circle
 
         >>> Circle([0, 0], 1).area().round(2)
-        3.14
+        np.float64(3.14)
 
         >>> Circle([0, 0], 2).area().round(2)
-        12.57
+        np.float64(12.57)
 
         """
         return 2 * np.pi * self.radius
@@ -209,10 +209,10 @@ class Circle(_BaseSphere):
         >>> from skspatial.objects import Circle
 
         >>> Circle([0, 0], 1).area().round(2)
-        3.14
+        np.float64(3.14)
 
         >>> Circle([0, 0], 2).area().round(2)
-        12.57
+        np.float64(12.57)
 
         """
         return np.pi * self.radius**2
@@ -397,8 +397,8 @@ class Circle(_BaseSphere):
         point_translated_b = Point([coords_x[1], coords_y[1]])
 
         # Translate the intersection points back from origin circle to real circle.
-        point_a = point_translated_a + self.point
-        point_b = point_translated_b + self.point
+        point_a = cast(Point, point_translated_a + self.point)
+        point_b = cast(Point, point_translated_b + self.point)
 
         return point_a, point_b
 
@@ -441,7 +441,7 @@ class Circle(_BaseSphere):
         Point([2., 1.])
 
         >>> np.round(circle.radius, 2)
-        1.0
+        np.float64(1.0)
 
         """
         points = Points(points)
@@ -493,6 +493,6 @@ class Circle(_BaseSphere):
             >>> limits = plt.axis([-10, 10, -10, 10])
 
         """
-        circle = plt.Circle(self.point, self.radius, **kwargs)
+        circle = plt.Circle(tuple(self.point), self.radius, **kwargs)
 
         ax_2d.add_artist(circle)

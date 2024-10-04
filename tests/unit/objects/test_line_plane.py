@@ -37,7 +37,7 @@ def test_dimension_failure(class_spatial, point, vector):
     ],
 )
 def test_is_close(obj_1, obj_2, bool_expected):
-    assert obj_1.is_close(obj_2) == bool_expected
+    assert obj_1.is_close(obj_2) is bool_expected
 
 
 @pytest.mark.parametrize(

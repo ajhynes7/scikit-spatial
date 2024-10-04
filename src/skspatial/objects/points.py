@@ -50,7 +50,7 @@ class Points(_BaseArray2D):
     >>> points.mean(axis=0)
     array([3. , 3. , 1.5])
 
-    >>> Points([])
+    >>> Points([[]])
     Traceback (most recent call last):
     ...
     ValueError: The array must not be empty.
@@ -212,25 +212,25 @@ class Points(_BaseArray2D):
         >>> from skspatial.objects import Points
 
         >>> Points([[5, 5], [5, 5]]).affine_rank()
-        0
+        np.int64(0)
 
         >>> Points([[5, 3], [-6, 20]]).affine_rank()
-        1
+        np.int64(1)
 
         >>> Points([[0, 0], [1, 1], [2, 2]]).affine_rank()
-        1
+        np.int64(1)
 
         >>> Points([[0, 0], [1, 0], [2, 2]]).affine_rank()
-        2
+        np.int64(2)
 
         >>> Points([[0, 1, 0], [1, 1, 0], [2, 2, 2]]).affine_rank()
-        2
+        np.int64(2)
 
         >>> Points([[0, 0], [0, 1], [1, 0], [1, 1]]).affine_rank()
-        2
+        np.int64(2)
 
         >>> Points([[1, 3, 2], [3, 4, 5], [2, 1, 5], [5, 9, 8]]).affine_rank()
-        3
+        np.int64(3)
 
         """
         # Remove duplicate points so they do not affect the centroid.
@@ -263,7 +263,7 @@ class Points(_BaseArray2D):
         True
 
         """
-        return self.affine_rank(**kwargs) == 0
+        return bool(self.affine_rank(**kwargs) == 0)
 
     def are_collinear(self, **kwargs) -> bool:
         """
@@ -293,7 +293,7 @@ class Points(_BaseArray2D):
         False
 
         """
-        return self.affine_rank(**kwargs) <= 1
+        return bool(self.affine_rank(**kwargs) <= 1)
 
     def are_coplanar(self, **kwargs) -> bool:
         """
@@ -323,7 +323,7 @@ class Points(_BaseArray2D):
         False
 
         """
-        return self.affine_rank(**kwargs) <= 2
+        return bool(self.affine_rank(**kwargs) <= 2)
 
     def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
         """
