@@ -93,7 +93,7 @@ def test_surface_area(cylinder, lateral_surface_area_expected, surface_area_expe
     ],
 )
 def test_cylinder_is_point_within(cylinder, point, bool_expected):
-    assert cylinder.is_point_within(point) == bool_expected
+    assert cylinder.is_point_within(point) is bool_expected
 
 
 @pytest.mark.parametrize(

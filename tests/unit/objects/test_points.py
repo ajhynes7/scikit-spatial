@@ -122,4 +122,4 @@ def test_normalize_distance(array_points, array_points_expected):
 def test_are_collinear(points, bool_expected):
     """Test checking if multiple points are collinear."""
 
-    assert Points(points).are_collinear() == bool_expected
+    assert Points(points).are_collinear() is bool_expected

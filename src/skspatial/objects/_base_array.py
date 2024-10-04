@@ -31,7 +31,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
         return obj
 
-    def __array_wrap__(self, array: np.ndarray) -> np.ndarray:
+    def __array_wrap__(self, array, context=None, return_scalar=False) -> np.ndarray:
         """
         Return regular :class:`numpy.ndarray` when default NumPy method is called.
 
@@ -39,13 +39,19 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         >>> vector = Vector([1.234, 2.1234, 3.1234])
 
         >>> vector.sum().round()
-        6.0
+        np.float64(6.0)
 
         >>> vector.mean().round(2)
-        2.16
+        np.float64(2.16)
 
         """
-        return array
+        if return_scalar:
+            return array[()]
+
+        try:
+            return type(self)(array)
+        except Exception:
+            return array
 
     def to_array(self) -> np.ndarray:
         """
@@ -99,7 +105,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         """
         return np.array_equal(self, other)
 
-    def round(self, decimals: int = 0) -> Array:  # type: ignore[override]  # noqa: A003
+    def round(self, decimals: int = 0):  # type: ignore[override]
         """
         Round the array to the given number of decimals.
 
@@ -122,17 +128,15 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 class _BaseArray1D(_BaseArray):
     """Private base class for spatial objects based on a single 1D NumPy array."""
 
-    def __new__(cls: Type[Array1D], array: array_like) -> Array1D:
-        obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
+    def __new__(cls, array_like):
+        array = np.array(array_like)
 
-        if obj.ndim != 1:
+        if array.ndim != 1:
             raise ValueError("The array must be 1D.")
 
-        obj.dimension = obj.size
+        return super().__new__(cls, array_like)
 
-        return obj
-
-    def __array_finalize__(self, _) -> None:
+    def __array_finalize__(self, _):
         self.dimension = self.size
 
     def set_dimension(self: Array1D, dim: int) -> Array1D:
@@ -183,15 +187,19 @@ class _BaseArray1D(_BaseArray):
 class _BaseArray2D(_BaseArray):
     """Private base class for spatial objects based on a single 2D NumPy array."""
 
-    def __new__(cls: Type[Array2D], array: array_like) -> Array2D:
-        obj = super().__new__(cls, array)  # pytype: disable=wrong-arg-count
+    def __new__(cls, array_like):
+        array = np.array(array_like)
 
-        if obj.ndim != 2:
+        if array.ndim != 2:
             raise ValueError("The array must be 2D.")
 
-        obj.dimension = obj.shape[1]
+        return super().__new__(cls, array)
 
-        return obj
+    def __array_finalize__(self, _):
+        try:
+            self.dimension = self.shape[1]
+        except IndexError:
+            self.dimension = None
 
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
@@ -242,10 +250,3 @@ class _BaseArray2D(_BaseArray):
         array_padded = np.pad(self, ((0, 0), (0, dim - self.dimension)), 'constant')
 
         return self.__class__(array_padded)
-
-    def __array_finalize__(self, _) -> None:
-        try:
-            self.dimension = self.shape[1]
-
-        except IndexError:
-            self.dimension = None

@@ -8,7 +8,6 @@
 [![Documentation Status](https://readthedocs.org/projects/scikit-spatial/badge/?version=latest)](https://scikit-spatial.readthedocs.io/en/latest/?badge=latest)
 [![image](https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg)](https://codecov.io/gh/ajhynes7/scikit-spatial)
 
-
 # Introduction
 
 This package provides spatial objects based on NumPy arrays, as well as
@@ -17,25 +16,25 @@ computations using these objects. The package includes computations for
 
 The following spatial objects are provided:
 
--   Point
--   Points
--   Vector
--   Line
--   LineSegment
--   Plane
--   Circle
--   Sphere
--   Triangle
--   Cylinder
+- Point
+- Points
+- Vector
+- Line
+- LineSegment
+- Plane
+- Circle
+- Sphere
+- Triangle
+- Cylinder
 
 Most of the computations fall into the following categories:
 
--   Measurement
--   Comparison
--   Projection
--   Intersection
--   Fitting
--   Transformation
+- Measurement
+- Comparison
+- Projection
+- Intersection
+- Fitting
+- Transformation
 
 All spatial objects are equipped with plotting methods based on
 `matplotlib`. Both 2D and 3D plotting are supported. Spatial
@@ -50,8 +49,8 @@ This package has little to no overlap with the functionality of
 While similar spatial objects and computations exist in the
 `sympy.geometry` module, `scikit-spatial` is based on NumPy rather than
 symbolic math. The primary objects of `scikit-spatial` (`Point`,
-`Points`, and `Vector`) are actually subclasses of the NumPy *ndarray*.
-This gives them all the regular functionality of the *ndarray*, plus
+`Points`, and `Vector`) are actually subclasses of the NumPy _ndarray_.
+This gives them all the regular functionality of the _ndarray_, plus
 additional methods from this package.
 
 ```py
@@ -68,15 +67,15 @@ Behaviour inherited from NumPy:
 3
 
 >>> vector.mean().round(3)
-0.667
+np.float64(0.667)
 
 ```
 
 Additional methods from `scikit-spatial`:
 
 ```py
->>> vector.norm() 
-2.0
+>>> vector.norm()
+np.float64(2.0)
 
 >>> vector.unit()
 Vector([1., 0., 0.])
@@ -98,12 +97,12 @@ based on a 2D NumPy array, where each row represents a point in space.
 The `Line` and `Plane` objects have `Point` and `Vector` objects as
 attributes.
 
-Note that most methods inherited from NumPy return a regular *ndarray*,
+Note that most methods inherited from NumPy return a regular NumPy object,
 instead of the spatial object class.
 
 ```py
 >>> vector.sum()
-array(2)
+np.int64(2)
 
 ```
 
@@ -147,7 +146,7 @@ $ pip install scikit-spatial
 
 It can also be installed with conda.
 
-``` bash
+```bash
 $ conda install scikit-spatial -c conda-forge
 
 ```
@@ -162,7 +161,7 @@ Measure the cosine similarity between two vectors.
 >>> from skspatial.objects import Vector
 
 >>> Vector([1, 0]).cosine_similarity([1, 1]).round(3)
-0.707
+np.float64(0.707)
 
 ```
 

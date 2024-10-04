@@ -60,7 +60,7 @@ def test_unit_failure(array):
     ],
 )
 def test_is_zero(array, kwargs, bool_expected):
-    assert Vector(array).is_zero(**kwargs) == bool_expected
+    assert Vector(array).is_zero(**kwargs) is bool_expected
 
 
 @pytest.mark.parametrize(
@@ -199,7 +199,7 @@ def test_is_perpendicular(array_u, array_v, bool_expected):
     """Test checking if vector u is perpendicular to vector v."""
     vector_u = Vector(array_u)
 
-    assert vector_u.is_perpendicular(array_v) == bool_expected
+    assert vector_u.is_perpendicular(array_v) is bool_expected
 
 
 @pytest.mark.parametrize(
@@ -227,7 +227,7 @@ def test_is_parallel(array_u, array_v, bool_expected):
     """Test checking if vector u is parallel to vector v."""
     vector_u = Vector(array_u)
 
-    assert vector_u.is_parallel(array_v) == bool_expected
+    assert vector_u.is_parallel(array_v) is bool_expected
 
 
 @pytest.mark.parametrize(
