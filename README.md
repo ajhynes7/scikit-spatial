@@ -4,7 +4,6 @@
 [![image](https://anaconda.org/conda-forge/scikit-spatial/badges/version.svg)](https://anaconda.org/conda-forge/scikit-spatial)
 [![image](https://img.shields.io/pypi/pyversions/scikit-spatial.svg)](https://pypi.python.org/pypi/scikit-spatial)
 [![image](https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml/badge.svg)](https://github.com/ajhynes7/scikit-spatial/actions/workflows/main.yml)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ajhynes7/scikit-spatial/master.svg)](https://results.pre-commit.ci/latest/github/ajhynes7/scikit-spatial/master)
 [![Documentation Status](https://readthedocs.org/projects/scikit-spatial/badge/?version=latest)](https://scikit-spatial.readthedocs.io/en/latest/?badge=latest)
 [![image](https://codecov.io/gh/ajhynes7/scikit-spatial/branch/master/graph/badge.svg)](https://codecov.io/gh/ajhynes7/scikit-spatial)
 
