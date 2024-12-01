@@ -657,9 +657,22 @@ class Line(_BaseLinePlane):
         return self.point + vector_a_scaled
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: Optional[float] = None, **kwargs) -> Line:
+    def best_fit(
+        cls,
+        points: array_like,
+        tol: Optional[float] = None,
+        return_error: bool = False,
+        **kwargs,
+    ) -> Line | tuple[Line, float]:
         """
         Return the line of best fit for a set of points.
+
+        Also optionally return a value representing the error of the fit.
+        This is the sum of the squared singular values from SVD (excluding the first).
+
+        "The singular values reflect the amount of data variance captured by the bases.
+        The first basis (the one with largest singular value) lies in the direction of the greatest data variance.
+        The second basis captures the orthogonal direction with the second greatest variance, and so on." [1]_
 
         Parameters
         ----------
@@ -667,6 +680,8 @@ class Line(_BaseLinePlane):
              Input points.
         tol : float | None, optional
             Keyword passed to :meth:`Points.are_collinear` (default None).
+        return_error : bool, optional
+            If True, also return a value representing the error of the fit (default False).
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.svd`
 
@@ -697,6 +712,10 @@ class Line(_BaseLinePlane):
         >>> line.direction.round(3)
         Vector([0.707, 0.707])
 
+        References
+        ----------
+        .. [1] : "Singular Value Decomposition", Oracle, https://docs.oracle.com/en/database/oracle/machine-learning/oml4sql/23/dmcon/singular-value-decomposition.html#GUID-14AA4B45-3B36-4056-9B9A-BD9DC471F0AD
+
         """
         points_spatial = Points(points)
 
@@ -705,10 +724,17 @@ class Line(_BaseLinePlane):
 
         points_centered, centroid = points_spatial.mean_center(return_centroid=True)
 
-        _, _, vh = np.linalg.svd(points_centered, **kwargs)
-        direction = vh[0, :]
+        _, S, Vh = np.linalg.svd(points_centered, **kwargs)
 
-        return cls(centroid, direction)
+        direction = Vh[0, :]
+        line_best_fit = cls(centroid, direction)
+
+        if return_error:
+            error = np.sum(S[1:] ** 2)
+
+            return line_best_fit, error
+
+        return line_best_fit
 
     def transform_points(self, points: array_like) -> np.ndarray:
         """
