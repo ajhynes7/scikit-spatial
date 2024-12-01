@@ -703,9 +703,22 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         return Line(point_line, direction_line)
 
     @classmethod
-    def best_fit(cls, points: array_like, tol: Optional[float] = None, **kwargs) -> Plane:
+    def best_fit(
+        cls,
+        points: array_like,
+        tol: Optional[float] = None,
+        return_error: bool = False,
+        **kwargs,
+    ) -> Plane | tuple[Plane, float]:
         """
         Return the plane of best fit for a set of 3D points.
+
+        Also optionally return a value representing the error of the fit.
+        This is the sum of the squared singular values from SVD (excluding the first two).
+
+        "The singular values reflect the amount of data variance captured by the bases.
+        The first basis (the one with largest singular value) lies in the direction of the greatest data variance.
+        The second basis captures the orthogonal direction with the second greatest variance, and so on." [1]_
 
         Parameters
         ----------
@@ -713,22 +726,20 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
              Input 3D points.
         tol : float | None, optional
             Keyword passed to :meth:`Points.are_collinear` (default None).
+        return_error : bool, optional
+            If True, also return a value representing the error of the fit (default False).
         kwargs : dict, optional
             Additional keywords passed to :func:`numpy.linalg.svd`
 
         Returns
         -------
-        Plane
-            The plane of best fit.
+        Plane | tuple[Plane, float]
+            The plane of best fit, and optionally the error of the fit.
 
         Raises
         ------
         ValueError
             If the points are collinear or are not 3D.
-
-        References
-        ----------
-        https://scicomp.stackexchange.com/a/6901
 
         Examples
         --------
@@ -755,6 +766,11 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
         >>> Plane.best_fit(points, full_matrices=False)
         Plane(point=Point([0.5, 0.5, 0. ]), normal=Vector([0., 0., 1.]))
 
+        References
+        ----------
+        .. [1] : "Singular Value Decomposition", Oracle, https://docs.oracle.com/en/database/oracle/machine-learning/oml4sql/23/dmcon/singular-value-decomposition.html#GUID-14AA4B45-3B36-4056-9B9A-BD9DC471F0AD
+        .. [2] : https://scicomp.stackexchange.com/a/6901
+
         """
         points = Points(points)
 
@@ -766,10 +782,16 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         points_centered, centroid = points.mean_center(return_centroid=True)
 
-        u, _, _ = np.linalg.svd(points_centered.T, **kwargs)
-        normal = Vector(u[:, 2])
+        U, S, _ = np.linalg.svd(points_centered.T, **kwargs)
+        normal = Vector(U[:, 2])
 
-        return cls(centroid, normal)
+        plane_fit = cls(centroid, normal)
+
+        if return_error:
+            error_fit = np.sum(S[2:] ** 2)
+            return plane_fit, error_fit
+
+        return plane_fit
 
     def to_mesh(
         self,

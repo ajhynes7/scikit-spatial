@@ -687,8 +687,8 @@ class Line(_BaseLinePlane):
 
         Returns
         -------
-        Line
-            The line of best fit.
+        Line | tuple[Line, float]
+            The line of best fit, and optionally the error of the fit.
 
         Raises
         ------
