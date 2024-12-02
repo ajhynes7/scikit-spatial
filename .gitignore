@@ -4,6 +4,7 @@
 *.xml
 .*/
 .coverage
+.python-version
 build/
 dist/
 docs/build/
