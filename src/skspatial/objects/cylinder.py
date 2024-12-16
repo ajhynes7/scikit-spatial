@@ -542,7 +542,9 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         def _compute_initial_direction(points: Points) -> np.ndarray:
             """Compute the initial direction as the best fit line."""
-            initial_direction = Line.best_fit(points).vector.unit()
+            line_best_fit = cast(Line, Line.best_fit(points))
+
+            initial_direction = line_best_fit.vector.unit()
             spherical_coordinates = _cartesian_to_spherical(*initial_direction)
 
             return np.array([spherical_coordinates.theta, spherical_coordinates.phi])

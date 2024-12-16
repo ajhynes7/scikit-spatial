@@ -438,6 +438,32 @@ def test_best_fit(points, plane_expected):
 
 
 @pytest.mark.parametrize(
+    ("points", "plane_expected", "error_expected"),
+    [
+        ([[0, 0], [1, 1], [0, 2]], Plane([1 / 3, 1, 0], [0, 0, 1]), 0),
+        (
+            [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]],
+            Plane([0.25, 0.25, 0.25], [1, 1, 1]),
+            0.25,
+        ),
+        (
+            [[0, 0, 0], [2, 0, 0], [0, 2, 0], [0, 0, 2]],
+            Plane([0.5, 0.5, 0.5], [1, 1, 1]),
+            1,
+        ),
+    ],
+)
+def test_best_fit_with_error(points, plane_expected, error_expected):
+    points = Points(points).set_dimension(3)
+    plane_fit, error_fit = Plane.best_fit(points, return_error=True)
+
+    assert plane_fit.is_close(plane_expected)
+    assert plane_fit.point.is_close(plane_expected.point)
+
+    assert math.isclose(error_fit, error_expected, abs_tol=1e-9)
+
+
+@pytest.mark.parametrize(
     ("points", "message_expected"),
     [
         ([[0, 0], [1, 0]], "The points must be 3D."),

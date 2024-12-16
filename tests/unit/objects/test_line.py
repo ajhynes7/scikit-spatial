@@ -324,6 +324,26 @@ def test_best_fit(points, line_expected):
 
 
 @pytest.mark.parametrize(
+    ("points", "line_expected", "error_expected"),
+    [
+        ([[0, 0], [1, 0]], Line([0.5, 0], [1, 0]), 0),
+        ([[1, 0], [0, 0]], Line([0.5, 0], [-1, 0]), 0),
+        ([[0, 0], [1, 1], [2, 2]], Line([1, 1], [1, 1]), 0),
+        ([[0, 0], [0, 1], [1, 0], [1, 1]], Line([0.5, 0.5], [1, 0]), 1),
+        ([[0, 0], [0, 2], [2, 0], [2, 2]], Line([1, 1], [1, 0]), 4),
+        ([[0, 0], [0, 3], [3, 0], [3, 3]], Line([1.5, 1.5], [1, 0]), 9),
+    ],
+)
+def test_best_fit_with_error(points, line_expected, error_expected):
+    line_fit, error_fit = Line.best_fit(np.array(points), return_error=True)
+
+    assert line_fit.is_close(line_expected)
+    assert line_fit.point.is_close(line_expected.point)
+
+    assert math.isclose(error_fit, error_expected, abs_tol=1e-9)
+
+
+@pytest.mark.parametrize(
     ("points", "message_expected"),
     [
         ([[]], ARRAY_MUST_NOT_BE_EMPTY),
