@@ -2,6 +2,13 @@
 History
 =======
 
+8.1.0 (2024-12-23)
+------------------
+
+Features
+~~~~~~~~
+- Add optiont to return error for line and plane of best fit.
+
 
 8.0.0 (2024-10-03)
 ------------------
