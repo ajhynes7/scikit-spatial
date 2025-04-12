@@ -5,14 +5,11 @@ from __future__ import annotations
 import math
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_spatial import _BaseSpatial
 from skspatial.objects.line import Line
 from skspatial.objects.point import Point
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.typing import array_like
 
 
@@ -157,7 +154,7 @@ class LineSegment(_BaseSpatial):
 
         return point_intersection
 
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
+    def plot_2d(self, ax_2d, **kwargs) -> None:
         """
         Plot a 2D line segment.
 
@@ -190,9 +187,11 @@ class LineSegment(_BaseSpatial):
             >>> grid = ax.grid()
 
         """
+        from skspatial.plotting import _connect_points_2d
+
         _connect_points_2d(ax_2d, self.point_a, self.point_b, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
+    def plot_3d(self, ax_3d, **kwargs) -> None:
         """
         Plot a 3D line segment.
 
@@ -226,4 +225,6 @@ class LineSegment(_BaseSpatial):
             >>> segment.plot_3d(ax, c='k')
 
         """
+        from skspatial.plotting import _connect_points_3d
+
         _connect_points_3d(ax_3d, self.point_a, self.point_b, **kwargs)

@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from typing import List, Optional, Tuple, cast
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 from scipy.optimize import minimize
 
 from skspatial._functions import _solve_quadratic
@@ -639,7 +638,7 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         return cls(point_a, vector_ab, radius)
 
-    def plot_3d(self, ax_3d: Axes3D, n_along_axis: int = 100, n_angles: int = 30, **kwargs) -> None:
+    def plot_3d(self, ax_3d, n_along_axis: int = 100, n_angles: int = 30, **kwargs) -> None:
         """
         Plot a 3D cylinder.
 

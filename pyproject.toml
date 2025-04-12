@@ -31,12 +31,14 @@ classifiers = [
 requires-python = ">=3.8"
 
 dependencies = [
-    "matplotlib>=3",
     "numpy>1.24; python_version >= '3.12'",
     "numpy>=1; python_version < '3.12'",
     "scipy>1.11; python_version >= '3.12'",
     "scipy>=1; python_version < '3.12'",
 ]
+
+[project.optional-dependencies]
+plotting = ["matplotlib>=3"]
 
 [project.urls]
 repository = "https://github.com/ajhynes7/scikit-spatial"

@@ -5,14 +5,11 @@ from __future__ import annotations
 from typing import Optional, cast
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects.point import Point
 from skspatial.objects.points import Points
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _connect_points_2d, _connect_points_3d
 from skspatial.transformation import transform_coordinates
 from skspatial.typing import array_like
 
@@ -787,7 +784,7 @@ class Line(_BaseLinePlane):
 
         return column.flatten()
 
-    def plot_2d(self, ax_2d: Axes, t_1: float = 0, t_2: float = 1, **kwargs) -> None:
+    def plot_2d(self, ax_2d, t_1: float = 0, t_2: float = 1, **kwargs) -> None:
         """
         Plot a 2D line.
 
@@ -821,12 +818,14 @@ class Line(_BaseLinePlane):
             >>> grid = ax.grid()
 
         """
+        from skspatial.plotting import _connect_points_2d
+
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)
 
         _connect_points_2d(ax_2d, point_1, point_2, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, t_1: float = 0, t_2: float = 1, **kwargs) -> None:
+    def plot_3d(self, ax_3d, t_1: float = 0, t_2: float = 1, **kwargs) -> None:
         """
         Plot a 3D line.
 
@@ -862,6 +861,8 @@ class Line(_BaseLinePlane):
             >>> line.point.plot_3d(ax, s=100)
 
         """
+        from skspatial.plotting import _connect_points_3d
+
         point_1 = self.to_point(t_1)
         point_2 = self.to_point(t_2)
 

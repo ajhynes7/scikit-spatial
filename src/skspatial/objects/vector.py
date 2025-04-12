@@ -6,12 +6,9 @@ import math
 from typing import cast
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects._base_array import _BaseArray1D
-from skspatial.plotting import _connect_points_3d
 from skspatial.typing import array_like
 
 
@@ -759,7 +756,7 @@ class Vector(_BaseArray1D):
 
         return vector_different_direction
 
-    def plot_2d(self, ax_2d: Axes, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
+    def plot_2d(self, ax_2d, point: array_like = (0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 2D vector.
 
@@ -796,7 +793,7 @@ class Vector(_BaseArray1D):
 
         ax_2d.arrow(x, y, dx, dy, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, point: array_like = (0, 0, 0), scalar: float = 1, **kwargs) -> None:
+    def plot_3d(self, ax_3d, point: array_like = (0, 0, 0), scalar: float = 1, **kwargs) -> None:
         """
         Plot a 3D vector.
 
@@ -830,6 +827,8 @@ class Vector(_BaseArray1D):
             >>> Vector([-1, 1, 1]).plot_3d(ax, point=(1, 2, 3), c='r')
 
         """
+        from skspatial.plotting import _connect_points_3d
+
         point_2 = np.array(point) + scalar * self
 
         _connect_points_3d(ax_3d, point, point_2, **kwargs)

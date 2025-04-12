@@ -1,12 +1,9 @@
 """Module for the Point class."""
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_array import _BaseArray1D
 from skspatial.objects.vector import Vector
-from skspatial.plotting import _scatter_2d, _scatter_3d
 from skspatial.typing import array_like
 
 
@@ -98,7 +95,7 @@ class Point(_BaseArray1D):
 
         return vector.norm()
 
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
+    def plot_2d(self, ax_2d, **kwargs) -> None:
         """
         Plot the point on a 2D scatter plot.
 
@@ -122,9 +119,11 @@ class Point(_BaseArray1D):
             >>> Point([1, 2]).plot_2d(ax, c='k', s=100)
 
         """
+        from skspatial.plotting import _scatter_2d
+
         _scatter_2d(ax_2d, self.reshape(1, -1), **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
+    def plot_3d(self, ax_3d, **kwargs) -> None:
         """
         Plot the point on a 3D scatter plot.
 
@@ -151,4 +150,6 @@ class Point(_BaseArray1D):
             >>> Point([1, 2, 3]).plot_3d(ax, c='k', s=100)
 
         """
+        from skspatial.plotting import _scatter_3d
+
         _scatter_3d(ax_3d, self.reshape(1, -1), **kwargs)

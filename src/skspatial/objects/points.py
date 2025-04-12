@@ -5,13 +5,10 @@ from __future__ import annotations
 from typing import cast
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 from numpy.linalg import matrix_rank
 
 from skspatial.objects._base_array import _BaseArray2D
 from skspatial.objects.point import Point
-from skspatial.plotting import _scatter_2d, _scatter_3d
 
 
 class Points(_BaseArray2D):
@@ -325,7 +322,7 @@ class Points(_BaseArray2D):
         """
         return bool(self.affine_rank(**kwargs) <= 2)
 
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
+    def plot_2d(self, ax_2d, **kwargs) -> None:
         """
         Plot the points on a 2D scatter plot.
 
@@ -350,9 +347,11 @@ class Points(_BaseArray2D):
             >>> points.plot_2d(ax, c='k')
 
         """
+        from skspatial.plotting import _scatter_2d
+
         _scatter_2d(ax_2d, self, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, **kwargs) -> None:
+    def plot_3d(self, ax_3d, **kwargs) -> None:
         """
         Plot the points on a 3D scatter plot.
 
@@ -380,4 +379,6 @@ class Points(_BaseArray2D):
             >>> points.plot_3d(ax, s=75, depthshade=False)
 
         """
+        from skspatial.plotting import _scatter_3d
+
         _scatter_3d(ax_3d, self, **kwargs)

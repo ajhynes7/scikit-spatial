@@ -5,9 +5,7 @@ from __future__ import annotations
 import math
 from typing import Tuple, cast
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.axes import Axes
 
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
@@ -465,7 +463,7 @@ class Circle(_BaseSphere):
 
         return cls(center, radius)
 
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
+    def plot_2d(self, ax_2d, **kwargs) -> None:
         """
         Plot the circle in 2D.
 
@@ -493,6 +491,8 @@ class Circle(_BaseSphere):
             >>> limits = plt.axis([-10, 10, -10, 10])
 
         """
+        import matplotlib.pyplot as plt
+
         circle = plt.Circle(tuple(self.point), self.radius, **kwargs)
 
         ax_2d.add_artist(circle)
