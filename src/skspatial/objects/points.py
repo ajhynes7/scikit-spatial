@@ -146,7 +146,7 @@ class Points(_BaseArray2D):
 
         """
         centroid = self.centroid()
-        points_centered: Points = self - centroid
+        points_centered = self - centroid
 
         if return_centroid:
             return points_centered, centroid

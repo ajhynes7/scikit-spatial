@@ -262,7 +262,7 @@ class Line(_BaseLinePlane):
         """
         vector_along_line = t * self.direction
 
-        return self.point + vector_along_line
+        return cast(Point, self.point + vector_along_line)
 
     def project_point(self, point: array_like) -> Point:
         """

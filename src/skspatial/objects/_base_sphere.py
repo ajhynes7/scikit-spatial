@@ -1,5 +1,7 @@
 """Module for base class of Circle and Sphere."""
 
+from typing import cast
+
 import numpy as np
 
 from skspatial._functions import _contains_point
@@ -85,4 +87,4 @@ class _BaseSphere(_BaseSpatial):
 
         vector_to_point = Vector.from_points(self.point, point)
 
-        return self.point + self.radius * vector_to_point.unit()
+        return cast(Point, self.point + self.radius * vector_to_point.unit())

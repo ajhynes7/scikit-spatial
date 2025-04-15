@@ -366,8 +366,8 @@ class Circle(_BaseSphere):
         point_2 = point_1 + line.direction.unit()
 
         # Translate the points on the line to mimic the circle being centered on the origin.
-        point_translated_1: Point = point_1 - self.point
-        point_translated_2: Point = point_2 - self.point
+        point_translated_1 = point_1 - self.point
+        point_translated_2 = point_2 - self.point
 
         x_1, y_1 = point_translated_1
         x_2, y_2 = point_translated_2
