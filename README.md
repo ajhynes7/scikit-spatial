@@ -150,6 +150,13 @@ $ conda install scikit-spatial -c conda-forge
 
 ```
 
+The `matplotlib` dependency is optional. To enable plotting, you can install scikit-spatial with the extra `plotting`.
+
+```bash
+   $ pip install scikit-spatial[plotting]
+
+```
+
 # Example Usage
 
 ## Measurement
