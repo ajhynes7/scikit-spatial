@@ -2,12 +2,20 @@
 History
 =======
 
+9.0.0 (2024-12-23)
+------------------
+
+Breaking Changes
+~~~~~~~~~~~~~~~~
+- Make matplotlib an optional dependency. It can be installed by `pip install scikit-spatial[plotting]`
+
+
 8.1.0 (2024-12-23)
 ------------------
 
 Features
 ~~~~~~~~
-- Add optiont to return error for line and plane of best fit.
+- Add option to return error for line and plane of best fit.
 
 
 8.0.0 (2024-10-03)

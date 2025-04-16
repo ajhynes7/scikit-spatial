@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "scikit-spatial"
-version = "8.1.0"
+version = "9.0.0"
 description = "Spatial objects and computations based on NumPy arrays."
 
 license = { text = "BSD-3-Clause" }
