@@ -6,7 +6,6 @@ import math
 from typing import Tuple
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
@@ -301,7 +300,7 @@ class Sphere(_BaseSphere, _ToPointsMixin):
 
         return X, Y, Z
 
-    def plot_3d(self, ax_3d: Axes3D, n_angles: int = 30, **kwargs) -> None:
+    def plot_3d(self, ax_3d, n_angles: int = 30, **kwargs) -> None:
         """
         Plot the sphere in 3D.
 

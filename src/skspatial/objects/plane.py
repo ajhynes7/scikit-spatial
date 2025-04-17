@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Optional, Tuple, cast
 
 import numpy as np
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial.objects._base_line_plane import _BaseLinePlane
 from skspatial.objects._mixins import _ToPointsMixin
@@ -853,7 +852,7 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         return X, Y, Z
 
-    def plot_3d(self, ax_3d: Axes3D, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs) -> None:
+    def plot_3d(self, ax_3d, lims_x: array_like = (-1, 1), lims_y: array_like = (-1, 1), **kwargs) -> None:
         """
         Plot a 3D plane.
 

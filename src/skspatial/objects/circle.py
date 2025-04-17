@@ -5,9 +5,7 @@ from __future__ import annotations
 import math
 from typing import Tuple, cast
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.axes import Axes
 
 from skspatial._functions import np_float
 from skspatial.objects._base_sphere import _BaseSphere
@@ -368,8 +366,8 @@ class Circle(_BaseSphere):
         point_2 = point_1 + line.direction.unit()
 
         # Translate the points on the line to mimic the circle being centered on the origin.
-        point_translated_1: Point = point_1 - self.point
-        point_translated_2: Point = point_2 - self.point
+        point_translated_1 = point_1 - self.point
+        point_translated_2 = point_2 - self.point
 
         x_1, y_1 = point_translated_1
         x_2, y_2 = point_translated_2
@@ -465,7 +463,7 @@ class Circle(_BaseSphere):
 
         return cls(center, radius)
 
-    def plot_2d(self, ax_2d: Axes, **kwargs) -> None:
+    def plot_2d(self, ax_2d, **kwargs) -> None:
         """
         Plot the circle in 2D.
 
@@ -493,6 +491,8 @@ class Circle(_BaseSphere):
             >>> limits = plt.axis([-10, 10, -10, 10])
 
         """
+        import matplotlib.pyplot as plt
+
         circle = plt.Circle(tuple(self.point), self.radius, **kwargs)
 
         ax_2d.add_artist(circle)

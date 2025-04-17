@@ -5,8 +5,6 @@ from itertools import combinations
 from typing import Sequence
 
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
 
 from skspatial._functions import np_float
 from skspatial.objects._base_spatial import _BaseSpatial
@@ -631,7 +629,7 @@ class Triangle(_BaseSpatial):
 
         return math.isclose(a**2 + b**2, c**2, **kwargs)
 
-    def plot_2d(self, ax_2d: Axes, part: str = 'points', **kwargs: str) -> None:
+    def plot_2d(self, ax_2d, part: str = 'points', **kwargs: str) -> None:
         """
         Plot a triangle in 2D.
 
@@ -670,7 +668,7 @@ class Triangle(_BaseSpatial):
             for line in self.multiple('line', 'abc'):
                 line.plot_2d(ax_2d, **kwargs)
 
-    def plot_3d(self, ax_3d: Axes3D, part: str = 'points', **kwargs: str) -> None:
+    def plot_3d(self, ax_3d, part: str = 'points', **kwargs: str) -> None:
         """
         Plot a triangle in 3D.
 

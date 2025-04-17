@@ -754,14 +754,18 @@ wheels = [
 
 [[package]]
 name = "scikit-spatial"
-version = "8.1.0"
+version = "9.0.1"
 source = { editable = "." }
 dependencies = [
-    { name = "matplotlib" },
     { name = "numpy", version = "1.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "numpy", version = "1.26.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "scipy", version = "1.10.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "scipy", version = "1.14.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+]
+
+[package.optional-dependencies]
+plotting = [
+    { name = "matplotlib" },
 ]
 
 [package.dev-dependencies]
@@ -774,7 +778,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "matplotlib", specifier = ">=3" },
+    { name = "matplotlib", marker = "extra == 'plotting'", specifier = ">=3" },
     { name = "numpy", marker = "python_full_version < '3.12'", specifier = ">=1" },
     { name = "numpy", marker = "python_full_version >= '3.12'", specifier = ">1.24" },
     { name = "scipy", marker = "python_full_version < '3.12'", specifier = ">=1" },

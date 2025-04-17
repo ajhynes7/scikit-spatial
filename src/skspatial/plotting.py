@@ -2,10 +2,19 @@
 
 from typing import Callable, Tuple
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.axes import Axes
-from mpl_toolkits.mplot3d import Axes3D
+
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.axes import Axes
+    from mpl_toolkits.mplot3d import Axes3D
+except ImportError as error:
+    raise ImportError(
+        "Matplotlib is required for plotting.\n"
+        "Install scikit-spatial with plotting support: "
+        "pip install 'scikit-spatial[plotting]'",
+    ) from error
+
 
 from skspatial.typing import array_like
 
