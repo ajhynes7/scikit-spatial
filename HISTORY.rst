@@ -7,7 +7,7 @@ History
 
 Breaking Changes
 ~~~~~~~~~~~~~~~~
-- Make matplotlib an optional dependency. It can be installed by `pip install scikit-spatial[plotting]`
+- Make matplotlib an optional dependency. It can be installed by `pip install 'scikit-spatial[plotting]'`
 
 
 8.1.0 (2024-12-23)

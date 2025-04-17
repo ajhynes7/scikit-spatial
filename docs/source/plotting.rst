@@ -10,7 +10,7 @@ The ``matplotlib`` dependency is optional. To install it, you can install scikit
 
 .. code-block:: console
 
-   $ pip install scikit-spatial[plotting]
+   $ pip install 'scikit-spatial[plotting]'
 
 
 The ``plot_2d`` methods require an instance of :class:`~matplotlib.axes.Axes` as the first argument, while the ``plot_3d`` methods require an instance of :class:`~mpl_toolkits.mplot3d.axes3d.Axes3D`. This allows for placing multiple spatial objects on the same plot, which is useful for visualizing computations such as projection or intersection.
