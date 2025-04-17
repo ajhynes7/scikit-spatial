@@ -2,7 +2,15 @@
 History
 =======
 
-9.0.0 (2024-12-23)
+9.0.1 (2025-04-16)
+------------------
+
+Docs
+~~~~
+- Include single quotes in command: `pip install 'scikit-spatial[plotting]'`
+
+
+9.0.0 (2025-04-16)
 ------------------
 
 Breaking Changes
