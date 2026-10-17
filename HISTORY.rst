@@ -2,6 +2,13 @@
 History
 =======
 
+Unreleased
+----------
+
+Bug Fixes
+~~~~~~~~~
+- Center vertical plane meshes on the plane's point.
+
 9.0.1 (2025-04-16)
 ------------------
 

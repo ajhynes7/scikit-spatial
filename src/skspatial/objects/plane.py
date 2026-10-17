@@ -832,7 +832,13 @@ class Plane(_BaseLinePlane, _ToPointsMixin):
 
         """
         a, b, c, d = self.cartesian()
-        x_center, y_center = self.point[:2]
+
+        if c != 0:
+            x_center, y_center = self.point[:2]
+        elif b != 0:
+            x_center, y_center = self.point[[0, 2]]
+        else:
+            x_center, y_center = self.point[1:]
 
         values_x = x_center + lims_x
         values_y = y_center + lims_y
