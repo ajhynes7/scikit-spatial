@@ -2,6 +2,13 @@
 History
 =======
 
+Unreleased
+----------
+
+Bug Fixes
+~~~~~~~~~
+- Keep Point, Vector and Points unchanged when returning rounded values.
+
 9.0.1 (2025-04-16)
 ------------------
 
