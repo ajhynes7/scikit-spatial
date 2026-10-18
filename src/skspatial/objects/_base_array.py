@@ -122,7 +122,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         Point([1.  , 2.  , 3.53])
 
         """
-        return type(self)(super().round(decimals=decimals))
+        return type(self)(super().round(decimals=decimals).copy())
 
 
 class _BaseArray1D(_BaseArray):
