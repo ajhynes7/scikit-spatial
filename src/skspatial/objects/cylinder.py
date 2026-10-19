@@ -464,11 +464,11 @@ class Cylinder(_BaseSpatial, _ToPointsMixin):
 
         # The cylinder surface ranges over t from 0 to length of axis,
         # and over theta from 0 to 2 * pi.
-        t = np.linspace(0, self.length(), n_along_axis)
-        theta = np.linspace(0, 2 * np.pi, n_angles)
+        t_lin = np.linspace(0, self.length(), n_along_axis)
+        theta_lin = np.linspace(0, 2 * np.pi, n_angles)
 
         # use meshgrid to make 2d arrays
-        t, theta = np.meshgrid(t, theta)
+        t, theta = np.meshgrid(t_lin, theta_lin)
 
         X, Y, Z = [
             self.point[i] + v_axis[i] * t + self.radius * np.sin(theta) * u_1[i] + self.radius * np.cos(theta) * u_2[i]
