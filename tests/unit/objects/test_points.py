@@ -58,10 +58,10 @@ def test_dimension_of_slice():
     assert points[:1, :].dimension == 3
     assert points[:2, :].dimension == 3
 
-    # The dimension value is None here because the points are no longer a 2D array,
-    # so the normal method of finding the dimension fails.
-    assert points[:, 0].dimension is None
-    assert points[0, :].dimension is None
+    # The points are no longer a 2D array,
+    # so the dimension becomes the length of the 1D array.
+    assert points[:, 0].dimension == 2
+    assert points[0, :].dimension == 3
 
 
 @pytest.mark.parametrize(
