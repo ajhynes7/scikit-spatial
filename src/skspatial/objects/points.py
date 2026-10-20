@@ -185,7 +185,7 @@ class Points(_BaseArray2D):
         """
         distances_to_points = np.linalg.norm(self, axis=1)
 
-        return self / distances_to_points.max()
+        return cast(Points, self / distances_to_points.max())
 
     def affine_rank(self, **kwargs) -> np.int64:
         """

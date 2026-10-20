@@ -10,7 +10,7 @@ from skspatial.typing import array_like
 class TriangleTester:
     """Triangle object for unit testing."""
 
-    points: tuple
+    points: list
 
     area: float
     perimeter: float
