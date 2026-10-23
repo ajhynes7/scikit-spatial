@@ -496,6 +496,18 @@ def test_best_fit_failure(points, message_expected):
         (Plane([0, 0, 0], [0, 1, 0]), [[-1, 0, -1], [1, 0, -1], [-1, 0, 1], [1, 0, 1]]),
         (Plane([0, 0, 0], [1, 0, 0]), [[0, -1, -1], [0, 1, -1], [0, -1, 1], [0, 1, 1]]),
         (
+            Plane([1, 20, 300], [0, 1, 0]),
+            [[0, 20, 299], [2, 20, 299], [0, 20, 301], [2, 20, 301]],
+        ),
+        (
+            Plane([1, 20, 300], [1, 0, 0]),
+            [[1, 19, 299], [1, 21, 299], [1, 19, 301], [1, 21, 301]],
+        ),
+        (
+            Plane([1, 20, 300], [1, 2, 0]),
+            [[0, 20.5, 299], [2, 19.5, 299], [0, 20.5, 301], [2, 19.5, 301]],
+        ),
+        (
             Plane([0, 0, 0], [1, 1, 0]),
             [[-1, 1, -1], [1, -1, -1], [-1, 1, 1], [1, -1, 1]],
         ),
@@ -505,3 +517,20 @@ def test_to_points(plane, points_expected):
     points = plane.to_points()
 
     assert points.is_close(points_expected)
+    assert points.centroid().is_close(plane.point)
+
+
+@pytest.mark.parametrize(
+    ("normal", "points_expected"),
+    [
+        ([1, 0, 0], [[1, 18, 301], [1, 23, 301], [1, 18, 304], [1, 23, 304]]),
+        ([0, -1, 0], [[-1, 20, 301], [4, 20, 301], [-1, 20, 304], [4, 20, 304]]),
+    ],
+)
+def test_to_mesh_vertical_custom_limits(normal, points_expected):
+    plane = Plane([1, 20, 300], normal)
+    mesh = plane.to_mesh(lims_x=(-2, 3), lims_y=(1, 4))
+
+    points = np.column_stack([coordinates.ravel() for coordinates in mesh])
+
+    np.testing.assert_allclose(points, points_expected)
