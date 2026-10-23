@@ -517,6 +517,7 @@ def test_to_points(plane, points_expected):
     points = plane.to_points()
 
     assert points.is_close(points_expected)
+    assert points.centroid().is_close(plane.point)
 
 
 @pytest.mark.parametrize(
