@@ -31,7 +31,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
 
         return obj
 
-    def __array_wrap__(self, array, context=None, return_scalar=False) -> np.ndarray:
+    def __array_wrap__(self, array, context=None, return_scalar: bool = False):
         """
         Return regular :class:`numpy.ndarray` when default NumPy method is called.
 
@@ -122,7 +122,7 @@ class _BaseArray(np.ndarray, _BaseSpatial):
         Point([1.  , 2.  , 3.53])
 
         """
-        return np.around(self, decimals=decimals, out=self)
+        return type(self)(super().round(decimals=decimals).copy())
 
 
 class _BaseArray1D(_BaseArray):
@@ -199,7 +199,7 @@ class _BaseArray2D(_BaseArray):
         try:
             self.dimension = self.shape[1]
         except IndexError:
-            self.dimension = None
+            self.dimension = self.size
 
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
