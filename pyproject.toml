@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "scikit-spatial"
-version = "9.0.1"
+version = "10.0.0"
 description = "Spatial objects and computations based on NumPy arrays."
 
 license = { text = "BSD-3-Clause" }
@@ -40,20 +40,20 @@ dependencies = [
 [project.optional-dependencies]
 plotting = ["matplotlib>=3"]
 
+[dependency-groups]
+dev = [
+    "mypy>=1.14.0",
+    "pytest-cov>=5.0.0",
+    "pytest>=8.3.3",
+    "ruff>=0.8.4",
+]
+
 [project.urls]
 repository = "https://github.com/ajhynes7/scikit-spatial"
 documentation = "https://scikit-spatial.readthedocs.io"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/skspatial"]
-
-[tool.uv]
-dev-dependencies = [
-    "mypy>=1.14.0",
-    "pytest-cov>=5.0.0",
-    "pytest>=8.3.3",
-    "ruff>=0.8.4",
-]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
