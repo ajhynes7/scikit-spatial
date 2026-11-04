@@ -14,3 +14,5 @@ Contributors
 * Marcelo Moreno (https://github.com/martxelo)
 
 * Cristiano Pizzamiglio (https://github.com/CristianoPizzamiglio)
+
+* Anton Soloviev (https://github.com/antonsoo)

@@ -201,7 +201,6 @@ class _BaseArray2D(_BaseArray):
         except IndexError:
             self.dimension = self.size
 
-
     def set_dimension(self: Array2D, dim: int) -> Array2D:
         """
         Set the dimension (width) of the 2D array.
