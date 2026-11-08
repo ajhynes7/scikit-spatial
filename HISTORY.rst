@@ -2,6 +2,16 @@
 History
 =======
 
+10.0.0 (2026-10-24)
+------------------
+
+Breaking Changes
+~~~~~~~~~~~~~~~~
+- Change the `round` method to not modify the array in-place.
+- Change `dimension` attribute to revert to object length if not 2D array.
+- Set the centroid of the points from `Plane.to_points` to always be the original plane point.
+
+
 9.0.1 (2025-04-16)
 ------------------
 
@@ -48,11 +58,12 @@ Fixes
 
 Docs
 ~~~~
+
 Include new methods in the documentation:
-  - `Line.project_points`
-  - `Line.distance_points`
-  - `Plane.project_points`
-  - `Plane.distance_points`
+- `Line.project_points`
+- `Line.distance_points`
+- `Plane.project_points`
+- `Plane.distance_points`
 
 
 7.2.0 (2024-02-12)
@@ -60,11 +71,12 @@ Include new methods in the documentation:
 
 Features
 ~~~~~~~~
-- Add new methods:
-  - `Line.project_points`
-  - `Line.distance_points`
-  - `Plane.project_points`
-  - `Plane.distance_points`
+
+Add new methods:
+- `Line.project_points`
+- `Line.distance_points`
+- `Plane.project_points`
+- `Plane.distance_points`
 
 
 7.1.1 (2024-01-29)
