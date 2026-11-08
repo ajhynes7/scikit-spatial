@@ -755,7 +755,7 @@ wheels = [
 
 [[package]]
 name = "scikit-spatial"
-version = "10.0.0"
+version = "11.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "numpy", version = "1.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },

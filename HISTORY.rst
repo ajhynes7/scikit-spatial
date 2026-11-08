@@ -2,6 +2,14 @@
 History
 =======
 
+11.0.0 (2026-11-07)
+------------------
+
+Breaking Changes
+~~~~~~~~~~~~~~~~
+- Set the centroid of the points from `Plane.to_points` to always be the original plane point.
+
+
 10.0.0 (2026-10-24)
 ------------------
 
@@ -9,7 +17,6 @@ Breaking Changes
 ~~~~~~~~~~~~~~~~
 - Change the `round` method to not modify the array in-place.
 - Change `dimension` attribute to revert to object length if not 2D array.
-- Set the centroid of the points from `Plane.to_points` to always be the original plane point.
 
 
 9.0.1 (2025-04-16)
